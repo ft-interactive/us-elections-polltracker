@@ -1,0 +1,35 @@
+{
+  "name": "us-elections-polltracker",
+  "version": "0.0.1",
+  "description": "Grab/return images of polling data",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon -e js,html,svg"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ft-interactive/us-elections-polltracker.git"
+  },
+  "keywords": [
+    "us",
+    "elections",
+    "polltracker"
+  ],
+  "author": "FT",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ft-interactive/us-elections-polltracker/issues"
+  },
+  "homepage": "https://github.com/ft-interactive/us-elections-polltracker#readme",
+  "dependencies": {
+    "d3": "^4.0.0",
+    "d3-scale": "^1.0.0",
+    "d3-time-format": "^2.0.0",
+    "express": "^4.14.0",
+    "jsdom": "^9.3.0",
+    "nunjucks": "^2.4.2",
+    "promise": "^7.1.1",
+    "xmldom": "^0.1.22"
+  }
+}
