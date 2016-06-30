@@ -2,7 +2,7 @@ var express = require('express')
 	drawChart = require('./layouts/drawChart.js'),
 	nunjucks = require('nunjucks'),
 	DOMParser = require('xmldom').DOMParser,
-	Promise = require('promise')
+	fs = require('fs')
 
 var app = express();
 const maxAge = 120; // for user agent caching purposes
@@ -34,12 +34,13 @@ app.get('/polls.svg', function(req, res) {
 		height = size.split("x")[1],
 		type = req.query.type || "margins";
 
-	drawChart(width, height, fontless, background, startDate, endDate, type, function(chartLayout) {
-		value = nunjucks.render( 'poll.svg', chartLayout );
-		// setSVGHeaders(res).send(value); // TODO fix this
-	});
-})
+	var data = JSON.parse(fs.readFileSync('./layouts/rcpdata.json', 'utf8'));
 
+	var chartLayout = drawChart(width, height, fontless, background, startDate, endDate, type, data);
+	console.log('returned config', chartLayout)
+	value = nunjucks.render( 'poll.svg', chartLayout );
+	setSVGHeaders(res).send(value); // TODO fix this
+});
 
 // utility functions
 function setSVGHeaders(res){

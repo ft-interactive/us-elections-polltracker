@@ -3,27 +3,29 @@
 var d3 = require('d3'),
 	jsdom = require('jsdom')
 
-function drawChart(width, height, fontless, background, startDate, endDate, type, callback) {
+function drawChart(width, height, fontless, background, startDate, endDate, type, data) {
 
 	var htmlStub = '<html><head></head><body><div id="dataviz-container"></div><script src="https://d3js.org/d3.v4.min.js"></script></body></html>'
 
-	callback(startJSDom(htmlStub, callback))
+	return startJSDom(htmlStub).then(buildChart);
 
-	function startJSDom(htmlStub, callback) {
-		jsdom.env({ 
-			features : { 
-				QuerySelector : true 
-			}, 
-			html : htmlStub, 
-			done : function(errors, window) {
-				callback(buildChart(window, callback));
-			}
+	function startJSDom(htmlStub) {
+		return new Promise(function(resolve, reject) {
+			jsdom.env({ 
+				features : { 
+					QuerySelector : true 
+				}, 
+				html : htmlStub, 
+				done : function(errors, window) {
+					resolve(buildChart(window));
+				}
+			})
 		});
 	}
 
 	// returns raw html from fake document
-	function buildChart(window, callback) {
-		d3.json('http://localhost/~joanna.kao/ft/us-elections-polltracker/layouts/rcpdata.json', function(error, data) {
+	function buildChart(window) {
+		return new Promise(function(resolve, reject) {
 
 			var el = window.document.querySelector("#dataviz-container");
 
@@ -109,10 +111,10 @@ function drawChart(width, height, fontless, background, startDate, endDate, type
 				"height": height, 
 				"background": background, 
 				"fontless": fontless,
-				"svgContent": window.d3.select("svg").html()
+				"svgContent": window.d3.select("svg").html().toString()
 			} // return this back to the router
 
-			callback(config)
+			resolve(config);
 		});
 	}
 }
