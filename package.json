@@ -45,6 +45,7 @@
     "loud-rejection": "^1.5.0",
     "nunjucks": "^2.4.2",
     "promise": "^7.1.1",
+    "underscore": "^1.8.3",
     "xmldom": "^0.1.22"
   }
 }

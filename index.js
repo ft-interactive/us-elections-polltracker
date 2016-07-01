@@ -4,7 +4,8 @@ var express = require('express'),
 	drawChart = require('./layouts/drawChart.js'),
 	nunjucks = require('nunjucks'),
 	DOMParser = require('xmldom').DOMParser,
-	fs = require('fs')
+	fs = require('fs'),
+	_ = require('underscore')
 
 var app = express();
 const maxAge = 120; // for user agent caching purposes
@@ -29,14 +30,20 @@ app.get('/', function (req, res) {
 app.get('/polls.svg', async function(req, res) {
 	var fontless = req.query.fontless || true,
 		background = req.query.background || "#fff1e0",
-		startDate = req.query.startDate || Date.parse("July 1, 2015"),
-		endDate = req.query.endDate || Date.now(),
+		startDate = req.query.startDate || "July 1, 2015",
+		endDate = req.query.endDate || "July 1, 2016", // TODO change to current date
 		size = req.query.size || "600x300",
 		width = size.split("x")[0],
 		height = size.split("x")[1],
 		type = req.query.type || "margins";
 
 	var data = JSON.parse(fs.readFileSync('./layouts/rcpdata.json', 'utf8'));
+
+	// filter out dates not between startDate and endDate
+	Object.keys(data.data).forEach(function(candidate) {
+		var filtered = _.filter(data.data[candidate], function(row) { return Date.parse(row.date) >= Date.parse(startDate) && Date.parse(row.date) <= Date.parse(endDate);  })
+		data.data[candidate] = filtered;
+	})
 
 	try {
 		var chartLayout = await drawChart(width, height, fontless, background, startDate, endDate, type, data);

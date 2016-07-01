@@ -10,8 +10,9 @@ async function drawChart(width, height, fontless, background, startDate, endDate
 
 	var graphWidth = width,
 		graphHeight = height,
-		margins = {"top": 30, "bottom": 20, "left": 0, "right": 30},
-		parse = d3.timeParse("%a, %d %b %Y %H:%M:%S %Z");
+		margins = {"top": 30, "bottom": 30, "left": 10, "right": 50},
+		parse = d3.timeParse("%a, %d %b %Y %H:%M:%S %Z"),
+		userInputParse = d3.timeParse("%B %e, %Y");
 
 	var svg = d3.select(el)
 		.append("svg")
@@ -27,8 +28,8 @@ async function drawChart(width, height, fontless, background, startDate, endDate
 		.scale(yScale)
 		.tickSizeInner(-graphWidth+margins.left+margins.right)
 		.tickSizeOuter(0)
-		.tickPadding(20)
 		.ticks(3)
+		.tickPadding(margins.right-15)
 
 	var yLabel = svg.append("g")
 		.attr("class", "yAxis")
@@ -41,11 +42,11 @@ async function drawChart(width, height, fontless, background, startDate, endDate
 		.text("%")
 		.style('text-anchor', 'start')
 		.attr("class", "axisLabel")
-		.attr("x", -graphWidth+margins.right+10)
+		.attr("x", -graphWidth+margins.right+margins.left+10)
 		.attr("y", -20)
 
 	var xScale = d3.scaleTime()
-		.domain([parse("Wed, 01 Jul 2015 00:00:00 -0500"), parse("Thu, 23 Jun 2016 00:00:00 -0500")])
+		.domain([userInputParse(startDate), userInputParse(endDate)])
 		.range([0, graphWidth-margins.left-margins.right])
 
 	var xAxis = d3.axisBottom()
