@@ -36,10 +36,10 @@ app.get('/polls.svg', function(req, res) {
 
 	var data = JSON.parse(fs.readFileSync('./layouts/rcpdata.json', 'utf8'));
 
-	var chartLayout = drawChart(width, height, fontless, background, startDate, endDate, type, data);
-	console.log('returned config', chartLayout)
-	value = nunjucks.render( 'poll.svg', chartLayout );
-	setSVGHeaders(res).send(value); // TODO fix this
+	drawChart(width, height, fontless, background, startDate, endDate, type, data).then(function(chartLayout) {
+		value = nunjucks.render( 'poll.svg', chartLayout );
+		setSVGHeaders(res).send(value); // TODO fix this
+	});
 });
 
 // utility functions

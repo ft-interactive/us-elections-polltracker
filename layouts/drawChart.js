@@ -7,7 +7,11 @@ function drawChart(width, height, fontless, background, startDate, endDate, type
 
 	var htmlStub = '<html><head></head><body><div id="dataviz-container"></div><script src="https://d3js.org/d3.v4.min.js"></script></body></html>'
 
-	return startJSDom(htmlStub).then(buildChart);
+	// return startJSDom(htmlStub).then(buildChart);
+
+	return new Promise(function(resolve, reject) {
+		resolve(startJSDom(htmlStub))
+	})
 
 	function startJSDom(htmlStub) {
 		return new Promise(function(resolve, reject) {
@@ -113,7 +117,6 @@ function drawChart(width, height, fontless, background, startDate, endDate, type
 				"fontless": fontless,
 				"svgContent": window.d3.select("svg").html().toString()
 			} // return this back to the router
-
 			resolve(config);
 		});
 	}
