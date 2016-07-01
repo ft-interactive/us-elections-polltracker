@@ -21,7 +21,7 @@ async function drawChart(width, height, fontless, background, startDate, endDate
 		.attr("height", graphHeight)
 
 	var yScale = d3.scaleLinear()
-		.domain([30, 60])
+		.domain([30, 55])
 		.range([graphHeight-margins.top-margins.bottom, 0])
 
 	var yAxis = d3.axisRight()
