@@ -6,10 +6,7 @@ var d3 = require('d3'),
 function drawChart(width, height, fontless, background, startDate, endDate, type, data) {
 	var htmlStub = '<html><head></head><body><div id="dataviz-container"></div><script src="https://d3js.org/d3.v4.min.js"></script></body></html>'
 
-	return startJSDom(htmlStub).then(buildChart);
-
-	// returns raw html from fake document
-	function buildChart(window) {
+	return startJSDom(htmlStub).then(function (window) {
 		var el = window.document.querySelector("#dataviz-container");
 
 		var graphWidth = width,
@@ -58,6 +55,7 @@ function drawChart(width, height, fontless, background, startDate, endDate, type
 			.tickSizeOuter(5)
 			.ticks(5)
 
+
 		var xLabel = svg.append("g")
 			.attr("class", "xAxis")
 			.attr("transform",function() {
@@ -98,7 +96,7 @@ function drawChart(width, height, fontless, background, startDate, endDate, type
 		} // return this back to the router
 		
 		return config;
-	}
+	});
 }
 
 module.exports = drawChart;
