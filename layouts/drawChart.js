@@ -1,30 +1,12 @@
 // TODO: Replace callbacks with Promises?
 
 var d3 = require('d3'),
-	jsdom = require('jsdom')
+	startJSDom = require('./startJSDom');
 
 function drawChart(width, height, fontless, background, startDate, endDate, type, data) {
-
 	var htmlStub = '<html><head></head><body><div id="dataviz-container"></div><script src="https://d3js.org/d3.v4.min.js"></script></body></html>'
 
-	// return startJSDom(htmlStub).then(buildChart);
-
 	return startJSDom(htmlStub).then(buildChart);
-
-	function startJSDom(htmlStub) {
-		return new Promise(function(resolve, reject) {
-			jsdom.env({ 
-				features : { 
-					QuerySelector : true 
-				}, 
-				html : htmlStub, 
-				done : function(error, window) {
-					if (error) reject(error);
-					else resolve(window);
-				}
-			})
-		});
-	}
 
 	// returns raw html from fake document
 	function buildChart(window) {
