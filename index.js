@@ -41,7 +41,7 @@ app.get('/polls.svg', async function(req, res) {
 	try {
 		var chartLayout = await drawChart(width, height, fontless, background, startDate, endDate, type, data);
 		var value = nunjucks.render( 'poll.svg', chartLayout );
-		setSVGHeaders(res).send(value); // TODO fix this
+		setSVGHeaders(res).send(value);
 	}
 	catch (error) {
 		console.error(error);

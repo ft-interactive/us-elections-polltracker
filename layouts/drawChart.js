@@ -1,12 +1,10 @@
-// TODO: Replace callbacks with Promises?
-
 var d3 = require('d3'),
-	startJSDom = require('./startJSDom');
+	getJSDomWindow = require('./getJSDomWindow');
 
 async function drawChart(width, height, fontless, background, startDate, endDate, type, data) {
 	var htmlStub = '<html><head></head><body><div id="dataviz-container"></div><script src="https://d3js.org/d3.v4.min.js"></script></body></html>';
 
-	var window = await startJSDom(htmlStub);
+	var window = await getJSDomWindow(htmlStub);
 
 	var el = window.document.querySelector("#dataviz-container");
 
