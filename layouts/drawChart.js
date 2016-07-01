@@ -9,9 +9,7 @@ function drawChart(width, height, fontless, background, startDate, endDate, type
 
 	// return startJSDom(htmlStub).then(buildChart);
 
-	return new Promise(function(resolve, reject) {
-		resolve(startJSDom(htmlStub))
-	})
+	return startJSDom(htmlStub);
 
 	function startJSDom(htmlStub) {
 		return new Promise(function(resolve, reject) {
