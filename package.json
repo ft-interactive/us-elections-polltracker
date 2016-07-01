@@ -2,10 +2,16 @@
   "name": "us-elections-polltracker",
   "version": "0.0.1",
   "description": "Grab/return images of polling data",
-  "main": "index.js",
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-0"
+    ]
+  },
+  "main": "setup.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon -e js,html,svg"
+    "start": "node setup.js",
+    "dev": "nodemon setup.js -e js,html,svg"
   },
   "repository": {
     "type": "git",
@@ -23,6 +29,9 @@
   },
   "homepage": "https://github.com/ft-interactive/us-elections-polltracker#readme",
   "dependencies": {
+    "babel-core": "^6.10.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-stage-0": "^6.5.0",
     "d3": "^4.0.0",
     "d3-scale": "^1.0.0",
     "d3-time-format": "^2.0.0",

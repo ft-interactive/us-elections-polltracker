@@ -1,6 +1,6 @@
 require('loud-rejection/register');
 
-var express = require('express')
+var express = require('express'),
 	drawChart = require('./layouts/drawChart.js'),
 	nunjucks = require('nunjucks'),
 	DOMParser = require('xmldom').DOMParser,
@@ -30,7 +30,7 @@ app.get('/polls.svg', function(req, res) {
 	var fontless = req.query.fontless || true,
 		background = req.query.background || "#fff1e0",
 		startDate = req.query.startDate || Date.parse("July 1, 2015"),
-		endDate = req.query.endDate || Date.now()
+		endDate = req.query.endDate || Date.now(),
 		size = req.query.size || "300x400",
 		width = size.split("x")[0],
 		height = size.split("x")[1],
@@ -39,9 +39,12 @@ app.get('/polls.svg', function(req, res) {
 	var data = JSON.parse(fs.readFileSync('./layouts/rcpdata.json', 'utf8'));
 
 	drawChart(width, height, fontless, background, startDate, endDate, type, data).then(function(chartLayout) {
-		value = nunjucks.render( 'poll.svg', chartLayout );
+		var value = nunjucks.render( 'poll.svg', chartLayout );
 		setSVGHeaders(res).send(value); // TODO fix this
-	});
+	}).catch(error => {
+    console.error(error);
+    res.status(500).send('something broke');
+  });
 });
 
 // utility functions
