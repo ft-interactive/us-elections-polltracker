@@ -10,8 +10,8 @@ var app = express();
 const maxAge = 120; // for user agent caching purposes
 
 nunjucks.configure('views', {
-    autoescape: true,
-    express: app
+		autoescape: true,
+		express: app
 }).addFilter('rawSVG', function(fragment){
 	var parser = new DOMParser();
 	return parser.parseFromString(fragment, "image/svg+xml")
@@ -19,7 +19,7 @@ nunjucks.configure('views', {
 
 // routes
 app.get('/__gtg', function(req, res){
-    res.send('ok');
+		res.send('ok');
 });
 
 app.get('/', function (req, res) {
@@ -51,10 +51,10 @@ app.get('/polls.svg', async function(req, res) {
 
 // utility functions
 function setSVGHeaders(res){
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Content-Type', 'image/svg+xml');
-    res.setHeader('Cache-Control', 'public, max-age=' + maxAge);
-    return res;
+		res.setHeader('Access-Control-Allow-Origin', '*');
+		res.setHeader('Content-Type', 'image/svg+xml');
+		res.setHeader('Cache-Control', 'public, max-age=' + maxAge);
+		return res;
 }
 
 
