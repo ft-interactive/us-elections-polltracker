@@ -1,3 +1,5 @@
+require('loud-rejection/register');
+
 var express = require('express')
 	drawChart = require('./layouts/drawChart.js'),
 	nunjucks = require('nunjucks'),
