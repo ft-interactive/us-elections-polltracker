@@ -12,16 +12,14 @@ async function drawChart(width, height, fontless, background, startDate, endDate
 
 	var graphWidth = width,
 		graphHeight = height,
-		margins = {"top": 30, "bottom": 20, "left": 0, "right": 30};
+		margins = {"top": 30, "bottom": 20, "left": 0, "right": 30},
+		parse = d3.timeParse("%a, %d %b %Y %H:%M:%S %Z");
 
 	var svg = d3.select(el)
 		.append("svg")
 		.attr("id", "chart")
 		.attr("width", graphWidth)
 		.attr("height", graphHeight)
-
-	var format = d3.timeFormat("%a, %d %b %Y %X %Z");
-	var parse = d3.timeParse("%a, %d %b %Y %X %Z");
 
 	var yScale = d3.scaleLinear()
 		.domain([30, 60])
