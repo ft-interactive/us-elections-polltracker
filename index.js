@@ -5,7 +5,8 @@ var express = require('express'),
 	nunjucks = require('nunjucks'),
 	DOMParser = require('xmldom').DOMParser,
 	fs = require('fs'),
-	_ = require('underscore')
+	_ = require('underscore'),
+	d3 = require('d3');
 
 var app = express();
 const maxAge = 120; // for user agent caching purposes
@@ -28,10 +29,13 @@ app.get('/', function (req, res) {
 });
 
 app.get('/polls.svg', async function(req, res) {
+	var nowDate = new Date().toString().split(" ").slice(1,4).join(" "),
+		formattedNowDate = d3.timeFormat("%B %e, %Y")((d3.timeParse("%b %d %Y")(nowDate)));
+
 	var fontless = req.query.fontless || true,
 		background = req.query.background || "#fff1e0",
 		startDate = req.query.startDate || "July 1, 2015",
-		endDate = req.query.endDate || "July 1, 2016", // TODO change to current date
+		endDate = req.query.endDate || formattedNowDate,
 		size = req.query.size || "600x300",
 		width = size.split("x")[0],
 		height = size.split("x")[1],
