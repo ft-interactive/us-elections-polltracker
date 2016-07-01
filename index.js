@@ -31,7 +31,7 @@ app.get('/polls.svg', async function(req, res) {
 		background = req.query.background || "#fff1e0",
 		startDate = req.query.startDate || Date.parse("July 1, 2015"),
 		endDate = req.query.endDate || Date.now(),
-		size = req.query.size || "300x400",
+		size = req.query.size || "600x300",
 		width = size.split("x")[0],
 		height = size.split("x")[1],
 		type = req.query.type || "margins";

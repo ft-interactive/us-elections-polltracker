@@ -28,6 +28,7 @@ async function drawChart(width, height, fontless, background, startDate, endDate
 		.tickSizeInner(-graphWidth+margins.left+margins.right)
 		.tickSizeOuter(0)
 		.tickPadding(20)
+		.ticks(3)
 
 	var yLabel = svg.append("g")
 		.attr("class", "yAxis")
@@ -78,9 +79,9 @@ async function drawChart(width, height, fontless, background, startDate, endDate
 		.attr("d", function(d) { return convertLineData(data.data[d]) })
 			.style("stroke", function(d) {
 				if (d == "Clinton") {
-					return "#b34b41";
+					return "#5a8caf";
 				}
-				return "#5a8caf";
+				return "#b34b41";
 			})
 			.style("stroke-width", "2")
 
