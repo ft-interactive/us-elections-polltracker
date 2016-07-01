@@ -26,7 +26,7 @@ app.get('/', function (req, res) {
 	res.send('The format for URLs is: https://ft-ig-us-elections-polling.herokuapp.com/polls?size=300x400&type=both&startDate=July 26,2015&endDate=now&fontless=true&background=#fff1e0');
 });
 
-app.get('/polls.svg', function(req, res) {
+app.get('/polls.svg', async function(req, res) {
 	var fontless = req.query.fontless || true,
 		background = req.query.background || "#fff1e0",
 		startDate = req.query.startDate || Date.parse("July 1, 2015"),
@@ -38,13 +38,15 @@ app.get('/polls.svg', function(req, res) {
 
 	var data = JSON.parse(fs.readFileSync('./layouts/rcpdata.json', 'utf8'));
 
-	drawChart(width, height, fontless, background, startDate, endDate, type, data).then(function(chartLayout) {
+	try {
+		var chartLayout = await drawChart(width, height, fontless, background, startDate, endDate, type, data);
 		var value = nunjucks.render( 'poll.svg', chartLayout );
 		setSVGHeaders(res).send(value); // TODO fix this
-	}).catch(error => {
-    console.error(error);
-    res.status(500).send('something broke');
-  });
+	}
+	catch (error) {
+		console.error(error);
+		res.status(500).send('something broke');
+	}
 });
 
 // utility functions
