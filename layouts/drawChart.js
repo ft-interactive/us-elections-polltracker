@@ -11,7 +11,6 @@ async function drawChart(width, height, fontless, background, startDate, endDate
 	var graphWidth = width,
 		graphHeight = height,
 		margins = {"top": 30, "bottom": 30, "left": 10, "right": 50},
-		parse = d3.timeParse("%a, %d %b %Y %H:%M:%S %Z"),
 		userInputParse = d3.timeParse("%B %e, %Y");
 
 	var svg = d3.select(el)
@@ -63,7 +62,7 @@ async function drawChart(width, height, fontless, background, startDate, endDate
 		.call(xAxis)
 
 	var candidateGroups = svg.selectAll("g.candidate")
-		.data(d3.keys(data.data))
+		.data(d3.keys(data))
 		.enter()
 		.append("g")
 		.attr("class", function(d) { return "candidate " + d; })
@@ -72,12 +71,12 @@ async function drawChart(width, height, fontless, background, startDate, endDate
 		})
 
 	var convertLineData = d3.line()
-		.x(function(d) { return xScale(parse(d.date)) })
-		.y(function(d) { return yScale(d.value) })
+		.x(function(d) { return xScale(d.date) })
+		.y(function(d) { return yScale(d.pollaverage) })
 
 	var candidateLine = candidateGroups.append("path")
 		.attr("class", "candidateLine")
-		.attr("d", function(d) { return convertLineData(data.data[d]) })
+		.attr("d", function(d) { return convertLineData(data[d]) })
 			.style("stroke", function(d) {
 				if (d == "Clinton") {
 					return "#5a8caf";
