@@ -2,6 +2,7 @@ require('loud-rejection/register');
 
 var express = require('express'),
 	drawChart = require('./layouts/drawChart.js'),
+	getPollData = require('./layouts/getPollData.js'),
 	nunjucks = require('nunjucks'),
 	DOMParser = require('xmldom').DOMParser,
 	fs = require('fs'),
@@ -39,15 +40,10 @@ app.get('/polls.svg', async function(req, res) {
 		size = req.query.size || "600x300",
 		width = size.split("x")[0],
 		height = size.split("x")[1],
-		type = req.query.type || "margins";
+		type = req.query.type || "margins",
+		state = req.query.state || "us";
 
-	var data = JSON.parse(fs.readFileSync('./layouts/rcpdata.json', 'utf8'));
-
-	// filter out dates not between startDate and endDate
-	Object.keys(data.data).forEach(function(candidate) {
-		var filtered = _.filter(data.data[candidate], function(row) { return Date.parse(row.date) >= Date.parse(startDate) && Date.parse(row.date) <= Date.parse(endDate);  })
-		data.data[candidate] = filtered;
-	})
+	var data = await getPollData(state, startDate, endDate);
 
 	try {
 		var chartLayout = await drawChart(width, height, fontless, background, startDate, endDate, type, data);
