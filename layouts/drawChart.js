@@ -14,10 +14,10 @@ async function drawChart(width, height, fontless, background, startDate, endDate
   const userInputParse = d3.timeParse('%B %e, %Y');
   const colors = { Clinton: '#5a8caf', Trump: '#b34b41' };
 
-  // @TODO need more margin right if end date is too close to last datapoint
-  // console.log('dates', new Date(userInputParse(endDate)) - new Date(data.Clinton[data.Clinton.length - 1].date));
-  if (new Date(userInputParse(endDate)) < new Date(data.Clinton[data.Clinton.length - 1].date) + 170200000) {
-    margins.right = 100;
+  // need more margin right if end date is too close to last datapoint
+  // console.log('dates', ((new Date(userInputParse(endDate)) - new Date(data.Clinton[data.Clinton.length - 1].date)) / 86400000));
+  if (((new Date(userInputParse(endDate)) - new Date(data.Clinton[data.Clinton.length - 1].date)) / 86400000) < 60) {
+    margins.right = 120 - ((new Date(userInputParse(endDate)) - new Date(data.Clinton[data.Clinton.length - 1].date)) / 86400000);
   }
 
   const svg = d3.select(el)
