@@ -1,0 +1,27 @@
+{
+  "name": "us-elections-polltracker",
+  "scripts": {
+  },
+  "env": {
+    "DATABASE_URL": {
+      "required": true
+    }
+  },
+  "formation": {
+    "scraper": {
+      "quantity": 1
+    },
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "heroku-postgresql",
+    "scheduler"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
