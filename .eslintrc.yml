@@ -1,0 +1,6 @@
+root: true
+extends: airbnb
+parser: babel-eslint
+rules:
+  max-len: 0
+  no-console: 0
