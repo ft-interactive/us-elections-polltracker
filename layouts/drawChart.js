@@ -10,14 +10,14 @@ async function drawChart(width, height, fontless, background, startDate, endDate
 
   const graphWidth = width;
   const graphHeight = height;
-  const margins = { top: 55, bottom: 50, left: 20, right: 50 };
+  const margins = { top: 55, bottom: 50, left: 20, right: 30 };
   const userInputParse = d3.timeParse('%B %e, %Y');
   const colors = { Clinton: '#5a8caf', Trump: '#b34b41' };
 
   // need more margin right if end date is too close to last datapoint
   // console.log('dates', ((new Date(userInputParse(endDate)) - new Date(data.Clinton[data.Clinton.length - 1].date)) / 86400000));
   if (((new Date(userInputParse(endDate)) - new Date(data.Clinton[data.Clinton.length - 1].date)) / 86400000) < 60) {
-    margins.right = 120 - ((new Date(userInputParse(endDate)) - new Date(data.Clinton[data.Clinton.length - 1].date)) / 86400000);
+    margins.right = 90 - ((new Date(userInputParse(endDate)) - new Date(data.Clinton[data.Clinton.length - 1].date)) / 86400000);
   }
 
   const svg = d3.select(el)
@@ -30,12 +30,12 @@ async function drawChart(width, height, fontless, background, startDate, endDate
     .domain([30, 55])
     .range([graphHeight - margins.top - margins.bottom, 0]);
 
-  const yAxis = d3.axisRight()
+  const yAxis = d3.axisLeft()
     .scale(yScale)
-    .tickSizeInner(-graphWidth + margins.left + margins.right)
+    .tickSizeInner(graphWidth - margins.left - margins.right)
     .tickSizeOuter(0)
     .ticks(3)
-    .tickPadding(margins.right - 15);
+    .tickPadding(-margins.left);
 
   const yLabel = svg.append('g')
     .attr('class', 'yAxis')
@@ -43,6 +43,11 @@ async function drawChart(width, height, fontless, background, startDate, endDate
       return 'translate(' + (graphWidth - margins.right) + ',' + margins.top + ')';
     })
     .call(yAxis);
+
+  yLabel.selectAll('text')
+      .attr('transform', function() {
+          return 'translate(' + (-margins.left / 2) + ',-10)';
+      });
 
   // const yAxisLabel = yLabel.append('text')
   //   .text('%')
@@ -58,10 +63,6 @@ async function drawChart(width, height, fontless, background, startDate, endDate
   const xAxis = d3.axisBottom()
     .scale(xScale)
     .tickFormat(function(d, i) {
-      let interval = 3;
-      if (graphWidth < 450) {
-        interval = 6;
-      }
       if (i === 0 || i === xScale.ticks().length - 1) {
         return d3.timeFormat('%b %e')(d);
       }
