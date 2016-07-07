@@ -34,6 +34,7 @@ path {
 }
 
 text {
+    font-family: Metric;
     fill: #6b6e68;
     font-size: 14px;
     pointer-events: none;

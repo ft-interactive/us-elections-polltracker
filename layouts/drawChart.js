@@ -10,8 +10,15 @@ async function drawChart(width, height, fontless, background, startDate, endDate
 
 	var graphWidth = width,
 		graphHeight = height,
-		margins = {"top": 30, "bottom": 30, "left": 10, "right": 50},
-		userInputParse = d3.timeParse("%B %e, %Y");
+		margins = {"top": 30, "bottom": 30, "left": 20, "right": 50},
+		userInputParse = d3.timeParse("%B %e, %Y"),
+		colors = {"Clinton": "#5a8caf", "Trump": "#b34b41"};
+
+	// need more margin right if end date is too close to last datapoint
+	console.log('dates', new Date(userInputParse(endDate)) - new Date(data["Clinton"][data["Clinton"].length-1].date));
+	if (new Date(userInputParse(endDate)) < new Date(data["Clinton"][data["Clinton"].length-1].date) + 170200000) {
+		margins.right = 100;
+	}
 
 	var svg = d3.select(el)
 		.append("svg")
@@ -77,13 +84,60 @@ async function drawChart(width, height, fontless, background, startDate, endDate
 	var candidateLine = candidateGroups.append("path")
 		.attr("class", "candidateLine")
 		.attr("d", function(d) { return convertLineData(data[d]) })
-			.style("stroke", function(d) {
-				if (d == "Clinton") {
-					return "#5a8caf";
-				}
-				return "#b34b41";
-			})
+			.style("stroke", function(d) { return colors[d]; })
 			.style("stroke-width", "2")
+
+	var annotationGroup = svg.append("g")
+		.attr("class", "annotations")
+		.attr("transform",function() {
+			return "translate("+(margins.left)+","+(margins.top)+")"
+		})
+
+	// var candidateLabels = annotationGroup.selectAll("text.candidatename")
+	// 	.data(d3.keys(data))
+	// 	.enter()
+	// 	.append("text")
+	// 	.attr("class", "candidatename")
+	// 	.text(function(d) {
+	// 		return d;
+	// 	})
+	// 	.attr("x", function(d) { return xScale(data[d][0].date); })
+	// 	.attr("y", function(d) { 
+	// 		var offset = 10;
+	// 		if (d == "Trump") {
+	// 			offset = -20;
+	// 		}
+	// 		return yScale(data[d][0].pollaverage) - offset; 
+	// 	})
+	// 	.style("fill", function(d) { return colors[d]; })
+
+	var lastPointLabels = annotationGroup.selectAll('circle.lastpointlabel')
+		.data(d3.keys(data))
+		.enter()
+		.append("circle")
+		.attr("class", "lastpointlabel")
+		.attr("cx", function(d) {
+			return xScale(data[d][data[d].length-1].date);
+		})
+		.attr("cy", function(d) {
+			return yScale(data[d][data[d].length-1].pollaverage);
+		})
+		.attr("r", "5")
+		.style("fill", function(d) { return colors[d]; })
+	
+	var lastPointText = annotationGroup.selectAll('text.lastpointtext')	
+		.data(d3.keys(data))
+		.enter()
+		.append("text")
+		.attr("class", "lastpointtext")
+		.text(function(d) { return data[d][data[d].length-1].pollaverage + " " + d; })
+		.attr("x", function(d) {
+			return xScale(data[d][data[d].length-1].date) + 10;
+		})
+		.attr("y", function(d) {
+			return yScale(data[d][data[d].length-1].pollaverage);
+		})	
+		.style("fill", function(d) { return colors[d]; })
 
 	var config = { 
 		"width": width, 
