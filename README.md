@@ -10,7 +10,7 @@ The format for URLs looks like `/polls.svg?size=300x400&type=both&background=fff
 Default settings:
 - size: 300x400
 - type: margins
-- background: fff1e0
+- background: none
 - startDate: July 1, 2015 (as far back as the data goes)
 - endDate: today
 - fontless: true
