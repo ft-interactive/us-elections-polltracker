@@ -26,7 +26,7 @@ app.get('/__gtg', function(req, res){
 });
 
 app.get('/', function (req, res) {
-	res.send('The format for URLs is: https://ft-ig-us-elections-polling.herokuapp.com/polls?size=300x400&type=both&startDate=July 26,2015&endDate=now&fontless=true&background=#fff1e0');
+	res.send('The format for URLs is: https://ft-ig-us-elections-polling.herokuapp.com/polls?size=300x400&type=both&startDate=July 26,2015&endDate=now&fontless=true&background=#fff1e0&state=us');
 });
 
 app.get('/polls.svg', async function(req, res) {
