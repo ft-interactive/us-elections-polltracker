@@ -32,7 +32,7 @@ app.get('/__gtg', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('The format for URLs is: https://ft-ig-us-elections-polling.herokuapp.com/polls?size=300x400&type=both&startDate=July 26,2015&endDate=now&fontless=true&background=fff1e0&state=us');
+  res.send('The format for URLs is: https://ft-ig-us-elections-polltracker.herokuapp.com/polls.svg?size=600x300&type=both&startDate=July%201,%202015&endDate=November%208,%202016&fontless=true&background=fff1e0&state=us');
 });
 
 app.get('/polls.svg', async (req, res) => {
