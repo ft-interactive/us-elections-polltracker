@@ -7,10 +7,6 @@ var pg = require('pg'),
 // Polldata.sync({force: true}) // use this to drop table and recreate
 db.sequelize.sync();
 
-var logfile = 'log.log';
-winston.add(winston.transports.File, { filename: logfile });
-winston.remove(winston.transports.Console);
-
 function getRCPData(rcpURL) {
 	fetch(rcpURL).then(function(response) {
 		response.json().then(function(rcpData) {
