@@ -122,7 +122,12 @@ async function drawChart(width, height, fontless, background, startDate, endDate
     .style('fill', function(d) { return colors[d]; });
 
   const headline = annotationGroup.append('text')
-    .text('Which White House candidate is leading in the polls?')
+    .text(function() {
+      if (graphWidth < 450) {
+        return 'US Election 2016: latest polls'; // return shorter head for narrow graphs
+      }
+      return 'Which White House candidate is leading in the polls?';
+    })
     .attr('class', 'headline')
     .attr('x', -margins.left / 2)
     .attr('y', -margins.top + 24);
@@ -137,7 +142,7 @@ async function drawChart(width, height, fontless, background, startDate, endDate
     .text('Source: Real Clear Politics')
     .attr('class', 'sourceline')
     .attr('x', -margins.left / 2)
-    .attr('y', height - margins.top - 10)
+    .attr('y', graphHeight - margins.top - 10)
     .style('text-anchor', 'start');
 
   const config = {
