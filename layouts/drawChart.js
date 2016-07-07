@@ -62,8 +62,8 @@ async function drawChart(width, height, fontless, background, startDate, endDate
       if (graphWidth < 450) {
         interval = 6;
       }
-      if (i === 0 || i === xScale.ticks().length - 1 || i % interval === 0) {
-        return d3.timeFormat('%b')(d);
+      if (i === 0 || i === xScale.ticks().length - 1) {
+        return d3.timeFormat('%b %e')(d);
       }
     });
 
