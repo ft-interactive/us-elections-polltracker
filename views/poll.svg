@@ -39,6 +39,7 @@ text {
     font-size: 14px;
     pointer-events: none;
     user-select: none;
+    font-feature-settings: 'tnum' 1;
 }
 
 .headline {
