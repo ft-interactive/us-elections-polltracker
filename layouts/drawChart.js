@@ -10,7 +10,7 @@ async function drawChart(width, height, fontless, background, startDate, endDate
 
   const graphWidth = width;
   const graphHeight = height;
-  const margins = { top: 70, bottom: 50, left: 20, right: 50 };
+  const margins = { top: 55, bottom: 50, left: 20, right: 50 };
   const userInputParse = d3.timeParse('%B %e, %Y');
   const colors = { Clinton: '#5a8caf', Trump: '#b34b41' };
 
@@ -44,12 +44,12 @@ async function drawChart(width, height, fontless, background, startDate, endDate
     })
     .call(yAxis);
 
-  const yAxisLabel = yLabel.append('text')
-    .text('%')
-    .style('text-anchor', 'start')
-    .attr('class', 'axisLabel')
-    .attr('x', -graphWidth + margins.right + margins.left)
-    .attr('y', 0);
+  // const yAxisLabel = yLabel.append('text')
+  //   .text('%')
+  //   .style('text-anchor', 'start')
+  //   .attr('class', 'axisLabel')
+  //   .attr('x', -graphWidth + margins.right + margins.left)
+  //   .attr('y', 0);
 
   const xScale = d3.scaleTime()
     .domain([userInputParse(startDate), userInputParse(endDate)])
@@ -58,8 +58,8 @@ async function drawChart(width, height, fontless, background, startDate, endDate
   const xAxis = d3.axisBottom()
     .scale(xScale)
     .tickSizeOuter(5)
+    .tickFormat(d3.timeFormat('%b'))
     .ticks(5);
-
 
   const xLabel = svg.append('g')
     .attr('class', 'xAxis')
@@ -122,13 +122,13 @@ async function drawChart(width, height, fontless, background, startDate, endDate
     .style('fill', function(d) { return colors[d]; });
 
   const headline = annotationGroup.append('text')
-    .text('Where do Clinton and Trump stand in the polls?')
+    .text('Which White House candidate is leading in the polls?')
     .attr('class', 'headline')
     .attr('x', -margins.left / 2)
     .attr('y', -margins.top + 24);
 
   const subhead = annotationGroup.append('text')
-    .text('National polling average as of ' + d3.timeFormat('%B %e, %Y')(data.Clinton[data.Clinton.length - 1].date))
+    .text('National polling average as of ' + d3.timeFormat('%B %e, %Y')(data.Clinton[data.Clinton.length - 1].date) + ' (%)')
     .attr('class', 'subhead')
     .attr('x', -margins.left / 2)
     .attr('y', -margins.top + 46);
