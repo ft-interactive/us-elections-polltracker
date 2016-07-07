@@ -10,14 +10,14 @@ async function drawChart(width, height, fontless, background, startDate, endDate
 
   const graphWidth = width;
   const graphHeight = height;
-  const margins = { top: 55, bottom: 50, left: 20, right: 50 };
+  const margins = { top: 55, bottom: 50, left: 20, right: 30 };
   const userInputParse = d3.timeParse('%B %e, %Y');
   const colors = { Clinton: '#5a8caf', Trump: '#b34b41' };
 
-  // @TODO need more margin right if end date is too close to last datapoint
-  // console.log('dates', new Date(userInputParse(endDate)) - new Date(data.Clinton[data.Clinton.length - 1].date));
-  if (new Date(userInputParse(endDate)) < new Date(data.Clinton[data.Clinton.length - 1].date) + 170200000) {
-    margins.right = 100;
+  // need more margin right if end date is too close to last datapoint
+  // console.log('dates', ((new Date(userInputParse(endDate)) - new Date(data.Clinton[data.Clinton.length - 1].date)) / 86400000));
+  if (((new Date(userInputParse(endDate)) - new Date(data.Clinton[data.Clinton.length - 1].date)) / 86400000) < 60) {
+    margins.right = 90 - ((new Date(userInputParse(endDate)) - new Date(data.Clinton[data.Clinton.length - 1].date)) / 86400000);
   }
 
   const svg = d3.select(el)
@@ -30,12 +30,12 @@ async function drawChart(width, height, fontless, background, startDate, endDate
     .domain([30, 55])
     .range([graphHeight - margins.top - margins.bottom, 0]);
 
-  const yAxis = d3.axisRight()
+  const yAxis = d3.axisLeft()
     .scale(yScale)
-    .tickSizeInner(-graphWidth + margins.left + margins.right)
+    .tickSizeInner(graphWidth - margins.left - margins.right)
     .tickSizeOuter(0)
     .ticks(3)
-    .tickPadding(margins.right - 15);
+    .tickPadding(-margins.left);
 
   const yLabel = svg.append('g')
     .attr('class', 'yAxis')
@@ -43,6 +43,11 @@ async function drawChart(width, height, fontless, background, startDate, endDate
       return 'translate(' + (graphWidth - margins.right) + ',' + margins.top + ')';
     })
     .call(yAxis);
+
+  yLabel.selectAll('text')
+      .attr('transform', function() {
+          return 'translate(' + (-margins.left / 2) + ',-10)';
+      });
 
   // const yAxisLabel = yLabel.append('text')
   //   .text('%')
@@ -57,9 +62,11 @@ async function drawChart(width, height, fontless, background, startDate, endDate
 
   const xAxis = d3.axisBottom()
     .scale(xScale)
-    .tickSizeOuter(5)
-    .tickFormat(d3.timeFormat('%b'))
-    .ticks(5);
+    .tickFormat(function(d, i) {
+      if (i === 0 || i === xScale.ticks().length - 1) {
+        return d3.timeFormat('%b %e')(d);
+      }
+    });
 
   const xLabel = svg.append('g')
     .attr('class', 'xAxis')
@@ -122,7 +129,12 @@ async function drawChart(width, height, fontless, background, startDate, endDate
     .style('fill', function(d) { return colors[d]; });
 
   const headline = annotationGroup.append('text')
-    .text('Which White House candidate is leading in the polls?')
+    .text(function() {
+      if (graphWidth < 450) {
+        return 'US Election 2016: latest polls'; // return shorter head for narrow graphs
+      }
+      return 'Which White House candidate is leading in the polls?';
+    })
     .attr('class', 'headline')
     .attr('x', -margins.left / 2)
     .attr('y', -margins.top + 24);
@@ -137,7 +149,7 @@ async function drawChart(width, height, fontless, background, startDate, endDate
     .text('Source: Real Clear Politics')
     .attr('class', 'sourceline')
     .attr('x', -margins.left / 2)
-    .attr('y', height - margins.top - 10)
+    .attr('y', graphHeight - margins.top - 10)
     .style('text-anchor', 'start');
 
   const config = {
