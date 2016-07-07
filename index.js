@@ -32,7 +32,7 @@ app.get('/__gtg', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('The format for URLs is: https://ft-ig-us-elections-polling.herokuapp.com/polls?size=300x400&type=both&startDate=July 26,2015&endDate=now&fontless=true&background=#fff1e0&state=us');
+  res.send('The format for URLs is: https://ft-ig-us-elections-polling.herokuapp.com/polls?size=300x400&type=both&startDate=July 26,2015&endDate=now&fontless=true&background=fff1e0&state=us');
 });
 
 app.get('/polls.svg', async (req, res) => {
@@ -43,7 +43,8 @@ app.get('/polls.svg', async (req, res) => {
   const formattedNowDate = d3.timeFormat('%B %e, %Y')((d3.timeParse('%b %d %Y')(nowDate)));
 
   const fontless = req.query.fontless || true;
-  const background = req.query.background || '#fff1e0';
+  let background = req.query.background || 'fff1e0';
+  background = `#${background}`;
   const startDate = req.query.startDate || 'July 1, 2015';
   const endDate = req.query.endDate || formattedNowDate;
   const size = req.query.size || '600x300';
