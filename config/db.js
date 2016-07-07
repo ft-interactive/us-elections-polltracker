@@ -1,6 +1,6 @@
 var dotenv = require('dotenv');
 
-dotenv.load();
+dotenv.load({ silent: true });
 
 module.exports = {
   "development": {
