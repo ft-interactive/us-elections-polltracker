@@ -10,7 +10,7 @@ async function drawChart(width, height, fontless, background, startDate, endDate
 
   const graphWidth = width;
   const graphHeight = height;
-  const margins = { top: 30, bottom: 30, left: 20, right: 50 };
+  const margins = { top: 70, bottom: 50, left: 20, right: 50 };
   const userInputParse = d3.timeParse('%B %e, %Y');
   const colors = { Clinton: '#5a8caf', Trump: '#b34b41' };
 
@@ -48,8 +48,8 @@ async function drawChart(width, height, fontless, background, startDate, endDate
     .text('%')
     .style('text-anchor', 'start')
     .attr('class', 'axisLabel')
-    .attr('x', -graphWidth + margins.right + margins.left + 10)
-    .attr('y', -20);
+    .attr('x', -graphWidth + margins.right + margins.left)
+    .attr('y', 0);
 
   const xScale = d3.scaleTime()
     .domain([userInputParse(startDate), userInputParse(endDate)])
@@ -120,6 +120,25 @@ async function drawChart(width, height, fontless, background, startDate, endDate
       return yScale(data[d][data[d].length - 1].pollaverage);
     })
     .style('fill', function(d) { return colors[d]; });
+
+  const headline = annotationGroup.append('text')
+    .text('Where do Clinton and Trump stand in the polls?')
+    .attr('class', 'headline')
+    .attr('x', -margins.left / 2)
+    .attr('y', -margins.top + 24);
+
+  const subhead = annotationGroup.append('text')
+    .text('National polling average as of ' + d3.timeFormat('%B %e, %Y')(data.Clinton[data.Clinton.length - 1].date))
+    .attr('class', 'subhead')
+    .attr('x', -margins.left / 2)
+    .attr('y', -margins.top + 46);
+
+  const sourceline = annotationGroup.append('text')
+    .text('Source: Real Clear Politics')
+    .attr('class', 'sourceline')
+    .attr('x', -margins.left / 2)
+    .attr('y', height - margins.top - 10)
+    .style('text-anchor', 'start');
 
   const config = {
     width: width,
