@@ -40,7 +40,8 @@ app.get('/polls.svg', async (req, res) => {
     .slice(1, 4)
     .join(' ');
 
-  const formattedNowDate = d3.timeFormat('%B %e, %Y')((d3.timeParse('%b %d %Y')(nowDate)));
+  const formattedNowDate = d3.timeFormat('%B%e, %Y')((d3.timeParse('%b %d %Y')(nowDate)));
+  // const formattedNowDate = (d3.timeFormat('%B %e %Y')(d3.timeParse('%b %d %Y %Z')(nowDate + ' -05')));
 
   const fontless = req.query.fontless || true;
   const background = req.query.background;
@@ -52,7 +53,11 @@ app.get('/polls.svg', async (req, res) => {
   const type = req.query.type || 'margins';
   const state = req.query.state || 'us';
 
-  const data = await getPollData(state, startDate, endDate);
+  // weird hack: add one day to endDate to capture the end date in the sequelize query
+  const tempEndDatePieces = endDate.split(' ');
+  const queryEndDate = tempEndDatePieces[0] + ' ' + (+tempEndDatePieces[1].replace(/,/g, '') + 1) + ', ' + tempEndDatePieces[2];
+
+  const data = await getPollData(state, startDate, queryEndDate);
 
   try {
     const chartLayout = await drawChart(width, height, fontless, background, startDate, endDate, type, data);
