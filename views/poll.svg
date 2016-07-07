@@ -41,6 +41,15 @@ text {
     user-select: none;
 }
 
+.headline {
+    font-size: 21px;
+    fill: #3B3D3B;
+}
+
+.sourceline {
+    font-size: 11.5px;
+}
+
 .yAxis .tick line {
     opacity: 1;
     stroke: #C3BCB0;
