@@ -54,7 +54,7 @@ app.get('/polls.svg', async (req, res) => {
     const formattedNowDate = d3.timeFormat('%B%e, %Y')((d3.timeParse('%b %d %Y')(nowDate)));
     // const formattedNowDate = (d3.timeFormat('%B %e %Y')(d3.timeParse('%b %d %Y %Z')(nowDate + ' -05')));
 
-    const fontless = req.query.fontless || true;
+    const fontless = (req.query.fontless ? req.query.fontless : true);
     const background = req.query.background;
     const startDate = req.query.startDate || 'July 1, 2015';
     const endDate = req.query.endDate || formattedNowDate;
