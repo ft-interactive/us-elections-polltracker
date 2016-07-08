@@ -7,14 +7,17 @@ A web service scraping data from Real Clear Politics' [historical averages polli
 
 The format for URLs looks like `/polls.svg?size=300x400&type=both&background=fff1e0&startDate=July 1, 2015&endDate=June 29, 2016&fontless=true&state=us`. 
 
-Default settings:
-- size: 300x400
-- type: margins
-- background: none
-- startDate: July 1, 2015 (as far back as the data goes)
-- endDate: today
-- fontless: true
-- state: us
+## Settings
+
+|param|options|default|
+|-|-|-|
+|size|{number}x{number}|300x400
+|type|`margin`, `both`, `pollAverage`|`margins`
+|background|hexcode (don't include the hash)|<blank>
+|startDate|Month day, year|July 1, 2015
+|endDate|Month day, year|<today's date>
+|fontless|`true`, `false`|`true`
+|state|two-letter state abbreviation, `us`|`us`
 
 ## Running locally
 
