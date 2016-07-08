@@ -20,6 +20,18 @@ function setSVGHeaders(res) {
   return res;
 }
 
+// takes query parameters and orders properly for cache key format
+function convertToCacheKeyName(querystring) {
+  const paramOrder = ['fontless', 'background', 'startDate', 'endDate', 'size', 'type', 'state'];
+  let cacheKey = '';
+  for (let i = 0; i < paramOrder.length; i++) {
+    const param = paramOrder[i];
+    cacheKey = cacheKey + querystring[param];
+  }
+  cacheKey = cacheKey.replace(/\s+/g, '');
+  return cacheKey;
+}
+
 nunjucks.configure('views', {
   autoescape: true,
   express: app,
@@ -43,7 +55,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/polls.svg', async (req, res) => {
-  let value = cache.get(req.originalUrl); // check if the URL is already in the cache
+  let value = cache.get(convertToCacheKeyName(req.query)); // check if the URL is already in the cache
   if (value) {
     setSVGHeaders(res).send(value);
   } else {
@@ -71,7 +83,7 @@ app.get('/polls.svg', async (req, res) => {
     try {
       const chartLayout = await drawChart(width, height, fontless, background, startDate, endDate, type, data);
       value = nunjucks.render('poll.svg', chartLayout);
-      cache.set(req.originalUrl, value);
+      cache.set(convertToCacheKeyName(req.query), value);
       setSVGHeaders(res).send(value);
     } catch (error) {
       console.error(error);
