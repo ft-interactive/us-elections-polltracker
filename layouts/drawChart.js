@@ -1,6 +1,10 @@
 const d3 = require('d3');
 const getJSDomWindow = require('./getJSDomWindow');
 
+function round_1dp(x) {
+  return Math.round(x * 10) / 10;
+}
+
 async function drawChart(width, height, fontless, background, startDate, endDate, type, data) {
   const htmlStub = '<html><head></head><body><div id="dataviz-container"></div><script src="https://d3js.org/d3.v4.min.js"></script></body></html>';
 
@@ -40,7 +44,7 @@ async function drawChart(width, height, fontless, background, startDate, endDate
   const yLabel = svg.append('g')
     .attr('class', 'yAxis')
     .attr('transform', function() {
-      return 'translate(' + (graphWidth - margins.right) + ',' + margins.top + ')';
+      return 'translate(' + (round_1dp(graphWidth - margins.right)) + ',' + margins.top + ')';
     })
     .call(yAxis);
 
@@ -71,7 +75,7 @@ async function drawChart(width, height, fontless, background, startDate, endDate
   const xLabel = svg.append('g')
     .attr('class', 'xAxis')
     .attr('transform', function() {
-      return 'translate('+(margins.left)+','+(graphHeight-margins.bottom)+')'
+      return 'translate(' + (margins.left) + ',' + (graphHeight - margins.bottom) + ')';
     })
     .call(xAxis);
 
@@ -85,8 +89,8 @@ async function drawChart(width, height, fontless, background, startDate, endDate
     });
 
   const convertLineData = d3.line()
-    .x(function(d) { return xScale(d.date); })
-    .y(function(d) { return yScale(d.pollaverage); });
+    .x(function(d) { return round_1dp(xScale(d.date)); })
+    .y(function(d) { return round_1dp(yScale(d.pollaverage)); });
 
   const candidateLine = candidateGroups.append('path')
     .attr('class', 'candidateLine')
@@ -98,7 +102,7 @@ async function drawChart(width, height, fontless, background, startDate, endDate
     .attr('class', 'annotations')
     .attr('transform', function() {
       return 'translate('+(margins.left)+','+(margins.top)+')'
-    })
+    });
 
   const lastPointLabels = annotationGroup.selectAll('circle.lastpointlabel')
     .data(d3.keys(data))
@@ -106,10 +110,10 @@ async function drawChart(width, height, fontless, background, startDate, endDate
     .append('circle')
     .attr('class', 'lastpointlabel')
     .attr('cx', function(d) {
-      return xScale(data[d][data[d].length - 1].date);
+      return round_1dp(xScale(data[d][data[d].length - 1].date));
     })
     .attr('cy', function(d) {
-      return yScale(data[d][data[d].length - 1].pollaverage);
+      return round_1dp(yScale(data[d][data[d].length - 1].pollaverage));
     })
     .attr('r', '5')
     .style('fill', function(d) { return colors[d]; });
@@ -121,10 +125,10 @@ async function drawChart(width, height, fontless, background, startDate, endDate
     .attr('class', 'lastpointtext')
     .text(function(d) { return data[d][data[d].length - 1].pollaverage + ' ' + d; })
     .attr('x', function(d) {
-      return xScale(data[d][data[d].length - 1].date) + 10;
+      return round_1dp(xScale(data[d][data[d].length - 1].date)) + 10;
     })
     .attr('y', function(d) {
-      return yScale(data[d][data[d].length - 1].pollaverage);
+      return round_1dp(yScale(data[d][data[d].length - 1].pollaverage));
     })
     .style('fill', function(d) { return colors[d]; });
 
