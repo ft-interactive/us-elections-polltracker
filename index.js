@@ -21,12 +21,12 @@ function setSVGHeaders(res) {
 }
 
 // takes query parameters and orders properly for cache key format
-function convertToCacheKeyName(querystring) {
+function convertToCacheKeyName(queryRequest) {
   const paramOrder = ['fontless', 'background', 'startDate', 'endDate', 'size', 'type', 'state'];
   let cacheKey = '';
   for (let i = 0; i < paramOrder.length; i++) {
     const param = paramOrder[i];
-    cacheKey = cacheKey + querystring[param];
+    cacheKey = cacheKey + queryRequest[param];
   }
   cacheKey = cacheKey.replace(/\s+/g, '');
   return cacheKey;
@@ -55,25 +55,27 @@ app.get('/', (req, res) => {
 });
 
 app.get('/polls.svg', async (req, res) => {
-  let value = cache.get(convertToCacheKeyName(req.query)); // check if the URL is already in the cache
+  const nowDate = new Date().toString().split(' ')
+    .slice(1, 4)
+    .join(' ');
+
+  const formattedNowDate = d3.timeFormat('%B%e, %Y')((d3.timeParse('%b %d %Y')(nowDate)));
+  // const formattedNowDate = (d3.timeFormat('%B %e %Y')(d3.timeParse('%b %d %Y %Z')(nowDate + ' -05')));
+
+  const fontless = (req.query.fontless ? req.query.fontless : true);
+  const background = req.query.background;
+  const startDate = req.query.startDate || 'July 1, 2015';
+  const endDate = req.query.endDate || formattedNowDate;
+  const [width, height] = (req.query.size || '600x300').split('x');
+  const type = req.query.type || 'margins';
+  const state = req.query.state || 'us';
+
+  const queryData = { fontless: fontless, background: background, startDate: startDate, endDate: endDate, size: `${width}x${height}`, type: type, state: state };
+
+  let value = cache.get(convertToCacheKeyName(queryData)); // check if the URL is already in the cache
   if (value) {
     setSVGHeaders(res).send(value);
   } else {
-    const nowDate = new Date().toString().split(' ')
-      .slice(1, 4)
-      .join(' ');
-
-    const formattedNowDate = d3.timeFormat('%B%e, %Y')((d3.timeParse('%b %d %Y')(nowDate)));
-    // const formattedNowDate = (d3.timeFormat('%B %e %Y')(d3.timeParse('%b %d %Y %Z')(nowDate + ' -05')));
-
-    const fontless = (req.query.fontless ? req.query.fontless : true);
-    const background = req.query.background;
-    const startDate = req.query.startDate || 'July 1, 2015';
-    const endDate = req.query.endDate || formattedNowDate;
-    const [width, height] = (req.query.size || '600x300').split('x');
-    const type = req.query.type || 'margins';
-    const state = req.query.state || 'us';
-
     // weird hack: add one day to endDate to capture the end date in the sequelize query
     const tempEndDatePieces = endDate.split(' ');
     const queryEndDate = tempEndDatePieces[0] + ' ' + (+tempEndDatePieces[1].replace(/,/g, '') + 1) + ', ' + tempEndDatePieces[2];
@@ -83,7 +85,7 @@ app.get('/polls.svg', async (req, res) => {
     try {
       const chartLayout = await drawChart(width, height, fontless, background, startDate, endDate, type, data);
       value = nunjucks.render('poll.svg', chartLayout);
-      cache.set(convertToCacheKeyName(req.query), value);
+      cache.set(convertToCacheKeyName(queryData), value);
       setSVGHeaders(res).send(value);
     } catch (error) {
       console.error(error);
