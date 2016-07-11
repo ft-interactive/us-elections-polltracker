@@ -41,8 +41,8 @@ nunjucks.configure('views', {
 });
 
 const cache = lru({
-    max: 500,
-    maxAge: 60*1000 // 60 seconds
+  max: 500,
+  maxAge: 60 * 1000, // 60 seconds
 });
 
 // routes
@@ -76,8 +76,8 @@ app.get('/polls.svg', async (req, res) => {
     setSVGHeaders(res).send(value);
   } else {
     // weird hack: add one day to endDate to capture the end date in the sequelize query
-  const tempEndDatePieces = endDate.replace(/\s{2}/, ' ').split(' ');
-  const queryEndDate = tempEndDatePieces[0] + ' ' + (+tempEndDatePieces[1].replace(/,/g, '') + 1) + ', ' + tempEndDatePieces[2];
+    const tempEndDatePieces = endDate.replace(/\s{2}/, ' ').split(' ');
+    const queryEndDate = tempEndDatePieces[0] + ' ' + (+tempEndDatePieces[1].replace(/,/g, '') + 1) + ', ' + tempEndDatePieces[2];
 
     const data = await getPollData(state, startDate, queryEndDate);
 
