@@ -5,7 +5,7 @@ function round_1dp(x) {
   return Math.round(x * 10) / 10;
 }
 
-async function drawChart(width, height, fontless, background, startDate, endDate, type, data) {
+async function drawPollAvgChart(width, height, fontless, background, startDate, endDate, type, data) {
   const htmlStub = '<html><head></head><body><div id="dataviz-container"></div><script src="https://d3js.org/d3.v4.min.js"></script></body></html>';
 
   const window = await getJSDomWindow(htmlStub);
@@ -95,8 +95,8 @@ async function drawChart(width, height, fontless, background, startDate, endDate
   const candidateLine = candidateGroups.append('path')
     .attr('class', 'candidateLine')
     .attr('d', function(d) { return convertLineData(data[d]); })
-      .style('stroke', function(d) { return colors[d]; })
-      .style('stroke-width', '2');
+    .style('stroke', function(d) { return colors[d]; })
+    .style('stroke-width', '2');
 
   const annotationGroup = svg.append('g')
     .attr('class', 'annotations')
@@ -167,4 +167,4 @@ async function drawChart(width, height, fontless, background, startDate, endDate
   return config;
 }
 
-module.exports = drawChart;
+module.exports = drawPollAvgChart;
