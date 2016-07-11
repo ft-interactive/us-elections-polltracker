@@ -7,6 +7,7 @@ const nunjucks = require('nunjucks');
 const DOMParser = require('xmldom').DOMParser;
 const d3 = require('d3');
 const lru = require('lru-cache');
+const _ = require('underscore');
 
 const app = express();
 const maxAge = 120; // for user agent caching purposes
@@ -79,7 +80,18 @@ app.get('/polls.svg', async (req, res) => {
     const tempEndDatePieces = endDate.replace(/\s{2}/, ' ').split(' ');
     const queryEndDate = tempEndDatePieces[0] + ' ' + (+tempEndDatePieces[1].replace(/,/g, '') + 1) + ', ' + tempEndDatePieces[2];
 
-    const data = await getPollData(state, startDate, queryEndDate);
+    let data = await getPollData(state, startDate, queryEndDate);
+
+    switch (type) {
+      case 'pollAvg':
+        data = _.groupBy(data, (row) => row.candidatename);
+        break;
+      case 'margins':
+        data = _.groupBy(data, (row) => row.date);
+        break;
+      default:
+        break;
+    }
 
     try {
       const chartLayout = await drawChart(width, height, fontless, background, startDate, endDate, type, data);

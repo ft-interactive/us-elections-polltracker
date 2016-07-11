@@ -1,5 +1,4 @@
-var _ = require('underscore'),
-	db = require('../models/index'),
+var db = require('../models/index'),
 	Polldata = require('../models/index').Polldata;
 
 // runs a psql query to get data from db
@@ -16,10 +15,7 @@ async function getPollData(state, startDate, endDate) {
 			['date', 'ASC']
 		],
 		raw: true
-	}).then(function(res) {
-		// format response for front end
-		return _.groupBy(res, function(row) { return row.candidatename; })
-	})
+	});
 }
 
 module.exports = getPollData;
