@@ -56,8 +56,6 @@ app.get('/polls.svg', async (req, res) => {
   const tempEndDatePieces = endDate.replace(/\s{2}/, ' ').split(' ');
   const queryEndDate = tempEndDatePieces[0] + ' ' + (+tempEndDatePieces[1].replace(/,/g, '') + 1) + ', ' + tempEndDatePieces[2];
 
-  console.log('date info', endDate, tempEndDatePieces, queryEndDate);
-
   const data = await getPollData(state, startDate, queryEndDate);
 
   try {
