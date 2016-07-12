@@ -128,8 +128,8 @@ async function drawMarginsChart(width, height, fontless, background, startDate, 
 
   const converttoAreaData = d3.area()
     .x(function(d) { return round_1dp(xScale(new Date(d.data.date))); })
-    .y0(function(d) { return yScale(d[0]); })
-    .y1(function(d) { return yScale(d[1]); });
+    .y0(function(d) { return round_1dp(yScale(d[0])); })
+    .y1(function(d) { return round_1dp(yScale(d[1])); });
 
   const dataArea = dataContainer.selectAll('g.dataArea')
     .data(series)
