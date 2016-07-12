@@ -68,8 +68,6 @@ app.get('/polls.svg', async (req, res) => {
   const type = req.query.type || 'pollAvg';
   const state = req.query.state || 'us';
 
-  console.log('fontless', fontless);
-
   const queryData = { fontless: fontless, background: background, startDate: startDate, endDate: endDate, size: `${width}x${height}`, type: type, state: state };
 
   let value = cache.get(convertToCacheKeyName(queryData)); // check if the URL is already in the cache
