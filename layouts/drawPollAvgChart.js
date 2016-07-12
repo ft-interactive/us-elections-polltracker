@@ -64,12 +64,13 @@ async function drawPollAvgChart(width, height, fontless, background, startDate, 
     .domain([userInputParse(startDate), userInputParse(endDate)])
     .range([0, graphWidth - margins.left - margins.right]);
 
+  const xAxisTicks = [userInputParse(startDate), userInputParse(endDate)];
+
   const xAxis = d3.axisBottom()
     .scale(xScale)
+    .tickValues(xAxisTicks)
     .tickFormat(function(d, i) {
-      if (i === 0 || i === xScale.ticks().length - 1) {
-        return d3.timeFormat('%b %e')(d);
-      }
+      return d3.timeFormat('%b %e, %Y')(d);
     });
 
   const xLabel = svg.append('g')
@@ -78,6 +79,14 @@ async function drawPollAvgChart(width, height, fontless, background, startDate, 
       return 'translate(' + (margins.left) + ',' + (graphHeight - margins.bottom) + ')';
     })
     .call(xAxis);
+
+  xLabel.selectAll('text')
+    .style('text-anchor', function(d, i) {
+      if (i === 0) {
+        return 'start';
+      }
+      return 'end';
+    });
 
   const candidateGroups = svg.selectAll('g.candidate')
     .data(d3.keys(data))
