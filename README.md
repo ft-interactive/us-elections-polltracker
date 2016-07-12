@@ -23,4 +23,4 @@ The format for URLs looks like `/polls.svg?size=300x400&type=both&background=fff
 
 - Requirements: node, git
 - Clone repository
-- `npm install`, `npm install nodemon`, `npm run dev`
+- `npm install`, `npm run dev`
