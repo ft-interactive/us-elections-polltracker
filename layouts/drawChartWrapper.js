@@ -6,7 +6,7 @@ function round_1dp(x) {
   return Math.round(x * 10) / 10;
 }
 
-async function drawChartWrapper(width, height, fontless, background, startDate, endDate, type, data) {
+async function drawChartWrapper(width, height, fontless, background, logo, startDate, endDate, type, data) {
 
   let svgContent;
   switch (type) {
@@ -33,6 +33,7 @@ async function drawChartWrapper(width, height, fontless, background, startDate, 
     height: height,
     background: background,
     fontless: fontless,
+    logo: logo,
     svgContent: svgContent,
   };
 
