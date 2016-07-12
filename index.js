@@ -27,7 +27,7 @@ function convertToCacheKeyName(queryRequest) {
   const cacheKey = paramOrder.reduce(function(a, b) {
     return a + queryRequest[b];
   }, queryRequest['fontless']);
-  
+
   return cacheKey;
 }
 
@@ -65,7 +65,7 @@ app.get('/polls.svg', async (req, res) => {
   const startDate = req.query.startDate || 'July 1, 2015';
   const endDate = req.query.endDate || formattedNowDate;
   const [width, height] = (req.query.size || '600x300').split('x');
-  const type = req.query.type || 'margins';
+  const type = req.query.type || 'pollAvg';
   const state = req.query.state || 'us';
 
   const queryData = { fontless: fontless, background: background, startDate: startDate, endDate: endDate, size: `${width}x${height}`, type: type, state: state };
