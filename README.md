@@ -14,6 +14,7 @@ The format for URLs looks like `/polls.svg?size=300x400&type=both&background=fff
 |size|{number}x{number}|300x400|
 |type|`margins`, `both`, `pollAvg`|`margins`|
 |background|hexcode (don't include the hash)|<blank>|
+|logo|`true`, `false`|`false`|
 |startDate|Month day, year|July 1, 2015|
 |endDate|Month day, year|<today's date>|
 |fontless|`true`, `false`|`true`|

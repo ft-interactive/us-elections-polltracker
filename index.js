@@ -22,7 +22,7 @@ function setSVGHeaders(res) {
 
 // takes query parameters and orders properly for cache key format
 function convertToCacheKeyName(queryRequest) {
-  const paramOrder = ['background', 'startDate', 'endDate', 'size', 'type', 'state'];
+  const paramOrder = ['background', 'startDate', 'endDate', 'size', 'type', 'state', 'logo'];
 
   const cacheKey = paramOrder.reduce(function(a, b) {
     return a + queryRequest[b];
@@ -67,8 +67,9 @@ app.get('/polls.svg', async (req, res) => {
   const [width, height] = (req.query.size || '600x300').split('x');
   const type = req.query.type || 'pollAvg';
   const state = req.query.state || 'us';
+  const logo = (req.query.logo ? req.query.logo === 'true' : false);
 
-  const queryData = { fontless: fontless, background: background, startDate: startDate, endDate: endDate, size: `${width}x${height}`, type: type, state: state };
+  const queryData = { fontless: fontless, background: background, startDate: startDate, endDate: endDate, size: `${width}x${height}`, type: type, state: state, logo: logo };
 
   let value = cache.get(convertToCacheKeyName(queryData)); // check if the URL is already in the cache
   if (value) {
@@ -81,7 +82,7 @@ app.get('/polls.svg', async (req, res) => {
     const data = await getPollData(state, startDate, queryEndDate);
 
     try {
-      const chartLayout = await drawChart(width, height, fontless, background, startDate, endDate, type, data);
+      const chartLayout = await drawChart(width, height, fontless, background, logo, startDate, endDate, type, data);
       value = nunjucks.render('poll.svg', chartLayout);
       cache.set(convertToCacheKeyName(queryData), value);
       setSVGHeaders(res).send(value);

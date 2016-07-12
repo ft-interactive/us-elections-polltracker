@@ -5,7 +5,7 @@ function round_1dp(x) {
   return Math.round(x * 10) / 10;
 }
 
-async function drawChart(width, height, fontless, background, startDate, endDate, type, data) {
+async function drawChart(width, height, fontless, background, logo, startDate, endDate, type, data) {
   const htmlStub = '<html><head></head><body><div id="dataviz-container"></div><script src="https://d3js.org/d3.v4.min.js"></script></body></html>';
 
   const window = await getJSDomWindow(htmlStub);
@@ -170,6 +170,7 @@ async function drawChart(width, height, fontless, background, startDate, endDate
     height: height,
     background: background,
     fontless: fontless,
+    logo: logo,
     svgContent: window.d3.select('svg').html().toString(),
   }; // return this back to the router
 
