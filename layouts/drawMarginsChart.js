@@ -195,7 +195,7 @@ async function drawMarginsChart(width, height, fontless, background, startDate, 
     .attr('y', -margins.top + 24);
 
   const subhead = annotationGroup.append('text')
-    .text('National margins as of ' + d3.timeFormat('%B %e, %Y')(new Date(formattedData[formattedData.length - 1].date)) + ' (%)')
+    .text('National margins as of ' + d3.timeFormat('%B %e, %Y')(new Date(formattedData[formattedData.length - 1].date)))
     .attr('class', 'subhead')
     .attr('x', -margins.left / 2)
     .attr('y', -margins.top + 46);
