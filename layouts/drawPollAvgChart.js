@@ -16,7 +16,7 @@ async function drawPollAvgChart(width, height, fontless, background, startDate, 
   const graphHeight = height;
   const margins = { top: 55, bottom: 50, left: 20, right: 30 };
   const userInputParse = d3.timeParse('%B %e, %Y');
-  const colors = { Clinton: '#5a8caf', Trump: '#b34b41' };
+  const colors = { Clinton: '#1f90cf', Trump: '#ee3339' };
 
   // need more margin right if end date is too close to last datapoint
   // console.log('dates', ((new Date(userInputParse(endDate)) - new Date(data.Clinton[data.Clinton.length - 1].date)) / 86400000));
