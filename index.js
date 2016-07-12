@@ -60,13 +60,15 @@ app.get('/polls.svg', async (req, res) => {
 
   const formattedNowDate = d3.timeFormat('%B %e, %Y')((d3.timeParse('%b %d %Y')(nowDate)));
 
-  const fontless = (req.query.fontless ? req.query.fontless : true);
+  const fontless = (req.query.fontless ? req.query.fontless === 'true' : true);
   const background = req.query.background;
   const startDate = req.query.startDate || 'July 1, 2015';
   const endDate = req.query.endDate || formattedNowDate;
   const [width, height] = (req.query.size || '600x300').split('x');
   const type = req.query.type || 'pollAvg';
   const state = req.query.state || 'us';
+
+  console.log('fontless', fontless);
 
   const queryData = { fontless: fontless, background: background, startDate: startDate, endDate: endDate, size: `${width}x${height}`, type: type, state: state };
 
