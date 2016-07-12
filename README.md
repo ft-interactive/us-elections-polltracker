@@ -10,7 +10,7 @@ The format for URLs looks like `/polls.svg?size=300x400&type=both&background=fff
 ## Settings
 
 |param|options|default|
-|-|-|-|
+|---|---|---|
 |size|{number}x{number}|300x400|
 |type|`margin`, `both`, `pollAverage`|`margins`|
 |background|hexcode (don't include the hash)|<blank>|
