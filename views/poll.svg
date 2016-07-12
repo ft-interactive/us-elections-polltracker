@@ -1,5 +1,5 @@
 <svg class="poll" width="{{ width }}" height="{{ height }}" viewBox="0 0 {{ width }} {{ height }}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMinYMin meet">
-{% if fontless == "false" %}
+{% if not fontless %}
 <style>
 
 @font-face{src:url("https://origami-build.ft.com/v2/files/o-fonts-assets@1.3.0/MetricWeb-Thin.woff?#iefix") format("woff");font-family:MetricWeb;font-weight:100;font-style:normal}@font-face{src:url(//build.origami.ft.com/v2/files/o-fonts-assets@1.3.0/MetricWeb-Light.woff?#iefix) format("woff");font-family:MetricWeb;font-weight:200;font-style:normal}
