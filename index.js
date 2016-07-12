@@ -1,8 +1,7 @@
 require('loud-rejection/register');
 
 const express = require('express');
-const drawPollAvgChart = require('./layouts/drawPollAvgChart.js');
-const drawMarginsChart = require('./layouts/drawMarginsChart.js');
+const drawChartWrapper = require('./layouts/drawChartWrapper.js');
 const getPollData = require('./layouts/getPollData.js');
 const nunjucks = require('nunjucks');
 const DOMParser = require('xmldom').DOMParser;
@@ -83,24 +82,7 @@ app.get('/polls.svg', async (req, res) => {
     let data = await getPollData(state, startDate, queryEndDate);
 
     try {
-
-      let chartLayout;
-
-      switch (type) {
-        case 'pollAvg':
-          data = _.groupBy(data, (row) => row.candidatename);
-          chartLayout = await drawPollAvgChart(width, height, fontless, background, startDate, endDate, type, data);
-          break;
-        case 'margins':
-          data = _.groupBy(data, (row) => row.date);
-          chartLayout = await drawMarginsChart(width, height, fontless, background, startDate, endDate, type, data);
-          break;
-        default:
-          data = _.groupBy(data, (row) => row.date);
-          chartLayout = await drawMarginsChart(width, height, fontless, background, startDate, endDate, type, data);
-          break;
-      }
-
+      const chartLayout = await drawChartWrapper(width, height, fontless, background, startDate, endDate, type, data);
       value = nunjucks.render('poll.svg', chartLayout);
       cache.set(convertToCacheKeyName(queryData), value);
       setSVGHeaders(res).send(value);

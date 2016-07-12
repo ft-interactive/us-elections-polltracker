@@ -5,7 +5,7 @@ function round_1dp(x) {
   return Math.round(x * 10) / 10;
 }
 
-async function drawMarginsChart(width, height, fontless, background, startDate, endDate, type, data) {
+async function drawMarginsChart(width, height, topOffset, startDate, endDate, type, data) {
   const htmlStub = '<html><head></head><body><div id="dataviz-container"></div><script src="https://d3js.org/d3.v4.min.js"></script></body></html>';
 
   const window = await getJSDomWindow(htmlStub);
@@ -14,7 +14,8 @@ async function drawMarginsChart(width, height, fontless, background, startDate, 
 
   const graphWidth = width;
   const graphHeight = height;
-  const margins = { top: 75, bottom: 50, left: 40, right: 30 };
+  // const margins = { top: 75 + topOffset, bottom: 50, left: 40, right: 30 };
+  const margins = { top: 55 + topOffset, bottom: 50, left: 20, right: 30 };
   const userInputParse = d3.timeParse('%B %e, %Y');
   const colors = { Clinton: '#579dd5', Trump: '#e03d46' };
 
@@ -45,9 +46,14 @@ async function drawMarginsChart(width, height, fontless, background, startDate, 
     margins.right = 90 - ((new Date(userInputParse(endDate)) - new Date(d3.keys(data)[d3.keys(data).length - 1])) / 86400000);
   }
 
-  const svg = d3.select(el)
+  const svg_wrapper = d3.select(el)
     .append('svg')
     .attr('id', 'chart')
+    .attr('width', graphWidth)
+    .attr('height', graphHeight);
+
+  const svg = svg_wrapper.append('g')
+    .attr('class', 'margins-chart')
     .attr('width', graphWidth)
     .attr('height', graphHeight);
 
@@ -207,15 +213,7 @@ async function drawMarginsChart(width, height, fontless, background, startDate, 
     .attr('y', graphHeight - margins.top - 10)
     .style('text-anchor', 'start');
 
-  const config = {
-    width: width,
-    height: height,
-    background: background,
-    fontless: fontless,
-    svgContent: window.d3.select('svg').html().toString(),
-  }; // return this back to the router
-
-  return config;
+  return window.d3.select('svg').html().toString();
 }
 
 module.exports = drawMarginsChart;
