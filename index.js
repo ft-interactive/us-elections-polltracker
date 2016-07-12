@@ -1,7 +1,7 @@
 require('loud-rejection/register');
 
 const express = require('express');
-const drawChart = require('./layouts/drawChart.js');
+const drawChartWrapper = require('./layouts/drawChartWrapper.js');
 const getPollData = require('./layouts/getPollData.js');
 const nunjucks = require('nunjucks');
 const DOMParser = require('xmldom').DOMParser;
@@ -82,7 +82,7 @@ app.get('/polls.svg', async (req, res) => {
     const data = await getPollData(state, startDate, queryEndDate);
 
     try {
-      const chartLayout = await drawChart(width, height, fontless, background, logo, startDate, endDate, type, data);
+      const chartLayout = await drawChartWrapper(width, height, fontless, background, logo, startDate, endDate, type, data);
       value = nunjucks.render('poll.svg', chartLayout);
       cache.set(convertToCacheKeyName(queryData), value);
       setSVGHeaders(res).send(value);
