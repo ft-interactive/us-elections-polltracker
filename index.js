@@ -22,13 +22,12 @@ function setSVGHeaders(res) {
 
 // takes query parameters and orders properly for cache key format
 function convertToCacheKeyName(queryRequest) {
-  const paramOrder = ['fontless', 'background', 'startDate', 'endDate', 'size', 'type', 'state'];
-  let cacheKey = '';
-  for (let i = 0; i < paramOrder.length; i++) {
-    const param = paramOrder[i];
-    cacheKey = cacheKey + queryRequest[param];
-  }
-  cacheKey = cacheKey.replace(/\s+/g, '');
+  const paramOrder = ['background', 'startDate', 'endDate', 'size', 'type', 'state'];
+
+  const cacheKey = paramOrder.reduce(function(a, b) {
+    return a + queryRequest[b];
+  }, queryRequest['fontless']);
+  
   return cacheKey;
 }
 
