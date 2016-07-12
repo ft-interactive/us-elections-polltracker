@@ -12,7 +12,7 @@ The format for URLs looks like `/polls.svg?size=300x400&type=both&background=fff
 |param|options|default|
 |---|---|---|
 |size|{number}x{number}|300x400|
-|type|`margin`, `both`, `pollAverage`|`margins`|
+|type|`margins`, `both`, `pollAvg`|`margins`|
 |background|hexcode (don't include the hash)|<blank>|
 |startDate|Month day, year|July 1, 2015|
 |endDate|Month day, year|<today's date>|
