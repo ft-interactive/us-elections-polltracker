@@ -14,8 +14,8 @@ async function drawMarginsChart(width, height, topOffset, startDate, endDate, ty
 
   const graphWidth = width;
   const graphHeight = height;
-  // const margins = { top: 75 + topOffset, bottom: 50, left: 40, right: 30 };
-  const margins = { top: 55 + topOffset, bottom: 50, left: 20, right: 30 };
+  const margins = { top: 75, bottom: 50, left: 30, right: 30 };
+  // const margins = { top: 55, bottom: 50, left: 20, right: 30 };
   const userInputParse = d3.timeParse('%B %e, %Y');
   const colors = { Clinton: '#579dd5', Trump: '#e03d46' };
 
@@ -55,7 +55,10 @@ async function drawMarginsChart(width, height, topOffset, startDate, endDate, ty
   const svg = svg_wrapper.append('g')
     .attr('class', 'margins-chart')
     .attr('width', graphWidth)
-    .attr('height', graphHeight);
+    .attr('height', graphHeight)
+    .attr('transform', function() {
+      return 'translate(0,' + topOffset + ')';
+    });
 
   const yScale = d3.scaleLinear()
     .domain([-2, 20])
@@ -69,6 +72,10 @@ async function drawMarginsChart(width, height, topOffset, startDate, endDate, ty
     .tickFormat(function(d) {
       return Math.abs(d);
     });
+
+  if (type != 'margins') {
+    yAxis.ticks(2);
+  }
 
   const yLabel = svg.append('g')
     .attr('class', 'yAxis')
@@ -189,27 +196,29 @@ async function drawMarginsChart(width, height, topOffset, startDate, endDate, ty
       }
     });
 
-  const headline = annotationGroup.append('text')
-    .text(function() {
-      if (graphWidth < 450) {
-        return 'US Election 2016: latest polls'; // return shorter head for narrow graphs
-      }
-      return 'Which White House candidate is leading in the polls?';
-    })
-    .attr('class', 'headline')
-    .attr('x', -margins.left / 2)
-    .attr('y', -margins.top + 24);
+  if (type === 'margins') { // don't show head/subhead for combined chart, use head from pollAvg chart
+    const headline = annotationGroup.append('text')
+      .text(function() {
+        if (graphWidth < 450) {
+          return 'US Election 2016: latest polls'; // return shorter head for narrow graphs
+        }
+        return 'Which White House candidate is leading in the polls?';
+      })
+      .attr('class', 'headline')
+      .attr('x', -margins.left + 7)
+      .attr('y', -margins.top + 24);
 
-  const subhead = annotationGroup.append('text')
-    .text('National margins as of ' + d3.timeFormat('%B %e, %Y')(new Date(formattedData[formattedData.length - 1].date)))
-    .attr('class', 'subhead')
-    .attr('x', -margins.left / 2)
-    .attr('y', -margins.top + 46);
+    const subhead = annotationGroup.append('text')
+      .text('National margins as of ' + d3.timeFormat('%B %e, %Y')(new Date(formattedData[formattedData.length - 1].date)))
+      .attr('class', 'subhead')
+      .attr('x', -margins.left + 7)
+      .attr('y', -margins.top + 46);
+  }
 
   const sourceline = annotationGroup.append('text')
     .text('Source: Real Clear Politics')
     .attr('class', 'sourceline')
-    .attr('x', -margins.left / 2)
+    .attr('x', -margins.left + 7)
     .attr('y', graphHeight - margins.top - 10)
     .style('text-anchor', 'start');
 

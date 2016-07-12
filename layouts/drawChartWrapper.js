@@ -21,8 +21,8 @@ async function drawChartWrapper(width, height, fontless, background, startDate, 
     default: // case both
       const pollAvgData = _.groupBy(data, (row) => row.candidatename);
       const marginsData = _.groupBy(data, (row) => row.date);
-      const pollAvgSVGContent = await drawPollAvgChart(width, height, startDate, endDate, type, pollAvgData);
-      const marginsSVGContent = await drawMarginsChart(width, 0.8 * height, 0.2 * height + 10, startDate, endDate, type, marginsData);
+      const pollAvgSVGContent = await drawPollAvgChart(width, 0.75 * height, startDate, endDate, type, pollAvgData);
+      const marginsSVGContent = await drawMarginsChart(width, 0.55 * height, 0.43 * height, startDate, endDate, type, marginsData);
 
       svgContent = pollAvgSVGContent + marginsSVGContent;
       break;

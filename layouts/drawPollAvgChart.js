@@ -14,7 +14,8 @@ async function drawPollAvgChart(width, height, startDate, endDate, type, data) {
 
   const graphWidth = width;
   const graphHeight = height;
-  const margins = { top: 55, bottom: 50, left: 20, right: 30 };
+  // const margins = { top: 55, bottom: 50, left: 20, right: 30 };
+  const margins = { top: 55, bottom: 50, left: 30, right: 30 };
   const userInputParse = d3.timeParse('%B %e, %Y');
   const colors = { Clinton: '#238fce', Trump: '#e5262d' };
 
@@ -35,6 +36,12 @@ async function drawPollAvgChart(width, height, startDate, endDate, type, data) {
     .attr('width', graphWidth)
     .attr('height', graphHeight);
 
+  const annotationGroup = svg.append('g')
+    .attr('class', 'annotations')
+    .attr('transform', function() {
+      return 'translate('+(margins.left)+','+(margins.top)+')'
+    });
+
   const yScale = d3.scaleLinear()
     .domain([30, 55])
     .range([graphHeight - margins.top - margins.bottom, 0]);
@@ -54,44 +61,49 @@ async function drawPollAvgChart(width, height, startDate, endDate, type, data) {
     .call(yAxis);
 
   yLabel.selectAll('text')
-      .attr('transform', function() {
-          return 'translate(' + (-margins.left / 2) + ',-10)';
-      });
-
-  // const yAxisLabel = yLabel.append('text')
-  //   .text('%')
-  //   .style('text-anchor', 'start')
-  //   .attr('class', 'axisLabel')
-  //   .attr('x', -graphWidth + margins.right + margins.left)
-  //   .attr('y', 0);
+    // .attr('transform', function() {
+    //     return 'translate(' + (-margins.left / 2) + ',-10)';
+    // })
+    .attr('transform', function() {
+      return 'translate(' + (-margins.left - 7) + ',-10)';
+    });
 
   const xScale = d3.scaleTime()
     .domain([userInputParse(startDate), userInputParse(endDate)])
     .range([0, graphWidth - margins.left - margins.right]);
 
-  const xAxisTicks = [userInputParse(startDate), userInputParse(endDate)];
+  if (type === 'pollAvg') { // don't show xAxis in combined chart, use margins xAxis
+    const xAxisTicks = [userInputParse(startDate), userInputParse(endDate)];
 
-  const xAxis = d3.axisBottom()
-    .scale(xScale)
-    .tickValues(xAxisTicks)
-    .tickFormat(function(d, i) {
-      return d3.timeFormat('%b %e, %Y')(d);
-    });
+    const xAxis = d3.axisBottom()
+      .scale(xScale)
+      .tickValues(xAxisTicks)
+      .tickFormat(function(d, i) {
+        return d3.timeFormat('%b %e, %Y')(d);
+      });
 
-  const xLabel = svg.append('g')
-    .attr('class', 'xAxis')
-    .attr('transform', function() {
-      return 'translate(' + (margins.left) + ',' + (graphHeight - margins.bottom) + ')';
-    })
-    .call(xAxis);
+    const xLabel = svg.append('g')
+      .attr('class', 'xAxis')
+      .attr('transform', function() {
+        return 'translate(' + (margins.left) + ',' + (graphHeight - margins.bottom) + ')';
+      })
+      .call(xAxis);
 
-  xLabel.selectAll('text')
-    .style('text-anchor', function(d, i) {
-      if (i === 0) {
-        return 'start';
-      }
-      return 'end';
-    });
+    xLabel.selectAll('text')
+      .style('text-anchor', function(d, i) {
+        if (i === 0) {
+          return 'start';
+        }
+        return 'end';
+      });
+
+    const sourceline = annotationGroup.append('text')
+      .text('Source: Real Clear Politics')
+      .attr('class', 'sourceline')
+      .attr('x', -margins.left + 7)
+      .attr('y', graphHeight - margins.top - 10)
+      .style('text-anchor', 'start');
+  }
 
   const candidateGroups = svg.selectAll('g.candidate')
     .data(d3.keys(data))
@@ -111,12 +123,6 @@ async function drawPollAvgChart(width, height, startDate, endDate, type, data) {
     .attr('d', function(d) { return convertLineData(data[d]); })
     .style('stroke', function(d) { return colors[d]; })
     .style('stroke-width', '2');
-
-  const annotationGroup = svg.append('g')
-    .attr('class', 'annotations')
-    .attr('transform', function() {
-      return 'translate('+(margins.left)+','+(margins.top)+')'
-    });
 
   const lastPointLabels = annotationGroup.selectAll('circle.lastpointlabel')
     .data(d3.keys(data))
@@ -154,21 +160,14 @@ async function drawPollAvgChart(width, height, startDate, endDate, type, data) {
       return 'Which White House candidate is leading in the polls?';
     })
     .attr('class', 'headline')
-    .attr('x', -margins.left / 2)
+    .attr('x', -margins.left + 7)
     .attr('y', -margins.top + 24);
 
   const subhead = annotationGroup.append('text')
     .text('National polling average as of ' + d3.timeFormat('%B %e, %Y')(data.Clinton[data.Clinton.length - 1].date) + ' (%)')
     .attr('class', 'subhead')
-    .attr('x', -margins.left / 2)
+    .attr('x', -margins.left + 7)
     .attr('y', -margins.top + 46);
-
-  const sourceline = annotationGroup.append('text')
-    .text('Source: Real Clear Politics')
-    .attr('class', 'sourceline')
-    .attr('x', -margins.left / 2)
-    .attr('y', graphHeight - margins.top - 10)
-    .style('text-anchor', 'start');
 
   return window.d3.select('svg').html().toString();
 }
