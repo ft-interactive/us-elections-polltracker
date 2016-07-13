@@ -16,10 +16,7 @@ async function getPollData(state, startDate, endDate) {
 			['date', 'ASC']
 		],
 		raw: true
-	}).then(function(res) {
-		// format response for front end
-		return _.groupBy(res, function(row) { return row.candidatename; })
-	})
+	});
 }
 
 module.exports = getPollData;
