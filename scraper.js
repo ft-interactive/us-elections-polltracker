@@ -7,7 +7,7 @@ var pg = require('pg'),
 // Polldata.sync({force: true}) // use this to drop table and recreate
 db.sequelize.sync();
 
-function getRCPData(rcpURL) {
+function getPollAverageData(rcpURL) {
 	fetch(rcpURL).then(function(response) {
 		response.json().then(function(rcpData) {
 			var datapoints = rcpData.rcp_avg;
@@ -19,14 +19,14 @@ function getRCPData(rcpURL) {
 					value = datapoint.candidate[j].value,
 					state = 'us';
 
-					addToDatabase(polldate, candidate, value, state);
+					addPollAveragesToDatabase(polldate, candidate, value, state);
 				}
 			}
 		})
 	})
 }
 
-function addToDatabase(polldate, candidate, value, state) {	
+function addPollAveragesToDatabase(polldate, candidate, value, state) {	
 	Polldata.findAll({
 		where: {
 			date: polldate,
@@ -54,5 +54,5 @@ function addToDatabase(polldate, candidate, value, state) {
 	})
 }
 
-const rcpFeed = `http://www.realclearpolitics.com/poll/race/5491/historical_data.json`;
-getRCPData(rcpFeed);
+const raceId = "5491";
+getPollAverageData(`http://www.realclearpolitics.com/poll/race/${raceId}/historical_data.json`);
