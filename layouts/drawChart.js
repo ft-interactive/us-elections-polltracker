@@ -137,7 +137,23 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
       return round_1dp(xScale(data[d][data[d].length - 1].date)) + 10;
     })
     .attr('y', function(d) {
-      return round_1dp(yScale(data[d][data[d].length - 1].pollaverage));
+      let onTop; // adjust for when labels overlap
+      let yOverlapOffset;
+
+      if (data.Clinton[data.Clinton.length - 1].pollaverage > data.Trump[data.Trump.length - 1].pollaverage) {
+        onTop = 'Clinton';
+      }
+      if (data.Clinton[data.Clinton.length - 1].pollaverage < data.Trump[data.Trump.length - 1].pollaverage) {
+        onTop = 'Trump';
+      }
+
+      if (d === onTop) {
+        yOverlapOffset = 5;
+      } else {
+        yOverlapOffset = -5;
+      }
+
+      return round_1dp(yScale(data[d][data[d].length - 1].pollaverage) - yOverlapOffset);
     })
     .style('fill', function(d) { return colors[d]; });
 
