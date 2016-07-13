@@ -62,7 +62,7 @@ text {
     stroke: #C3BCB0;
 }
 </style>
-{% if background %}
+{% if background != 'none' %}
 <rect x="0" y="0" width="{{width}}" height="{{height}}" fill="#{{ background }}"></rect>
 {% endif %}
 {{ svgContent | rawSVG }}
