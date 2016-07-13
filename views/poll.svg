@@ -61,6 +61,16 @@ text {
     opacity: 1;
     stroke: #C3BCB0;
 }
+
+.area.above {
+  fill: rgb(250, 207, 194);
+  stroke: none;
+}
+
+.area.below {
+  fill: rgb(191, 208, 219);
+  stroke: none;
+}
 </style>
 {% if background != 'none' %}
 <rect x="0" y="0" width="{{width}}" height="{{height}}" fill="#{{ background }}"></rect>
