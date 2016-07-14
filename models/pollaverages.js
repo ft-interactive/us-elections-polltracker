@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var Polldata = sequelize.define('Polldata', {
+  var Pollaverages = sequelize.define('Pollaverages', {
     date: DataTypes.DATE,
     candidatename: DataTypes.STRING,
     pollaverage: DataTypes.FLOAT,
@@ -12,5 +12,5 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   });
-  return Polldata;
+  return Pollaverages;
 };
