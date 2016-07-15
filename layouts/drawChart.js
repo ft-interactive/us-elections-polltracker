@@ -239,7 +239,7 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
     background: background,
     fontless: fontless,
     logo: logo,
-    svgContent: window.d3.select('svg').html().toString(),
+    svgContent: window.d3.select('svg').html().toString().replace(/clippath/g, 'clipPath'),
   }; // return this back to the router
 
   return config;
