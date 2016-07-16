@@ -10,6 +10,7 @@ const DOMParser = require('xmldom').DOMParser;
 const d3 = require('d3');
 const lru = require('lru-cache');
 const fetch = require('isomorphic-fetch');
+const _ = require('underscore');
 
 const app = express();
 const maxAge = 120; // for user agent caching purposes
@@ -100,9 +101,36 @@ app.get('/polltracker-landing.html', async (req, res) => {
   if (!pollRes.ok) throw new Error(`Request failed with ${res.status}: ${url}`);
   const pollSVG = await pollRes.text();
 
+  let allIndividualPolls = await getAllPolls('us');
+  allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
+  allIndividualPolls = _.values(allIndividualPolls);
+  const formattedIndividualPolls = [];
+  _.each(allIndividualPolls, function(poll) {
+    let winner = '';
+    const clintonVal = _.findWhere(poll, {'candidatename': 'Clinton'}).pollvalue;
+    const trumpVal = _.findWhere(poll, {'candidatename': 'Trump'}).pollvalue;
+
+    if (clintonVal > trumpVal) {
+      winner = 'Clinton'
+    }
+
+    if (trumpVal > clintonVal) {
+      winner = 'Trump';
+    }
+
+    formattedIndividualPolls.push({
+      Clinton: _.findWhere(poll, {'candidatename': 'Clinton'}).pollvalue,
+      Trump: _.findWhere(poll, {'candidatename': 'Trump'}).pollvalue,
+      date: poll[0].date,
+      pollster: poll[0].pollster,
+      sampleSize: poll[0].sampleSize,
+      winner: winner,
+    });
+  });
+
   const polltrackerLayout = {
     pollSVG: pollSVG,
-    pollList: await getAllPolls('us'),
+    pollList: formattedIndividualPolls,
   };
   const value = nunjucks.render('polltracker-landing.html', polltrackerLayout);
   res.send(value);

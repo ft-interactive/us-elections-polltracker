@@ -172,20 +172,20 @@ td.lead{
     font-weight: 800;
 }
 
+td.clinton.winner {
+  background: #a2c1e1;
+}
+
+td.trump.winner {
+  background: #f4a098;
+}
+
 td.numeric{
     text-align: right;
 }
 
 td.date{
     min-width: 70px;
-}
-
-td.leave.lead{
-    background: {{ leave.tint }};
-}
-
-td.remain.lead{
-    background: {{ remain.tint }};
 }
 
 
@@ -444,8 +444,8 @@ a {
         <table>
             <thead>
                 <tr>
-                    <th>{{ remain.label }}&nbsp;%</th>
-                    <th>{{ leave.label }}&nbsp;%</th>
+                    <th>Clinton&nbsp;%</th>
+                    <th>Trump&nbsp;%</th>
                     <th>Date</th>
                     <th class="secondary">Pollster</th>
                     <th class="secondary">Sample</th>
@@ -454,8 +454,8 @@ a {
             <tbody>
                 {% for poll in pollList %}
                 <tr>
-                    <td class="numeric remain {{ poll }}">{{ poll.candidatename }}</td>
-                    <td class="numeric leave {{ poll }}">{{ poll.pollvalue }}</td>
+                    <td class="numeric clinton {% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</td>
+                    <td class="numeric trump {% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</td>
                     <td class="numeric date">{{ poll.date }}</td>
                     <td class="secondary">{{ poll.pollster }}</td>
                     <td class="numeric secondary">{{ poll.sampleSize }}</td>
@@ -464,10 +464,9 @@ a {
             </tbody>
         </table>
 
-
-            <p class="source">
-            Source : Real Clear Politics
-            </p>
+        <p class="source">
+        Source : Real Clear Politics
+        </p>
 
     </main>
 
