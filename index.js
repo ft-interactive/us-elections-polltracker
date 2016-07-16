@@ -103,34 +103,38 @@ app.get('/polltracker-landing.html', async (req, res) => {
   const pollSVG = await pollRes.text();
 
   // get individual polls
-  let allIndividualPolls = await getAllPolls('us');
-  allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
-  allIndividualPolls = _.values(allIndividualPolls);
-  const formattedIndividualPolls = [];
-  _.each(allIndividualPolls, function(poll) {
-    let winner = '';
-    const clintonVal = _.findWhere(poll, {'candidatename': 'Clinton'}).pollvalue;
-    const trumpVal = _.findWhere(poll, {'candidatename': 'Trump'}).pollvalue;
+  let formattedIndividualPolls = cache.get('allPolls'); // check to see if we've cached polls recently
+  if (!formattedIndividualPolls) {
+    let allIndividualPolls = await getAllPolls('us');
+    allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
+    allIndividualPolls = _.values(allIndividualPolls);
+    formattedIndividualPolls = [];
+    _.each(allIndividualPolls, function(poll) {
+      let winner = '';
+      const clintonVal = _.findWhere(poll, {'candidatename': 'Clinton'}).pollvalue;
+      const trumpVal = _.findWhere(poll, {'candidatename': 'Trump'}).pollvalue;
 
-    if (clintonVal > trumpVal) {
-      winner = 'Clinton';
-    }
+      if (clintonVal > trumpVal) {
+        winner = 'Clinton';
+      }
 
-    if (trumpVal > clintonVal) {
-      winner = 'Trump';
-    }
+      if (trumpVal > clintonVal) {
+        winner = 'Trump';
+      }
 
-    // unshift instead of push because dates keep being in chron instead of reverse chron
-    // even when I change the pg query to order by endDate DESC
-    formattedIndividualPolls.unshift({
-      Clinton: _.findWhere(poll, {'candidatename': 'Clinton'}).pollvalue,
-      Trump: _.findWhere(poll, {'candidatename': 'Trump'}).pollvalue,
-      date: poll[0].date,
-      pollster: poll[0].pollster,
-      sampleSize: poll[0].sampleSize,
-      winner: winner,
+      // unshift instead of push because dates keep being in chron instead of reverse chron
+      // even when I change the pg query to order by endDate DESC
+      formattedIndividualPolls.unshift({
+        Clinton: _.findWhere(poll, {'candidatename': 'Clinton'}).pollvalue,
+        Trump: _.findWhere(poll, {'candidatename': 'Trump'}).pollvalue,
+        date: poll[0].date,
+        pollster: poll[0].pollster,
+        sampleSize: poll[0].sampleSize,
+        winner: winner,
+      });
     });
-  });
+    cache.set('allPolls', formattedIndividualPolls);
+  }
 
   const polltrackerLayout = {
     pollSVG: pollSVG,
