@@ -95,12 +95,14 @@ app.get('/polls.svg', async (req, res) => {
 });
 
 app.get('/polltracker-landing.html', async (req, res) => {
+  // get poll SVG
   const url = 'https://ft-ig-us-elections-polltracker.herokuapp.com/polls.svg?fontless=true&startDate=June%207,%202016&size=600x300&type=area&state=us&logo=false';
   const pollRes = await Promise.resolve(fetch(url))
     .timeout(10000, new Error(`Timeout - bertha took too long to respond: ${url}`));
   if (!pollRes.ok) throw new Error(`Request failed with ${res.status}: ${url}`);
   const pollSVG = await pollRes.text();
 
+  // get individual polls
   let allIndividualPolls = await getAllPolls('us');
   allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
   allIndividualPolls = _.values(allIndividualPolls);
@@ -118,6 +120,8 @@ app.get('/polltracker-landing.html', async (req, res) => {
       winner = 'Trump';
     }
 
+    // unshift instead of push because dates keep being in chron instead of reverse chron
+    // even when I change the pg query to order by endDate DESC
     formattedIndividualPolls.unshift({
       Clinton: _.findWhere(poll, {'candidatename': 'Clinton'}).pollvalue,
       Trump: _.findWhere(poll, {'candidatename': 'Trump'}).pollvalue,
