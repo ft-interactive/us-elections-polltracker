@@ -4,6 +4,7 @@ import Promise from 'bluebird';
 const express = require('express');
 const drawChart = require('./layouts/drawChart.js');
 const getPollAverages = require('./layouts/getPollAverages.js');
+const getAllPolls = require('./layouts/getAllPolls.js');
 const nunjucks = require('nunjucks');
 const DOMParser = require('xmldom').DOMParser;
 const d3 = require('d3');
@@ -101,6 +102,7 @@ app.get('/polltracker-landing.html', async (req, res) => {
 
   const polltrackerLayout = {
     pollSVG: pollSVG,
+    pollList: await getAllPolls('us'),
   };
   const value = nunjucks.render('polltracker-landing.html', polltrackerLayout);
   res.send(value);

@@ -446,21 +446,19 @@ a {
                 <tr>
                     <th>{{ remain.label }}&nbsp;%</th>
                     <th>{{ leave.label }}&nbsp;%</th>
-                    <th>{{ undecided.label }}&nbsp;%</th>
                     <th>Date</th>
                     <th class="secondary">Pollster</th>
                     <th class="secondary">Sample</th>
                 </tr>
             </thead>
             <tbody>
-                {% for poll in data %}
+                {% for poll in pollList %}
                 <tr>
-                    <td class="numeric remain {{ poll | boldIfRemain }}">{{ poll.remain }}</td>
-                    <td class="numeric leave {{ poll | boldIfLeave }}">{{ poll.leave }}</td>
-                    <td class="numeric">{{ poll.undecided | replaceNaN }}</td>
-                    <td class="numeric date">{{ poll.date | ftDateFormat }}</td>
+                    <td class="numeric remain {{ poll }}">{{ poll.candidatename }}</td>
+                    <td class="numeric leave {{ poll }}">{{ poll.pollvalue }}</td>
+                    <td class="numeric date">{{ poll.date }}</td>
                     <td class="secondary">{{ poll.pollster }}</td>
-                    <td class="numeric secondary">{{ poll.sample | replaceNaN | commas }}</td>
+                    <td class="numeric secondary">{{ poll.sampleSize }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -468,9 +466,8 @@ a {
 
 
             <p class="source">
-            Source : FT Research
+            Source : Real Clear Politics
             </p>
-             <p class="note">* The FT poll of polls is calculated by taking the last seven polls from unique pollsters up to a given date, removing the two polls with the highest leads for 'remain' and 'leave', and calculating an adjusted average of the five remaining polls, where the more recent polls are given a higher weight<p>
 
     </main>
 
