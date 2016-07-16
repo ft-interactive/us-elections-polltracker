@@ -1,5 +1,4 @@
-var _ = require('underscore'),
-	db = require('../models/index'),
+var	db = require('../models/index'),
 	Pollaverages = require('../models/index').Pollaverages;
 
 // runs a psql query to get data from db
