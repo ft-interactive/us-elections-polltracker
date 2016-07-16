@@ -111,14 +111,14 @@ app.get('/polltracker-landing.html', async (req, res) => {
     const trumpVal = _.findWhere(poll, {'candidatename': 'Trump'}).pollvalue;
 
     if (clintonVal > trumpVal) {
-      winner = 'Clinton'
+      winner = 'Clinton';
     }
 
     if (trumpVal > clintonVal) {
       winner = 'Trump';
     }
 
-    formattedIndividualPolls.push({
+    formattedIndividualPolls.unshift({
       Clinton: _.findWhere(poll, {'candidatename': 'Clinton'}).pollvalue,
       Trump: _.findWhere(poll, {'candidatename': 'Trump'}).pollvalue,
       date: poll[0].date,
