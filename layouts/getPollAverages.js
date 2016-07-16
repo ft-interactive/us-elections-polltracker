@@ -1,10 +1,10 @@
 var _ = require('underscore'),
 	db = require('../models/index'),
-	Polldata = require('../models/index').Polldata;
+	Pollaverages = require('../models/index').Pollaverages;
 
 // runs a psql query to get data from db
-async function getPollData(state, startDate, endDate) {
-	return Polldata.findAll({
+async function getPollAverages(state, startDate, endDate) {
+	return Pollaverages.findAll({
 		where: {
 			state: state,
 			date: {
@@ -19,4 +19,4 @@ async function getPollData(state, startDate, endDate) {
 	});
 }
 
-module.exports = getPollData;
+module.exports = getPollAverages;
