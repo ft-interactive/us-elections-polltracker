@@ -6,64 +6,64 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       rcpid: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       pollster: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       rcpUpdated: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       link: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       date: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       startDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       endDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       confidenceInterval: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       sampleSize: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       marginError: {
-        type: Sequelize.FLOAT
+        type: Sequelize.STRING,
       },
       partisan: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       pollsterType: {
-        type: Sequelize.INTEGER 
+        type: Sequelize.STRING,
       },
       candidatename: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
-      pollaverage: {
-        type: Sequelize.FLOAT
+      pollvalue: {
+        type: Sequelize.FLOAT,
       },
       state: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: function(queryInterface, Sequelize) {
     return queryInterface.dropTable('Polldata');
-  }
+  },
 };
