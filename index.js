@@ -2,7 +2,7 @@ require('loud-rejection/register');
 
 const express = require('express');
 const drawChart = require('./layouts/drawChart.js');
-const getPollData = require('./layouts/getPollData.js');
+const getPollAverages = require('./layouts/getPollAverages.js');
 const nunjucks = require('nunjucks');
 const DOMParser = require('xmldom').DOMParser;
 const d3 = require('d3');
@@ -79,7 +79,7 @@ app.get('/polls.svg', async (req, res) => {
     const tempEndDatePieces = endDate.replace(/\s{2}/, ' ').split(' ');
     const queryEndDate = tempEndDatePieces[0] + ' ' + (+tempEndDatePieces[1].replace(/,/g, '') + 1) + ', ' + tempEndDatePieces[2];
 
-    const data = await getPollData(state, startDate, queryEndDate);
+    const data = await getPollAverages(state, startDate, queryEndDate);
 
     try {
       const chartLayout = await drawChart(width, height, fontless, background, logo, startDate, endDate, type, data);
