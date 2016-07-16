@@ -1,3 +1,4 @@
+"use strict";
 const fetch = require('isomorphic-fetch');
 const winston = require('winston');
 const db = require('./models/index');
