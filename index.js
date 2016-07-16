@@ -1,4 +1,5 @@
 require('loud-rejection/register');
+import Promise from 'bluebird';
 
 const express = require('express');
 const drawChart = require('./layouts/drawChart.js');
@@ -7,6 +8,7 @@ const nunjucks = require('nunjucks');
 const DOMParser = require('xmldom').DOMParser;
 const d3 = require('d3');
 const lru = require('lru-cache');
+const fetch = require('isomorphic-fetch');
 
 const app = express();
 const maxAge = 120; // for user agent caching purposes
@@ -34,9 +36,6 @@ function convertToCacheKeyName(queryRequest) {
 nunjucks.configure('views', {
   autoescape: true,
   express: app,
-}).addFilter('rawSVG', fragment => {
-  const parser = new DOMParser();
-  return parser.parseFromString(fragment, 'image/svg+xml');
 });
 
 const cache = lru({
@@ -91,6 +90,20 @@ app.get('/polls.svg', async (req, res) => {
       res.status(500).send('something broke');
     }
   }
+});
+
+app.get('/polltracker-landing.html', async (req, res) => {
+  const url = 'https://ft-ig-us-elections-polltracker.herokuapp.com/polls.svg?fontless=true&startDate=June%207,%202016&size=600x300&type=area&state=us&logo=false';
+  const pollRes = await Promise.resolve(fetch(url))
+    .timeout(10000, new Error(`Timeout - bertha took too long to respond: ${url}`));
+  if (!pollRes.ok) throw new Error(`Request failed with ${res.status}: ${url}`);
+  const pollSVG = await pollRes.text();
+
+  const polltrackerLayout = {
+    pollSVG: pollSVG,
+  };
+  const value = nunjucks.render('polltracker-landing.html', polltrackerLayout);
+  res.send(value);
 });
 
 const server = app.listen(process.env.PORT || 5000, () => {

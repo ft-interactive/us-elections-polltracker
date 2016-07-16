@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en-GB" class="core">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="robots" content="index,follow">
+    <meta name="copyright" content="Financial Times">
+    <meta name="theme-color" content="#fff1e0" />
+    <meta name="description" content="Polling data for the UK’s 2016 referendum on whether Britain should stay in or go out of Europe">
+    <link rel="canonical" href="https://ig.ft.com/sites/brexit-polling/">
+    <!--<link rel="image_src" href="https://ig.ft.com/URL FOR GENERIC SHARE/SOCIAL IMAGE">-->
+		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+    <link rel="shortcut icon" href="https://ig.ft.com/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="https://ig.ft.com/apple-touch-icon.png">
+
+    <title>Presidential polls 2016 - Financial Times</title>
+
+    <link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-footer@^4,o-fonts@^2,o-grid@^4.0.8,o-ads@^4.3.2">
+
+    <style>
+.core .o--if-js,
+.enhanced .o--if-no-js {
+    display: none !important;
+}
+
+html {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+img {
+  border: 0;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+.key span{
+    margin-left: 20px;
+}
+
+button {
+  overflow: visible;
+}
+
+button, select {
+  text-transform: none;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+textarea { overflow: auto; }
+
+body {
+  background-color: #fff1e0;
+  margin: 0;
+  border: 0;
+  font-family: MetricWeb, sans-serif;
+  color: #43423e;
+}
+
+.site-header {
+  padding: 18px 0 14px;
+  text-align: center;
+  border-bottom: 1px solid #e9decf;
+}
+.site-header > a { opacity: 0.75; }
+.site-header > a:hover {  opacity: 1; }
+.masthead {  height: 18px; }
+
+.article__headline{
+    font-size:2.5em;
+    max-width:600px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    /*margin:auto;*/
+}
+
+.article__headline,
+.article__crosshead {
+    text-align: left;
+    font-weight:500;
+    color:#43423e;
+    font-family: "FinancierDisplayWeb",serif;
+}
+
+.article__crosshead-alt {
+  font-family: MetricWeb, sans-serif;
+  color:#43423e;
+  font-weight: 400;
+  text-align: left;
+  font-size: 22px;
+  margin-top: 0.8em;
+  margin-bottom: 0.6em;
+}
+
+.article {
+    margin:0 auto;
+    max-width:600px;
+    text-align:center;
+    padding-left:20px;
+    padding-right:20px;
+    padding-top: 20px;
+}
+
+.article p {
+    text-align:left;
+    margin-left:auto;
+    margin-right:auto;
+    max-width:600px;
+}
+
+.article p a, .article li a {
+    color: #27757b;
+    border-bottom: 1px dotted #27757b;
+    text-decoration: none;
+}
+
+.article ul {
+  list-style-type: square;
+}
+
+.article li {
+  text-align: left;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.article a:hover {
+    border-bottom: none;
+}
+
+table{
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+th {
+    border: 0px;
+    border-bottom: solid 1px #1d1d1d;
+    min-width:50px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+td{
+    font-size: 0.9rem;
+    text-align: left;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+td.lead{
+    font-weight: 800;
+}
+
+td.numeric{
+    text-align: right;
+}
+
+td.date{
+    min-width: 70px;
+}
+
+td.leave.lead{
+    background: {{ leave.tint }};
+}
+
+td.remain.lead{
+    background: {{ remain.tint }};
+}
+
+
+.source{
+    text-align: right;
+}
+
+.time.chart{
+    padding-top: 20px;
+}
+
+.single.chart{
+  padding-top: 10px;
+}
+
+.chart svg{
+    width:100%;
+    height:100%;
+}
+
+.intro{
+  font-size: 18px;
+  font-family: FinancierTextWeb, serif;
+  line-height: 1.5rem;
+}
+
+p.off-link{
+  font-size: 24px;
+  text-align: right;
+  font-family: MetricWeb, sans-serif;
+}
+
+p.off-link a{
+  border: none;
+}
+
+p.off-link a:after {
+    content: " ";
+    background: url('https://image.webservices.ft.com/v1/images/raw/fticon:arrow-right?height=36&tint=27757b,27757b&source=ig') no-repeat center center;
+    background-size: 18px 18px;
+    float: right;
+    width: 18px;
+    height: 18px;
+    margin: 5px 7px 8px 0;
+}
+
+.stand-first{
+  font-size: 18px;
+  font-family: FinancierTextWeb, serif;
+  line-height: 1.5rem;
+  margin-bottom: 40px;
+}
+
+.section-link{
+  color: #9e2f50;
+  font-family: MetricWeb,sans-serif;
+  font-size: 20px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom-color: transparent;
+  text-decoration: none;
+  font-style: normal;
+  display:block;
+  width:100%;
+}
+
+.stories__container{
+  background-color: #f6e9d8;
+  padding: 0 10px;
+  border-top: 1px solid #cec6b9;
+  margin-bottom: 1em;
+}
+
+.stories__story{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: left;
+}
+
+.stories__story--container{
+  padding: 10px 0;
+  max-width: 90%;
+}
+
+.stories__story--image img {
+  width: 100%;
+  height: auto;
+}
+
+.stories__story--blurb{
+  color: #505050;
+  font-size: .9em;
+  line-height: 1.3em;
+}
+
+a {
+  text-decoration: none;
+}
+
+.stories__story--headline {
+  padding-bottom: 10px;
+  text-decoration: none;
+  color: #2e6e9e;
+}
+
+
+
+@media (max-width: 600px) {
+  .secondary {
+    display: none;
+  }
+  .chart-plot .heading{
+      font-size: 24px;
+  }
+}
+
+@media (max-width: 500px) {
+  .x.axis{
+     font-size: 24px;
+  }
+
+  .y.axis{
+      font-size:24px;
+  }
+}
+
+
+.above-header-advert {
+    display: block;
+    padding: 10px 0;
+}
+
+.o-ads--empty, .o-ads[data-o-ads-loaded="false"] {
+    height: 0!important;
+		min-height: 0!important;
+		padding: 0!important;
+}
+
+.advert--background {
+    background-color: #e9decf;
+    background-image: -webkit-repeating-linear-gradient(315deg, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2) 1.5px, transparent 0, transparent 3px);
+    background-image: repeating-linear-gradient(135deg, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2) 1.5px, transparent 0, transparent 3px);
+    background-size: 4px 4px
+}
+.advert--transition {
+    will-change: min-height, padding, height;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-transition: height .35s ease-in-out, min-height .35s ease-in-out, padding .35s ease-in-out;
+    transition: height .35s ease-in-out, min-height .35s ease-in-out, padding .35s ease-in-out
+}
+.advert--reserve-90 {
+    min-height: 90px;
+    height: 90px
+}
+.advert--reserve-90[data-o-ads-loaded=Billboard],
+.advert--reserve-90[data-o-ads-loaded=MediumRectangle] {
+    height: 250px
+}
+.advert--reserve-250 {
+    height: 250px;
+    min-height: 250px;
+    padding: 10px 0
+}
+.advert--reserve-250[data-o-ads-loaded=Leaderboard] .o-ads__outer,
+.advert--reserve-250[data-o-ads-loaded=SuperLeaderboard] .o-ads__outer {
+    position: relative;
+    top: 50%;
+    margin-top: -45px
+}
+.advert--reserve-90[data-o-ads-loaded=Responsive],
+.advert--reserve-250[data-o-ads-loaded=Responsive] {
+    height: 250px;
+    min-height: 250px;
+    padding: 10px 0
+}
+@media (max-width: 90em) {
+    .advert--reserve-90[data-o-ads-loaded=Responsive],
+    .advert--reserve-250[data-o-ads-loaded=Responsive] {
+        height: auto;
+        min-height: 17.34vw;
+        padding: 0
+    }
+}
+@media (max-width: 30.615em) {
+    .advert--reserve-90[data-o-ads-loaded=Responsive],
+    .advert--reserve-250[data-o-ads-loaded=Responsive] {
+        height: auto;
+        min-height: 48.1vw
+    }
+}
+    </style>
+
+    <link href="https://plus.google.com/113457471429583444041/" rel="publisher" />
+
+    <script>
+      // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      // m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      // })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      // ga('create', 'UA-35229645-1', 'auto');
+      // ga('require','displayfeatures');
+      // ga('send', 'pageview');
+    </script>
+
+    <script data-o-ads-config="" type="application/json">
+    {
+    	"gpt": {
+        "unitName" : "5887/ft.com/us-election-2016.polling"
+    	}
+    }
+    </script>
+
+  </head>
+    <body>
+
+		<!-- PUT TRACKING CODE HERE -->
+
+    <div class="o-ads above-header-advert advert advert--background advert--transition advert--reserve-90 o-ads--center" data-o-ads-name="entry" data-o-ads-center="true" data-o-ads-targeting="pos=top" data-o-ads-formats-default="false" data-o-ads-formats-small="false" data-o-ads-formats-medium="Leaderboard,Responsive" data-o-ads-formats-large="SuperLeaderboard,Leaderboard,Responsive" data-o-ads-formats-extra="Billboard,SuperLeaderboard,Leaderboard,Responsive" data-o-ads-lazy-load="true" aria-hidden="true"></div>
+
+    <header class="site-header" role="banner">
+      <a href="http://www.ft.com/">
+        <img class="masthead" src="https://image.webservices.ft.com/v1/images/raw/fticon:brand-ft-masthead?source=ft-interactive">
+      </a>
+    </header>
+
+    <main class="article" role="main">
+          <a href="//www.ft.com/us-election-2016" class="section-link">US Election 2016</a>
+        <h1 class="article__headline">US election poll tracker</h1>
+        <div class="stand-first">
+          <p>{{ introText }}</p>
+        </div>
+
+        <div class="single chart">
+            {{ pollSVG | safe }}
+        </div>
+
+        <div class="intro">
+        {{ latest.text | safe }}
+        <div class="o-grid-container o-grid-container--bleed">
+          {{ storyList | safe }}
+        </div>
+        <p class="off-link"><a href="http://www.ft.com/us-election-2016">All US Election 2016 coverage</a></p>
+        </div>
+        <div>
+          <ul>
+          <li><a href="http://www.ft.com/cms/s/6a63c2ca-2d80-11e6-bf8d-26294ad519fc.html">Online or Telephone, why does it matter?</a></li>
+          <li><a href="http://www.ft.com/cms/s/6a63c2ca-2d80-11e6-bf8d-26294ad519fc.html">How accurate are the polls?</a></li>
+          <li><a href="http://blogs.ft.com/ftdata/2016/06/09/eu-referendum-can-we-trust-the-polls-alternative-prediction-models/">Do pollsters have the right approach or can alternative methods do better?</a></li>
+          </ul>
+        </div>
+
+    <div class="o-ads above-header-advert advert advert--reserve-250 o-ads--center" data-o-ads-name="mid" data-o-ads-center="true" data-o-ads-targeting="pos=mid" data-o-ads-formats="MediumRectangle,Responsive" data-o-ads-lazy-load="true" aria-hidden="true"></div>
+
+        <h2 class="article__crosshead-alt">Full list of individual polls</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>{{ remain.label }}&nbsp;%</th>
+                    <th>{{ leave.label }}&nbsp;%</th>
+                    <th>{{ undecided.label }}&nbsp;%</th>
+                    <th>Date</th>
+                    <th class="secondary">Pollster</th>
+                    <th class="secondary">Sample</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for poll in data %}
+                <tr>
+                    <td class="numeric remain {{ poll | boldIfRemain }}">{{ poll.remain }}</td>
+                    <td class="numeric leave {{ poll | boldIfLeave }}">{{ poll.leave }}</td>
+                    <td class="numeric">{{ poll.undecided | replaceNaN }}</td>
+                    <td class="numeric date">{{ poll.date | ftDateFormat }}</td>
+                    <td class="secondary">{{ poll.pollster }}</td>
+                    <td class="numeric secondary">{{ poll.sample | replaceNaN | commas }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+            <p class="source">
+            Source : FT Research
+            </p>
+             <p class="note">* The FT poll of polls is calculated by taking the last seven polls from unique pollsters up to a given date, removing the two polls with the highest leads for 'remain' and 'leave', and calculating an adjusted average of the five remaining polls, where the more recent polls are given a higher weight<p>
+
+    </main>
+
+<footer class="o-footer o-footer--theme-light" data-o-component="o-footer">
+  <div class="o-footer__container">
+    <nav class="o-footer__row o-footer__nav">
+      <div class="o-footer__col o-footer__col--full-width">
+        <h3 class="o-footer__title">Sections</h3>
+        <ul class="o-footer__row o-footer__section-list">
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="http://www.ft.com">Home</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="http://www.ft.com/world/uk">UK</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="http://www.ft.com/world">World</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="http://www.ft.com/companies">Companies</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="http://www.ft.com/markets">Markets</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="http://www.ft.com/global-economy">Global Economy</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="http://www.ft.com/lex">Lex</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="http://www.ft.com/comment">Comment</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="http://www.ft.com/management">Management</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="http://www.ft.com/personal-finance">Personal Finance</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="http://www.ft.com/life-arts">Life &amp; Arts</a></li>
+              </ul>
+              <div class="o-footer__divider"></div>
+            </div>
+          </nav>
+          <div class="o-footer__row o-footer__link-lists">
+            <nav class="o-footer__col o-footer__link-list">
+              <h3 class="o-footer__title">Tools</h3>
+              <ul>
+                  <li class="o-footer__link"><a href="http://portfolio.ft.com/">Portfolio</a></li>
+                  <li class="o-footer__link"><a href="http://lexicon.ft.com/">Lexicon</a></li>
+                  <li class="o-footer__link"><a href="http://www.ft.com/topics">Topics</a></li>
+                  <li class="o-footer__link"><a href="http://markets.ft.com/alerts/keyword.asp">Alerts Hub</a></li>
+                  <li class="o-footer__link"><a href="http://nbe.ft.com/nbe/profile.cfm?segid=70121">Daily Briefings</a></li>
+              </ul>
+            </nav>
+            <nav class="o-footer__col o-footer__link-list">
+              <h3 class="o-footer__title">Services</h3>
+              <ul>
+                  <li class="o-footer__link"><a href="http://www.ft.com/corporate">Corporate subscriptions</a></li>
+                  <li class="o-footer__link"><a href="http://www.ft.com/syndication">Syndication</a></li>
+                  <li class="o-footer__link"><a href="https://www.ft-live.com/">Conferences</a></li>
+              </ul>
+            </nav>
+            <nav class="o-footer__col o-footer__link-list">
+              <h3 class="o-footer__title">Support</h3>
+              <ul>
+                  <li class="o-footer__link"><a href="http://www.ft.com/help">Help</a></li>
+                  <li class="o-footer__link"><a href="http://www.ft.com/aboutus">About us</a></li>
+                  <li class="o-footer__link"><a href="http://aboutus.ft.com/careers/">Jobs</a></li>
+                  <li class="o-footer__link"><a href="http://aboutus.ft.com/contact-us">Contact us</a></li>
+              </ul>
+            </nav>
+            <nav class="o-footer__col o-footer__link-list">
+              <h3 class="o-footer__title">Legal &amp; Advertising</h3>
+              <ul>
+                  <li class="o-footer__link"><a href="http://www.ft.com/advertising">Advertise with the FT</a></li>
+                  <li class="o-footer__link"><a href="http://www.ft.com/servicestools/help/terms">Terms &amp; conditions</a></li>
+                  <li class="o-footer__link"><a href="http://www.ft.com/servicestools/help/privacy">Cookie &amp; privacy policy</a></li>
+                  <li class="o-footer__link"><a href="http://www.ft.com/servicestools/help/copyright">Copyright</a></li>
+              </ul>
+            </nav>
+          </div>
+    <div class="o-footer__row o-footer__copyright">
+      <div class="o-footer__col o-footer__col--full-width">
+        <span>&#xA9; THE FINANCIAL TIMES LTD 2016.</span>
+        <span><abbr title="Financial Times">FT</abbr> and &#x2018;Financial Times&#x2019; are trademarks of The Financial Times Ltd.</span>
+      </div>
+    </div>
+  </div>
+  <div class="o-footer__brand">
+    <div class="o-footer__container">
+      <div class="o-footer__row">
+        <div class="o-footer__col o-footer__col--full-width">
+          <div class="o-footer__brand-logo" aria-label="A Nikkei Company"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+    </body>
+</html>
