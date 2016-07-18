@@ -162,7 +162,7 @@ app.get('/polls/:state.html', async (req, res) => {
     pollSVG: pollSVG,
     pollList: formattedIndividualPolls,
   };
-  const value = nunjucks.render('polltracker-landing.html', polltrackerLayout);
+  const value = nunjucks.render('polls.html', polltrackerLayout);
   res.send(value);
 });
 
