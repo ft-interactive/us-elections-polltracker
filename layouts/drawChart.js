@@ -1,6 +1,7 @@
 const d3 = require('d3');
 const getJSDomWindow = require('./getJSDomWindow');
 const _ = require('underscore');
+const stateIds = require('./stateIds').states;
 
 function round_1dp(x) {
   return Math.round(x * 10) / 10;
@@ -211,10 +212,20 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
 
   const headline = annotationGroup.append('text')
     .text(function() {
+      const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
       if (graphWidth < 450) {
-        return 'US Election 2016: latest polls'; // return shorter head for narrow graphs
+        if (state === 'us') {
+          return 'US Election 2016: latest polls'; // return shorter head for narrow graphs
+        } else {
+          return `Latest polls: ${stateName}`;
+        }
+      } else {
+        if (state === 'us') {
+          return 'Which White House candidate is leading in the polls?';
+        } else {
+          return `Which candidate is leading in ${stateName}?`;
+        }
       }
-      return 'Which White House candidate is leading in the polls?';
     })
     .attr('class', 'headline')
     .attr('x', -margins.left + 7)
@@ -222,13 +233,14 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
 
   const subhead = annotationGroup.append('text')
     .text(function() {
-      if (state.toLowerCase() === 'us') {
-        state = 'National';
+      let statePrefix;
+      if (state === 'us') {
+        statePrefix = 'National polling ';
       } else {
-        state = state.toUpperCase();
+        statePrefix = 'Polling ';
       }
 
-      return state +' polling average as of ' + d3.timeFormat('%B %e, %Y')(new Date(formattedData[formattedData.length - 1].date)) + ' (%)'
+      return statePrefix + 'average as of ' + d3.timeFormat('%B %e, %Y')(new Date(formattedData[formattedData.length - 1].date)) + ' (%)'
     })
     .attr('class', 'subhead')
     .attr('x', -margins.left + 7)

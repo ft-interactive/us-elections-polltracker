@@ -438,9 +438,10 @@ a {
               <a href="//www.ft.com/us-election-2016" class="o-typography-flyline__link">US Election 2016</a>
             </div>
             
-            <h1 class="o-typography-heading1">US election poll tracker</h1>
+            <h1 class="o-typography-heading1">US election poll tracker{% if state != 'us' %}: {{ stateName }}{% endif %}</h1>
             <p class="lastupdated">Updated at {{ lastUpdated }}</p>
             
+            {% if state == 'us' %}
             <div class="stand-first">
               {% markdown %}
               <p>{{ introText | safe }}</p>
@@ -448,6 +449,7 @@ a {
             </div>
 
             <p class="off-link"><a href="http://www.ft.com/us-election-2016">All US Election 2016 coverage</a></p>
+            {% endif %}
 
             <div class="single chart">
                 {{ pollSVG | safe }}

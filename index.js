@@ -12,6 +12,7 @@ const d3 = require('d3');
 const lru = require('lru-cache');
 const fetch = require('isomorphic-fetch');
 const _ = require('underscore');
+const stateIds = require('./layouts/stateIds').states;
 
 const app = express();
 const maxAge = 120; // for user agent caching purposes
@@ -97,7 +98,10 @@ app.get('/polls.svg', async (req, res) => {
   }
 });
 
-app.get('/polltracker-landing.html', async (req, res) => {
+app.get('/polls/:state.html', async (req, res) => {
+  const state = req.params.state;
+  const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
+
   // get intro text
   const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links';
 
@@ -109,16 +113,17 @@ app.get('/polltracker-landing.html', async (req, res) => {
   const introText = '<p>' + _.findWhere(data.options, { name: 'text' }).value + '</p><p>' + _.findWhere(data.options, { name: 'secondaryText' }).value + '</p>';
 
   // get poll SVG
-  const url = 'https://ft-ig-us-elections-polltracker.herokuapp.com/polls.svg?fontless=true&startDate=June%207,%202016&size=600x300&type=area&state=us&logo=false';
+  // const url = `https://ft-ig-us-elections-polltracker.herokuapp.com/polls.svg?fontless=true&startDate=June%207,%202016&size=600x300&type=area&state=${state}&logo=false`;
+  const url = `http://localhost:5000/polls.svg?fontless=true&startDate=June%207,%202016&size=600x300&type=area&state=${state}&logo=false`;
   const pollRes = await Promise.resolve(fetch(url))
     .timeout(10000, new Error(`Timeout - bertha took too long to respond: ${url}`));
   if (!pollRes.ok) throw new Error(`Request failed with ${res.status}: ${url}`);
   const pollSVG = await pollRes.text();
 
   // get individual polls
-  let formattedIndividualPolls = cache.get('allPolls-us'); // check to see if we've cached polls recently
+  let formattedIndividualPolls = cache.get(`allPolls-${state}`); // check to see if we've cached polls recently
   if (!formattedIndividualPolls) {
-    let allIndividualPolls = await getAllPolls('us');
+    let allIndividualPolls = await getAllPolls(state);
     allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
     allIndividualPolls = _.values(allIndividualPolls);
     formattedIndividualPolls = [];
@@ -146,10 +151,12 @@ app.get('/polltracker-landing.html', async (req, res) => {
         winner: winner,
       });
     });
-    cache.set('allPolls-us', formattedIndividualPolls);
+    cache.set(`allPolls-${state}`, formattedIndividualPolls);
   }
 
   const polltrackerLayout = {
+    state: state,
+    stateName: stateName,
     lastUpdated: "TKTK",
     introText: introText,
     pollSVG: pollSVG,
