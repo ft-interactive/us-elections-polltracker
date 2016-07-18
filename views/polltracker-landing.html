@@ -286,60 +286,18 @@ p.off-link a:after {
   font-size: 18px;
   font-family: FinancierTextWeb, serif;
   line-height: 1.5rem;
+  margin-top: 40px;
   margin-bottom: 40px;
 }
 
-.section-link{
-  color: #9e2f50;
-  font-family: MetricWeb,sans-serif;
-  font-size: 20px;
-  text-align: left;
-  font-weight: 600;
-  border-bottom-color: transparent;
-  text-decoration: none;
-  font-style: normal;
-  display:block;
-  width:100%;
-}
-
-.stories__container{
-  background-color: #f6e9d8;
-  padding: 0 10px;
-  border-top: 1px solid #cec6b9;
-  margin-bottom: 1em;
-}
-
-.stories__story{
-  padding-top: 10px;
-  padding-bottom: 10px;
-  text-align: left;
-}
-
-.stories__story--container{
-  padding: 10px 0;
-  max-width: 90%;
-}
-
-.stories__story--image img {
+table {
   width: 100%;
-  height: auto;
-}
-
-.stories__story--blurb{
-  color: #505050;
-  font-size: .9em;
-  line-height: 1.3em;
 }
 
 a {
   text-decoration: none;
 }
 
-.stories__story--headline {
-  padding-bottom: 10px;
-  text-decoration: none;
-  color: #2e6e9e;
-}
 
 
 
@@ -347,21 +305,7 @@ a {
   .secondary {
     display: none;
   }
-  .chart-plot .heading{
-      font-size: 24px;
-  }
 }
-
-@media (max-width: 500px) {
-  .x.axis{
-     font-size: 24px;
-  }
-
-  .y.axis{
-      font-size:24px;
-  }
-}
-
 
 .above-header-advert {
     display: block;
@@ -450,7 +394,7 @@ a {
     </script>
 
   </head>
-    <body>
+  <body>
 
 		<!-- PUT TRACKING CODE HERE -->
 
@@ -486,7 +430,7 @@ a {
             </div>
             
             <h1 class="o-typography-heading1">US election poll tracker</h1>
-            <h1 class="o-typography-heading2">The race to the White House</h1>
+            <h2 class="o-typography-heading2">The race to the White House</h2>
             
             <div class="stand-first">
               {% markdown %}
@@ -498,54 +442,47 @@ a {
                 {{ pollSVG | safe }}
             </div>
 
-            <div class="intro">
-            {{ latest.text | safe }}
             <div class="o-grid-container o-grid-container--bleed">
               {{ storyList | safe }}
             </div>
+            
             <p class="off-link"><a href="http://www.ft.com/us-election-2016">All US Election 2016 coverage</a></p>
-            </div>
-            <div>
-              <ul>
-              <li><a href="http://www.ft.com/cms/s/6a63c2ca-2d80-11e6-bf8d-26294ad519fc.html">Online or Telephone, why does it matter?</a></li>
-              <li><a href="http://www.ft.com/cms/s/6a63c2ca-2d80-11e6-bf8d-26294ad519fc.html">How accurate are the polls?</a></li>
-              <li><a href="http://blogs.ft.com/ftdata/2016/06/09/eu-referendum-can-we-trust-the-polls-alternative-prediction-models/">Do pollsters have the right approach or can alternative methods do better?</a></li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
 
-    <div class="o-ads above-header-advert advert advert--reserve-250 o-ads--center" data-o-ads-name="mid" data-o-ads-center="true" data-o-ads-targeting="pos=mid" data-o-ads-formats="MediumRectangle,Responsive" data-o-ads-lazy-load="true" aria-hidden="true"></div>
+<!--       <div class="o-ads above-header-advert advert advert--reserve-250 o-ads--center" data-o-ads-name="mid" data-o-ads-center="true" data-o-ads-targeting="pos=mid" data-o-ads-formats="MediumRectangle,Responsive" data-o-ads-lazy-load="true" aria-hidden="true"></div> -->
 
-        <h2 class="article__crosshead-alt">Full list of individual polls</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Clinton&nbsp;%</th>
-                    <th>Trump&nbsp;%</th>
-                    <th>Date</th>
-                    <th class="secondary">Pollster</th>
-                    <th class="secondary">Sample</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for poll in pollList %}
-                <tr>
-                    <td class="numeric clinton {% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</td>
-                    <td class="numeric trump {% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</td>
-                    <td class="numeric date">{{ poll.date }}</td>
-                    <td class="secondary">{{ poll.pollster }}</td>
-                    <td class="numeric secondary">{{ poll.sampleSize }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <p class="source">
-        Source : Real Clear Politics
-        </p>
-
+      <div class="o-grid-container">
+        <div class="o-grid-row">
+          <div data-o-grid-colspan="L10 M10 S12 center">
+            <h2 class="article__crosshead-alt">Full list of individual polls</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Clinton&nbsp;%</th>
+                        <th>Trump&nbsp;%</th>
+                        <th>Date</th>
+                        <th class="">Pollster</th>
+                        <th class="secondary">Sample</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for poll in pollList %}
+                    <tr>
+                        <td class="numeric clinton {% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</td>
+                        <td class="numeric trump {% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</td>
+                        <td class="numeric date">{{ poll.date }}</td>
+                        <td class="">{{ poll.pollster }}</td>
+                        <td class="numeric secondary">{{ poll.sampleSize }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <p class="source">Source : Real Clear Politics</p>
+          </div>
+        </div>
+      </div>
     </main>
 
 <footer class="o-footer o-footer--theme-light" data-o-component="o-footer">
