@@ -6,7 +6,8 @@ const drawChart = require('./layouts/drawChart.js');
 const getPollAverages = require('./layouts/getPollAverages.js');
 const getAllPolls = require('./layouts/getAllPolls.js');
 const nunjucks = require('nunjucks');
-const DOMParser = require('xmldom').DOMParser;
+const markdown = require('nunjucks-markdown');
+const marked = require('marked');
 const d3 = require('d3');
 const lru = require('lru-cache');
 const fetch = require('isomorphic-fetch');
@@ -35,10 +36,12 @@ function convertToCacheKeyName(queryRequest) {
   return cacheKey;
 }
 
-nunjucks.configure('views', {
+const env = nunjucks.configure('views', {
   autoescape: true,
   express: app,
 });
+
+markdown.register(env, marked);
 
 const cache = lru({
   max: 500,
@@ -95,6 +98,16 @@ app.get('/polls.svg', async (req, res) => {
 });
 
 app.get('/polltracker-landing.html', async (req, res) => {
+  // get intro text
+  const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options';
+
+  const contentRes = await Promise.resolve(fetch(contentURL))
+      .timeout(10000, new Error(`Timeout - bertha took too long to respond: ${contentURL}`));
+
+  const data = await contentRes.json();
+
+  const introText = _.findWhere(data, { name: 'text' }).value;
+
   // get poll SVG
   const url = 'https://ft-ig-us-elections-polltracker.herokuapp.com/polls.svg?fontless=true&startDate=June%207,%202016&size=600x300&type=area&state=us&logo=false';
   const pollRes = await Promise.resolve(fetch(url))
@@ -137,6 +150,7 @@ app.get('/polltracker-landing.html', async (req, res) => {
   }
 
   const polltrackerLayout = {
+    introText: introText,
     pollSVG: pollSVG,
     pollList: formattedIndividualPolls,
   };

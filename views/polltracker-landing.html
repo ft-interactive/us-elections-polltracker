@@ -17,7 +17,7 @@
 
     <title>Presidential polls 2016 - Financial Times</title>
 
-    <link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-footer@^4,o-fonts@^2,o-grid@^4.0.8,o-ads@^4.3.2">
+    <link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-footer@^4,o-fonts@^2,o-grid@^4.0.8,o-ads@^4.3.2,o-typography@^4">
 
     <style>
 .core .o--if-js,
@@ -113,8 +113,6 @@ body {
 
 .article {
     margin:0 auto;
-    max-width:600px;
-    text-align:center;
     padding-left:20px;
     padding-right:20px;
     padding-top: 20px;
@@ -124,7 +122,6 @@ body {
     text-align:left;
     margin-left:auto;
     margin-right:auto;
-    max-width:600px;
 }
 
 .article p a, .article li a {
@@ -135,12 +132,6 @@ body {
 
 .article ul {
   list-style-type: square;
-}
-
-.article li {
-  text-align: left;
-  margin-top: 5px;
-  margin-bottom: 5px;
 }
 
 .article a:hover {
@@ -188,22 +179,81 @@ td.date{
     min-width: 70px;
 }
 
+.o-share {
+  float: right;
+  position: relative;
+  text-align: center;
+}
+
+.o-share--muted .o-share__action {
+  line-height: 31px;
+}
+
+.o-share--muted .o-share__action li {
+  margin-top: 0;
+}
+
+.o-share--muted .o-share__action a {
+  width: 31px;
+  border-bottom: none;
+}
+
+.o-share--muted .o-share__action i {
+  width: 31px;
+  height: 31px;
+  text-indent: 31px;
+  border: 1px solid #e9decf;
+}
+
+.o-share--muted .o-share__action i:hover {
+  opacity: 1;
+  background-color: #e9decf;
+}
+
+.o-share--muted .o-share__action--twitter i {
+  background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMTMgLTEwMyA0MCA0MCI+PHBhdGggZmlsbD0iI2E3YTU5YiIgZD0iTS04MS44NjItODkuNzg2Yy0uODIuMzU3LTEuNy42LTIuNjI0LjcwOC45NDMtLjU1NiAxLjY2OC0xLjQzNiAyLjAxLTIuNDgzLS44ODMuNTEtMS44NjIuODgtMi45MDIgMS4wOC0uODMzLS44Ny0yLjAyLTEuNDItMy4zMzctMS40Mi0yLjUyMyAwLTQuNTcgMi4wMS00LjU3IDQuNDkgMCAuMzUuMDQuNjkuMTE4IDEuMDItMy44LS4xOS03LjE2Ny0xLjk3OC05LjQyLTQuNjktLjM5NC42Ni0uNjIgMS40My0uNjIgMi4yNiAwIDEuNTUuODA3IDIuOTMgMi4wMzMgMy43My0uNzUtLjAyNS0xLjQ1NC0uMjI4LTIuMDctLjU2di4wNTRjMCAyLjE3NiAxLjU3MyAzLjk5IDMuNjY3IDQuNC0uMzg0LjEwNC0uNzkuMTYtMS4yMDQuMTYtLjMgMC0uNTgtLjAyNy0uODYtLjA4LjU4IDEuNzgyIDIuMjcgMy4wOCA0LjI3IDMuMTE2LTEuNTcgMS4yMDUtMy41NCAxLjkyMy01LjY4IDEuOTIzLS4zNyAwLS43NC0uMDI2LTEuMDktLjA2NyAyLjAyIDEuMjcyIDQuNDIgMi4wMTUgNyAyLjAxNSA4LjQgMCAxMy02Ljg0IDEzLTEyLjc3IDAtLjE5NC0uMDA3LS4zOS0uMDE4LS41OC44OS0uNjMzIDEuNjY1LTEuNDI1IDIuMjgtMi4zMjV6Ii8+PC9zdmc+)
+}
+
+.o-share--muted .o-share__action--facebook i {
+  background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMTQgLTEwNSA0MCA0MCI+PHBhdGggZmlsbD0iI2E3YTU5YiIgZD0iTS05Ny05MS40NHYyLjk1aC0yLjE3djMuNjJILTk3djEwLjcyaDQuNDN2LTEwLjcyaDNzLjI2LTEuNzMuNC0zLjYyaC0zLjM4di0yLjQ3YzAtLjM3LjUtLjg3Ljk2LS44N2gyLjQzdi0zLjc1aC0zLjI4Yy00LjY2IDAtNC41NSAzLjYzLTQuNTUgNC4xNnoiLz48L3N2Zz4=)
+}
+
+.o-typography-flyline__link {
+  color: #9e2f50;
+  line-height: 17px;
+  font-weight: 600;
+  border-bottom-color: transparent;
+  text-decoration: none;
+}
+
+.o-typography-flyline__link:hover {
+  border-bottom-color: #4f1828;
+  color: #4f1828;
+  border-bottom-style: dotted;
+  border-bottom-width: 1px;
+}
+
+.o-typography-heading1 {
+  text-align: center;
+  padding-top: 16px;
+  margin-bottom: 8px;
+  border-top: 1px solid #e9decf;
+  margin-top: 8px;
+  clear: both;
+}
+
+.o-typography-heading2 {
+  text-align: center;
+}
 
 .source{
     text-align: right;
 }
 
-.time.chart{
-    padding-top: 20px;
-}
-
-.single.chart{
-  padding-top: 10px;
-}
-
 .chart svg{
     width:100%;
     height:100%;
+    padding-top: 10px;
 }
 
 .intro{
@@ -413,30 +463,58 @@ a {
     </header>
 
     <main class="article" role="main">
-          <a href="//www.ft.com/us-election-2016" class="section-link">US Election 2016</a>
-        <h1 class="article__headline">US election poll tracker</h1>
-        <div class="stand-first">
-          <p>{{ introText }}</p>
-        </div>
+      <div class="o-grid-container">
+        <div class="o-grid-row">
+          <div data-o-grid-colspan="L10 M10 S12 center">
 
-        <div class="single chart">
-            {{ pollSVG | safe }}
-        </div>
+            <!-- share buttons -->
+            <link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-share@^2">
+            <div data-o-component="o-share"
+                class="o-share o-share--horizontal o-share--muted"
+                data-o-share-links="twitter facebook linkedin"
+                data-o-share-links="{{links}}"
+                data-o-share-url="{{url}}"
+                data-o-share-title="{{title}}"
+                data-o-share-titleExtra="{{titleExtra}}"
+                data-o-share-summary="{{summary}}"
+                data-o-share-relatedTwitterAccounts="@ft">
+            </div>
+            <script src='https://origami-build.ft.com/v2/bundles/js?modules=o-share@^2'></script>
 
-        <div class="intro">
-        {{ latest.text | safe }}
-        <div class="o-grid-container o-grid-container--bleed">
-          {{ storyList | safe }}
+            <div class="o-typography-flyline">
+              <a href="//www.ft.com/us-election-2016" class="o-typography-flyline__link">US Election 2016</a>
+            </div>
+            
+            <h1 class="o-typography-heading1">US election poll tracker</h1>
+            <h1 class="o-typography-heading2">The race to the White House</h1>
+            
+            <div class="stand-first">
+              {% markdown %}
+              <p>{{ introText }}</p>
+              {% endmarkdown %}
+            </div>
+
+            <div class="single chart">
+                {{ pollSVG | safe }}
+            </div>
+
+            <div class="intro">
+            {{ latest.text | safe }}
+            <div class="o-grid-container o-grid-container--bleed">
+              {{ storyList | safe }}
+            </div>
+            <p class="off-link"><a href="http://www.ft.com/us-election-2016">All US Election 2016 coverage</a></p>
+            </div>
+            <div>
+              <ul>
+              <li><a href="http://www.ft.com/cms/s/6a63c2ca-2d80-11e6-bf8d-26294ad519fc.html">Online or Telephone, why does it matter?</a></li>
+              <li><a href="http://www.ft.com/cms/s/6a63c2ca-2d80-11e6-bf8d-26294ad519fc.html">How accurate are the polls?</a></li>
+              <li><a href="http://blogs.ft.com/ftdata/2016/06/09/eu-referendum-can-we-trust-the-polls-alternative-prediction-models/">Do pollsters have the right approach or can alternative methods do better?</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <p class="off-link"><a href="http://www.ft.com/us-election-2016">All US Election 2016 coverage</a></p>
-        </div>
-        <div>
-          <ul>
-          <li><a href="http://www.ft.com/cms/s/6a63c2ca-2d80-11e6-bf8d-26294ad519fc.html">Online or Telephone, why does it matter?</a></li>
-          <li><a href="http://www.ft.com/cms/s/6a63c2ca-2d80-11e6-bf8d-26294ad519fc.html">How accurate are the polls?</a></li>
-          <li><a href="http://blogs.ft.com/ftdata/2016/06/09/eu-referendum-can-we-trust-the-polls-alternative-prediction-models/">Do pollsters have the right approach or can alternative methods do better?</a></li>
-          </ul>
-        </div>
+      </div>
 
     <div class="o-ads above-header-advert advert advert--reserve-250 o-ads--center" data-o-ads-name="mid" data-o-ads-center="true" data-o-ads-targeting="pos=mid" data-o-ads-formats="MediumRectangle,Responsive" data-o-ads-lazy-load="true" aria-hidden="true"></div>
 
