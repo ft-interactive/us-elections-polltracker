@@ -116,7 +116,7 @@ app.get('/polltracker-landing.html', async (req, res) => {
   const pollSVG = await pollRes.text();
 
   // get individual polls
-  let formattedIndividualPolls = cache.get('allPolls'); // check to see if we've cached polls recently
+  let formattedIndividualPolls = cache.get('allPolls-us'); // check to see if we've cached polls recently
   if (!formattedIndividualPolls) {
     let allIndividualPolls = await getAllPolls('us');
     allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
@@ -146,7 +146,7 @@ app.get('/polltracker-landing.html', async (req, res) => {
         winner: winner,
       });
     });
-    cache.set('allPolls', formattedIndividualPolls);
+    cache.set('allPolls-us', formattedIndividualPolls);
   }
 
   const polltrackerLayout = {
