@@ -246,8 +246,17 @@ td.date{
   text-align: center;
 }
 
+p.lastupdated {
+  text-transform: uppercase;
+  color: #9e2f50;
+  font-size: 12px;
+  text-align: center;
+}
+
 .source{
-    text-align: right;
+  text-align: right;
+  font-size: 14px;
+  font-style: italic;
 }
 
 .chart svg{
@@ -398,7 +407,7 @@ a {
 
 		<!-- PUT TRACKING CODE HERE -->
 
-    <div class="o-ads above-header-advert advert advert--background advert--transition advert--reserve-90 o-ads--center" data-o-ads-name="entry" data-o-ads-center="true" data-o-ads-targeting="pos=top" data-o-ads-formats-default="false" data-o-ads-formats-small="false" data-o-ads-formats-medium="Leaderboard,Responsive" data-o-ads-formats-large="SuperLeaderboard,Leaderboard,Responsive" data-o-ads-formats-extra="Billboard,SuperLeaderboard,Leaderboard,Responsive" data-o-ads-lazy-load="true" aria-hidden="true"></div>
+<!--     <div class="o-ads above-header-advert advert advert--background advert--transition advert--reserve-90 o-ads--center" data-o-ads-name="entry" data-o-ads-center="true" data-o-ads-targeting="pos=top" data-o-ads-formats-default="false" data-o-ads-formats-small="false" data-o-ads-formats-medium="Leaderboard,Responsive" data-o-ads-formats-large="SuperLeaderboard,Leaderboard,Responsive" data-o-ads-formats-extra="Billboard,SuperLeaderboard,Leaderboard,Responsive" data-o-ads-lazy-load="true" aria-hidden="true"></div> -->
 
     <header class="site-header" role="banner">
       <a href="http://www.ft.com/">
@@ -431,6 +440,7 @@ a {
             
             <h1 class="o-typography-heading1">US election poll tracker</h1>
             <h2 class="o-typography-heading2">The race to the White House</h2>
+            <p class="lastupdated">Updated at {{ lastUpdated }}</p>
             
             <div class="stand-first">
               {% markdown %}

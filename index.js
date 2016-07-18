@@ -150,6 +150,7 @@ app.get('/polltracker-landing.html', async (req, res) => {
   }
 
   const polltrackerLayout = {
+    lastUpdated: "TKTK",
     introText: introText,
     pollSVG: pollSVG,
     pollList: formattedIndividualPolls,
