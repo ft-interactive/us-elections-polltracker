@@ -86,7 +86,7 @@ app.get('/polls.svg', async (req, res) => {
     const data = await getPollAverages(state, startDate, queryEndDate);
 
     try {
-      const chartLayout = await drawChart(width, height, fontless, background, logo, startDate, endDate, type, data);
+      const chartLayout = await drawChart(width, height, fontless, background, logo, startDate, endDate, type, state, data);
       value = nunjucks.render('poll.svg', chartLayout);
       cache.set(convertToCacheKeyName(queryData), value);
       setSVGHeaders(res).send(value);

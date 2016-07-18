@@ -6,7 +6,7 @@ function round_1dp(x) {
   return Math.round(x * 10) / 10;
 }
 
-async function drawChart(width, height, fontless, background, logo, startDate, endDate, type, data) {
+async function drawChart(width, height, fontless, background, logo, startDate, endDate, type, state, data) {
   const htmlStub = '<html><head></head><body><div id="dataviz-container"></div><script src="https://d3js.org/d3.v4.min.js"></script></body></html>';
 
   const window = await getJSDomWindow(htmlStub);
@@ -221,7 +221,15 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
     .attr('y', -margins.top + 24);
 
   const subhead = annotationGroup.append('text')
-    .text('National polling average as of ' + d3.timeFormat('%B %e, %Y')(new Date(formattedData[formattedData.length - 1].date)) + ' (%)')
+    .text(function() {
+      if (state.toLowerCase() === 'us') {
+        state = 'National';
+      } else {
+        state = state.toUpperCase();
+      }
+
+      return state +' polling average as of ' + d3.timeFormat('%B %e, %Y')(new Date(formattedData[formattedData.length - 1].date)) + ' (%)'
+    })
     .attr('class', 'subhead')
     .attr('x', -margins.left + 7)
     .attr('y', -margins.top + 46);
