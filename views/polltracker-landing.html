@@ -439,7 +439,6 @@ a {
             </div>
             
             <h1 class="o-typography-heading1">US election poll tracker</h1>
-            <h2 class="o-typography-heading2">The race to the White House</h2>
             <p class="lastupdated">Updated at {{ lastUpdated }}</p>
             
             <div class="stand-first">
@@ -447,6 +446,8 @@ a {
               <p>{{ introText | safe }}</p>
               {% endmarkdown %}
             </div>
+
+            <p class="off-link"><a href="http://www.ft.com/us-election-2016">All US Election 2016 coverage</a></p>
 
             <div class="single chart">
                 {{ pollSVG | safe }}
@@ -456,7 +457,6 @@ a {
               {{ storyList | safe }}
             </div>
             
-            <p class="off-link"><a href="http://www.ft.com/us-election-2016">All US Election 2016 coverage</a></p>
           </div>
         </div>
       </div>
