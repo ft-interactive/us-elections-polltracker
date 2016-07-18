@@ -62,6 +62,10 @@ text {
     stroke: #C3BCB0;
 }
 
+.area {
+    opacity: 0.5;
+}
+
 .area.above {
   fill: rgb(250, 207, 194);
   stroke: none;
