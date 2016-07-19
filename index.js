@@ -80,7 +80,7 @@ app.get('/__gtg', (req, res) => {
 });
 
 app.get('/polls.svg', async (req, res) => {
-  const value = await makePollSVG(req.query);
+  const value = await makePollTimeSeries(req.query);
   if(value){
     setSVGHeaders(res).send(value);
   }else{
@@ -88,8 +88,7 @@ app.get('/polls.svg', async (req, res) => {
   }
 });
 
-async function makePollSVG(chartOpts){
-
+async function makePollTimeSeries(chartOpts){
   const nowDate = new Date().toString().split(' ')
     .slice(1, 4)
     .join(' ');
@@ -104,7 +103,6 @@ async function makePollSVG(chartOpts){
   const state = chartOpts.state || 'us';
   const logo = (chartOpts.logo ? chartOpts.logo === 'true' : false);
 
-
   const options = { fontless: fontless, background: background, startDate: startDate, endDate: endDate, size: `${width}x${height}`, type: type, state: state, logo: logo };
 
   let value = cache.get(convertToCacheKeyName(options));
@@ -113,16 +111,14 @@ async function makePollSVG(chartOpts){
     // weird hack: add one day to endDate to capture the end date in the sequelize query
     const tempEndDatePieces = endDate.replace(/\s{2}/, ' ').split(' ');
     const queryEndDate = tempEndDatePieces[0] + ' ' + (+tempEndDatePieces[1].replace(/,/g, '') + 1) + ', ' + tempEndDatePieces[2];
-    console.log('in')
     const data = await getPollAverages(state, startDate, queryEndDate);
-    console.log('out')
     try {
       const chartLayout = await drawChart(width, height, fontless, background, logo, startDate, endDate, type, state, data);
       value = nunjucks.render('poll.svg', chartLayout);
       cache.set(convertToCacheKeyName(chartOpts), value);
     } catch (error) {
       console.error(error);
-      value = false; //res.status(500).send('something broke');
+      value = false;
     }
   }
 
@@ -136,6 +132,7 @@ app.get('/polls/:state', statePage);
 async function statePage(req, res) {
   console.log('state page', JSON.stringify(req.params))
   let state = 'us';
+
   if(req.params.state) state = req.params.state;
 
   const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
@@ -148,22 +145,17 @@ async function statePage(req, res) {
   const data = await contentRes.json();
 
 
-
   const introText = '<p>' + _.findWhere(data.options, { name: 'text' }).value + '</p><p>' + _.findWhere(data.options, { name: 'secondaryText' }).value + '</p>';
 
   // get poll SVG
-  const chartOpts = { 
+  const pollSVG = await makePollTimeSeries({ 
     fontless: true,
     startDate: 'June 7, 2016', 
     size: '600x300', 
     type: 'area', 
     state: state, 
     logo: false 
-  };
-
-  const pollSVG = await makePollSVG( chartOpts );
-
-  console.log(pollSVG);
+  });
 
   // get individual polls
   let formattedIndividualPolls = cache.get(`allPolls-${state}`); // check to see if we've cached polls recently
