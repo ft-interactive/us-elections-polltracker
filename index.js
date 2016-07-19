@@ -95,8 +95,8 @@ app.get('/polls.svg', async (req, res) => {
 });
 
 app.get('/', statePage);
-
 app.get('/:state', statePage);
+app.get('/polls/:state', statePage);
 
 async function statePage(req, res){
 
