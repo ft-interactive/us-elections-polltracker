@@ -54,10 +54,6 @@ app.get('/__gtg', (req, res) => {
   res.send('ok');
 });
 
-app.get('/', (req, res) => {
-  res.send('The format for URLs is: https://ft-ig-us-elections-polltracker.herokuapp.com/polls.svg?size=600x300&type=both&startDate=July%201,%202015&endDate=November%208,%202016&fontless=true&background=fff1e0&state=us');
-});
-
 app.get('/polls.svg', async (req, res) => {
   const nowDate = new Date().toString().split(' ')
     .slice(1, 4)
@@ -98,8 +94,15 @@ app.get('/polls.svg', async (req, res) => {
   }
 });
 
-app.get('/polls/:state.html', async (req, res) => {
-  const state = req.params.state;
+app.get('/', statePage);
+
+app.get('/:state', statePage);
+
+async function statePage(req, res){
+
+  let state = 'us';
+  if(req.params.state) state = req.params.state;
+  
   const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
 
   // get intro text
@@ -117,6 +120,7 @@ app.get('/polls/:state.html', async (req, res) => {
   const url = `http://localhost:5000/polls.svg?fontless=true&startDate=June%207,%202016&size=600x300&type=area&state=${state}&logo=false`;
   const pollRes = await Promise.resolve(fetch(url))
     .timeout(10000, new Error(`Timeout - bertha took too long to respond: ${url}`));
+    
   if (!pollRes.ok) throw new Error(`Request failed with ${res.status}: ${url}`);
   const pollSVG = await pollRes.text();
 
@@ -164,7 +168,7 @@ app.get('/polls/:state.html', async (req, res) => {
   };
   const value = nunjucks.render('polls.html', polltrackerLayout);
   res.send(value);
-});
+}
 
 const server = app.listen(process.env.PORT || 5000, () => {
   const host = server.address().address;
