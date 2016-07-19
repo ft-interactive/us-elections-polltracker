@@ -70,73 +70,82 @@ app.get('/__gtg', (req, res) => {
 });
 
 app.get('/polls.svg', async (req, res) => {
+  const value = await makePollTimeSeries(req.query);
+  if(value){
+    setSVGHeaders(res).send(value);
+  }else{
+    res.status(500).send('something broke');
+  }
+});
+
+async function makePollTimeSeries(chartOpts){
   const nowDate = new Date().toString().split(' ')
     .slice(1, 4)
     .join(' ');
 
   const formattedNowDate = d3.timeFormat('%B %e, %Y')((d3.timeParse('%b %d %Y')(nowDate)));
+  const fontless = (chartOpts.fontless ? chartOpts.fontless === 'true' : true);
+  const background = chartOpts.background || 'none';
+  const startDate = chartOpts.startDate || 'July 1, 2015';
+  const endDate = chartOpts.endDate || formattedNowDate;
+  const [width, height] = (chartOpts.size || '600x300').split('x');
+  const type = chartOpts.type || 'line';
+  const state = chartOpts.state || 'us';
+  const logo = (chartOpts.logo ? chartOpts.logo === 'true' : false);
 
-  const fontless = (req.query.fontless ? req.query.fontless === 'true' : true);
-  const background = req.query.background || 'none';
-  const startDate = req.query.startDate || 'July 1, 2015';
-  const endDate = req.query.endDate || formattedNowDate;
-  const [width, height] = (req.query.size || '600x300').split('x');
-  const type = req.query.type || 'line';
-  const state = req.query.state || 'us';
-  const logo = (req.query.logo ? req.query.logo === 'true' : false);
+  const options = { fontless: fontless, background: background, startDate: startDate, endDate: endDate, size: `${width}x${height}`, type: type, state: state, logo: logo };
 
-  const queryData = { fontless: fontless, background: background, startDate: startDate, endDate: endDate, size: `${width}x${height}`, type: type, state: state, logo: logo };
+  let value = cache.get(convertToCacheKeyName(options));
 
-  let value = cache.get(convertToCacheKeyName(queryData)); // check if the URL is already in the cache
-  if (value) {
-    setSVGHeaders(res).send(value);
-  } else {
+  if (!value) {
     // weird hack: add one day to endDate to capture the end date in the sequelize query
     const tempEndDatePieces = endDate.replace(/\s{2}/, ' ').split(' ');
     const queryEndDate = tempEndDatePieces[0] + ' ' + (+tempEndDatePieces[1].replace(/,/g, '') + 1) + ', ' + tempEndDatePieces[2];
-
     const data = await getPollAverages(state, startDate, queryEndDate);
-
     try {
       const chartLayout = await drawChart(width, height, fontless, background, logo, startDate, endDate, type, state, data);
       value = nunjucks.render('poll.svg', chartLayout);
-      cache.set(convertToCacheKeyName(queryData), value);
-      setSVGHeaders(res).send(value);
+      cache.set(convertToCacheKeyName(chartOpts), value);
     } catch (error) {
       console.error(error);
-      res.status(500).send('something broke');
+      value = false;
     }
   }
-});
+
+  return value;
+}
 
 app.get('/', statePage);
 app.get('/:state', statePage);
 app.get('/polls/:state', statePage);
 
-async function statePage(req, res){
-
+async function statePage(req, res) {
+  console.log('state page', JSON.stringify(req.params))
   let state = 'us';
+
   if(req.params.state) state = req.params.state;
-  
+
   const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
 
   // get intro text
   const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links';
-
   const contentRes = await Promise.resolve(fetch(contentURL))
       .timeout(10000, new Error(`Timeout - bertha took too long to respond: ${contentURL}`));
 
   const data = await contentRes.json();
 
+
   const introText = '<p>' + _.findWhere(data.options, { name: 'text' }).value + '</p><p>' + _.findWhere(data.options, { name: 'secondaryText' }).value + '</p>';
 
   // get poll SVG
-  const url = `https://ft-ig-us-elections-polltracker.herokuapp.com/polls.svg?fontless=true&startDate=June%207,%202016&size=600x300&type=area&state=${state}&logo=false`;
-  const pollRes = await Promise.resolve(fetch(url))
-    .timeout(10000, new Error(`Timeout - bertha took too long to respond: ${url}`));
-    
-  if (!pollRes.ok) throw new Error(`Request failed with ${res.status}: ${url}`);
-  const pollSVG = await pollRes.text();
+  const pollSVG = await makePollTimeSeries({ 
+    fontless: true,
+    startDate: 'June 7, 2016', 
+    size: '600x300', 
+    type: 'area', 
+    state: state, 
+    logo: false 
+  });
 
   // get individual polls
   let formattedIndividualPolls = cache.get(`allPolls-${state}`); // check to see if we've cached polls recently
@@ -180,7 +189,9 @@ async function statePage(req, res){
     pollSVG: pollSVG,
     pollList: formattedIndividualPolls,
   };
+
   const value = nunjucks.render('polls.html', polltrackerLayout);
+  
   res.send(value);
 }
 

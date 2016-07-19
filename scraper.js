@@ -142,4 +142,5 @@ for (let i = 0; i < stateIds.length; i++) {
     getIndividualPollData(`http://www.realclearpolitics.com/poll/race/${raceId}/polling_data.json`, state);
   }
 }
+
 updateLastUpdatedDate();
