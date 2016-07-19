@@ -13,6 +13,7 @@ const d3 = require('d3');
 const lru = require('lru-cache');
 const fetch = require('isomorphic-fetch');
 const _ = require('underscore');
+const sass = require('node-sass-middleware');
 const stateIds = require('./layouts/stateIds').states;
 
 const app = express();
@@ -63,6 +64,15 @@ const cache = lru({
   max: 500,
   maxAge: 60 * 1000, // 60 seconds
 });
+
+// connect sass
+app.use(
+  sass({
+    src: __dirname + '/sass',
+    dest: __dirname + '/',
+    debug: true,
+  })
+);
 
 // routes
 app.get('/__gtg', (req, res) => {

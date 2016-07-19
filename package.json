@@ -47,6 +47,7 @@
     "loud-rejection": "^1.5.0",
     "lru-cache": "^4.0.1",
     "marked": "^0.3.5",
+    "node-sass-middleware": "^0.9.8",
     "nunjucks": "^2.4.2",
     "nunjucks-markdown": "^2.0.0",
     "pg": "^6.0.1",
