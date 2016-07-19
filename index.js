@@ -54,10 +54,6 @@ app.get('/__gtg', (req, res) => {
   res.send('ok');
 });
 
-app.get('/', (req, res) => {
-  res.send('The format for URLs is: https://ft-ig-us-elections-polltracker.herokuapp.com/polls.svg?size=600x300&type=both&startDate=July%201,%202015&endDate=November%208,%202016&fontless=true&background=fff1e0&state=us');
-});
-
 app.get('/polls.svg', async (req, res) => {
   const nowDate = new Date().toString().split(' ')
     .slice(1, 4)
@@ -98,8 +94,12 @@ app.get('/polls.svg', async (req, res) => {
   }
 });
 
-app.get('/polls/:state', async (req, res) => {
-  const state = req.params.state;
+app.get('/:state', async (req, res) => {
+  let state = 'us'; //default to the US
+  if(req.params.state){
+    state = req.params.state;    
+  }
+
   const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
 
   // get intro text
