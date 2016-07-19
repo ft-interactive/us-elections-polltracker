@@ -27,6 +27,13 @@ function setSVGHeaders(res) {
   return res;
 }
 
+function setJSONHeaders(res){
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'public, max-age=' + maxAge);
+    return res;
+}
+
 // takes query parameters and orders properly for cache key format
 function convertToCacheKeyName(queryRequest) {
   const paramOrder = ['background', 'startDate', 'endDate', 'size', 'type', 'state', 'logo'];
@@ -114,6 +121,24 @@ async function makePollTimeSeries(chartOpts){
 
   return value;
 }
+
+app.get('/polls/:state.json', async (req, res) => {
+  const state = req.params.state;
+
+  let value = cache.get(`pollaverages-json-${state}`); // check to see if we've cached poll averages json for state recently
+
+  if (value) {
+    setJSONHeaders(res).send(value);
+  } else {
+    value = await getPollAverages(state, 'July 1, 2015', 'November 9, 2016');
+    if (value) {
+      setJSONHeaders(res).send(value);
+      cache.set(`pollaverages-json-${state}`, value);
+    } else {
+      res.status(500).send('something broke');
+    }
+  }
+});
 
 app.get('/', statePage);
 app.get('/:state', statePage);
