@@ -116,8 +116,7 @@ async function statePage(req, res){
   const introText = '<p>' + _.findWhere(data.options, { name: 'text' }).value + '</p><p>' + _.findWhere(data.options, { name: 'secondaryText' }).value + '</p>';
 
   // get poll SVG
-  // const url = `https://ft-ig-us-elections-polltracker.herokuapp.com/polls.svg?fontless=true&startDate=June%207,%202016&size=600x300&type=area&state=${state}&logo=false`;
-  const url = `http://localhost:5000/polls.svg?fontless=true&startDate=June%207,%202016&size=600x300&type=area&state=${state}&logo=false`;
+  const url = `https://ft-ig-us-elections-polltracker.herokuapp.com/polls.svg?fontless=true&startDate=June%207,%202016&size=600x300&type=area&state=${state}&logo=false`;
   const pollRes = await Promise.resolve(fetch(url))
     .timeout(10000, new Error(`Timeout - bertha took too long to respond: ${url}`));
     
