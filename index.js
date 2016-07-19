@@ -98,7 +98,7 @@ app.get('/polls.svg', async (req, res) => {
   }
 });
 
-app.get('/polls/:state.html', async (req, res) => {
+app.get('/polls/:state', async (req, res) => {
   const state = req.params.state;
   const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
 
