@@ -17,7 +17,7 @@
 
     <title>Presidential polls 2016{% if state != 'us' %}: {{ stateName }}{% endif %} - Financial Times</title>
 
-    <link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-footer@^4,o-fonts@^2,o-grid@^4.0.8,o-ads@^4.3.2,o-typography@^4">
+    <link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-footer@^4,o-fonts@^2,o-grid@^4.0.8,o-ads@^4.3.2,o-typography@^4,o-date@^2">
 
     <style>
 .core .o--if-js,
@@ -440,7 +440,7 @@ a {
             </div>
             
             <h1 class="o-typography-heading1">US election poll tracker{% if state != 'us' %}: {{ stateName }}{% endif %}</h1>
-            <p class="lastupdated">Updated at {{ lastUpdated }}</p>
+            <p class="lastupdated">Updated: <time class="article__timestamp o-date o-typography-timestamp" data-o-component="o-date" datetime="{{ lastUpdated.toISOString() }}" data-o-date-js>{{ lastUpdated | ftdate }}</time></p>
             
             {% if state == 'us' %}
             <div class="stand-first">

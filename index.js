@@ -5,6 +5,7 @@ const express = require('express');
 const drawChart = require('./layouts/drawChart.js');
 const getPollAverages = require('./layouts/getPollAverages.js');
 const getAllPolls = require('./layouts/getAllPolls.js');
+const lastUpdated = require('./layouts/getLastUpdated.js');
 const nunjucks = require('nunjucks');
 const markdown = require('nunjucks-markdown');
 const marked = require('marked');
@@ -40,6 +41,20 @@ function convertToCacheKeyName(queryRequest) {
 const env = nunjucks.configure('views', {
   autoescape: true,
   express: app,
+});
+
+env.addFilter('ftdate', function(date) {
+  const days  = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+                  'September', 'October', 'November', 'December'];
+
+  function ftdate(d) {
+    const day = days[d.getUTCDay()];
+    const month = months[d.getUTCMonth()];
+    return !d ? '' : `${day}, ${d.getUTCDate()} ${month}, ${d.getUTCFullYear()}`;
+  }
+
+  return ftdate(date);
 });
 
 markdown.register(env, marked);
@@ -98,11 +113,11 @@ app.get('/', statePage);
 app.get('/:state', statePage);
 app.get('/polls/:state', statePage);
 
-async function statePage(req, res){
+async function statePage(req, res) {
 
   let state = 'us';
   if(req.params.state) state = req.params.state;
-  
+
   const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
 
   // get intro text
@@ -119,7 +134,7 @@ async function statePage(req, res){
   const url = `https://ft-ig-us-elections-polltracker.herokuapp.com/polls.svg?fontless=true&startDate=June%207,%202016&size=600x300&type=area&state=${state}&logo=false`;
   const pollRes = await Promise.resolve(fetch(url))
     .timeout(10000, new Error(`Timeout - bertha took too long to respond: ${url}`));
-    
+
   if (!pollRes.ok) throw new Error(`Request failed with ${res.status}: ${url}`);
   const pollSVG = await pollRes.text();
 
@@ -160,7 +175,7 @@ async function statePage(req, res){
   const polltrackerLayout = {
     state: state,
     stateName: stateName,
-    lastUpdated: "TKTK",
+    lastUpdated: await lastUpdated(),
     introText: introText,
     pollSVG: pollSVG,
     pollList: formattedIndividualPolls,

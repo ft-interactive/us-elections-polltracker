@@ -4,6 +4,7 @@ const winston = require('winston');
 const db = require('./models/index');
 const Pollaverages = require('./models/index').Pollaverages;
 const Polldata = require('./models/index').Polldata;
+const lastupdates = require('./models/index').lastupdates;
 const stateIds = require('./layouts/stateIds').states;
 
 // Pollaverages.sync({force: true}) // use this to drop table and recreate
@@ -114,6 +115,23 @@ function getIndividualPollData(rcpURL, state) {
   });
 }
 
+function updateLastUpdatedDate() {
+  lastupdates.findAll({
+  }).then((res) => {
+    if (res.length > 0) { // already in the db
+      lastupdates.update({
+        lastupdate: new Date(),
+      }, {
+        where: {
+          id: res[0].dataValues.id,
+        },
+      });
+    } else {
+      lastupdates.create({ lastupdate: new Date() });
+    }
+  });
+}
+
 
 for (let i = 0; i < stateIds.length; i++) {
   const state = stateIds[i].state.toLowerCase();
@@ -124,3 +142,4 @@ for (let i = 0; i < stateIds.length; i++) {
     getIndividualPollData(`http://www.realclearpolitics.com/poll/race/${raceId}/polling_data.json`, state);
   }
 }
+updateLastUpdatedDate();
