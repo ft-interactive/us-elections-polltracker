@@ -5,6 +5,7 @@ const express = require('express');
 const drawChart = require('./layouts/drawChart.js');
 const getPollAverages = require('./layouts/getPollAverages.js');
 const getAllPolls = require('./layouts/getAllPolls.js');
+const lastUpdated = require('./layouts/getLastUpdated.js');
 const nunjucks = require('nunjucks');
 const markdown = require('nunjucks-markdown');
 const marked = require('marked');
@@ -40,6 +41,20 @@ function convertToCacheKeyName(queryRequest) {
 const env = nunjucks.configure('views', {
   autoescape: true,
   express: app,
+});
+
+env.addFilter('ftdate', function(date) {
+  const days  = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+                  'September', 'October', 'November', 'December'];
+
+  function ftdate(d) {
+    const day = days[d.getUTCDay()];
+    const month = months[d.getUTCMonth()];
+    return !d ? '' : `${day}, ${d.getUTCDate()} ${month}, ${d.getUTCFullYear()}`;
+  }
+
+  return ftdate(date);
 });
 
 markdown.register(env, marked);
@@ -160,7 +175,7 @@ async function statePage(req, res){
   const polltrackerLayout = {
     state: state,
     stateName: stateName,
-    lastUpdated: "TKTK",
+    lastUpdated: await lastUpdated(),
     introText: introText,
     pollSVG: pollSVG,
     pollList: formattedIndividualPolls,
