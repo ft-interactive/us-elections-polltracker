@@ -130,14 +130,16 @@ app.get('/polls/:state.json', async (req, res) => {
   if (value) {
     setJSONHeaders(res).send(value);
   } else {
-    value = await getPollAverages(state, 'July 1, 2015', 'November 9, 2016');
-    if (value) {
+    try {
+      value = await getPollAverages(state, 'July 1, 2015', 'November 9, 2016');
       setJSONHeaders(res).send(value);
       cache.set(`pollaverages-json-${state}`, value);
-    } else {
-      res.status(500).send('something broke');
+    } catch (error) {
+      console.error(error);
+      value = false;
     }
   }
+  return value;
 });
 
 app.get('/', statePage);
