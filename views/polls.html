@@ -17,13 +17,13 @@
 
     <title>Presidential polls 2016{% if state != 'us' %}: {{ stateName }}{% endif %} - Financial Times</title>
 
-    <link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-footer@^4,o-fonts@^2,o-grid@^4.0.8,o-ads@^4.3.2,o-typography@^4,o-date@^2">
+    <link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-footer@^4,o-fonts@^2,o-grid@^4.0.8,o-ads@^4.3.2,o-typography@^4,o-date@^2,o-expander@^4">
 
     <style>
-.core .o--if-js,
+/*.core .o--if-js,
 .enhanced .o--if-no-js {
     display: none !important;
-}
+}*/
 
 html {
   -ms-text-size-adjust: 100%;
@@ -433,7 +433,6 @@ a {
                 data-o-share-summary="{{summary}}"
                 data-o-share-relatedTwitterAccounts="@ft">
             </div>
-            <script src='https://origami-build.ft.com/v2/bundles/js?modules=o-share@^2,o-date@^2'></script>
 
             <div class="o-typography-flyline">
               <a href="//www.ft.com/us-election-2016" class="o-typography-flyline__link">US Election 2016</a>
@@ -469,30 +468,33 @@ a {
       <div class="o-grid-container">
         <div class="o-grid-row">
           <div data-o-grid-colspan="L10 M10 S12 center">
-            <h2 class="article__crosshead-alt">Full list of individual polls</h2>
-            <table>
+            <div data-o-component="o-expander" class="o-expander items" data-o-expander-shrink-to="10" data-o-expander-count-selector="tr">
+              <h2 class="article__crosshead-alt">Full list of individual polls</h2>
+              <table>
                 <thead>
-                    <tr>
-                        <th>Clinton&nbsp;%</th>
-                        <th>Trump&nbsp;%</th>
-                        <th>Date</th>
-                        <th class="">Pollster</th>
-                        <th class="secondary">Sample</th>
-                    </tr>
+                  <tr>
+                    <th>Clinton&nbsp;%</th>
+                    <th>Trump&nbsp;%</th>
+                    <th>Date</th>
+                    <th class="">Pollster</th>
+                    <th class="secondary">Sample*</th>
+                  </tr>
                 </thead>
-                <tbody>
-                    {% for poll in pollList %}
-                    <tr>
-                        <td class="numeric clinton {% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</td>
-                        <td class="numeric trump {% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</td>
-                        <td class="numeric date">{{ poll.date }}</td>
-                        <td class="">{{ poll.pollster }}</td>
-                        <td class="numeric secondary">{{ poll.sampleSize }}</td>
-                    </tr>
-                    {% endfor %}
+                <tbody class="o-expander__content">
+                  {% for poll in pollList %}
+                  <tr>
+                    <td class="numeric clinton {% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</td>
+                    <td class="numeric trump {% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</td>
+                    <td class="numeric date">{{ poll.date }}</td>
+                    <td class="">{{ poll.pollster }}</td>
+                    <td class="numeric secondary">{{ poll.sampleSize }}</td>
+                  </tr>
+                  {% endfor %}
                 </tbody>
-            </table>
-            <p class="source">Source : Real Clear Politics</p>
+              </table>
+              <button class="o-expander__toggle o--if-js"></button>
+            </div>
+            <p class="source">* RV indicates registered voters; LV indicates likely voters<br />Source : Real Clear Politics</p>
           </div>
         </div>
       </div>
@@ -574,5 +576,6 @@ a {
     </div>
   </div>
 </footer>
+<script src='https://origami-build.ft.com/v2/bundles/js?modules=o-share@^2,o-date@^2,o-expander@^4'></script>
     </body>
 </html>

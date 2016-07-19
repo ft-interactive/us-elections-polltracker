@@ -198,7 +198,7 @@ async function statePage(req, res) {
         Clinton: _.findWhere(poll, {'candidatename': 'Clinton'}).pollvalue,
         Trump: _.findWhere(poll, {'candidatename': 'Trump'}).pollvalue,
         date: poll[0].date,
-        pollster: poll[0].pollster,
+        pollster: poll[0].pollster.replace(/\*$/, ''), // get rid of asterisk b/c RCP doesn't track what it means
         sampleSize: poll[0].sampleSize,
         winner: winner,
       });
