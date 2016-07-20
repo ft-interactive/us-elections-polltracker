@@ -173,18 +173,18 @@ async function statePage(req, res) {
     const introText = '<p>' + _.findWhere(data.options, { name: 'text' }).value + '</p><p>' + _.findWhere(data.options, { name: 'secondaryText' }).value + '</p>';
 
     // get poll SVG
-    const pollSVG = await makePollTimeSeries({ 
-      fontless: true,
-      startDate: 'June 7, 2016', 
-      size: '600x300', 
-      type: 'area', 
-      state: state, 
-      logo: false 
-    });
+    async function getPollSVG(size = '600x300') {
+      return makePollTimeSeries({
+        fontless: true,
+        startDate: 'June 7, 2016',
+        size: size,
+        type: 'area',
+        state: state,
+        logo: false,
+      });
+    }
 
     // get individual polls
-
-
     let allIndividualPolls = await getAllPolls(state);
     allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
     allIndividualPolls = _.values(allIndividualPolls);
@@ -220,11 +220,11 @@ async function statePage(req, res) {
       lastUpdated: await lastUpdated(),
       introText: introText,
       pollSVG: {
-        default: pollSVG,
-        S: pollSVG,
-        M: pollSVG,
-        L: pollSVG,
-        XL: pollSVG,
+        default: await getPollSVG('270x200'),
+        S: await getPollSVG('452x250'),
+        M: await getPollSVG('570x300'),
+        L: await getPollSVG('750x350'),
+        XL: await getPollSVG('750x350'),
       },
       pollList: formattedIndividualPolls,
       canonicalURL: canonicalURL,
