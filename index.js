@@ -1,5 +1,9 @@
-require('loud-rejection/register');
 import Promise from 'bluebird';
+
+process.on('unhandledRejection', error => {
+  console.error('unhandledRejection', error.stack);
+  process.exit(1);
+});
 
 const express = require('express');
 const drawChart = require('./layouts/drawChart.js');
@@ -14,6 +18,8 @@ const lru = require('lru-cache');
 const fetch = require('isomorphic-fetch');
 const _ = require('underscore');
 const stateIds = require('./layouts/stateIds').states;
+const filters = require('./filters');
+const berthaDefaults = require('./config/bertha-defaults.json')
 
 const app = express();
 const maxAge = 120; // for user agent caching purposes
@@ -43,19 +49,7 @@ const env = nunjucks.configure('views', {
   express: app,
 });
 
-env.addFilter('ftdate', function(date) {
-  const days  = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
-                  'September', 'October', 'November', 'December'];
-
-  function ftdate(d) {
-    const day = days[d.getUTCDay()];
-    const month = months[d.getUTCMonth()];
-    return !d ? '' : `${day}, ${d.getUTCDate()} ${month}, ${d.getUTCFullYear()}`;
-  }
-
-  return ftdate(date);
-});
+Object.assign(env.filters, filters);
 
 markdown.register(env, marked);
 
@@ -111,7 +105,6 @@ async function makePollTimeSeries(chartOpts){
       value = false;
     }
   }
-
   return value;
 }
 
@@ -120,40 +113,51 @@ app.get('/:state', statePage);
 app.get('/polls/:state', statePage);
 
 async function statePage(req, res) {
-  console.log('state page', JSON.stringify(req.params))
+  let cachePage = true;
   let state = 'us';
-
   if(req.params.state) state = req.params.state;
+  const canonicalURL = `polls/${state}`;
+  const cacheKey = `allPolls-${state}`;
 
-  const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
+  let renderedPage = cache.get(cacheKey); // check to see if we've cached this page recently
 
-  // get intro text
-  const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links';
-  const contentRes = await Promise.resolve(fetch(contentURL))
-      .timeout(10000, new Error(`Timeout - bertha took too long to respond: ${contentURL}`));
+  if (!renderedPage) {
 
-  const data = await contentRes.json();
+    const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
+    // get intro text
+    const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links,streampages';
+    let data = berthaDefaults;
+
+    try {
+      const contentRes = await Promise.resolve(fetch(contentURL))
+          .timeout(3000, new Error(`Timeout - bertha took too long to respond: ${contentURL}`));
+      data = await contentRes.json();
+    }catch(err){
+      cachePage = false;
+      console.log('bertha fetching problem, resorting to default bertha config');
+    }
+
+    const stateStreamURL = _.findWhere(data.streampages, { 'state': state.toUpperCase() }).link;
+
+    const introText = '<p>' + _.findWhere(data.options, { name: 'text' }).value + '</p><p>' + _.findWhere(data.options, { name: 'secondaryText' }).value + '</p>';
+
+    // get poll SVG
+    const pollSVG = await makePollTimeSeries({ 
+      fontless: true,
+      startDate: 'June 7, 2016', 
+      size: '600x300', 
+      type: 'area', 
+      state: state, 
+      logo: false 
+    });
+
+    // get individual polls
 
 
-  const introText = '<p>' + _.findWhere(data.options, { name: 'text' }).value + '</p><p>' + _.findWhere(data.options, { name: 'secondaryText' }).value + '</p>';
-
-  // get poll SVG
-  const pollSVG = await makePollTimeSeries({ 
-    fontless: true,
-    startDate: 'June 7, 2016', 
-    size: '600x300', 
-    type: 'area', 
-    state: state, 
-    logo: false 
-  });
-
-  // get individual polls
-  let formattedIndividualPolls = cache.get(`allPolls-${state}`); // check to see if we've cached polls recently
-  if (!formattedIndividualPolls) {
     let allIndividualPolls = await getAllPolls(state);
     allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
     allIndividualPolls = _.values(allIndividualPolls);
-    formattedIndividualPolls = [];
+    let formattedIndividualPolls = [];
     _.each(allIndividualPolls, function(poll) {
       let winner = '';
       const clintonVal = _.findWhere(poll, {'candidatename': 'Clinton'}).pollvalue;
@@ -178,21 +182,23 @@ async function statePage(req, res) {
         winner: winner,
       });
     });
-    cache.set(`allPolls-${state}`, formattedIndividualPolls);
+
+    const polltrackerLayout = {
+      state: state,
+      stateName: stateName,
+      lastUpdated: await lastUpdated(),
+      introText: introText,
+      pollSVG: pollSVG,
+      pollList: formattedIndividualPolls,
+      canonicalURL: canonicalURL,
+      stateStreamURL: stateStreamURL,
+    };
+
+    renderedPage = nunjucks.render('polls.html', polltrackerLayout);
+    if (cachePage) cache.set(cacheKey, renderedPage);
   }
 
-  const polltrackerLayout = {
-    state: state,
-    stateName: stateName,
-    lastUpdated: await lastUpdated(),
-    introText: introText,
-    pollSVG: pollSVG,
-    pollList: formattedIndividualPolls,
-  };
-
-  const value = nunjucks.render('polls.html', polltrackerLayout);
-  
-  res.send(value);
+  res.send(renderedPage);
 }
 
 const server = app.listen(process.env.PORT || 5000, () => {

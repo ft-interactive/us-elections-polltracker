@@ -444,7 +444,7 @@ a {
             {% if state == 'us' %}
             <div class="stand-first">
               {% markdown %}
-              <p>{{ introText | safe }}</p>
+              {{ introText | safe }}
               {% endmarkdown %}
             </div>
 
@@ -454,7 +454,9 @@ a {
             <div class="single chart">
                 {{ pollSVG | safe }}
             </div>
-
+            {% if state != 'us' %}
+            <p class="off-link"><a href="{{ stateStreamURL }}">All {{ stateName }} coverage</a></p>
+            {% endif %}
             <div class="o-grid-container o-grid-container--bleed">
               {{ storyList | safe }}
             </div>
