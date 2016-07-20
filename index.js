@@ -91,7 +91,7 @@ async function makePollTimeSeries(chartOpts){
   const formattedNowDate = d3.timeFormat('%B %e, %Y')((d3.timeParse('%b %d %Y')(nowDate)));
   const fontless = (chartOpts.fontless ? chartOpts.fontless === 'true' : true);
   const background = chartOpts.background || 'none';
-  const startDate = chartOpts.startDate || 'July 1, 2015';
+  const startDate = chartOpts.startDate || 'June 7, 2016';
   const endDate = chartOpts.endDate || formattedNowDate;
   const [width, height] = (chartOpts.size || '600x300').split('x');
   const type = chartOpts.type || 'line';
