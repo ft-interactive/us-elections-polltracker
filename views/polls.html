@@ -32,6 +32,7 @@ html {
 
 body {
   margin: 0;
+  overflow-x: hidden;
 }
 
 img {
@@ -160,16 +161,22 @@ td{
     padding-left: 10px;
 }
 
-td.lead{
-    font-weight: 800;
-}
-
 td.clinton.winner {
   background: #a2c1e1;
+  font-weight: 600;
 }
 
 td.trump.winner {
   background: #f4a098;
+  font-weight: 600;
+}
+
+td.winner.narrowonly {
+  font-weight: 400;
+}
+
+td.winner.narrowonly .winner {
+  font-weight: 800;
 }
 
 td.numeric{
@@ -339,10 +346,34 @@ a {
   }
 }
 
+@media (min-width: 600px) {
+  .narrowonly {
+    display: none;
+  }
+}
 
 @media (max-width: 600px) {
+  .article {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  td.numeric {
+    text-align: center;
+    white-space: nowrap;
+  }
+
   .secondary {
     display: none;
+  }
+
+  th {
+    padding: 0;
+  }
+
+  td {
+    padding-left: 5px;
+    padding-right: 5px;
   }
 }
 
@@ -507,8 +538,9 @@ a {
               <table>
                 <thead>
                   <tr>
-                    <th scope="col">Clinton&nbsp;%</th>
-                    <th scope="col">Trump&nbsp;%</th>
+                    <th scope="col" class="narrowonly">Clinton/ Trump&nbsp;(%)</th>
+                    <th scope="col" class="secondary">Clinton&nbsp;%</th>
+                    <th scope="col" class="secondary">Trump&nbsp;%</th>
                     <th scope="col">Date</th>
                     <th scope="col">Pollster</th>
                     <th scope="col" class="secondary">Sample*</th>
@@ -517,10 +549,11 @@ a {
                 <tbody class="o-expander__content">
                   {% for poll in pollList %}
                   <tr>
-                    <td class="numeric clinton {% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</td>
-                    <td class="numeric trump {% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</td>
+                    <td class="narrowonly numeric {% if poll.winner == 'Clinton' %}winner clinton{% endif %} {% if poll.winner == 'Trump' %}winner trump{% endif %}"><span class="{% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</span> / <span class="{% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</span></td>
+                    <td class="secondary numeric clinton {% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</td>
+                    <td class="secondary numeric trump {% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</td>
                     <td class="numeric date">{{ poll.date }}</td>
-                    <td class="">{{ poll.pollster }}</td>
+                    <td>{{ poll.pollster }}</td>
                     <td class="numeric secondary">{{ poll.sampleSize }}</td>
                   </tr>
                   {% endfor %}
