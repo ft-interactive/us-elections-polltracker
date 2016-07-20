@@ -170,7 +170,12 @@ async function statePage(req, res) {
 
     const stateStreamURL = _.findWhere(data.streampages, { 'state': state.toUpperCase() }).link;
 
-    const introText = '<p>' + _.findWhere(data.options, { name: 'text' }).value + '</p><p>' + _.findWhere(data.options, { name: 'secondaryText' }).value + '</p>';
+    const introtext1 = _.findWhere(data.options, { name: 'text' }).value;
+    const introtext2 = _.findWhere(data.options, { name: 'secondaryText' }).value;
+    let introText = `<p>${introtext1}</p>`;
+    if (introtext2) {
+      introText = `${introText}<p>${introtext2}</p>`;
+    }
 
     // get poll SVG
     async function getPollSVG(size = '600x300') {
