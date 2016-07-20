@@ -70,6 +70,10 @@ app.get('/__gtg', (req, res) => {
   res.send('ok');
 });
 
+app.get('/favicon.ico', (req, res)=>{ //explicit override to redirect if favicon is requested
+  res.redirect(301, 'https://ig.ft.com/favicon.ico');
+});
+
 app.get('/polls.svg', async (req, res) => {
   const value = await makePollTimeSeries(req.query);
   if(value){
