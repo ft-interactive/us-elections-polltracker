@@ -178,6 +178,7 @@ async function statePage(req, res) {
         winner: winner,
       });
     });
+    
     const polltrackerLayout = {
       state: state,
       stateName: stateName,
@@ -186,10 +187,11 @@ async function statePage(req, res) {
       pollSVG: pollSVG,
       pollList: formattedIndividualPolls,
     };
+
     renderedPage = nunjucks.render('polls.html', polltrackerLayout);
-    cache.set(cacheKey, renderedPage);
+    if (cachePage) cache.set(cacheKey, renderedPage);
   }
-  
+
   res.send(renderedPage);
 }
 
