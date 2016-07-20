@@ -30,6 +30,7 @@
 		{"state":"DC","link":"https://next.ft.com/stream/regionsId/TnN0ZWluX0dMX1VTX0NvbHVtYmlh-R0w="},
 		{"state":"VT","link":"https://next.ft.com/stream/regionsId/TnN0ZWluX0dMX1VTX1Zlcm1vbnQ=-R0w="},
 		{"state":"ME","link":"https://next.ft.com/stream/regionsId/TnN0ZWluX0dMX1VTX01haW5l-R0w="},
+		{"state":"MECD","link":"https://next.ft.com/stream/regionsId/TnN0ZWluX0dMX1VTX01haW5l-R0w="},
 		{"state":"IA","link":"https://next.ft.com/stream/regionsId/TnN0ZWluX0dMX1VTX0lvd2E=-R0w="},
 		{"state":"FL","link":"https://next.ft.com/stream/regionsId/TnN0ZWluX0dMX1VTX0Zsb3JpZGE=-R0w="},
 		{"state":"PA","link":"https://next.ft.com/stream/regionsId/TnN0ZWluX0dMX1VTX1Blbm5zeWx2YW5pYQ==-R0w="},
@@ -61,6 +62,8 @@
 		{"state":"ND","link":"https://next.ft.com/stream/regionsId/TnN0ZWluX0dMX1VTX05vcnRoRGFrb3Rh-R0w="},
 		{"state":"SD","link":"https://next.ft.com/stream/regionsId/TnN0ZWluX0dMX1VTX1NvdXRoRGFrb3Rh-R0w="},
 		{"state":"WY","link":"https://next.ft.com/stream/regionsId/TnN0ZWluX0dMX1VTX1d5b21pbmc=-R0w="},
-		{"state":"NE","link":"https://next.ft.com/stream/regionsId/TnN0ZWluX0dMX1VTX05lYnJhc2th-R0w="}
+		{"state":"NE","link":"https://next.ft.com/stream/regionsId/TnN0ZWluX0dMX1VTX05lYnJhc2th-R0w="},
+		{"state":"NECD","link":"https://next.ft.com/stream/regionsId/TnN0ZWluX0dMX1VTX05lYnJhc2th-R0w="},
+		{"state":"NECD2","link":"https://next.ft.com/stream/regionsId/TnN0ZWluX0dMX1VTX05lYnJhc2th-R0w="}
 	]
 }
