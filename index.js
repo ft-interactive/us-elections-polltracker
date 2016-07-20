@@ -116,6 +116,7 @@ async function statePage(req, res) {
   let cachePage = true;
   let state = 'us';
   if(req.params.state) state = req.params.state;
+  const canonicalURL = `polls/${state}`;
   const cacheKey = `allPolls-${state}`;
 
   let renderedPage = cache.get(cacheKey); // check to see if we've cached this page recently
@@ -124,8 +125,9 @@ async function statePage(req, res) {
 
     const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
     // get intro text
-    const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links';
+    const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links,streampages';
     let data = berthaDefaults;
+
     try {
       const contentRes = await Promise.resolve(fetch(contentURL))
           .timeout(3000, new Error(`Timeout - bertha took too long to respond: ${contentURL}`));
@@ -134,6 +136,8 @@ async function statePage(req, res) {
       cachePage = false;
       console.log('bertha fetching problem, resorting to default bertha config');
     }
+
+    const stateStreamURL = _.findWhere(data.streampages, { 'state': state.toUpperCase() }).link;
 
     const introText = '<p>' + _.findWhere(data.options, { name: 'text' }).value + '</p><p>' + _.findWhere(data.options, { name: 'secondaryText' }).value + '</p>';
 
@@ -178,7 +182,7 @@ async function statePage(req, res) {
         winner: winner,
       });
     });
-    
+
     const polltrackerLayout = {
       state: state,
       stateName: stateName,
@@ -186,6 +190,8 @@ async function statePage(req, res) {
       introText: introText,
       pollSVG: pollSVG,
       pollList: formattedIndividualPolls,
+      canonicalURL: canonicalURL,
+      stateStreamURL: stateStreamURL,
     };
 
     renderedPage = nunjucks.render('polls.html', polltrackerLayout);
