@@ -215,6 +215,9 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
       const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
       if (graphWidth < 450) {
         if (state === 'us') {
+          if (graphWidth < 300) {
+            return 'Latest polls';
+          }
           return 'US Election 2016: latest polls'; // return shorter head for narrow graphs
         } else {
           return `Latest polls: ${stateName}`;
@@ -234,10 +237,14 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
   const subhead = annotationGroup.append('text')
     .text(function() {
       let statePrefix;
-      if (state === 'us') {
-        statePrefix = 'National polling ';
-      } else {
+      if (width < 300) {
         statePrefix = 'Polling ';
+      } else {
+        if (state === 'us') {
+          statePrefix = 'National polling ';
+        } else {
+          statePrefix = 'Polling ';
+        }
       }
 
       return statePrefix + 'average as of ' + d3.timeFormat('%B %e, %Y')(new Date(formattedData[formattedData.length - 1].date)) + ' (%)'
