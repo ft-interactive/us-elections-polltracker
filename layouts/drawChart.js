@@ -215,20 +215,14 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
       const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
       if (graphWidth < 450) {
         if (state === 'us') {
-          if (graphWidth < 300) {
-            return 'Latest polls';
-          }
-          return 'US Election 2016: latest polls'; // return shorter head for narrow graphs
-        } else {
-          return `Latest polls: ${stateName}`;
+          return 'Latest polls';
         }
-      } else {
-        if (state === 'us') {
-          return 'Which White House candidate is leading in the polls?';
-        } else {
-          return `Which candidate is leading in ${stateName}?`;
-        }
+        return `Latest polls: ${stateName}`;
       }
+      if (state === 'us') {
+        return 'Which White House candidate is leading in the polls?';
+      }
+      return `Which candidate is leading in ${stateName}?`;
     })
     .attr('class', 'headline')
     .attr('x', -margins.left + 7)
