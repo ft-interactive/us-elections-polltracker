@@ -3,9 +3,6 @@
   "scripts": {
   },
   "env": {
-    "DATABASE_URL": {
-      "required": true
-    }
   },
   "formation": {
     "scraper": {
@@ -16,7 +13,7 @@
     }
   },
   "addons": [
-    "heroku-postgresql",
+    "heroku-postgresql:hobby-dev",
     "scheduler"
   ],
   "buildpacks": [
