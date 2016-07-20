@@ -1,5 +1,9 @@
-require('loud-rejection/register');
 import Promise from 'bluebird';
+
+process.on('unhandledRejection', error => {
+  console.error('unhandledRejection', error.stack);
+  process.exit(1);
+});
 
 const express = require('express');
 const drawChart = require('./layouts/drawChart.js');
@@ -15,6 +19,7 @@ const fetch = require('isomorphic-fetch');
 const _ = require('underscore');
 const stateIds = require('./layouts/stateIds').states;
 const filters = require('./filters');
+const berthaDefaults = require('./config/bertha-defaults.json')
 
 const app = express();
 const maxAge = 120; // for user agent caching purposes
@@ -100,7 +105,6 @@ async function makePollTimeSeries(chartOpts){
       value = false;
     }
   }
-
   return value;
 }
 
@@ -109,6 +113,7 @@ app.get('/:state', statePage);
 app.get('/polls/:state', statePage);
 
 async function statePage(req, res) {
+  let cachePage = true;
   console.log('state page', JSON.stringify(req.params))
   let state = 'us';
 
@@ -118,11 +123,17 @@ async function statePage(req, res) {
 
   // get intro text
   const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links';
-  const contentRes = await Promise.resolve(fetch(contentURL))
-      .timeout(10000, new Error(`Timeout - bertha took too long to respond: ${contentURL}`));
+  let data = berthaDefaults;
+  try {
+    const contentRes = await Promise.resolve(fetch(contentURL))
+        .timeout(3000, new Error(`Timeout - bertha took too long to respond: ${contentURL}`));
+    data = await contentRes.json();
+  }catch(err){
+    cachePage = false;
+    console.log('bertha fetching problem, resorting to default bertha config');
+  }
 
-  const data = await contentRes.json();
-
+  
 
   const introText = '<p>' + _.findWhere(data.options, { name: 'text' }).value + '</p><p>' + _.findWhere(data.options, { name: 'secondaryText' }).value + '</p>';
 
