@@ -90,6 +90,7 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
   const xAxis = d3.axisBottom()
     .scale(xScale)
     .tickValues(xAxisTicks)
+    // .tickArguments([d3.timeMonth.every(1)])
     .tickFormat(function(d) {
       return d3.timeFormat('%b %e, %Y')(d);
     });
