@@ -14,6 +14,7 @@ const lru = require('lru-cache');
 const fetch = require('isomorphic-fetch');
 const _ = require('underscore');
 const stateIds = require('./layouts/stateIds').states;
+const filters = require('./filters');
 
 const app = express();
 const maxAge = 120; // for user agent caching purposes
@@ -43,19 +44,7 @@ const env = nunjucks.configure('views', {
   express: app,
 });
 
-env.addFilter('ftdate', function(date) {
-  const days  = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
-                  'September', 'October', 'November', 'December'];
-
-  function ftdate(d) {
-    const day = days[d.getUTCDay()];
-    const month = months[d.getUTCMonth()];
-    return !d ? '' : `${day}, ${d.getUTCDate()} ${month}, ${d.getUTCFullYear()}`;
-  }
-
-  return ftdate(date);
-});
+Object.assign(env.filters, filters);
 
 markdown.register(env, marked);
 
