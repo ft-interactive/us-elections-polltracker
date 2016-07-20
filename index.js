@@ -70,6 +70,10 @@ app.get('/__gtg', (req, res) => {
   res.send('ok');
 });
 
+app.get('/favicon.ico', (req, res)=>{
+  res.send(404);
+});
+
 app.get('/polls.svg', async (req, res) => {
   const value = await makePollTimeSeries(req.query);
   if(value){
@@ -95,8 +99,9 @@ async function makePollTimeSeries(chartOpts){
   const logo = (chartOpts.logo ? chartOpts.logo === 'true' : false);
 
   const options = { fontless: fontless, background: background, startDate: startDate, endDate: endDate, size: `${width}x${height}`, type: type, state: state, logo: logo };
+  const cacheKey = convertToCacheKeyName(options);
 
-  let value = cache.get(convertToCacheKeyName(options));
+  let value = cache.get(cacheKey);
 
   if (!value) {
     // weird hack: add one day to endDate to capture the end date in the sequelize query
@@ -106,7 +111,7 @@ async function makePollTimeSeries(chartOpts){
     try {
       const chartLayout = await drawChart(width, height, fontless, background, logo, startDate, endDate, type, state, data);
       value = nunjucks.render('poll.svg', chartLayout);
-      cache.set(convertToCacheKeyName(chartOpts), value);
+      cache.set(cacheKey, value);
     } catch (error) {
       console.error(error);
       value = false;
@@ -135,18 +140,25 @@ app.get('/polls/:state.json', async (req, res) => {
   return value;
 });
 
+
+
 app.get('/', statePage);
 app.get('/:state', statePage);
 app.get('/polls/:state', statePage);
 
 async function statePage(req, res) {
-  let cachePage = true;
+  
   let state = 'us';
   if(req.params.state) state = req.params.state;
   const canonicalURL = `polls/${state}`;
-  const cacheKey = `allPolls-${state}`;
 
-  let renderedPage = cache.get(cacheKey); // check to see if we've cached this page recently
+  let cachePage = true;
+  const pageCacheKey = `statePage-${state}`;
+
+  let cacheDBRequest = true;
+  const DBCacheKey = `allPollsDB-${state}`;
+
+  let renderedPage = cache.get(pageCacheKey); // check to see if we've cached this page recently
 
   if (!renderedPage) {
 
@@ -222,7 +234,7 @@ async function statePage(req, res) {
     };
 
     renderedPage = nunjucks.render('polls.html', polltrackerLayout);
-    if (cachePage) cache.set(cacheKey, renderedPage);
+    if (cachePage) cache.set(pageCacheKey, renderedPage);
   }
 
   res.send(renderedPage);
