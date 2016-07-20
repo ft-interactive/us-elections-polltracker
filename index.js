@@ -220,7 +220,7 @@ async function statePage(req, res) {
       lastUpdated: await lastUpdated(),
       introText: introText,
       pollSVG: {
-        default: await getPollSVG('270x200'),
+        default: await getPollSVG('270x270'),
         S: await getPollSVG('452x250'),
         M: await getPollSVG('570x300'),
         L: await getPollSVG('750x350'),
