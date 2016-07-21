@@ -190,7 +190,12 @@ async function statePage(req, res) {
 
     const stateStreamURL = _.findWhere(data.streampages, { 'state': state.toUpperCase() }).link;
 
-    const introText = '<p>' + _.findWhere(data.options, { name: 'text' }).value + '</p><p>' + _.findWhere(data.options, { name: 'secondaryText' }).value + '</p>';
+    const introtext1 = _.findWhere(data.options, { name: 'text' }).value;
+    const introtext2 = _.findWhere(data.options, { name: 'secondaryText' }).value;
+    let introText = `<p>${introtext1}</p>`;
+    if (introtext2) {
+      introText = `${introText}<p>${introtext2}</p>`;
+    }
 
     // get poll SVG
     const pollSVG = await makePollTimeSeries({ 
@@ -228,7 +233,7 @@ async function statePage(req, res) {
         Clinton: _.findWhere(poll, {'candidatename': 'Clinton'}).pollvalue,
         Trump: _.findWhere(poll, {'candidatename': 'Trump'}).pollvalue,
         date: poll[0].date,
-        pollster: poll[0].pollster.replace(/\*$/, ''), // get rid of asterisk b/c RCP doesn't track what it means
+        pollster: poll[0].pollster.replace(/\*$/, '').replace(/\//g, ', '), // get rid of asterisk b/c RCP doesn't track what it means
         sampleSize: poll[0].sampleSize,
         winner: winner,
       });

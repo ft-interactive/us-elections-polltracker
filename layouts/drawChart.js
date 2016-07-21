@@ -86,6 +86,7 @@ async function drawChart(options, data) {
   const xAxis = d3.axisBottom()
     .scale(xScale)
     .tickValues(xAxisTicks)
+    // .tickArguments([d3.timeMonth.every(1)])
     .tickFormat(function(d) {
       return d3.timeFormat('%b %e, %Y')(d);
     });
@@ -211,20 +212,14 @@ async function drawChart(options, data) {
       const stateName = _.findWhere(stateIds, { 'state': options.state.toUpperCase() }).stateName;
       if (options.width < 450) {
         if (options.state === 'us') {
-          if (options.width < 300) {
-            return 'Latest polls';
-          }
-          return 'US Election 2016: latest polls'; // return shorter head for narrow graphs
-        } else {
-          return `Latest polls: ${stateName}`;
+          return 'Latest polls';
         }
-      } else {
-        if (options.state === 'us') {
-          return 'Which White House candidate is leading in the polls?';
-        } else {
-          return `Which candidate is leading in ${stateName}?`;
-        }
+        return `Latest polls: ${stateName}`;
       }
+      if (options.state === 'us') {
+        return 'Which White House candidate is leading in the polls?';
+      }
+      return `Which candidate is leading in ${stateName}?`;
     })
     .attr('class', 'headline')
     .attr('x', -margins.left + 7)
