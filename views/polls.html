@@ -512,9 +512,11 @@ a {
             {% endif %}
 
             {% for gridsize, svg in pollSVG %}
+            {% if svg %}
             <div class="pollchart pollchart--{{gridsize}}">
                 {{ svg | safe }}
             </div>
+            {% endif %}
             {% endfor %}
 
             {% if state != 'us' %}
