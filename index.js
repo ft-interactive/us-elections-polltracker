@@ -55,9 +55,6 @@ function convertToCacheKeyName(queryRequest) {
 const env = nunjucks.configure('views', {
   autoescape: true,
   express: app,
-})
-.addFilter('commas', function (n) {
-    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 });
 
 Object.assign(env.filters, filters);
