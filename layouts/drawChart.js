@@ -52,16 +52,18 @@ async function drawChart(options, data) {
     .attr('height', options.height);
 
   const [min, max] = d3.extent(data, (d) => d.pollaverage);
-  const yScalePadding = (max - min) / 4;
+  const yScalePadding = Math.ceil((max - min) / 4);
 
   const yScale = d3.scaleLinear()
-    .domain([min - yScalePadding, max + yScalePadding])
+    .domain([Math.floor(min - yScalePadding), Math.ceil(max + yScalePadding)])
     .range([options.height - margins.top - margins.bottom, 0]);
+
+  const numYTicks = Math.min(7, yScale.ticks().length);
 
   const yAxis = d3.axisLeft()
     .scale(yScale)
     .tickSizeInner(options.width - margins.left - margins.right)
-    .ticks(7)
+    .ticks(numYTicks, "d")
     .tickPadding(-margins.left);
 
   const yLabel = svg.append('g')
@@ -83,7 +85,7 @@ async function drawChart(options, data) {
   // handle xAxis ticks
   let numTicks = Math.min(4, xScale.ticks(d3.timeMonth.every(1)).length);
   if (options.width < 350) {
-    numTicks = Math.min(3, xScale.ticks(d3.timeMonth.every(1)).length);;
+    numTicks = Math.min(3, xScale.ticks(d3.timeMonth.every(1)).length);
   }
   let xAxisTicks = [userInputParse(options.startDate)].concat(xScale.ticks(numTicks, d3.timeMonth.every(1))).concat([userInputParse(options.endDate)]);
   // now get rid of duplicates (e.g. when startDate or endDate fall at the beginning of a month)
