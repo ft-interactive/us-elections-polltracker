@@ -75,6 +75,7 @@ app.get('/favicon.ico', (req, res)=>{ //explicit override to redirect if favicon
 });
 
 app.get('/polls.svg', async (req, res) => {
+
   const value = await makePollTimeSeries(req.query);
   if(value){
     setSVGHeaders(res).send(value);
@@ -89,27 +90,31 @@ async function makePollTimeSeries(chartOpts){
     .join(' ');
 
   const formattedNowDate = d3.timeFormat('%B %e, %Y')((d3.timeParse('%b %d %Y')(nowDate)));
-  const fontless = (chartOpts.fontless ? chartOpts.fontless === 'true' : true);
-  const background = chartOpts.background || 'none';
-  const startDate = chartOpts.startDate || 'July 1, 2015';
-  const endDate = chartOpts.endDate || formattedNowDate;
-  const [width, height] = (chartOpts.size || '600x300').split('x');
-  const type = chartOpts.type || 'line';
-  const state = chartOpts.state || 'us';
-  const logo = (chartOpts.logo ? chartOpts.logo === 'true' : false);
+  const [svgWidth, svgHeight] = (chartOpts.size || '600x300').split('x');
 
-  const options = { fontless: fontless, background: background, startDate: startDate, endDate: endDate, size: `${width}x${height}`, type: type, state: state, logo: logo };
+  const options = { 
+    fontless: (chartOpts.fontless ? chartOpts.fontless === 'true' : true), 
+    background: chartOpts.background || 'none', 
+    startDate: chartOpts.startDate || 'July 1, 2015', 
+    endDate: chartOpts.endDate || formattedNowDate, 
+    size: `${svgWidth}x${svgHeight}`,
+    width: svgWidth,
+    height: svgHeight,
+    type: chartOpts.type || 'line', 
+    state: chartOpts.state || 'us', 
+    logo: (chartOpts.logo ? chartOpts.logo === 'true' : false), 
+  };
   const cacheKey = convertToCacheKeyName(options);
 
   let value = cache.get(cacheKey);
 
   if (!value) {
     // weird hack: add one day to endDate to capture the end date in the sequelize query
-    const tempEndDatePieces = endDate.replace(/\s{2}/, ' ').split(' ');
+    const tempEndDatePieces = options.endDate.replace(/\s{2}/, ' ').split(' ');
     const queryEndDate = tempEndDatePieces[0] + ' ' + (+tempEndDatePieces[1].replace(/,/g, '') + 1) + ', ' + tempEndDatePieces[2];
-    const data = await getPollAverages(state, startDate, queryEndDate);
+    const data = await getPollAverages(options.state, options.startDate, queryEndDate);
     try {
-      const chartLayout = await drawChart(width, height, fontless, background, logo, startDate, endDate, type, state, data);
+      const chartLayout = await drawChart(options, data);
       value = nunjucks.render('poll.svg', chartLayout);
       cache.set(cacheKey, value);
     } catch (error) {
