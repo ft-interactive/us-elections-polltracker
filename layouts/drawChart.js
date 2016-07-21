@@ -125,7 +125,10 @@ async function drawChart(options, data) {
     })
     .attr('transform', function(d, i) {
       if (xAxisTicks.length != 2 && (i === 0 || i === xAxisTicks.length - 1)) {
-        return 'translate(0, 18)';
+        if (i === 0) {
+          return 'translate(-2, 18)';
+        }
+        return 'translate(2, 18)';
       }
     });
 
