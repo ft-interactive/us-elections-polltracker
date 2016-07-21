@@ -6,16 +6,12 @@ const stateIds = require('./stateIds').states;
 function round_1dp(x) {
   return Math.round(x * 10) / 10;
 }
-
-async function drawChart(width, height, fontless, background, logo, startDate, endDate, type, state, data) {
+async function drawChart(options, data) {
   const htmlStub = '<html><head></head><body><div id="dataviz-container"></div><script src="https://d3js.org/d3.v4.min.js"></script></body></html>';
 
   const window = await getJSDomWindow(htmlStub);
-
   const el = window.document.querySelector('#dataviz-container');
 
-  const graphWidth = width;
-  const graphHeight = height;
   const margins = { top: 70, bottom: 50, left: 30, right: 30 };
   const userInputParse = d3.timeParse('%B %e, %Y');
   const colors = { Clinton: '#238fce', Trump: '#e5262d' };
@@ -24,8 +20,8 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
   const data_groupedBy_date = _.groupBy(data, function(row) { return row.date; });
 
   // need more margin right if end date is too close to last datapoint
-  if (((new Date(userInputParse(endDate)) - new Date(d3.keys(data_groupedBy_date)[d3.keys(data_groupedBy_date).length - 1])) / 86400000) < 60) {
-    margins.right = 90 - ((new Date(userInputParse(endDate)) - new Date(d3.keys(data_groupedBy_date)[d3.keys(data_groupedBy_date).length - 1])) / 86400000);
+  if (((new Date(userInputParse(options.endDate)) - new Date(d3.keys(data_groupedBy_date)[d3.keys(data_groupedBy_date).length - 1])) / 86400000) < 60) {
+    margins.right = 90 - ((new Date(userInputParse(options.endDate)) - new Date(d3.keys(data_groupedBy_date)[d3.keys(data_groupedBy_date).length - 1])) / 86400000);
   }
 
   // format for d3.stack
@@ -52,19 +48,19 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
   const svg = d3.select(el)
     .append('svg')
     .attr('id', 'chart')
-    .attr('width', graphWidth)
-    .attr('height', graphHeight);
+    .attr('width', options.width)
+    .attr('height', options.height);
 
   const [min, max] = d3.extent(data, (d) => d.pollaverage);
   const yScalePadding = (max - min) / 4;
 
   const yScale = d3.scaleLinear()
     .domain([min - yScalePadding, max + yScalePadding])
-    .range([graphHeight - margins.top - margins.bottom, 0]);
+    .range([options.height - margins.top - margins.bottom, 0]);
 
   const yAxis = d3.axisLeft()
     .scale(yScale)
-    .tickSizeInner(graphWidth - margins.left - margins.right)
+    .tickSizeInner(options.width - margins.left - margins.right)
     .tickSizeOuter(0)
     .ticks(7)
     .tickPadding(-margins.left);
@@ -72,7 +68,7 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
   const yLabel = svg.append('g')
     .attr('class', 'yAxis')
     .attr('transform', function() {
-      return 'translate(' + (round_1dp(graphWidth - margins.right)) + ',' + margins.top + ')';
+      return 'translate(' + (round_1dp(options.width - margins.right)) + ',' + margins.top + ')';
     })
     .call(yAxis);
 
@@ -82,10 +78,10 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
       });
 
   const xScale = d3.scaleTime()
-    .domain([userInputParse(startDate), userInputParse(endDate)])
-    .range([0, graphWidth - margins.left - margins.right]);
+    .domain([userInputParse(options.startDate), userInputParse(options.endDate)])
+    .range([0, options.width - margins.left - margins.right]);
 
-  const xAxisTicks = [userInputParse(startDate), userInputParse(endDate)];
+  const xAxisTicks = [userInputParse(options.startDate), userInputParse(options.endDate)];
 
   const xAxis = d3.axisBottom()
     .scale(xScale)
@@ -98,7 +94,7 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
   const xLabel = svg.append('g')
     .attr('class', 'xAxis')
     .attr('transform', function() {
-      return 'translate(' + (margins.left) + ',' + (graphHeight - margins.bottom) + ')';
+      return 'translate(' + (margins.left) + ',' + (options.height - margins.bottom) + ')';
     })
     .call(xAxis);
 
@@ -110,7 +106,7 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
       return 'end';
     });
 
-  if (type === 'area') {
+  if (options.type === 'area') {
     const candidateAreas = svg.append('g')
       .datum(formattedData)
       .attr('transform', function() {
@@ -124,7 +120,7 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
     candidateAreas.append('clipPath')
       .attr('id', 'clip-below')
       .append('path')
-      .attr('d', area.y0(graphHeight));
+      .attr('d', area.y0(options.height));
 
     candidateAreas.append('clipPath')
       .attr('id', 'clip-above')
@@ -213,14 +209,14 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
 
   const headline = annotationGroup.append('text')
     .text(function() {
-      const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
-      if (graphWidth < 450) {
-        if (state === 'us') {
+      const stateName = _.findWhere(stateIds, { 'state': options.state.toUpperCase() }).stateName;
+      if (options.width < 450) {
+        if (options.state === 'us') {
           return 'Latest polls';
         }
         return `Latest polls: ${stateName}`;
       }
-      if (state === 'us') {
+      if (options.state === 'us') {
         return 'Which White House candidate is leading in the polls?';
       }
       return `Which candidate is leading in ${stateName}?`;
@@ -232,10 +228,10 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
   const subhead = annotationGroup.append('text')
     .text(function() {
       let statePrefix;
-      if (width < 300) {
+      if (options.width < 300) {
         statePrefix = 'Polling ';
       } else {
-        if (state === 'us') {
+        if (options.state === 'us') {
           statePrefix = 'National polling ';
         } else {
           statePrefix = 'Polling ';
@@ -252,15 +248,15 @@ async function drawChart(width, height, fontless, background, logo, startDate, e
     .text('Source: Real Clear Politics')
     .attr('class', 'sourceline')
     .attr('x', -margins.left + 7)
-    .attr('y', graphHeight - margins.top - 10)
+    .attr('y', options.height - margins.top - 10)
     .style('text-anchor', 'start');
 
   const config = {
-    width: width,
-    height: height,
-    background: background,
-    fontless: fontless,
-    logo: logo,
+    width: options.width,
+    height: options.height,
+    background: options.background,
+    fontless: options.fontless,
+    logo: options.logo,
     svgContent: window.d3.select('svg').html().toString().replace(/clippath/g, 'clipPath'),
   }; // return this back to the router
 
