@@ -7,7 +7,7 @@ function round_1dp(x) {
   return Math.round(x * 10) / 10;
 }
 async function drawChart(options, data) {
-  const htmlStub = '<html><head></head><body><div id="dataviz-container"></div><script src="https://d3js.org/d3.v4.min.js"></script></body></html>';
+  const htmlStub = '<!doctype html><head></head><body><div id="dataviz-container"></div><script src="https://d3js.org/d3.v4.min.js"></script></body></html>';
 
   const window = await getJSDomWindow(htmlStub);
   const el = window.document.querySelector('#dataviz-container');
