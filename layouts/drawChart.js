@@ -12,7 +12,7 @@ async function drawChart(options, data) {
   const window = await getJSDomWindow(htmlStub);
   const el = window.document.querySelector('#dataviz-container');
 
-  const margins = { top: 70, bottom: 70, left: 30, right: 30 };
+  const margins = { top: 70, bottom: 70, left: 35, right: 30 };
   const userInputParse = d3.timeParse('%B %e, %Y');
   const colors = { Clinton: '#238fce', Trump: '#e5262d' };
 
@@ -63,7 +63,7 @@ async function drawChart(options, data) {
   const yAxis = d3.axisLeft()
     .scale(yScale)
     .tickSizeInner(options.width - margins.left - margins.right)
-    .ticks(numYTicks, "d")
+    .ticks(numYTicks)
     .tickPadding(-margins.left);
 
   const yLabel = svg.append('g')
