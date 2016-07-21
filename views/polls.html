@@ -271,10 +271,9 @@ p.lastupdated {
   color: #6b6e68;
 }
 
-.chart svg{
-    width:100%;
-    height:100%;
-    padding-top: 10px;
+.pollchart {
+  padding-top: 10px;
+  display: none;
 }
 
 .intro{
@@ -315,6 +314,37 @@ a {
   text-decoration: none;
 }
 
+/* chart sizing */
+
+@media (max-width: 30.615em) {
+  .pollchart.pollchart--default {
+    display: block;
+  }
+}
+
+@media (max-width: 46.24em) and (min-width: 30.625em) {
+  .pollchart.pollchart--S {
+    display: block;
+  }
+}
+
+@media (max-width: 61.24em) and (min-width: 46.25em) {
+  .pollchart.pollchart--M {
+    display: block;
+  }
+}
+
+@media (max-width: 76.24em) and (min-width: 61.25em) {
+  .pollchart.pollchart--L {
+    display: block;
+  }
+}
+
+@media (min-width: 76.25em) {
+  .pollchart.pollchart--XL {
+    display: block;
+  }
+}
 
 @media (min-width: 600px) {
   .narrowonly {
@@ -481,9 +511,14 @@ a {
             <p class="off-link"><a href="http://www.ft.com/us-election-2016">All US Election 2016 coverage</a></p>
             {% endif %}
 
-            <div class="single chart">
-                {{ pollSVG | safe }}
+            {% for gridsize, svg in pollSVG %}
+            {% if svg %}
+            <div class="pollchart pollchart--{{gridsize}}">
+                {{ svg | safe }}
             </div>
+            {% endif %}
+            {% endfor %}
+
             {% if state != 'us' %}
             <p class="off-link"><a href="{{ stateStreamURL }}">All {{ stateName }} coverage</a></p>
             {% endif %}

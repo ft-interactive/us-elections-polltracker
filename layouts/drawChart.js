@@ -74,7 +74,7 @@ async function drawChart(options, data) {
 
   yLabel.selectAll('text')
       .attr('transform', function() {
-          return 'translate(' + (-margins.left - 7) + ',-10)';
+          return 'translate(' + (-margins.left - 7) + ',0)';
       });
 
   const xScale = d3.scaleTime()
@@ -174,7 +174,7 @@ async function drawChart(options, data) {
     .attr('cy', function(d) {
       return round_1dp(yScale(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].pollaverage));
     })
-    .attr('r', '5')
+    .attr('r', '3.66')
     .style('fill', function(d) { return colors[d]; });
 
   const lastPointText = annotationGroup.selectAll('text.lastpointtext')
