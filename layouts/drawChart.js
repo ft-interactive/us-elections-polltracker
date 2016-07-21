@@ -80,14 +80,18 @@ async function drawChart(options, data) {
     .domain([userInputParse(options.startDate), userInputParse(options.endDate)])
     .range([0, options.width - margins.left - margins.right]);
 
-  let numTicks = Math.min(3, xScale.ticks(d3.timeMonth.every(1)).length);
+  // handle xAxis ticks
+  let numTicks = Math.min(4, xScale.ticks(d3.timeMonth.every(1)).length);
   if (options.width < 350) {
-    numTicks = Math.min(2, xScale.ticks(d3.timeMonth.every(1)).length);;
+    numTicks = Math.min(3, xScale.ticks(d3.timeMonth.every(1)).length);;
   }
-  const xAxisTicks = [userInputParse(options.startDate)].concat(xScale.ticks(numTicks, d3.timeMonth.every(1))).concat([userInputParse(options.endDate)]);
+  let xAxisTicks = [userInputParse(options.startDate)].concat(xScale.ticks(numTicks, d3.timeMonth.every(1))).concat([userInputParse(options.endDate)]);
+  // now get rid of duplicates (e.g. when startDate or endDate fall at the beginning of a month)
+  xAxisTicks = _.map(_.uniq(_.map(xAxisTicks, function(date) { return date.toString(); })), function(date) { return new Date(date); });
+
 
   let tickSizeOuter = 20;
-  if (xAxisTicks.length == 2) {
+  if (xAxisTicks.length === 2) {
     tickSizeOuter = 6;
   }
 
