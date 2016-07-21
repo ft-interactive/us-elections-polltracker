@@ -97,7 +97,7 @@ async function makePollTimeSeries(chartOpts){
   const options = { 
     fontless: (chartOpts.fontless ? chartOpts.fontless === 'true' : true), 
     background: chartOpts.background || 'none', 
-    startDate: chartOpts.startDate || 'July 1, 2015', 
+    startDate: chartOpts.startDate || 'June 1, 2016', 
     endDate: chartOpts.endDate || formattedNowDate, 
     size: `${svgWidth}x${svgHeight}`,
     width: svgWidth,
@@ -210,7 +210,7 @@ async function statePage(req, res) {
     async function getPollSVG(size = '600x300') {
       return makePollTimeSeries({
         fontless: true,
-        startDate: 'June 7, 2016',
+        startDate: 'June 1, 2016',
         size: size,
         type: 'area',
         state: state,
