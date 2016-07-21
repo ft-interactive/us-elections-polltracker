@@ -12,7 +12,7 @@ async function drawChart(options, data) {
   const window = await getJSDomWindow(htmlStub);
   const el = window.document.querySelector('#dataviz-container');
 
-  const margins = { top: 70, bottom: 70, left: 30, right: 30 };
+  const margins = { top: 70, bottom: 70, left: 35, right: 30 };
   const userInputParse = d3.timeParse('%B %e, %Y');
   const colors = { Clinton: '#238fce', Trump: '#e5262d' };
 
@@ -52,16 +52,18 @@ async function drawChart(options, data) {
     .attr('height', options.height);
 
   const [min, max] = d3.extent(data, (d) => d.pollaverage);
-  const yScalePadding = (max - min) / 4;
+  const yScalePadding = Math.ceil((max - min) / 4);
 
   const yScale = d3.scaleLinear()
-    .domain([min - yScalePadding, max + yScalePadding])
+    .domain([Math.floor(min - yScalePadding), Math.ceil(max + yScalePadding)])
     .range([options.height - margins.top - margins.bottom, 0]);
+
+  const numYTicks = Math.min(7, yScale.ticks().length);
 
   const yAxis = d3.axisLeft()
     .scale(yScale)
     .tickSizeInner(options.width - margins.left - margins.right)
-    .ticks(7)
+    .ticks(numYTicks)
     .tickPadding(-margins.left);
 
   const yLabel = svg.append('g')
@@ -80,14 +82,18 @@ async function drawChart(options, data) {
     .domain([userInputParse(options.startDate), userInputParse(options.endDate)])
     .range([0, options.width - margins.left - margins.right]);
 
-  let numTicks = Math.min(3, xScale.ticks(d3.timeMonth.every(1)).length);
+  // handle xAxis ticks
+  let numTicks = Math.min(4, xScale.ticks(d3.timeMonth.every(1)).length);
   if (options.width < 350) {
-    numTicks = Math.min(2, xScale.ticks(d3.timeMonth.every(1)).length);;
+    numTicks = Math.min(3, xScale.ticks(d3.timeMonth.every(1)).length);
   }
-  const xAxisTicks = [userInputParse(options.startDate)].concat(xScale.ticks(numTicks, d3.timeMonth.every(1))).concat([userInputParse(options.endDate)]);
+  let xAxisTicks = [userInputParse(options.startDate)].concat(xScale.ticks(numTicks, d3.timeMonth.every(1))).concat([userInputParse(options.endDate)]);
+  // now get rid of duplicates (e.g. when startDate or endDate fall at the beginning of a month)
+  xAxisTicks = _.map(_.uniq(_.map(xAxisTicks, function(date) { return date.toString(); })), function(date) { return new Date(date); });
+
 
   let tickSizeOuter = 20;
-  if (xAxisTicks.length == 2) {
+  if (xAxisTicks.length === 2) {
     tickSizeOuter = 6;
   }
 
@@ -119,7 +125,10 @@ async function drawChart(options, data) {
     })
     .attr('transform', function(d, i) {
       if (xAxisTicks.length != 2 && (i === 0 || i === xAxisTicks.length - 1)) {
-        return 'translate(0, 18)';
+        if (i === 0) {
+          return 'translate(-2, 18)';
+        }
+        return 'translate(2, 18)';
       }
     });
 
@@ -213,11 +222,21 @@ async function drawChart(options, data) {
       if (data_groupedBy_candidate.Clinton[data_groupedBy_candidate.Clinton.length - 1].pollaverage < data_groupedBy_candidate.Trump[data_groupedBy_candidate.Trump.length - 1].pollaverage) {
         onTop = 'Trump';
       }
+      if (data_groupedBy_candidate.Clinton[data_groupedBy_candidate.Clinton.length - 1].pollaverage === data_groupedBy_candidate.Trump[data_groupedBy_candidate.Trump.length - 1].pollaverage) {
+        const sumClinton = _.reduce(data_groupedBy_candidate.Clinton, function(a, b) { return a + b.pollaverage; }, data_groupedBy_candidate.Clinton[0].pollaverage);
+        const sumTrump = _.reduce(data_groupedBy_candidate.Trump, function(a, b) { return a + b.pollaverage; }, data_groupedBy_candidate.Trump[0].pollaverage);
+
+        if (sumClinton >= sumTrump) {
+          onTop = 'Clinton';
+        } else {
+          onTop = 'Trump';
+        }
+      }
 
       if (d === onTop) {
         yOverlapOffset = 5;
       } else {
-        yOverlapOffset = -5;
+        yOverlapOffset = -10;
       }
 
       return round_1dp(yScale(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].pollaverage) - yOverlapOffset);
