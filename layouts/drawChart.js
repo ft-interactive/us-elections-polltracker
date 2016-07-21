@@ -12,7 +12,7 @@ async function drawChart(options, data) {
   const window = await getJSDomWindow(htmlStub);
   const el = window.document.querySelector('#dataviz-container');
 
-  const margins = { top: 70, bottom: 50, left: 30, right: 30 };
+  const margins = { top: 70, bottom: 70, left: 30, right: 30 };
   const userInputParse = d3.timeParse('%B %e, %Y');
   const colors = { Clinton: '#238fce', Trump: '#e5262d' };
 
@@ -61,7 +61,6 @@ async function drawChart(options, data) {
   const yAxis = d3.axisLeft()
     .scale(yScale)
     .tickSizeInner(options.width - margins.left - margins.right)
-    .tickSizeOuter(0)
     .ticks(7)
     .tickPadding(-margins.left);
 
@@ -81,14 +80,27 @@ async function drawChart(options, data) {
     .domain([userInputParse(options.startDate), userInputParse(options.endDate)])
     .range([0, options.width - margins.left - margins.right]);
 
-  const xAxisTicks = [userInputParse(options.startDate), userInputParse(options.endDate)];
+  let numTicks = Math.min(3, xScale.ticks(d3.timeMonth.every(1)).length);
+  if (options.width < 350) {
+    numTicks = Math.min(2, xScale.ticks(d3.timeMonth.every(1)).length);;
+  }
+  const xAxisTicks = [userInputParse(options.startDate)].concat(xScale.ticks(numTicks, d3.timeMonth.every(1))).concat([userInputParse(options.endDate)]);
+
+  let tickSizeOuter = 20;
+  if (xAxisTicks.length == 2) {
+    tickSizeOuter = 6;
+  }
 
   const xAxis = d3.axisBottom()
     .scale(xScale)
     .tickValues(xAxisTicks)
-    // .tickArguments([d3.timeMonth.every(1)])
+    .tickSizeOuter(tickSizeOuter)
+    .tickArguments([d3.timeMonth.every(1)])
     .tickFormat(function(d) {
-      return d3.timeFormat('%b %e, %Y')(d);
+      if (d.toString() === userInputParse(options.startDate).toString() || d.toString() === userInputParse(options.endDate).toString()) {
+        return d3.timeFormat('%b %e, %Y')(d);
+      }
+      return d3.timeFormat('%b')(d);
     });
 
   const xLabel = svg.append('g')
@@ -100,10 +112,15 @@ async function drawChart(options, data) {
 
   xLabel.selectAll('text')
     .style('text-anchor', function(d, i) {
-      if (i === 0) {
-        return 'start';
+      if (i === xAxisTicks.length - 1) {
+        return 'end';
       }
-      return 'end';
+      return 'start';
+    })
+    .attr('transform', function(d, i) {
+      if (xAxisTicks.length != 2 && (i === 0 || i === xAxisTicks.length - 1)) {
+        return 'translate(0, 18)';
+      }
     });
 
   if (options.type === 'area') {
