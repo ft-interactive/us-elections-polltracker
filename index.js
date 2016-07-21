@@ -75,6 +75,7 @@ app.get('/favicon.ico', (req, res)=>{ //explicit override to redirect if favicon
 });
 
 app.get('/polls.svg', async (req, res) => {
+
   const value = await makePollTimeSeries(req.query);
   if(value){
     setSVGHeaders(res).send(value);
@@ -89,28 +90,42 @@ async function makePollTimeSeries(chartOpts){
     .join(' ');
 
   const formattedNowDate = d3.timeFormat('%B %e, %Y')((d3.timeParse('%b %d %Y')(nowDate)));
-  const fontless = (chartOpts.fontless ? chartOpts.fontless === 'true' : true);
-  const background = chartOpts.background || 'none';
-  const startDate = chartOpts.startDate || 'June 7, 2016';
-  const endDate = chartOpts.endDate || formattedNowDate;
-  const [width, height] = (chartOpts.size || '600x300').split('x');
-  const type = chartOpts.type || 'line';
-  const state = chartOpts.state || 'us';
-  const logo = (chartOpts.logo ? chartOpts.logo === 'true' : false);
 
-  const options = { fontless: fontless, background: background, startDate: startDate, endDate: endDate, size: `${width}x${height}`, type: type, state: state, logo: logo };
+  const [svgWidth, svgHeight] = (chartOpts.size || '600x300').split('x');
 
-  let value = cache.get(convertToCacheKeyName(options));
+  const options = { 
+    fontless: (chartOpts.fontless ? chartOpts.fontless === 'true' : true), 
+    background: chartOpts.background || 'none', 
+    startDate: chartOpts.startDate || 'July 1, 2015', 
+    endDate: chartOpts.endDate || formattedNowDate, 
+    size: `${svgWidth}x${svgHeight}`,
+    width: svgWidth,
+    height: svgHeight,
+    type: chartOpts.type || 'line', 
+    state: chartOpts.state || 'us', 
+    logo: (chartOpts.logo ? chartOpts.logo === 'true' : false), 
+  };
+  const cacheKey = convertToCacheKeyName(options);
+
+  let value = cache.get(cacheKey);
 
   if (!value) {
     // weird hack: add one day to endDate to capture the end date in the sequelize query
-    const tempEndDatePieces = endDate.replace(/\s{2}/, ' ').split(' ');
+    const tempEndDatePieces = options.endDate.replace(/\s{2}/, ' ').split(' ');
     const queryEndDate = tempEndDatePieces[0] + ' ' + (+tempEndDatePieces[1].replace(/,/g, '') + 1) + ', ' + tempEndDatePieces[2];
-    const data = await getPollAverages(state, startDate, queryEndDate);
+
+    //cache the db request
+    const dbCacheKey = 'dbAverages-' + [options.state, options.startDate, queryEndDate].join('-');
+    let dbResponse = cache.get(dbCacheKey);
+    if(!dbResponse){
+      dbResponse = await getPollAverages(options.state, options.startDate, queryEndDate);
+      cache.set(dbCacheKey, dbResponse);
+    }
+    
     try {
-      const chartLayout = await drawChart(width, height, fontless, background, logo, startDate, endDate, type, state, data);
+      const chartLayout = await drawChart(options, dbResponse);
       value = nunjucks.render('poll.svg', chartLayout);
-      cache.set(convertToCacheKeyName(chartOpts), value);
+      cache.set(cacheKey, value);
     } catch (error) {
       console.error(error);
       value = false;
@@ -118,6 +133,8 @@ async function makePollTimeSeries(chartOpts){
   }
   return value;
 }
+
+
 
 app.get('/polls/:state.json', async (req, res) => {
   const state = req.params.state;
@@ -139,18 +156,22 @@ app.get('/polls/:state.json', async (req, res) => {
   return value;
 });
 
+
+
 app.get('/', statePage);
 app.get('/:state', statePage);
 app.get('/polls/:state', statePage);
 
 async function statePage(req, res) {
-  let cachePage = true;
+  
   let state = 'us';
   if(req.params.state) state = req.params.state;
   const canonicalURL = `polls/${state}`;
-  const cacheKey = `allPolls-${state}`;
 
-  let renderedPage = cache.get(cacheKey); // check to see if we've cached this page recently
+  let cachePage = true;
+  const pageCacheKey = `statePage-${state}`;
+
+  let renderedPage = cache.get(pageCacheKey); // check to see if we've cached this page recently
 
   if (!renderedPage) {
 
@@ -237,7 +258,7 @@ async function statePage(req, res) {
     };
 
     renderedPage = nunjucks.render('polls.html', polltrackerLayout);
-    if (cachePage) cache.set(cacheKey, renderedPage);
+    if (cachePage) cache.set(pageCacheKey, renderedPage);
   }
 
   res.send(renderedPage);
