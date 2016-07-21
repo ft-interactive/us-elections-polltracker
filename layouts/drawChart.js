@@ -219,11 +219,21 @@ async function drawChart(options, data) {
       if (data_groupedBy_candidate.Clinton[data_groupedBy_candidate.Clinton.length - 1].pollaverage < data_groupedBy_candidate.Trump[data_groupedBy_candidate.Trump.length - 1].pollaverage) {
         onTop = 'Trump';
       }
+      if (data_groupedBy_candidate.Clinton[data_groupedBy_candidate.Clinton.length - 1].pollaverage === data_groupedBy_candidate.Trump[data_groupedBy_candidate.Trump.length - 1].pollaverage) {
+        const sumClinton = _.reduce(data_groupedBy_candidate.Clinton, function(a, b) { return a + b.pollaverage; }, data_groupedBy_candidate.Clinton[0].pollaverage);
+        const sumTrump = _.reduce(data_groupedBy_candidate.Trump, function(a, b) { return a + b.pollaverage; }, data_groupedBy_candidate.Trump[0].pollaverage);
+
+        if (sumClinton >= sumTrump) {
+          onTop = 'Clinton';
+        } else {
+          onTop = 'Trump';
+        }
+      }
 
       if (d === onTop) {
         yOverlapOffset = 5;
       } else {
-        yOverlapOffset = -5;
+        yOverlapOffset = -10;
       }
 
       return round_1dp(yScale(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].pollaverage) - yOverlapOffset);
