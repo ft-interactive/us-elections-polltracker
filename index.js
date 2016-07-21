@@ -112,9 +112,17 @@ async function makePollTimeSeries(chartOpts){
     // weird hack: add one day to endDate to capture the end date in the sequelize query
     const tempEndDatePieces = options.endDate.replace(/\s{2}/, ' ').split(' ');
     const queryEndDate = tempEndDatePieces[0] + ' ' + (+tempEndDatePieces[1].replace(/,/g, '') + 1) + ', ' + tempEndDatePieces[2];
-    const data = await getPollAverages(options.state, options.startDate, queryEndDate);
+
+    //cache the db request
+    const dbCacheKey = 'dbAverages-' + [options.state, options.startDate, queryEndDate].join('-');
+    let dbResponse = cache.get(dbCacheKey);
+    if(!dbResponse){
+      dbResponse = await getPollAverages(options.state, options.startDate, queryEndDate);
+      cache.set(dbCacheKey, dbResponse);
+    }
+    
     try {
-      const chartLayout = await drawChart(options, data);
+      const chartLayout = await drawChart(options, dbResponse);
       value = nunjucks.render('poll.svg', chartLayout);
       cache.set(cacheKey, value);
     } catch (error) {
@@ -124,6 +132,8 @@ async function makePollTimeSeries(chartOpts){
   }
   return value;
 }
+
+
 
 app.get('/polls/:state.json', async (req, res) => {
   const state = req.params.state;
@@ -159,9 +169,6 @@ async function statePage(req, res) {
 
   let cachePage = true;
   const pageCacheKey = `statePage-${state}`;
-
-  let cacheDBRequest = true;
-  const DBCacheKey = `allPollsDB-${state}`;
 
   let renderedPage = cache.get(pageCacheKey); // check to see if we've cached this page recently
 
