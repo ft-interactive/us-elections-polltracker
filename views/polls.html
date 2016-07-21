@@ -140,10 +140,11 @@ body {
     border-bottom: none;
 }
 
-table{
+table {
     margin-left: auto;
     margin-right: auto;
     width: 100%;
+    font-feature-settings: "tnum";
 }
 
 th {
@@ -560,7 +561,7 @@ a {
                     <td class="secondary numeric trump {% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</td>
                     <td class="numeric date">{{ poll.date }}</td>
                     <td>{{ poll.pollster }}</td>
-                    <td class="numeric secondary">{{ poll.sampleSize }}</td>
+                    <td class="numeric secondary">{{ poll.sampleSize | commas }}</td>
                   </tr>
                   {% endfor %}
                 </tbody>
