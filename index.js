@@ -20,6 +20,7 @@ const _ = require('underscore');
 const stateIds = require('./layouts/stateIds').states;
 const filters = require('./filters');
 const berthaDefaults = require('./config/bertha-defaults.json')
+const validStates = berthaDefaults.streampages.map( (d)=>d.state.toLowerCase() );
 
 const app = express();
 const maxAge = 120; // for user agent caching purposes
@@ -158,7 +159,14 @@ app.get('/polls/:state.json', async (req, res) => {
 
 
 app.get('/', statePage);
-app.get('/:state', statePage);
+app.get('/:state', (req,res) => {
+  if(validStates.indexOf(req.params.state)>=0){
+    statePage(req, res)
+  }else{
+    res.sendStatus(404);
+  }
+});
+
 app.get('/polls/:state', statePage);
 
 async function statePage(req, res) {
