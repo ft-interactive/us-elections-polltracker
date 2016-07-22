@@ -60,8 +60,13 @@ async function drawChart(options, data) {
     .attr('width', options.width)
     .attr('height', options.height);
 
-  const tickInterval = 5;
-  const extent = roundExtent(d3.extent(data, (d) => d.pollaverage), tickInterval);
+  let rawExtent = d3.extent(data, (d) => d.pollaverage);
+  let tickInterval = 5;
+  if (rawExtent[1] - rawExtent[0] < 5) {
+    tickInterval = 1;
+  }
+  rawExtent = [rawExtent[0] - 1, rawExtent[1] + 1];
+  const extent = roundExtent(rawExtent, tickInterval);
   const yScale = d3.scaleLinear()
     .domain( extent )
     .range([options.height - margins.top - margins.bottom, 0]);
