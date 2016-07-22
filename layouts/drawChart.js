@@ -122,9 +122,14 @@ async function drawChart(options, data) {
     .tickSizeOuter(tickSizeOuter)
     .tickArguments([d3.timeMonth.every(1)])
     .tickFormat(function(d) {
-      if (d.toString() === userInputParse(options.startDate).toString() || d.toString() === userInputParse(options.endDate).toString()) {
+      if (d.toString() === userInputParse(options.startDate).toString() || d.toString() === userInputParse(options.endDate).toString()) { // if start and end dates
+        if (d3.timeFormat('%Y')(userInputParse(options.startDate)) === d3.timeFormat('%Y')(userInputParse(options.endDate)) && d.toString() === userInputParse(options.endDate).toString()) {
+          // if start and end dates have the same year and we're displaying the last date, then don't show year
+          return d3.timeFormat('%b %e')(d);
+        }
         return d3.timeFormat('%b %e, %Y')(d);
       }
+      // else month markers
       return d3.timeFormat('%b')(d);
     });
 
