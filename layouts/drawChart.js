@@ -6,6 +6,11 @@ const stateIds = require('./stateIds').states;
 function round_1dp(x) {
   return Math.round(x * 10) / 10;
 }
+
+function roundExtent(ext, divisor){
+  return [(ext[0] - ext[0]%divisor) , (ext[1] + (divisor-ext[1]%divisor) )];
+}
+
 async function drawChart(options, data) {
   const htmlStub = '<!doctype html><head></head><body><div id="dataviz-container"></div><script src="https://d3js.org/d3.v4.min.js"></script></body></html>';
 
@@ -51,23 +56,16 @@ async function drawChart(options, data) {
     .attr('width', options.width)
     .attr('height', options.height);
 
-  const [min, max] = d3.extent(data, (d) => d.pollaverage);
-  const yScalePadding = Math.ceil((max - min) / 4);
-
+  const tickInterval = 5;
+  const extent = roundExtent(d3.extent(data, (d) => d.pollaverage), tickInterval);
   const yScale = d3.scaleLinear()
-    .domain([Math.floor(min - yScalePadding), Math.ceil(max + yScalePadding)])
-    .range([options.height - margins.top - margins.bottom, 0])
-    .nice();
-
-  let numYTicks = Math.min(7, yScale.ticks().length);
-  if (options.height < 300) {
-    numYTicks = Math.min(numYTicks, 3);
-  }
+    .domain( extent )
+    .range([options.height - margins.top - margins.bottom, 0]);
 
   const yAxis = d3.axisLeft()
     .scale(yScale)
     .tickSizeInner(options.width - margins.left - margins.right)
-    .ticks(numYTicks)
+    .ticks((extent[1] - extent[0])/tickInterval)
     .tickPadding(-margins.left);
 
   const yLabel = svg.append('g')
