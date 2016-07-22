@@ -12,7 +12,7 @@ module.exports = {
 { state: 'FL', stateName: 'Florida', raceId: 5635 },
 { state: 'GA', stateName: 'Georgia', raceId: 5741 },
 { state: 'HI', stateName: 'Hawaii', raceId: null },
-{ state: 'ID', stateName: 'Idaho', raceId: null },
+{ state: 'ID', stateName: 'Idaho', raceId: 5903 },
 { state: 'IL', stateName: 'Illinois', raceId: 5583 },
 { state: 'IN', stateName: 'Indiana', raceId: 5878 },
 { state: 'IA', stateName: 'Iowa', raceId: 5597 },
