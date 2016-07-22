@@ -11,30 +11,32 @@ const stateIds = require('./layouts/stateIds').states;
 db.sequelize.sync();
 
 function addPollAveragesToDatabase(polldate, candidate, value, state) {
-  Pollaverages.findAll({
-    where: {
-      date: polldate,
-      candidatename: candidate,
-      state: state,
-    },
-  }).then(function(res) {
-    if (res.length > 0) { // already in the db
-      // check to make sure value hasn't changed
-      if (res[0].dataValues.pollaverage !== parseFloat(value)) {
-        Pollaverages.update({
-          pollaverage: value,
-        }, {
-          where: {
-            id: res[0].dataValues.id,
-          },
+  db.sequelize.transaction(function (t1) {
+    return Pollaverages.findAll({
+      where: {
+        date: polldate,
+        candidatename: candidate,
+        state: state,
+      },
+    }).then(function(res) {
+      if (res.length > 0) { // already in the db
+        // check to make sure value hasn't changed
+        if (res[0].dataValues.pollaverage !== parseFloat(value)) {
+          Pollaverages.update({
+            pollaverage: value,
+          }, {
+            where: {
+              id: res[0].dataValues.id,
+            },
+          });
+          winston.log('warn', 'RCP value for '+candidate+' on '+polldate+' changed from '+res[0].dataValues.pollaverage+' to '+value + ' in state ' + state);
+        }
+      } else {
+        Pollaverages.create({ date: polldate, candidatename: candidate, pollaverage: value, state: state }).then(function(poll) {
+          winston.log('info', 'New poll average added for '+candidate+' on '+polldate+' with value '+value + ' in state ' + state);
         });
-        winston.log('warn', 'RCP value for '+candidate+' on '+polldate+' changed from '+res[0].dataValues.pollaverage+' to '+value + ' in state ' + state);
       }
-    } else {
-      Pollaverages.create({ date: polldate, candidatename: candidate, pollaverage: value, state: state }).then(function(poll) {
-        winston.log('info', 'New poll average added for '+candidate+' on '+polldate+' with value '+value + ' in state ' + state);
-      });
-    }
+    });
   });
 }
 
@@ -57,30 +59,32 @@ function getPollAverageData(rcpURL, state) {
 }
 
 function addIndividualPollsToDatabase(rcpid, type, pollster, rcpUpdated, link, date, startDate, endDate, confidenceInterval, sampleSize, marginError, partisan, pollsterType, candidate, value, state) {
-  Polldata.findAll({
-    where: {
-      rcpid: rcpid,
-      candidatename: candidate,
-      state: state,
-    },
-  }).then(function(res) {
-    if (res.length > 0) { // already in the db
-      // check to make sure value hasn't changed
-      if (res[0].dataValues.pollvalue !== parseFloat(value)) {
-        Polldata.update({
-          pollvalue: value
-        }, {
-          where: {
-            id: res[0].dataValues.id
-          },
+  db.sequelize.transaction(function (t2) {
+    return Polldata.findAll({
+      where: {
+        rcpid: rcpid,
+        candidatename: candidate,
+        state: state,
+      },
+    }).then(function(res) {
+      if (res.length > 0) { // already in the db
+        // check to make sure value hasn't changed
+        if (res[0].dataValues.pollvalue !== parseFloat(value)) {
+          Polldata.update({
+            pollvalue: value
+          }, {
+            where: {
+              id: res[0].dataValues.id
+            },
+          });
+          winston.log('warn', 'RCP value for '+candidate+' with id '+rcpid+' changed from '+res[0].dataValues.pollvalue+' to '+value + ' in state ' + state);
+        }
+      } else {
+        Polldata.create({ rcpid: rcpid, pollster: pollster, rcpUpdated: rcpUpdated, link: link, date: date, startDate: startDate, endDate: endDate, confidenceInterval: confidenceInterval, sampleSize: sampleSize, marginError: marginError, partisan: partisan, pollsterType: pollsterType, candidatename: candidate, pollvalue: value, state: state }).then(function(poll) {
+          winston.log('info', 'New individual poll added for '+candidate+' with id '+rcpid+' and pollster '+pollster+' with value '+value + ' in state ' + state);
         });
-        winston.log('warn', 'RCP value for '+candidate+' with id '+rcpid+' changed from '+res[0].dataValues.pollvalue+' to '+value + ' in state ' + state);
       }
-    } else {
-      Polldata.create({ rcpid: rcpid, pollster: pollster, rcpUpdated: rcpUpdated, link: link, date: date, startDate: startDate, endDate: endDate, confidenceInterval: confidenceInterval, sampleSize: sampleSize, marginError: marginError, partisan: partisan, pollsterType: pollsterType, candidatename: candidate, pollvalue: value, state: state }).then(function(poll) {
-        winston.log('info', 'New individual poll added for '+candidate+' with id '+rcpid+' and pollster '+pollster+' with value '+value + ' in state ' + state);
-      });
-    }
+    });
   });
 }
 
@@ -116,19 +120,21 @@ function getIndividualPollData(rcpURL, state) {
 }
 
 function updateLastUpdatedDate() {
-  lastupdates.findAll({
-  }).then((res) => {
-    if (res.length > 0) { // already in the db
-      lastupdates.update({
-        lastupdate: new Date(),
-      }, {
-        where: {
-          id: res[0].dataValues.id,
-        },
-      });
-    } else {
-      lastupdates.create({ lastupdate: new Date() });
-    }
+  db.sequelize.transaction(function (t3) {
+    return lastupdates.findAll({
+    }).then((res) => {
+      if (res.length > 0) { // already in the db
+        lastupdates.update({
+          lastupdate: new Date(),
+        }, {
+          where: {
+            id: res[0].dataValues.id,
+          },
+        });
+      } else {
+        lastupdates.create({ lastupdate: new Date() });
+      }
+    });
   });
 }
 
