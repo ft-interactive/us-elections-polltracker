@@ -167,7 +167,13 @@ app.get('/:state', (req,res) => {
   }
 });
 
-app.get('/polls/:state', statePage);
+app.get('/polls/:state', (req,res) => {
+  if(validStates.indexOf(req.params.state)>=0){
+    statePage(req, res)
+  }else{
+    res.sendStatus(404);
+  }
+});
 
 async function statePage(req, res) {
   
