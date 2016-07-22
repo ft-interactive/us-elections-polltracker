@@ -102,7 +102,7 @@ async function makePollTimeSeries(chartOpts){
     size: `${svgWidth}x${svgHeight}`,
     width: svgWidth,
     height: svgHeight,
-    type: chartOpts.type || 'line', 
+    type: chartOpts.type || 'area', 
     state: chartOpts.state || 'us', 
     logo: (chartOpts.logo ? chartOpts.logo === 'true' : false), 
   };
