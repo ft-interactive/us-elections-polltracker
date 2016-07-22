@@ -1,4 +1,7 @@
 const d3 = require('d3');
+const svgIntersections = require('svg-intersections');
+const intersect = svgIntersections.intersect;
+const shape = svgIntersections.shape;
 const getJSDomWindow = require('./getJSDomWindow');
 const _ = require('underscore');
 const stateIds = require('./stateIds').states;
@@ -15,6 +18,7 @@ async function drawChart(options, data) {
   const margins = { top: 70, bottom: 70, left: 35, right: 30 };
   const userInputParse = d3.timeParse('%B %e, %Y');
   const colors = { Clinton: '#238fce', Trump: '#e5262d' };
+  const areaColors = { Clinton: '#a2c1e1', Trump: '#f4a098' };
 
   const data_groupedBy_candidate = _.groupBy(data, function(row) { return row.candidatename; });
   const data_groupedBy_date = _.groupBy(data, function(row) { return row.date; });
@@ -135,37 +139,11 @@ async function drawChart(options, data) {
       }
     });
 
-  if (options.type === 'area') {
-    const candidateAreas = svg.append('g')
-      .datum(formattedData)
-      .attr('transform', function() {
-        return 'translate('+(margins.left)+','+(margins.top)+')'
-      });
-
-    const area = d3.area()
-      .x(function(d) { return round_1dp(xScale(new Date(d.date))); })
-      .y1(function(d) { return round_1dp(yScale(d.Clinton)); });
-
-    candidateAreas.append('clipPath')
-      .attr('id', 'clip-below')
-      .append('path')
-      .attr('d', area.y0(options.height));
-
-    candidateAreas.append('clipPath')
-      .attr('id', 'clip-above')
-      .append('path')
-      .attr('d', area.y0(0));
-
-    candidateAreas.append('path')
-      .attr('class', 'area above')
-      .attr('clip-path', 'url(#clip-above)')
-      .attr('d', area.y0(function(d) { return round_1dp(yScale(d.Trump)); }));
-
-    candidateAreas.append('path')
-      .attr('class', 'area below')
-      .attr('clip-path', 'url(#clip-below)')
-      .attr('d', area);
-  }
+  const candidateAreaGroups = svg.append('g')
+    .attr('class', 'candidate area')
+    .attr('transform', function() {
+      return 'translate('+(margins.left)+','+(margins.top)+')'
+    });
 
   const candidateGroups = svg.selectAll('g.candidateLine')
     .data(d3.keys(data_groupedBy_candidate))
@@ -185,6 +163,113 @@ async function drawChart(options, data) {
     .attr('d', function(d) { return convertLineData(data_groupedBy_candidate[d]); })
     .style('stroke', function(d) { return colors[d]; })
     .style('stroke-width', '2');
+
+  if (options.type === 'area') {
+
+    const convertAreaData = d3.area()
+      .x(function(d) { return round_1dp(xScale(new Date(d.date))); })
+      .y0(function(d) { return round_1dp(yScale(d.Clinton)); })
+      .y1(function(d) { return round_1dp(yScale(d.Trump)); });
+
+    const intersections = intersect(
+      shape('path', { d: svg.select('.candidate.Clinton path.candidateLine').attr('d') }),
+      shape('path', { d: svg.select('.candidate.Trump path.candidateLine').attr('d') })
+    );
+
+    let filteredFormattedData = [];
+    let color = 'grey';
+
+    if (intersections.points.length > 0) {
+      const firstDataPointDate = new Date(formattedData[0].date);
+      const point = intersections.points[0];
+      const pointDate = new Date(xScale.invert(point.x));
+      const pointValue = yScale.invert(point.y);
+      filteredFormattedData = _.filter(formattedData, function(row) {
+        return new Date(row.date) >= firstDataPointDate && new Date(row.date) < pointDate;
+      });
+      filteredFormattedData.push({
+        date: pointDate,
+        Clinton: pointValue,
+        Trump: pointValue,
+      });
+      if (formattedData[0].Clinton > formattedData[0].Trump) {
+        color = areaColors.Clinton;
+      } else {
+        color = areaColors.Trump;
+      }
+
+      const candidateArea = candidateAreaGroups.append('path')
+        .datum(filteredFormattedData)
+        .attr('class', 'candidateArea')
+        .attr('d', function(d) {
+          return convertAreaData(d);
+        })
+        .style('fill', color)
+        .style('stroke-width', 0);
+
+      for (let i = 0; i < intersections.points.length; i++) {
+        const point = intersections.points[i];
+        const pointDate = new Date(xScale.invert(point.x));
+        const pointValue = yScale.invert(point.y);
+
+        let filteredFormattedData = [];
+        let color = 'grey';
+
+        if (i === intersections.points.length - 1) { // if last breakpoint
+          const lastDataPointDate = new Date(formattedData[formattedData.length - 1].date);
+          filteredFormattedData = _.filter(formattedData, function(row) {
+            return new Date(row.date) <= lastDataPointDate && new Date(row.date) > pointDate;
+          });
+          filteredFormattedData.unshift({
+            date: pointDate,
+            Clinton: pointValue,
+            Trump: pointValue,
+          });
+          if (formattedData[formattedData.length - 1].Clinton > formattedData[formattedData.length - 1].Trump) {
+            color = areaColors.Clinton;
+          } else {
+            color = areaColors.Trump;
+          }
+        } else { // for everything else
+          const firstDataPointDate = pointDate;
+          const lastDataPointDate = new Date(xScale.invert(intersections.points[i + 1].x));
+          filteredFormattedData = _.filter(formattedData, function(row) {
+            return new Date(row.date) <= lastDataPointDate && new Date(row.date) >= firstDataPointDate;
+          });
+          filteredFormattedData.unshift({
+            date: firstDataPointDate,
+            Clinton: pointValue,
+            Trump: pointValue,
+          });
+          filteredFormattedData.push({
+            date: lastDataPointDate,
+            Clinton: yScale.invert(intersections.points[i + 1].y),
+            Trump: yScale.invert(intersections.points[i + 1].y),
+          });
+          if (filteredFormattedData[0].Clinton > filteredFormattedData[0].Trump) {
+            color = areaColors.Clinton;
+          } else {
+            color = areaColors.Trump;
+          }
+        }
+      }
+    } else {
+      filteredFormattedData = formattedData;
+      if (filteredFormattedData[0].Clinton > filteredFormattedData[0].Trump) {
+        color = areaColors.Clinton;
+      } else {
+        color = areaColors.Trump;
+      }
+    }
+    const candidateArea = candidateAreaGroups.append('path')
+      .datum(filteredFormattedData)
+      .attr('class', 'candidateArea')
+      .attr('d', function(d) {
+        return convertAreaData(d);
+      })
+      .style('fill', color)
+      .style('stroke-width', 0);
+  }
 
   const annotationGroup = svg.append('g')
     .attr('class', 'annotations')
