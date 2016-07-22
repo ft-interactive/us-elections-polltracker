@@ -8,7 +8,7 @@ const lastupdates = require('./models/index').lastupdates;
 const stateIds = require('./layouts/stateIds').states;
 
 // Pollaverages.sync({force: true}) // use this to drop table and recreate
-db.sequelize.sync();
+db.sequelize.sync(); 
 
 function addPollAveragesToDatabase(polldate, candidate, value, state) {
   Pollaverages.findAll({
