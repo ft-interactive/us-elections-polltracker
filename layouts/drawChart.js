@@ -56,7 +56,8 @@ async function drawChart(options, data) {
 
   const yScale = d3.scaleLinear()
     .domain([Math.floor(min - yScalePadding), Math.ceil(max + yScalePadding)])
-    .range([options.height - margins.top - margins.bottom, 0]);
+    .range([options.height - margins.top - margins.bottom, 0])
+    .nice();
 
   let numYTicks = Math.min(7, yScale.ticks().length);
   if (options.height < 300) {
