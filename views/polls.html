@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="https://ig.ft.com/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="https://ig.ft.com/apple-touch-icon.png">
 
-    <title>Presidential polls 2016{% if state != 'us' %}: {{ stateName }}{% endif %} - Financial Times</title>
+    <title>{% if state != 'us' %}{{ stateName }} polls 2016{% else %}Presidential polls 2016{% endif %}</title>
 
     <link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-footer@^4,o-fonts@^2,o-grid@^4.0.8,o-ads@^4.3.2,o-typography@^4,o-date@^2,o-expander@^4">
 
@@ -503,7 +503,7 @@ a {
               <a href="//www.ft.com/us-election-2016" class="o-typography-flyline__link">US Election 2016</a>
             </div>
             
-            <h1 class="o-typography-heading1">US election poll tracker{% if state != 'us' %}: {{ stateName }}{% endif %}</h1>
+            <h1 class="o-typography-heading1">{% if state != 'us' %}{{ stateName }} US Election polls{% else %}US election poll tracker{% endif %}</h1>
             <p class="lastupdated">Updated: <time class="article__timestamp o-date o-typography-timestamp" data-o-component="o-date" datetime="{{ lastUpdated.toISOString() }}" data-o-date-js>{{ lastUpdated | ftdate }}</time></p>
             
             {% if state == 'us' %}
