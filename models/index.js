@@ -7,6 +7,11 @@ var basename  = path.basename(module.filename);
 var env       = process.env.NODE_ENV || 'development';
 var config    = require(__dirname + '/../config/db.js')[env];
 var db        = {};
+const cls = require('continuation-local-storage');
+
+// automatically pass transactions to all queries
+const namespace = cls.createNamespace('poll-db');
+Sequelize.cls = namespace;
 
 if (config.use_env_variable) {
   var sequelize = new Sequelize(process.env[config.use_env_variable], {
