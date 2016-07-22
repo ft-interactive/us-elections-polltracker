@@ -62,10 +62,16 @@ async function drawChart(options, data) {
     .domain( extent )
     .range([options.height - margins.top - margins.bottom, 0]);
 
+  let tickCount = (extent[1] - extent[0])/tickInterval;
+
+  if (tickCount < 3){
+    tickCount = Math.round(extent[1] - extent[0])    
+  }
+
   const yAxis = d3.axisLeft()
     .scale(yScale)
     .tickSizeInner(options.width - margins.left - margins.right)
-    .ticks((extent[1] - extent[0])/tickInterval)
+    .ticks(tickCount)
     .tickPadding(-margins.left);
 
   const yLabel = svg.append('g')
