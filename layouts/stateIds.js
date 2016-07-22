@@ -25,7 +25,7 @@ module.exports = {
 { state: 'MA', stateName: 'Massachusetts', raceId: 5863 },
 { state: 'MI', stateName: 'Michigan', raceId: 5533 },
 { state: 'MN', stateName: 'Minnesota', raceId: 5591 },
-{ state: 'MS', stateName: 'Mississipi', raceId: 5857 },
+{ state: 'MS', stateName: 'Mississippi', raceId: 5857 },
 { state: 'MO', stateName: 'Missouri', raceId: 5609 },
 { state: 'MT', stateName: 'Montana', raceId: null },
 { state: 'NE', stateName: 'Nebraska', raceId: null },
