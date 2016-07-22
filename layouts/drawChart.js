@@ -33,7 +33,6 @@ async function drawChart(options, data) {
     margins.right = 90 - ((new Date(userInputParse(options.endDate)) - new Date(d3.keys(data_groupedBy_date)[d3.keys(data_groupedBy_date).length - 1])) / 86400000);
   }
 
-  // format for d3.stack
   const formattedData = [];
   Object.keys(data_groupedBy_date).forEach(function(date) {
     let clintonVal;
@@ -60,6 +59,9 @@ async function drawChart(options, data) {
     .attr('width', options.width)
     .attr('height', options.height);
 
+  // help align gridlines and baseline
+  // gridlines are spaced every 5 if max margin is more than 5.
+  // if max margin is less than 5, gridlines are spaced every 1
   let rawExtent = d3.extent(data, (d) => d.pollaverage);
   let tickInterval = 5;
   if (rawExtent[1] - rawExtent[0] < 5) {
@@ -174,8 +176,8 @@ async function drawChart(options, data) {
     .style('stroke', function(d) { return colors[d]; })
     .style('stroke-width', '2');
 
+  // split up each area by intersections
   if (options.type === 'area') {
-
     const convertAreaData = d3.area()
       .x(function(d) { return round_1dp(xScale(new Date(d.date))); })
       .y0(function(d) { return round_1dp(yScale(d.Clinton)); })
