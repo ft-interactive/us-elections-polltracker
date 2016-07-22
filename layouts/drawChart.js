@@ -252,6 +252,14 @@ async function drawChart(options, data) {
             color = areaColors.Trump;
           }
         }
+        const candidateArea = candidateAreaGroups.append('path')
+          .datum(filteredFormattedData)
+          .attr('class', 'candidateArea')
+          .attr('d', function(d) {
+            return convertAreaData(d);
+          })
+          .style('fill', color)
+          .style('stroke-width', 0);
       }
     } else {
       filteredFormattedData = formattedData;
