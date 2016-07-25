@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-share@^2">
+<style>
+.o-share {
+  float: right;
+  position: relative;
+  text-align: center;
+}
+
+.o-share--muted .o-share__action {
+  line-height: 31px;
+}
+
+.o-share--muted .o-share__action li {
+  margin-top: 0;
+}
+
+.o-share--muted .o-share__action a {
+  width: 31px;
+  border-bottom: none;
+}
+
+.o-share--muted .o-share__action i {
+  width: 31px;
+  height: 31px;
+  text-indent: 31px;
+  border: 1px solid #e9decf;
+}
+
+.o-share--muted .o-share__action i:hover {
+  opacity: 1;
+  background-color: #e9decf;
+}
+
+.o-share--muted .o-share__action--twitter i {
+  background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMTMgLTEwMyA0MCA0MCI+PHBhdGggZmlsbD0iI2E3YTU5YiIgZD0iTS04MS44NjItODkuNzg2Yy0uODIuMzU3LTEuNy42LTIuNjI0LjcwOC45NDMtLjU1NiAxLjY2OC0xLjQzNiAyLjAxLTIuNDgzLS44ODMuNTEtMS44NjIuODgtMi45MDIgMS4wOC0uODMzLS44Ny0yLjAyLTEuNDItMy4zMzctMS40Mi0yLjUyMyAwLTQuNTcgMi4wMS00LjU3IDQuNDkgMCAuMzUuMDQuNjkuMTE4IDEuMDItMy44LS4xOS03LjE2Ny0xLjk3OC05LjQyLTQuNjktLjM5NC42Ni0uNjIgMS40My0uNjIgMi4yNiAwIDEuNTUuODA3IDIuOTMgMi4wMzMgMy43My0uNzUtLjAyNS0xLjQ1NC0uMjI4LTIuMDctLjU2di4wNTRjMCAyLjE3NiAxLjU3MyAzLjk5IDMuNjY3IDQuNC0uMzg0LjEwNC0uNzkuMTYtMS4yMDQuMTYtLjMgMC0uNTgtLjAyNy0uODYtLjA4LjU4IDEuNzgyIDIuMjcgMy4wOCA0LjI3IDMuMTE2LTEuNTcgMS4yMDUtMy41NCAxLjkyMy01LjY4IDEuOTIzLS4zNyAwLS43NC0uMDI2LTEuMDktLjA2NyAyLjAyIDEuMjcyIDQuNDIgMi4wMTUgNyAyLjAxNSA4LjQgMCAxMy02Ljg0IDEzLTEyLjc3IDAtLjE5NC0uMDA3LS4zOS0uMDE4LS41OC44OS0uNjMzIDEuNjY1LTEuNDI1IDIuMjgtMi4zMjV6Ii8+PC9zdmc+)
+}
+
+.o-share--muted .o-share__action--facebook i {
+  background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMTQgLTEwNSA0MCA0MCI+PHBhdGggZmlsbD0iI2E3YTU5YiIgZD0iTS05Ny05MS40NHYyLjk1aC0yLjE3djMuNjJILTk3djEwLjcyaDQuNDN2LTEwLjcyaDNzLjI2LTEuNzMuNC0zLjYyaC0zLjM4di0yLjQ3YzAtLjM3LjUtLjg3Ljk2LS44N2gyLjQzdi0zLjc1aC0zLjI4Yy00LjY2IDAtNC41NSAzLjYzLTQuNTUgNC4xNnoiLz48L3N2Zz4=)
+}
+
+.o-share--muted .o-share__action--linkedin i {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSczMicgaGVpZ2h0PSczMicgdmlld0JveD0nMCAwIDMyIDMyJz48cGF0aCBmaWxsPScjYTdhNTliJyBkPSdNMjIuMjcgMjIuMjNWMTYuMmMwLTEuMjMtLjMyLTIuMTctLjk1LTIuOC0uNjMtLjY2LTEuNDctLjk4LTIuNTItLjk4LS4zOCAwLS43My4wNi0xLjA2LjE2LS4zNC4xLS42LjI0LS44Mi40LS4yLjE1LS40LjMtLjU1LjQ2LS4xNi4xNS0uMjcuMjgtLjMzLjRsLS4xLjE2di0xLjI4SDEzLjF2OS41aDIuODN2LTVjMC0uNjcuMTYtMS4yLjQ3LTEuNTYuMy0uMzcuNzUtLjU2IDEuMzMtLjU2IDEuMDcgMCAxLjYuNyAxLjYgMi4xM3Y1aDIuOTR6bS0xMS4wNC05LjVIOC4yOHY5LjVoMi45NXYtOS41em0tMi43My0xLjhjLjM1LjM1Ljc2LjUzIDEuMjQuNTNzLjktLjE4IDEuMjMtLjUyYy4zNC0uMzQuNS0uNzYuNS0xLjI1IDAtLjUtLjE2LS45LS41LTEuMjctLjM0LS4zNC0uNzUtLjUtMS4yMy0uNXMtLjkuMTctMS4yMy41QzguMiA4LjggOCA5LjIgOCA5LjdzLjE4LjkuNSAxLjI0eicvPjwvc3ZnPg==");
+}
+</style>
+<div data-o-component="o-share"
+    class="o-share o-share--horizontal o-share--muted"
+    data-o-share-links="twitter facebook linkedin"
+    data-o-share-links="{{ links }}"
+    data-o-share-url="{{ url }}"
+    data-o-share-title="{{ title }}"
+    data-o-share-titleExtra="{{ titleExtra }}"
+    data-o-share-summary="{{ summary }}"
+    data-o-share-relatedTwitterAccounts="@ft">
+</div>

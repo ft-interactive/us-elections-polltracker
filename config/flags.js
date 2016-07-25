@@ -6,5 +6,6 @@ export default _ => ({
   analytics: true,
   googleAnalytics: true,
   ads: true,
+  shareButtons: true,
   onwardjourney: true
 })
