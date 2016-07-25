@@ -9,6 +9,7 @@ const express = require('express');
 const drawChart = require('./layouts/drawChart.js');
 const getPollAverages = require('./layouts/getPollAverages.js');
 const getAllPolls = require('./layouts/getAllPolls.js');
+const getLatestPollAverage = require('./layouts/getLatestPollAverage.js');
 const lastUpdated = require('./layouts/getLastUpdated.js');
 const nunjucks = require('nunjucks');
 const markdown = require('nunjucks-markdown');
@@ -28,6 +29,8 @@ import flags from './config/flags';
 const app = express();
 const maxAge = 120; // for user agent caching purposes
 const sMaxAge = 10;
+
+app.use(express.static('public'));
 
 // utility functions
 function setSVGHeaders(res) {
@@ -259,6 +262,9 @@ async function statePage(req, res) {
       });
     });
 
+    // get latest poll averages for social
+    const latestPollAverages = await getLatestPollAverage(state);
+
     const polltrackerLayout = {
       state: state,
       stateName: stateName,
@@ -274,7 +280,12 @@ async function statePage(req, res) {
       pollList: formattedIndividualPolls,
       canonicalURL: canonicalURL,
       stateStreamURL: stateStreamURL,
-      flags: flags()
+      flags: flags(),
+      share: {
+        title: `US presidential election polls: It's Clinton ${latestPollAverages.Clinton}%, Trump ${latestPollAverages.Trump}%`,
+        summary: `US election poll tracker: Here's who's ahead`,
+        url: `https://ig.ft.com/us-elections${req.url}`,
+      },
     };
 
     renderedPage = nunjucks.render('polls.html', polltrackerLayout);
