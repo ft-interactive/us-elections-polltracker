@@ -161,8 +161,17 @@ async function drawChart(options, data) {
       return 'translate('+(margins.left)+','+(margins.top)+')'
     });
 
+  // check who is ahead in the latest average and put their line on top
+  const latestClinton = formattedData[formattedData.length - 1].Clinton;
+  const latestTrump = formattedData[formattedData.length - 1].Trump;
+  let keyOrder = ['Trump', 'Clinton'];
+
+  if (latestClinton < latestTrump) {
+    keyOrder = ['Clinton', 'Trump'];
+  }
+
   const candidateGroups = svg.selectAll('g.candidateLine')
-    .data(d3.keys(data_groupedBy_candidate))
+    .data(keyOrder)
     .enter()
     .append('g')
     .attr('class', function(d) { return 'candidate ' + d; })
