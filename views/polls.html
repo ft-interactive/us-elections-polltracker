@@ -486,7 +486,7 @@ a {
                   {% endfor %}
                 </div>
 
-                {% if state != 'us' %}
+                {% if state != 'us' and stateStreamURL %}
                 <p class="off-link"><a href="{{ stateStreamURL }}">All {{ stateName }} coverage</a></p>
                 {% endif %}
 
