@@ -22,6 +22,9 @@ const filters = require('./filters');
 const berthaDefaults = require('./config/bertha-defaults.json')
 const validStates = berthaDefaults.streampages.map( (d)=>d.state.toLowerCase() );
 
+import flags from './config/flags';
+
+
 const app = express();
 const maxAge = 120; // for user agent caching purposes
 const sMaxAge = 10;
@@ -94,17 +97,18 @@ async function makePollTimeSeries(chartOpts){
 
   const [svgWidth, svgHeight] = (chartOpts.size || '600x300').split('x');
 
-  const options = { 
-    fontless: (chartOpts.fontless ? chartOpts.fontless === 'true' : true), 
-    background: chartOpts.background || 'none', 
-    startDate: chartOpts.startDate || 'June 1, 2016', 
-    endDate: chartOpts.endDate || formattedNowDate, 
+  const options = {
+    fontless: (typeof chartOpts.fontless === 'boolean' ? chartOpts.fontless : (chartOpts.fontless ? chartOpts.fontless === 'true' : true)),
+    noheadline: typeof chartOpts.noheadline === 'boolean' ? chartOpts.noheadline : false,
+    background: chartOpts.background || 'none',
+    startDate: chartOpts.startDate || 'June 1, 2016',
+    endDate: chartOpts.endDate || formattedNowDate,
     size: `${svgWidth}x${svgHeight}`,
     width: svgWidth,
     height: svgHeight,
-    type: chartOpts.type || 'area', 
-    state: chartOpts.state || 'us', 
-    logo: (chartOpts.logo ? chartOpts.logo === 'true' : false), 
+    type: chartOpts.type || 'area',
+    state: chartOpts.state || 'us',
+    logo: (chartOpts.logo ? chartOpts.logo === 'true' : false),
   };
   const cacheKey = convertToCacheKeyName(options);
 
@@ -122,7 +126,7 @@ async function makePollTimeSeries(chartOpts){
       dbResponse = await getPollAverages(options.state, options.startDate, queryEndDate);
       cache.set(dbCacheKey, dbResponse);
     }
-    
+
     try {
       const chartLayout = await drawChart(options, dbResponse);
       value = nunjucks.render('poll.svg', chartLayout);
@@ -177,7 +181,7 @@ app.get('/polls/:state', (req,res) => {
 });
 
 async function statePage(req, res) {
-  
+
   let state = 'us';
   if(req.params.state) state = req.params.state;
   const canonicalURL = `polls/${state}`;
@@ -216,6 +220,7 @@ async function statePage(req, res) {
     async function getPollSVG(size = '600x300') {
       return makePollTimeSeries({
         fontless: true,
+        noheadline: true,
         startDate: 'June 1, 2016',
         size: size,
         type: 'area',
@@ -264,11 +269,12 @@ async function statePage(req, res) {
         S: await getPollSVG('452x250'),
         M: await getPollSVG('570x300'),
         L: await getPollSVG('750x350'),
-        XL: await getPollSVG('750x350'),
+        XL: await getPollSVG('680x350'),
       },
       pollList: formattedIndividualPolls,
       canonicalURL: canonicalURL,
       stateStreamURL: stateStreamURL,
+      flags: flags()
     };
 
     renderedPage = nunjucks.render('polls.html', polltrackerLayout);

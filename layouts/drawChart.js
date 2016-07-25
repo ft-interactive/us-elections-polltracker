@@ -19,8 +19,7 @@ async function drawChart(options, data) {
 
   const window = await getJSDomWindow(htmlStub);
   const el = window.document.querySelector('#dataviz-container');
-
-  const margins = { top: 70, bottom: 70, left: 35, right: 30 };
+  const margins = { top: options.noheadline ? 30 : 70, bottom: 70, left: 35, right: 30 };
   const userInputParse = d3.timeParse('%B %e, %Y');
   const colors = { Clinton: '#238fce', Trump: '#e5262d' };
   const areaColors = { Clinton: '#a2c1e1', Trump: '#f4a098' };
@@ -76,7 +75,7 @@ async function drawChart(options, data) {
   let tickCount = (extent[1] - extent[0])/tickInterval;
 
   if (tickCount < 3){
-    tickCount = Math.round(extent[1] - extent[0])    
+    tickCount = Math.round(extent[1] - extent[0])
   }
 
   const yAxis = d3.axisLeft()
@@ -356,23 +355,26 @@ async function drawChart(options, data) {
     })
     .style('fill', function(d) { return colors[d]; });
 
-  const headline = annotationGroup.append('text')
-    .text(function() {
-      const stateName = _.findWhere(stateIds, { 'state': options.state.toUpperCase() }).stateName;
-      if (options.width < 450) {
-        if (options.state === 'us') {
-          return 'Latest polls';
+  if (!options.noheadline) {
+    annotationGroup.append('text')
+      .text(function() {
+        const stateName = _.findWhere(stateIds, { 'state': options.state.toUpperCase() }).stateName;
+        if (options.width < 450) {
+          if (options.state === 'us') {
+            return 'Latest polls';
+          }
+          return `Latest polls: ${stateName}`;
         }
-        return `Latest polls: ${stateName}`;
-      }
-      if (options.state === 'us') {
-        return 'Which White House candidate is leading in the polls?';
-      }
-      return `Which candidate is leading in ${stateName}?`;
-    })
-    .attr('class', 'headline')
-    .attr('x', -margins.left + 7)
-    .attr('y', -margins.top + 24);
+        if (options.state === 'us') {
+          return 'Which White House candidate is leading in the polls?';
+        }
+        return `Which candidate is leading in ${stateName}?`;
+      })
+      .attr('class', 'headline')
+      .attr('x', -margins.left + 7)
+      .attr('y', -margins.top + 24);
+  }
+
 
   const subhead = annotationGroup.append('text')
     .text(function() {
@@ -391,7 +393,7 @@ async function drawChart(options, data) {
     })
     .attr('class', 'subhead')
     .attr('x', -margins.left + 7)
-    .attr('y', -margins.top + 46);
+    .attr('y', -margins.top + (options.noheadline ? 10 : 46));
 
   const sourceline = annotationGroup.append('text')
     .text('Source: Real Clear Politics')
