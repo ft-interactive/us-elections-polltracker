@@ -201,6 +201,44 @@ async function drawChart(options, data) {
     .style('stroke', function(d) { return colors[d]; })
     .style('stroke-width', '2');
 
+  const lastPointLabels = candidateGroups.append('circle')
+    .attr('class', 'lastpointlabel')
+    .attr('cx', function(d) {
+      return round_1dp(xScale(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].date));
+    })
+    .attr('cy', function(d) {
+      return round_1dp(yScale(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].pollaverage));
+    })
+    .attr('r', '3.66')
+    .style('fill', function(d) { return colors[d]; });
+
+  const lastPointText = candidateGroups.append('text')
+    .attr('class', 'lastpointtext')
+    .attr('x', function(d) {
+      return round_1dp(xScale(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].date)) + 10;
+    })
+    .attr('y', function(d) {
+      let yOverlapOffset; // adjust for when labels overlap
+
+      if (d === onTop) {
+        yOverlapOffset = 5;
+      } else {
+        yOverlapOffset = -10;
+      }
+
+      return round_1dp(yScale(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].pollaverage) - yOverlapOffset);
+    })
+    .style('fill', function(d) { return colors[d]; });
+
+  lastPointText.append('tspan')
+    .text(function(d) { return d3.format(".1f")(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].pollaverage) })
+    .style('font-weight', 600);
+
+  lastPointText.append('tspan')
+    .text(function(d) {
+      return ` ${d}`;
+    })
+
   // split up each area by intersections
   if (options.type === 'area') {
     const convertAreaData = d3.area()
@@ -322,41 +360,6 @@ async function drawChart(options, data) {
       return 'translate('+(margins.left)+','+(margins.top)+')'
     });
 
-  const lastPointLabels = annotationGroup.selectAll('circle.lastpointlabel')
-    .data(keyOrder)
-    .enter()
-    .append('circle')
-    .attr('class', 'lastpointlabel')
-    .attr('cx', function(d) {
-      return round_1dp(xScale(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].date));
-    })
-    .attr('cy', function(d) {
-      return round_1dp(yScale(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].pollaverage));
-    })
-    .attr('r', '3.66')
-    .style('fill', function(d) { return colors[d]; });
-
-  const lastPointText = annotationGroup.selectAll('text.lastpointtext')
-    .data(d3.keys(data_groupedBy_candidate))
-    .enter()
-    .append('text')
-    .attr('class', 'lastpointtext')
-    .text(function(d) { return data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].pollaverage + ' ' + d; })
-    .attr('x', function(d) {
-      return round_1dp(xScale(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].date)) + 10;
-    })
-    .attr('y', function(d) {
-      let yOverlapOffset; // adjust for when labels overlap
-
-      if (d === onTop) {
-        yOverlapOffset = 5;
-      } else {
-        yOverlapOffset = -10;
-      }
-
-      return round_1dp(yScale(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].pollaverage) - yOverlapOffset);
-    })
-    .style('fill', function(d) { return colors[d]; });
 
   if (!options.noheadline) {
     annotationGroup.append('text')
