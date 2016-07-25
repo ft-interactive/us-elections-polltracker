@@ -322,7 +322,7 @@ async function drawChart(options, data) {
       return 'translate('+(margins.left)+','+(margins.top)+')'
     });
 
-  const lastPointLabels = annotationGroup.selectAll('circle.lastpointlabel')
+  const lastPointLabels = candidateGroups.selectAll('circle.lastpointlabel')
     .data(keyOrder)
     .enter()
     .append('circle')
@@ -341,7 +341,6 @@ async function drawChart(options, data) {
     .enter()
     .append('text')
     .attr('class', 'lastpointtext')
-    .text(function(d) { return data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].pollaverage + ' ' + d; })
     .attr('x', function(d) {
       return round_1dp(xScale(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].date)) + 10;
     })
@@ -357,6 +356,16 @@ async function drawChart(options, data) {
       return round_1dp(yScale(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].pollaverage) - yOverlapOffset);
     })
     .style('fill', function(d) { return colors[d]; });
+
+  lastPointText.append('tspan')
+    .text(function(d) { return d3.format(".1f")(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].pollaverage) })
+    .style('font-weight', 600);
+
+  lastPointText.append('tspan')
+    .text(function(d) {
+      return ` ${d}`;
+    })
+
 
   if (!options.noheadline) {
     annotationGroup.append('text')
