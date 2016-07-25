@@ -323,7 +323,7 @@ async function drawChart(options, data) {
     });
 
   const lastPointLabels = annotationGroup.selectAll('circle.lastpointlabel')
-    .data(d3.keys(data_groupedBy_candidate))
+    .data(keyOrder)
     .enter()
     .append('circle')
     .attr('class', 'lastpointlabel')
