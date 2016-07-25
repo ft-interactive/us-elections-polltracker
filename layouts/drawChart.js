@@ -161,8 +161,29 @@ async function drawChart(options, data) {
       return 'translate('+(margins.left)+','+(margins.top)+')'
     });
 
+  // check who is ahead in the latest average and put their line on top
+  const latestClinton = formattedData[formattedData.length - 1].Clinton;
+  const latestTrump = formattedData[formattedData.length - 1].Trump;
+  let onTop = 'Clinton';
+  let keyOrder = ['Trump', 'Clinton'];
+
+  if (latestClinton < latestTrump) { // if Trump is above Clinton, put his line on top
+    keyOrder = ['Clinton', 'Trump'];
+    onTop = 'Trump';
+  }
+
+  if (latestClinton === latestTrump) { // if they tie, check sum of averages
+    const sumClinton = _.reduce(data_groupedBy_candidate.Clinton, function(a, b) { return a + b.pollaverage; }, data_groupedBy_candidate.Clinton[0].pollaverage);
+    const sumTrump = _.reduce(data_groupedBy_candidate.Trump, function(a, b) { return a + b.pollaverage; }, data_groupedBy_candidate.Trump[0].pollaverage);
+
+    if (sumClinton < sumTrump) {
+      keyOrder = ['Clinton', 'Trump'];
+      onTop = 'Trump';
+    }
+  }
+
   const candidateGroups = svg.selectAll('g.candidateLine')
-    .data(d3.keys(data_groupedBy_candidate))
+    .data(keyOrder)
     .enter()
     .append('g')
     .attr('class', function(d) { return 'candidate ' + d; })
@@ -325,25 +346,7 @@ async function drawChart(options, data) {
       return round_1dp(xScale(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].date)) + 10;
     })
     .attr('y', function(d) {
-      let onTop; // adjust for when labels overlap
-      let yOverlapOffset;
-
-      if (data_groupedBy_candidate.Clinton[data_groupedBy_candidate.Clinton.length - 1].pollaverage > data_groupedBy_candidate.Trump[data_groupedBy_candidate.Trump.length - 1].pollaverage) {
-        onTop = 'Clinton';
-      }
-      if (data_groupedBy_candidate.Clinton[data_groupedBy_candidate.Clinton.length - 1].pollaverage < data_groupedBy_candidate.Trump[data_groupedBy_candidate.Trump.length - 1].pollaverage) {
-        onTop = 'Trump';
-      }
-      if (data_groupedBy_candidate.Clinton[data_groupedBy_candidate.Clinton.length - 1].pollaverage === data_groupedBy_candidate.Trump[data_groupedBy_candidate.Trump.length - 1].pollaverage) {
-        const sumClinton = _.reduce(data_groupedBy_candidate.Clinton, function(a, b) { return a + b.pollaverage; }, data_groupedBy_candidate.Clinton[0].pollaverage);
-        const sumTrump = _.reduce(data_groupedBy_candidate.Trump, function(a, b) { return a + b.pollaverage; }, data_groupedBy_candidate.Trump[0].pollaverage);
-
-        if (sumClinton >= sumTrump) {
-          onTop = 'Clinton';
-        } else {
-          onTop = 'Trump';
-        }
-      }
+      let yOverlapOffset; // adjust for when labels overlap
 
       if (d === onTop) {
         yOverlapOffset = 5;
