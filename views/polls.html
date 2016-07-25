@@ -503,12 +503,13 @@ a {
 
                 <h2>Full list of individual polls</h2>
 
+                {% set row_num_collapse = 20 %}
                 <div data-o-component="o-expander" class="o-expander items"
                         data-o-expander-collapsed-toggle-text="Show more polls"
                         data-o-expander-expanded-toggle-text="Show fewer polls"
                         data-o-expander-toggle-selector=".table-toggle-btn"
-                        data-o-expander-shrink-to="20"
-                        data-o-expander-count-selector="tr">
+                        data-o-expander-shrink-to="{{ row_num_collapse }}"
+                        data-o-expander-count-selector="tbody tr">
                   <table>
                     <thead>
                       <tr>
@@ -534,7 +535,9 @@ a {
                     </tbody>
                   </table>
                   <p class="source"><small>* RV indicates registered voters; LV indicates likely voters<br />Source: Real Clear Politics</small></p>
-                  <button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big"></button>
+                  {% if pollList.length > row_num_collapse %}
+                  <button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big">Show more polls</button>
+                  {% endif %}
                 </div>
 
                 <footer class="o-typography-footer">
