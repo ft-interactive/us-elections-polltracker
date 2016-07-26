@@ -10,7 +10,8 @@
   .national-bar--head-icons {
     width: 9%;
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: bottom;
+    margin-bottom: -16px;
   }
 
   .national-bar--head-icons img {
@@ -113,6 +114,22 @@
     text-align: right;
   }
 
+  .national-bar-container-group-sums {
+    font-size: 1.3em;
+    width: 100%;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  #national-bar-container-group-sums--dem {
+    color: #579dd5;
+  }
+
+  #national-bar-container-group-sums--rep {
+    color: #e03d46;
+    /*text-align: right;*/
+  }
+
   @media (max-width: 400px) {
     .national-bar--head-icons {
       display: none;
@@ -126,7 +143,9 @@
 </style>
 
 <div id="national-bar-wrapper">
-  <div class="national-bar--head-icons"><img src="images/clinton.png" /></div>
+  <div class="national-bar--head-icons"><img src="images/clinton.png" />
+    <div class="national-bar-container-group-sums" id="national-bar-container-group-sums--dem">{{nationalBarCounts.dem + nationalBarCounts.leaningDem}}</div>
+  </div>
   <div id="national-bar-container">
   <div id="national-270-line"></div>
     {% for key, value in nationalBarCounts %}
@@ -142,5 +161,7 @@
     </div>
     {% endfor %}
   </div>
-  <div class="national-bar--head-icons"><img src="images/trump.png" /></div>
+  <div class="national-bar--head-icons"><img src="images/trump.png" />
+    <div class="national-bar-container-group-sums" id="national-bar-container-group-sums--rep">{{nationalBarCounts.rep + nationalBarCounts.leaningRep}}</div>
+  </div>
 </div>
