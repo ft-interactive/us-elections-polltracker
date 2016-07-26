@@ -113,28 +113,30 @@ body {
 @media (max-width: 30.615em) {
   .o-typography-heading1 {
     font-size: 26px;
-    line-height: 1.2;
+    line-height: 1.1;
   }
   .o-typography-body-wrapper p {
     font-size: 16px;
   }
 
   .o-typography-body-wrapper h2 {
-    font-size: 22px
+    font-size: 20px;
+    line-height: 1.1;
   }
 }
 
 @media (max-width: 46.24em) and (min-width: 30.625em) {
   .o-typography-heading1 {
     font-size: 26px;
-    line-height: 1.2;
+    line-height: 1.1;
   }
   .o-typography-body-wrapper p {
     font-size: 16px;
   }
 
   .o-typography-body-wrapper h2 {
-    font-size: 22px
+    font-size: 20px;
+    line-height: 1.1;
   }
 }
 
@@ -154,8 +156,29 @@ body {
   padding-top: 20px;
 }
 
-.article__figure h2 {
+.article-figure {
+  font-family: MetricWeb, sans-serif;
+}
+
+.article-figure .article-figure__heading {
   margin-bottom: 0;
+  font-family: inherit;
+}
+
+.article-figure .article-figure__subheading {
+  color: #6b6e68;
+  font-size: 16px;
+  font-family: inherit;
+  margin-top: 0.3em;
+  margin-bottom: 0.5em;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+@media (max-width: 46.24em) {
+  .article-figure .article-figure__subheading {
+    font-size: 14px;
+  }
 }
 
 table {
@@ -219,7 +242,6 @@ td.date{
 }
 
 .pollchart {
-  padding-top: 10px;
   display: none;
   margin: 0 auto;
 }
@@ -258,8 +280,6 @@ a {
   text-decoration: none;
 }
 
-/* chart sizing */
-
 @media (max-width: 30.615em) {
   .pollchart.pollchart--default {
     display: block;
@@ -275,7 +295,7 @@ a {
     display: block;
   }
   .pollchart.pollchart--S svg {
-    max-width: 610px;
+    max-width: 705px;
   }
 }
 
@@ -284,6 +304,7 @@ a {
     display: block;
   }
   .pollchart.pollchart--M svg {
+    max-width: 657px;
   }
 }
 
@@ -292,13 +313,14 @@ a {
     display: block;
   }
   .pollchart.pollchart--L svg {
-    max-width: 680px;
+    max-width: 708px;
   }
 }
 
 @media (min-width: 76.25em) {
   .pollchart.pollchart--XL {
     display: block;
+    max-width: 741px;
   }
 }
 
@@ -468,15 +490,15 @@ a {
                 <p class="off-link"><a href="http://www.ft.com/us-election-2016">All US Election 2016 coverage</a></p>
                 {% endif %}
 
-                <div class="article__figure">
-                  <h2>
+                <div class="article-figure">
+                  <h2 class="article-figure__heading">
                   {% if state == "us" %}
-                    Which White House candidate is leading in the polls?
+                    Which White House candidate is leading in the polls?
                   {% else %}
-                    Which candidate is leading in STATENAME?
+                    Which candidate is leading in STATENAME?
                   {% endif %}
                   </h2>
-
+                  <p class="article-figure__subheading">Polling average</p>
                   {% for gridsize, svg in pollSVG %}
                   {% if svg %}
                   <div class="pollchart pollchart--{{gridsize}}">
@@ -484,6 +506,8 @@ a {
                   </div>
                   {% endif %}
                   {% endfor %}
+
+                  <p class="source"><small>Source: Real Clear Politics</small></p>
                 </div>
 
                 {% if state != 'us' and stateStreamURL %}
