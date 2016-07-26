@@ -3,10 +3,25 @@
     margin: 3em 0;
   }
 
-  #national-bar-container {
+  #national-bar-wrapper * {
+    box-sizing: border-box;
+  }
+
+  .head-icons {
+    width: 9%;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .head-icons img {
     width: 100%;
+  }
+
+  #national-bar-container {
+    width: 80%;
     height: 20px;
     position: relative;
+    display: inline-block;
   }
 
   #national-270-line {
@@ -73,13 +88,25 @@
     width: 100%;
   }
 
+  @media (max-width: 400px) {
+    .head-icons {
+      display: none;
+    }
+
+    #national-bar-container {
+      width: 100%;
+    }
+  }
+
 </style>
 
 <div id="national-bar-wrapper">
+  <div class="head-icons"><img src="images/clinton.png" /></div>
   <div id="national-bar-container">
   <div id="national-270-line"></div>
     {% for key, value in nationalBarCounts %}
     <div class="national-bar-container--subbars" id="{{key}}"><span class="national-bar-container-values">{{value}}</span></div>
     {% endfor %}
   </div>
+  <div class="head-icons"><img src="images/trump.png" /></div>
 </div>
