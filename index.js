@@ -223,6 +223,13 @@ async function statePage(req, res) {
       introText = `${introText}<p>${introtext2}</p>`;
     }
 
+    // last update time
+    let lastUpdatedTime = new Date(await lastUpdated());
+    const streamTextLastUpdated =  new Date(_.findWhere(data.options, { name: 'updated' }).value);
+    if (streamTextLastUpdated > lastUpdatedTime) {
+      lastUpdatedTime = streamTextLastUpdated;
+    }
+
     // get poll SVG
     async function getPollSVG(size = '600x300') {
       return makePollTimeSeries({
@@ -274,7 +281,7 @@ async function statePage(req, res) {
       id: state === 'us' ? 'e01abff0-5292-11e6-9664-e0bdc13c3bef' : null,
       state: state,
       stateName: stateName,
-      lastUpdated: await lastUpdated(),
+      lastUpdated: lastUpdatedTime,
       introText: introText,
       pollSVG: {
         default: await getPollSVG('355x200'),
