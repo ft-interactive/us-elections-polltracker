@@ -299,6 +299,14 @@ async function statePage(req, res) {
         summary: `US election poll tracker: Here's who's ahead`,
         url: `https://ig.ft.com/us-elections${req.url}`,
       },
+      nationalBarCounts: { // dummy data
+        dem: 110,
+        leaningDem: 90,
+        swing: 30,
+        nodata: 38,
+        leaningRep: 170,
+        rep: 100,
+      },
     };
 
     renderedPage = nunjucks.render('polls.html', polltrackerLayout);

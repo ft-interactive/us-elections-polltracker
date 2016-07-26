@@ -478,6 +478,10 @@ a {
             <div data-o-grid-colspan="center 12 M10 L8 XL7">
               <div class="article-body o-typography-body-wrapper" itemprop="articleBody">
 
+                {% if flags.nationalBar %}
+                  {% include "includes/nationalbar.html" %}
+                {% endif %}
+
                 {% if state == 'us' %}
                 <div>
                   {% markdown %}
