@@ -30,6 +30,8 @@ const app = express();
 const maxAge = 120; // for user agent caching purposes
 const sMaxAge = 10;
 
+app.disable('x-powered-by');
+
 app.use(express.static('public'));
 
 // utility functions
@@ -189,6 +191,8 @@ async function statePage(req, res) {
   if(req.params.state) state = req.params.state;
   const canonicalURL = `polls/${state}`;
 
+  res.setHeader('Cache-Control', `public, max-age=${maxAge}, s-maxage=${sMaxAge}`);
+
   let cachePage = true;
   const pageCacheKey = `statePage-${state}`;
 
@@ -266,6 +270,8 @@ async function statePage(req, res) {
     const latestPollAverages = await getLatestPollAverage(state);
 
     const polltrackerLayout = {
+      // quick hack for page ID while we only have a UUID for the National page
+      id: state === 'us' ? 'e01abff0-5292-11e6-9664-e0bdc13c3bef' : null,
       state: state,
       stateName: stateName,
       lastUpdated: await lastUpdated(),
