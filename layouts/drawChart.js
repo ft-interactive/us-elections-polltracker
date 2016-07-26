@@ -399,7 +399,7 @@ async function drawChart(options, data) {
       .attr('x', -margins.left + 7)
       .attr('y', -margins.top + 46);
 
-    sourceline = annotationGroup.append('text')
+    annotationGroup.append('text')
       .text('Source: Real Clear Politics')
       .attr('class', 'sourceline')
       .attr('x', -margins.left + 7)
