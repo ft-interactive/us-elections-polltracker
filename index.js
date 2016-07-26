@@ -301,10 +301,10 @@ async function statePage(req, res) {
       },
       nationalBarCounts: { // dummy data
         dem: 110,
-        leaningDem: 90,
-        swing: 30,
+        leaningDem: 140,
+        swing: 80,
         nodata: 38,
-        leaningRep: 170,
+        leaningRep: 70,
         rep: 100,
       },
     };
