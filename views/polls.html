@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en-GB" class="core">
+<html lang="en-GB" class="core" data-content-id="{{ id }}">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -429,18 +429,6 @@ a {
 }
     </style>
 
-    {% if flags.analytics and flags.googleAnalytics %}
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-35229645-1', 'auto');
-      ga('require','displayfeatures');
-      ga('send', 'pageview');
-    </script>
-    {% endif %}
-
     {% if flags.errorReporting %}
     <script type="application/json" data-o-errors-config>
     {"sentryEndpoint": "https://ddbd80489ff549538250bbe37fa52bbd@app.getsentry.com/71130"}
@@ -454,8 +442,18 @@ a {
     </script>
     {% endif %}
 
+
+    {% if flags.analytics %}
+    <meta property="ft.track:product" content="IG"/>
+    <meta property="ft.track:microsite_name" content="us-elections"/>
+    {% endif %}
+
   </head>
   <body>
+
+    {% if flags.analytics %}
+      {% include "includes/analytics.html" %}
+    {% endif %}
 
     {% include "includes/header.html" %}
 
@@ -495,7 +493,7 @@ a {
                   {% if state == "us" %}
                     Which White House candidate is leading in the polls?
                   {% else %}
-                    Which candidate is leading in STATENAME?
+                    Which candidate is leading in {{ stateName }}?
                   {% endif %}
                   </h2>
                   <p class="article-figure__subheading">Polling average</p>
