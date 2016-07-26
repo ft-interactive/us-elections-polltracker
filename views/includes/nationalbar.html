@@ -12,15 +12,16 @@
   #national-270-line {
     position: absolute;
     width: 50%;
-    height: 100%;
-    border-right: 2px solid white;
+    height: 200%;
+    border-right: 2px solid black;
+    top: -50%;
   }
 
   #national-270-line:after {
     content: "270 to win";
     position: absolute;
     right: -30px;
-    top: 25px;
+    top: 45px;
     font-weight: 600;
   }
 
@@ -49,7 +50,7 @@
   }
 
   #nodata {
-    background: grey;
+    background: #b0b0b0;
     width: {{ nationalBarCounts.nodata * 100 / 538 }}%;
   }
 
