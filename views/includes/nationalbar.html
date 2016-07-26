@@ -15,6 +15,7 @@
     height: 200%;
     border-right: 2px solid black;
     top: -50%;
+    z-index: 2;
   }
 
   #national-270-line:after {
@@ -32,6 +33,7 @@
     padding: 0;
     float: left;
     text-align: center;
+    position: relative;
   }
 
   #dem {
@@ -39,7 +41,7 @@
     width: {{ nationalBarCounts.dem * 100 / 538 }}%;
   }
 
-  #leaning-dem {
+  #leaningDem {
     background: #a2c1e1;
     width: {{ nationalBarCounts.leaningDem * 100 / 538 }}%;
   }
@@ -54,7 +56,7 @@
     width: {{ nationalBarCounts.nodata * 100 / 538 }}%;
   }
 
-  #leaning-rep {
+  #leaningRep {
     background: #f4a098;
     width: {{ nationalBarCounts.leaningRep * 100 / 538 }}%;
   }
@@ -64,44 +66,18 @@
     width: {{ nationalBarCounts.rep * 100 / 538 }}%;
   }
 
-  .national-bar-container--subbars:before {
+  .national-bar-container-values {
     position: absolute;
     top: -20px;
   }
 
-  #dem:before {
-    content: "{{ nationalBarCounts.dem }}";
-  }
-
-  #leaning-dem:before {
-    content: "{{ nationalBarCounts.leaningDem }}";
-  }
-
-  #swing:before {
-    content: "{{ nationalBarCounts.swing }}";
-  }
-
-  #nodata:before {
-    content: "{{ nationalBarCounts.nodata }}";
-  }
-
-  #leaning-rep:before {
-    content: "{{ nationalBarCounts.leaningRep }}";
-  }
-
-  #rep:before {
-    content: "{{ nationalBarCounts.rep }}";
-  }
 </style>
 
 <div id="national-bar-wrapper">
   <div id="national-bar-container">
   <div id="national-270-line"></div>
-    <div class="national-bar-container--subbars" id="dem"></div>
-    <div class="national-bar-container--subbars" id="leaning-dem"></div>
-    <div class="national-bar-container--subbars" id="swing"></div>
-    <div class="national-bar-container--subbars" id="nodata"></div>
-    <div class="national-bar-container--subbars" id="leaning-rep"></div>
-    <div class="national-bar-container--subbars" id="rep"></div>
+    {% for key, value in nationalBarCounts %}
+    <div class="national-bar-container--subbars" id="{{key}}"><span class="national-bar-container-values">{{value}}</span></div>
+    {% endfor %}
   </div>
 </div>
