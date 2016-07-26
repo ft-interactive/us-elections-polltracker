@@ -102,7 +102,7 @@ async function makePollTimeSeries(chartOpts){
 
   const options = {
     fontless: (typeof chartOpts.fontless === 'boolean' ? chartOpts.fontless : (chartOpts.fontless ? chartOpts.fontless === 'true' : true)),
-    noheadline: typeof chartOpts.noheadline === 'boolean' ? chartOpts.noheadline : false,
+    notext: typeof chartOpts.notext === 'boolean' ? chartOpts.notext : false,
     background: chartOpts.background || 'none',
     startDate: chartOpts.startDate || 'June 1, 2016',
     endDate: chartOpts.endDate || formattedNowDate,
@@ -223,7 +223,7 @@ async function statePage(req, res) {
     async function getPollSVG(size = '600x300') {
       return makePollTimeSeries({
         fontless: true,
-        noheadline: true,
+        notext: true,
         startDate: 'June 1, 2016',
         size: size,
         type: 'area',
@@ -271,11 +271,11 @@ async function statePage(req, res) {
       lastUpdated: await lastUpdated(),
       introText: introText,
       pollSVG: {
-        default: await getPollSVG('320x250'),
-        S: await getPollSVG('550x320'),
-        M: await getPollSVG('625x350'),
-        L: await getPollSVG('660x390'),
-        XL: await getPollSVG('680x350'),
+        default: await getPollSVG('355x200'),
+        S: await getPollSVG('630x270'),
+        M: await getPollSVG('603x270'),
+        L: await getPollSVG('650x288'),
+        XL: await getPollSVG('680x310'),
       },
       pollList: formattedIndividualPolls,
       canonicalURL: canonicalURL,

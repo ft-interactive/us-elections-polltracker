@@ -19,7 +19,7 @@ async function drawChart(options, data) {
 
   const window = await getJSDomWindow(htmlStub);
   const el = window.document.querySelector('#dataviz-container');
-  const margins = { top: options.noheadline ? 30 : 70, bottom: 70, left: 35, right: 30 };
+  const margins = { top: options.notext ? 15 : 70, bottom: options.notext ? 40 : 70, left: 35, right: 30 };
   const userInputParse = d3.timeParse('%B %e, %Y');
   const colors = { Clinton: '#238fce', Trump: '#e5262d' };
   const areaColors = { Clinton: '#a2c1e1', Trump: '#f4a098' };
@@ -361,7 +361,7 @@ async function drawChart(options, data) {
     });
 
 
-  if (!options.noheadline) {
+  if (!options.notext) {
     annotationGroup.append('text')
       .text(function() {
         const stateName = _.findWhere(stateIds, { 'state': options.state.toUpperCase() }).stateName;
@@ -379,34 +379,33 @@ async function drawChart(options, data) {
       .attr('class', 'headline')
       .attr('x', -margins.left + 7)
       .attr('y', -margins.top + 24);
-  }
 
-
-  const subhead = annotationGroup.append('text')
-    .text(function() {
-      let statePrefix;
-      if (options.width < 300) {
-        statePrefix = 'Polling ';
-      } else {
-        if (options.state === 'us') {
-          statePrefix = 'National polling ';
-        } else {
+    annotationGroup.append('text')
+      .text(function() {
+        let statePrefix;
+        if (options.width < 300) {
           statePrefix = 'Polling ';
+        } else {
+          if (options.state === 'us') {
+            statePrefix = 'National polling ';
+          } else {
+            statePrefix = 'Polling ';
+          }
         }
-      }
 
-      return statePrefix + 'average as of ' + d3.timeFormat('%B %e, %Y')(new Date(formattedData[formattedData.length - 1].date)) + ' (%)'
-    })
-    .attr('class', 'subhead')
-    .attr('x', -margins.left + 7)
-    .attr('y', -margins.top + (options.noheadline ? 10 : 46));
+        return statePrefix + 'average as of ' + d3.timeFormat('%B %e, %Y')(new Date(formattedData[formattedData.length - 1].date)) + ' (%)'
+      })
+      .attr('class', 'subhead')
+      .attr('x', -margins.left + 7)
+      .attr('y', -margins.top + 46);
 
-  const sourceline = annotationGroup.append('text')
-    .text('Source: Real Clear Politics')
-    .attr('class', 'sourceline')
-    .attr('x', -margins.left + 7)
-    .attr('y', options.height - margins.top - 10)
-    .style('text-anchor', 'start');
+    sourceline = annotationGroup.append('text')
+      .text('Source: Real Clear Politics')
+      .attr('class', 'sourceline')
+      .attr('x', -margins.left + 7)
+      .attr('y', options.height - margins.top - 10)
+      .style('text-anchor', 'start');
+  }
 
   const config = {
     width: options.width,
