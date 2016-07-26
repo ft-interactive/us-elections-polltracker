@@ -311,6 +311,11 @@ async function drawChart(options, data) {
           filteredFormattedData = _.filter(formattedData, function(row) {
             return new Date(row.date) <= lastDataPointDate && new Date(row.date) >= firstDataPointDate;
           });
+          if (filteredFormattedData.length > 0 && (filteredFormattedData[0].Clinton > filteredFormattedData[0].Trump)) {
+            color = areaColors.Clinton;
+          } else {
+            color = areaColors.Trump;
+          }
           filteredFormattedData.unshift({
             date: firstDataPointDate,
             Clinton: pointValue,
@@ -321,11 +326,6 @@ async function drawChart(options, data) {
             Clinton: yScale.invert(intersections.points[i + 1].y),
             Trump: yScale.invert(intersections.points[i + 1].y),
           });
-          if (filteredFormattedData[0].Clinton > filteredFormattedData[0].Trump) {
-            color = areaColors.Clinton;
-          } else {
-            color = areaColors.Trump;
-          }
         }
         const candidateArea = candidateAreaGroups.append('path')
           .datum(filteredFormattedData)
