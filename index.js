@@ -144,8 +144,6 @@ async function makePollTimeSeries(chartOpts){
   return value;
 }
 
-
-
 app.get('/polls/:state.json', async (req, res) => {
   const state = req.params.state;
 
@@ -225,6 +223,7 @@ async function statePage(req, res) {
 
     // last update time
     let lastUpdatedTime = new Date(await lastUpdated());
+    const lastPollDate = lastUpdatedTime;
     const streamTextLastUpdated =  new Date(_.findWhere(data.options, { name: 'updated' }).value);
     if (streamTextLastUpdated > lastUpdatedTime) {
       lastUpdatedTime = streamTextLastUpdated;
@@ -279,10 +278,11 @@ async function statePage(req, res) {
     const polltrackerLayout = {
       // quick hack for page ID while we only have a UUID for the National page
       id: state === 'us' ? 'e01abff0-5292-11e6-9664-e0bdc13c3bef' : null,
-      state: state,
-      stateName: stateName,
+      state,
+      stateName,
       lastUpdated: lastUpdatedTime,
-      introText: introText,
+      lastPollDate,
+      introText,
       pollSVG: {
         default: await getPollSVG('355x200'),
         S: await getPollSVG('630x270'),
@@ -291,8 +291,8 @@ async function statePage(req, res) {
         XL: await getPollSVG('680x310'),
       },
       pollList: formattedIndividualPolls,
-      canonicalURL: canonicalURL,
-      stateStreamURL: stateStreamURL,
+      canonicalURL,
+      stateStreamURL,
       flags: flags(),
       share: {
         title: `US presidential election polls: It's Clinton ${latestPollAverages.Clinton}%, Trump ${latestPollAverages.Trump}%`,
