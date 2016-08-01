@@ -1,13 +1,38 @@
 import nunjucks from 'nunjucks';
+import { utcFormat } from 'd3-time-format';
 
-const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
-                  'September', 'October', 'November', 'December'];
+const formatterCache = new Map();
+const defaultFTDateFormat = '%A, %-e %B %Y';
+
+export function isotime(date) {
+  if (!date) {
+    return '';
+  } else if (!(date instanceof Date)) {
+    return date;
+  }
+
+  return date.toISOString();
+}
+
+// strftime format docs: https://github.com/d3/d3-time-format
+export function strftime(date, format = defaultFTDateFormat) {
+  if (!date) {
+    return '';
+  } else if (!(date instanceof Date)) {
+    return date;
+  }
+
+  if (formatterCache.has(format)) {
+    return formatterCache.get(format)(date);
+  }
+
+  const fm = utcFormat(format);
+  formatterCache.set(format, fm);
+  return fm(date);
+}
 
 export function ftdate(d) {
-  const day = days[d.getUTCDay()];
-  const month = months[d.getUTCMonth()];
-  return !d ? '' : `${day}, ${d.getUTCDate()} ${month}, ${d.getUTCFullYear()}`;
+  return strftime(d);
 }
 
 export function commas(n) {
