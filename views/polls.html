@@ -438,7 +438,7 @@ a {
 
     {% if flags.ads %}
     <script type="application/json" data-o-ads-config>
-    {"gpt": {"unitName" : "5887/ft.com/us.and.canada"}}
+    {"gpt": {"unitName" : "5887/ft.com/world/us.and.canada"}}
     </script>
     {% endif %}
 
@@ -458,7 +458,7 @@ a {
     {% include "includes/header.html" %}
 
     <main role="main">
-      <article class="article" itemscope itemtype="http://schema.org/Article">
+      <article class="article" itemscope itemtype="http://schema.org/NewsArticle">
         <div class="article-head o-grid-container">
           <div class="o-grid-row">
             <header data-o-grid-colspan="center 12 M10 L8 XL7">
@@ -468,8 +468,8 @@ a {
               {% endif %}
 
               <div><a href="http://www.ft.com/us-election-2016" class="o-typography-link-topic o-typography-link-topic--medium">US Election 2016</a></div>
-              <h1 class="o-typography-heading1">{% if state != 'us' %}{{ stateName }} US Election polls{% else %}US election poll tracker{% endif %}</h1>
-              <p class="o-typography-timestamp"><span class="lastupdated">Updated: </span><time class="o-date" data-o-component="o-date" datetime="{{ lastUpdated.toISOString() }}" data-o-date-js>{{ lastUpdated | ftdate }}</time></p>
+              <h1 class="o-typography-heading1" itemprop="headline">{% if state != 'us' %}{{ stateName }} US Election polls{% else %}US election poll tracker{% endif %}</h1>
+              <p class="o-typography-timestamp"><span class="lastupdated">Updated: </span><time itemprop="dateModified" content="{{ lastUpdated.toISOString() }}" class="o-date" data-o-component="o-date" datetime="{{ lastUpdated.toISOString() }}" data-o-date-js>{{ lastUpdated | ftdate }}</time></p>
             </header>
           </div>
         </div>
@@ -500,7 +500,7 @@ a {
                     Which candidate is leading in {{ stateName }}?
                   {% endif %}
                   </h2>
-                  <p class="article-figure__subheading">Polling average</p>
+                  <p class="article-figure__subheading">Polling average %</p>
                   {% for gridsize, svg in pollSVG %}
                   {% if svg %}
                   <div class="pollchart pollchart--{{gridsize}}">
@@ -521,8 +521,6 @@ a {
                   data-o-ads-name="mid" data-o-ads-center="true"
                   data-o-ads-targeting="pos=mid"
                   data-o-ads-formats="MediumRectangle,Responsive"
-                  data-o-ads-formats-large="Responsive,MediumRectangle"
-                  data-o-ads-formats-extra="Responsive,MediumRectangle"
                   data-o-ads-lazy-load="true" aria-hidden="true">
                   </div>
                 {% endif %}
