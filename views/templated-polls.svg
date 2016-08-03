@@ -1,0 +1,137 @@
+
+<svg class="poll" width="{{ width }}" height="{{ height }}" viewBox="0 0 {{ width }} {{ height }}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMinYMin meet">
+
+<style>
+path {
+    stroke-width: 1px;
+    stroke: #c3bcb0;
+    fill: none;
+}
+
+.yAxis text {
+    text-anchor: end !important;
+}
+
+.yAxis path {
+    stroke: none;
+}
+
+.axisLabel {
+    font-size: 14px;
+}
+
+text, tspan {
+  font-family: MetricWeb, sans-serif;
+}
+
+text {
+    fill: #6b6e68;
+    font-size: 14px;
+    pointer-events: none;
+    user-select: none;
+    font-feature-settings: 'tnum' 1;
+}
+
+.headline {
+    font-size: 21px;
+    fill: #3B3D3B;
+}
+
+.sourceline {
+    font-size: 11.5px;
+}
+
+.yAxis .tick line {
+    opacity: 1;
+    stroke: #C3BCB0;
+    stroke-dasharray: 1,2;
+}
+
+.xAxis .tick line {
+    opacity: 1;
+    stroke: #C3BCB0;
+}
+
+.area {
+    opacity: 0.5;
+}
+
+.area.above {
+  fill: rgb(250, 207, 194);
+  stroke: none;
+}
+
+.area.below {
+  fill: rgb(191, 208, 219);
+  stroke: none;
+}
+</style>
+
+<g class="yAxis" transform="translate({{ margin.left }},{{ margin.top }})" fill="none" font-size="10" font-family="sans-serif" text-anchor="end">
+    <g class="tick" opacity="1" transform="translate(0,160)">
+        <line stroke="#000" x2="{{ width - (margin.left + margin.right) }}" y1="0.5" y2="0.5"></line>
+        <text fill="#000" x="0" y="0.5" dy=".32em" dx="{{ yLabelOffset }}">35</text>
+    </g>
+    <g class="tick" opacity="1" transform="translate(0,106.66666666666667)">
+        <line stroke="#000" x2="{{ width - (margin.left + margin.right) }}" y1="0.5" y2="0.5"></line>
+        <text fill="#000" x="0" y="0.5" dy=".32em">40</text>
+    </g>
+    <g class="tick" opacity="1" transform="translate(0,53.33333333333334)">
+        <line stroke="#000" x2="476" y1="0.5" y2="0.5"></line>
+        <text fill="#000" x="0" y="0.5" dy=".32em">45</text>
+    </g>
+    <g class="tick" opacity="1" transform="translate(0,0)">
+        <line stroke="#000" x2="476" y1="0.5" y2="0.5"></line>
+        <text fill="#000" x="0" y="0.5" dy=".32em">50</text>
+    </g>
+</g>
+<g class="xAxis" transform="translate(35,230)" fill="none" font-size="10" font-family="sans-serif" text-anchor="middle">
+    <path class="domain" stroke="#000" d="M0.5,20V0.5H476.5V20"></path>
+    <g class="tick" opacity="1" transform="translate(0,0)">
+        <line stroke="#000" y2="6" x1="0.5" x2="0.5"></line>
+        <text fill="#000" y="9" x="0.5" dy=".71em" style="text-anchor: start;" transform="translate(-2, 18)">Jun  1, 2016</text>
+    </g>
+    <g class="tick" opacity="1" transform="translate(226.66666666666666,0)">
+        <line stroke="#000" y2="6" x1="0.5" x2="0.5"></line>
+        <text fill="#000" y="9" x="0.5" dy=".71em" style="text-anchor: start;">Jul</text>
+    </g>
+    <g class="tick" opacity="1" transform="translate(460.8888888888889,0)">
+        <line stroke="#000" y2="6" x1="0.5" x2="0.5"></line>
+        <text fill="#000" y="9" x="0.5" dy=".71em" style="text-anchor: start;">Aug</text>
+    </g>
+    <g class="tick" opacity="1" transform="translate(476,0)">
+        <line stroke="#000" y2="6" x1="0.5" x2="0.5"></line>
+        <text fill="#000" y="9" x="0.5" dy=".71em" style="text-anchor: end;" transform="translate(2, 18)">Aug  3</text>
+    </g>
+</g>
+<g class="plot" transform="translate(35,70)">
+    <g class="candidate area">
+        <path class="candidateArea" d="M0,80L7.6,82.1L15.1,82.1L22.7,82.1L30.2,82.1L37.8,85.3L45.3,85.3L52.9,96L60.4,103.5L68,103.5L75.6,115.2L83.1,115.2L90.7,119.5L98.2,121.6L105.8,123.7L113.3,124.8L120.9,124.8L128.4,116.3L136,116.3L143.6,118.4L151.1,115.2L158.7,115.2L166.2,113.1L173.8,113.1L181.3,114.1L188.9,113.1L196.4,110.9L204,117.3L211.6,117.3L219.1,108.8L226.7,108.8L234.2,103.5L241.8,103.5L249.3,103.5L256.9,103.5L264.4,100.3L272,97.1L279.6,97.1L287.1,97.1L294.7,97.1L302.2,97.1L309.8,97.1L317.3,99.2L324.9,97.1L332.4,102.4L340,102.4L347.6,100.3L355.1,100.3L362.7,94.9L370.2,94.9L377.8,92.8L385.3,89.6L392.9,78.9L400.4,71.5L407.1,62.1L407.1,62.1L400.4,56.5L392.9,57.6L385.3,61.9L377.8,64L370.2,65.1L362.7,66.1L355.1,66.1L347.6,66.1L340,73.6L332.4,73.6L324.9,64L317.3,53.3L309.8,49.1L302.2,49.1L294.7,49.1L287.1,46.9L279.6,46.9L272,46.9L264.4,49.1L256.9,54.4L249.3,54.4L241.8,55.5L234.2,55.5L226.7,57.6L219.1,57.6L211.6,52.3L204,44.8L196.4,38.4L188.9,41.6L181.3,43.7L173.8,50.1L166.2,50.1L158.7,53.3L151.1,53.3L143.6,55.5L136,54.4L128.4,54.4L120.9,62.9L113.3,62.9L105.8,64L98.2,62.9L90.7,71.5L83.1,67.2L75.6,67.2L68,62.9L60.4,62.9L52.9,62.9L45.3,64L37.8,64L30.2,66.1L22.7,66.1L15.1,66.1L7.6,66.1L0,64Z" style="fill: #a2c1e1; stroke-width: 0;"></path>
+        <path class="candidateArea" d="M407.1,62.1L408,60.8L415.6,46.9L423.1,45.9L430.7,46.9L438.2,60.8L438.2,60.8L430.7,56.5L423.1,57.6L415.6,56.5L408,62.9L407.1,62.1Z" style="fill: #f4a098; stroke-width: 0;"></path><path class="candidateArea" d="M438.2,60.8L438.2,60.8L445.8,71.5L453.3,70.4L460.9,85.3L468.4,85.3L468.4,38.4L460.9,43.7L453.3,58.7L445.8,67.2L438.2,60.8L438.2,60.8Z" style="fill: #a2c1e1; stroke-width: 0;"></path>
+        <path class="candidateArea" d="M0,80L7.6,82.1L15.1,82.1L22.7,82.1L30.2,82.1L37.8,85.3L45.3,85.3L52.9,96L60.4,103.5L68,103.5L75.6,115.2L83.1,115.2L90.7,119.5L98.2,121.6L105.8,123.7L113.3,124.8L120.9,124.8L128.4,116.3L136,116.3L143.6,118.4L151.1,115.2L158.7,115.2L166.2,113.1L173.8,113.1L181.3,114.1L188.9,113.1L196.4,110.9L204,117.3L211.6,117.3L219.1,108.8L226.7,108.8L234.2,103.5L241.8,103.5L249.3,103.5L256.9,103.5L264.4,100.3L272,97.1L279.6,97.1L287.1,97.1L294.7,97.1L302.2,97.1L309.8,97.1L317.3,99.2L324.9,97.1L332.4,102.4L340,102.4L347.6,100.3L355.1,100.3L362.7,94.9L370.2,94.9L377.8,92.8L385.3,89.6L392.9,78.9L400.4,71.5L407.1,62.1L407.1,62.1L400.4,56.5L392.9,57.6L385.3,61.9L377.8,64L370.2,65.1L362.7,66.1L355.1,66.1L347.6,66.1L340,73.6L332.4,73.6L324.9,64L317.3,53.3L309.8,49.1L302.2,49.1L294.7,49.1L287.1,46.9L279.6,46.9L272,46.9L264.4,49.1L256.9,54.4L249.3,54.4L241.8,55.5L234.2,55.5L226.7,57.6L219.1,57.6L211.6,52.3L204,44.8L196.4,38.4L188.9,41.6L181.3,43.7L173.8,50.1L166.2,50.1L158.7,53.3L151.1,53.3L143.6,55.5L136,54.4L128.4,54.4L120.9,62.9L113.3,62.9L105.8,64L98.2,62.9L90.7,71.5L83.1,67.2L75.6,67.2L68,62.9L60.4,62.9L52.9,62.9L45.3,64L37.8,64L30.2,66.1L22.7,66.1L15.1,66.1L7.6,66.1L0,64Z" style="fill: #a2c1e1; stroke-width: 0;"></path>
+    </g>
+
+    <g class="candidate Trump">
+        <path class="candidateLine" d="M0,80L7.6,82.1L15.1,82.1L22.7,82.1L30.2,82.1L37.8,85.3L45.3,85.3L52.9,96L60.4,103.5L68,103.5L75.6,115.2L83.1,115.2L90.7,119.5L98.2,121.6L105.8,123.7L113.3,124.8L120.9,124.8L128.4,116.3L136,116.3L143.6,118.4L151.1,115.2L158.7,115.2L166.2,113.1L173.8,113.1L181.3,114.1L188.9,113.1L196.4,110.9L204,117.3L211.6,117.3L219.1,108.8L226.7,108.8L234.2,103.5L241.8,103.5L249.3,103.5L256.9,103.5L264.4,100.3L272,97.1L279.6,97.1L287.1,97.1L294.7,97.1L302.2,97.1L309.8,97.1L317.3,99.2L324.9,97.1L332.4,102.4L340,102.4L347.6,100.3L355.1,100.3L362.7,94.9L370.2,94.9L377.8,92.8L385.3,89.6L392.9,78.9L400.4,71.5L408,60.8L415.6,46.9L423.1,45.9L430.7,46.9L438.2,60.8L445.8,71.5L453.3,70.4L460.9,85.3L468.4,85.3" style="stroke: #e5262d; stroke-width: 2;"></path>
+        <circle class="lastpointlabel" cx="468.4" cy="85.3" r="3.66" style="fill: #e5262d;"></circle>
+        <text class="lastpointtext" x="478.4" y="95.3" style="fill: #e5262d;">
+            <tspan style="font-weight: 600;">42.0</tspan>
+            <tspan> Trump</tspan>
+        </text>
+    </g>
+    <g class="candidate Clinton">
+        <path class="candidateLine" d="M0,64L7.6,66.1L15.1,66.1L22.7,66.1L30.2,66.1L37.8,64L45.3,64L52.9,62.9L60.4,62.9L68,62.9L75.6,67.2L83.1,67.2L90.7,71.5L98.2,62.9L105.8,64L113.3,62.9L120.9,62.9L128.4,54.4L136,54.4L143.6,55.5L151.1,53.3L158.7,53.3L166.2,50.1L173.8,50.1L181.3,43.7L188.9,41.6L196.4,38.4L204,44.8L211.6,52.3L219.1,57.6L226.7,57.6L234.2,55.5L241.8,55.5L249.3,54.4L256.9,54.4L264.4,49.1L272,46.9L279.6,46.9L287.1,46.9L294.7,49.1L302.2,49.1L309.8,49.1L317.3,53.3L324.9,64L332.4,73.6L340,73.6L347.6,66.1L355.1,66.1L362.7,66.1L370.2,65.1L377.8,64L385.3,61.9L392.9,57.6L400.4,56.5L408,62.9L415.6,56.5L423.1,57.6L430.7,56.5L438.2,60.8L445.8,67.2L453.3,58.7L460.9,43.7L468.4,38.4" style="stroke: #238fce; stroke-width: 2;"></path>
+        <circle class="lastpointlabel" cx="468.4" cy="38.4" r="3.66" style="fill: #238fce;"></circle>
+        <text class="lastpointtext" x="478.4" y="33.4" style="fill: #238fce;">
+            <tspan style="font-weight: 600;">46.4</tspan>
+            <tspan> Clinton</tspan>
+        </text>
+    </g>
+    <g class="annotations">
+        <text class="headline" x="-28" y="-46">{{ title }}</text>
+        <text class="subhead" x="-28" y="-24">{{ subtitle }}</text>
+        <text class="sourceline" x="-28" y="220">{{ source }}</text>
+    </g>
+</g>
+
+</svg>

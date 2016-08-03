@@ -19,6 +19,7 @@ const lru = require('lru-cache');
 const fetch = require('isomorphic-fetch');
 const _ = require('underscore');
 const stateIds = require('./layouts/stateIds').states;
+const layoutTimeSeries = require('./layouts/timeseries-layout.js');
 const filters = require('./filters');
 const berthaDefaults = require('./config/bertha-defaults.json')
 const validStates = berthaDefaults.streampages.map( (d)=>d.state.toLowerCase() );
@@ -84,7 +85,6 @@ app.get('/favicon.ico', (req, res)=>{ //explicit override to redirect if favicon
 });
 
 app.get('/polls.svg', async (req, res) => {
-
   const value = await makePollTimeSeries(req.query);
   if(value){
     setSVGHeaders(res).send(value);
@@ -92,6 +92,32 @@ app.get('/polls.svg', async (req, res) => {
     res.status(500).send('something broke');
   }
 });
+
+app.get('/templated-polls.svg', async (req, res) => {
+  const pollData = await pollAverages('July 1, 2015','June 29, 2016','us');
+  console.log( pollData );
+  
+  const value = nunjucks.render('templated-polls.svg', layoutTimeSeries(pollData, {}));
+
+  if(value){
+    setSVGHeaders(res).send(value);
+  }else{
+    res.status(500).send('something broke');
+  }
+});
+
+async function pollAverages(start, end, state){
+    if(!state) state='us';
+    console.log(start);
+    console.log(end);
+    const dbCacheKey = 'dbAverages-' + [state, start, end].join('-');
+    let dbResponse = cache.get(dbCacheKey);
+    if(!dbResponse){
+      dbResponse = await getPollAverages(state, start, end);
+      cache.set(dbCacheKey, dbResponse);
+    }
+    return dbResponse;
+}
 
 async function makePollTimeSeries(chartOpts){
   const nowDate = new Date().toString().split(' ')
@@ -124,13 +150,14 @@ async function makePollTimeSeries(chartOpts){
     const tempEndDatePieces = options.endDate.replace(/\s{2}/, ' ').split(' ');
     const queryEndDate = tempEndDatePieces[0] + ' ' + (+tempEndDatePieces[1].replace(/,/g, '') + 1) + ', ' + tempEndDatePieces[2];
 
-    //cache the db request
-    const dbCacheKey = 'dbAverages-' + [options.state, options.startDate, queryEndDate].join('-');
-    let dbResponse = cache.get(dbCacheKey);
-    if(!dbResponse){
-      dbResponse = await getPollAverages(options.state, options.startDate, queryEndDate);
-      cache.set(dbCacheKey, dbResponse);
-    }
+    //db request
+    let dbResponse = await pollAverages(options.startDate, queryEndDate, options.state);
+    // const dbCacheKey = 'dbAverages-' + [options.state, options.startDate, queryEndDate].join('-');
+    // let dbResponse = cache.get(dbCacheKey);
+    // if(!dbResponse){
+    //   dbResponse = await getPollAverages(options.state, options.startDate, queryEndDate);
+    //   cache.set(dbCacheKey, dbResponse);
+    // }
 
     try {
       const chartLayout = await drawChart(options, dbResponse);
