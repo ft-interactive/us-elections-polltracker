@@ -23,7 +23,7 @@ function round1dp(x) {
 }
 
 function timeseriesLayout(data, opts) {
-  console.log(data);
+
   const [svgWidth, svgHeight] = (opts.size || '600x300').split('x');
   const layout = {};
   Object.assign(layout, {
@@ -79,9 +79,9 @@ function timeseriesLayout(data, opts) {
   layout.yTicks = yScale.ticks(tickCount).map(d => ({
     label: d,
     position: yScale(d),
-  })); // [{ label: '', position: '' }];
+  }));
 
-  layout.xTicks = [{ label: '', position: '' }];
+  layout.xTicks = [{ label: '', position: '' }]; //TODO layout ticks
 
   layout.candidateAreas = [];
 
@@ -92,6 +92,16 @@ function timeseriesLayout(data, opts) {
     };
   });
 
+  const currentLeader = pollsByCandidate.reduce(function (previous, current) {
+    const currentValue = current.polls[current.polls.length - 1].pollaverage;
+    if (previous.value < currentValue) {
+      return {
+        name: current.name,
+        value: currentValue,
+      };
+    }
+  }, { name: 'Trump', value: 0 }).name;
+
   layout.candidateLines = pollsByCandidate.map(function (d) {
     return {
       stroke: candidateColor[d.name].line,
@@ -101,16 +111,20 @@ function timeseriesLayout(data, opts) {
 
   layout.candidateEndPoints = pollsByCandidate.map(function (d) {
     const lastPoll = d.polls[d.polls.length - 1];
+    let labelOffset = 5;
+    if (d.name === currentLeader) labelOffset = -10;
+
     return {
       cx: round1dp(xScale(lastPoll.date)),
       cy: round1dp(yScale(lastPoll.pollaverage)),
       fill: candidateColor[d.name].line,
       stroke: candidateColor[d.name].area,
       label: d3.format('.1f')(lastPoll.pollaverage) + ' ' + d.name,
+      labelOffset,
     };
   });
 
-  console.log(layout);
+  //console.log(layout);
 
   return layout;
 }
