@@ -68,22 +68,12 @@ text {
 </style>
 
 <g class="yAxis" transform="translate({{ margin.left }},{{ margin.top }})" fill="none" font-size="10" font-family="sans-serif" text-anchor="end">
-    <g class="tick" opacity="1" transform="translate(0,160)">
+    {% for tick in yTicks %}
+    <g class="tick" opacity="1" transform="translate(0,{{ tick.position }})">
         <line stroke="#000" x2="{{ width - (margin.left + margin.right) }}" y1="0.5" y2="0.5"></line>
-        <text fill="#000" x="0" y="0.5" dy=".32em" dx="{{ yLabelOffset }}">35</text>
+        <text fill="#000" x="0" y="0.5" dy=".32em" dx="{{ yLabelOffset }}">{{ tick.label }}</text>
     </g>
-    <g class="tick" opacity="1" transform="translate(0,106.66666666666667)">
-        <line stroke="#000" x2="{{ width - (margin.left + margin.right) }}" y1="0.5" y2="0.5"></line>
-        <text fill="#000" x="0" y="0.5" dy=".32em">40</text>
-    </g>
-    <g class="tick" opacity="1" transform="translate(0,53.33333333333334)">
-        <line stroke="#000" x2="476" y1="0.5" y2="0.5"></line>
-        <text fill="#000" x="0" y="0.5" dy=".32em">45</text>
-    </g>
-    <g class="tick" opacity="1" transform="translate(0,0)">
-        <line stroke="#000" x2="476" y1="0.5" y2="0.5"></line>
-        <text fill="#000" x="0" y="0.5" dy=".32em">50</text>
-    </g>
+    {% endfor %}
 </g>
 <g class="xAxis" transform="translate(35,230)" fill="none" font-size="10" font-family="sans-serif" text-anchor="middle">
     <path class="domain" stroke="#000" d="M0.5,20V0.5H476.5V20"></path>
