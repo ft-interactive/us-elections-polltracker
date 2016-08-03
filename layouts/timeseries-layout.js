@@ -16,7 +16,7 @@ function timeseriesLayout(data, opts) {
     type: opts.type || 'area',
     state: opts.state || 'us',
     logo: (opts.logo ? opts.logo === 'true' : false),
-    title: '!Which White House candidate is leading in the polls?',
+    title: 'Which White House candidate is leading in the polls?',
     subtitle: '!National polling average as of August 2, 2016 (%)',
     source: '!Source: Real Clear Politics',
     yLabelOffset: '-7',
@@ -28,20 +28,17 @@ function timeseriesLayout(data, opts) {
     },
   });
 
+  // make the scales
+
+  layout.yTicks = [{ label: '', position: '' }];
+  layout.xTicks = [{ label: '', position: '' }];
+  layout.candidateAreas = [];
+  layout.candidateLines = [];
+  layout.candidateEndPoints = [];
+
   console.log(layout);
 
   return layout;
-  
-  var a = {
-    yTicks: [{label:'', position:''}],
-    xTicks: [{label:'', position:''}],
-    candidateAreas: [],
-    candidateLines: [],
-    candidateEndPoints: [],
-    title: '!Which White House candidate is leading in the polls?',
-    subtitle: '!National polling average as of August 2, 2016 (%)',
-    source: '!Source: Real Clear Politics',
-  };
 }
 
 module.exports = timeseriesLayout;

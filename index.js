@@ -21,8 +21,8 @@ const _ = require('underscore');
 const stateIds = require('./layouts/stateIds').states;
 const layoutTimeSeries = require('./layouts/timeseries-layout.js');
 const filters = require('./filters');
-const berthaDefaults = require('./config/bertha-defaults.json')
-const validStates = berthaDefaults.streampages.map( (d)=>d.state.toLowerCase() );
+const berthaDefaults = require('./config/bertha-defaults.json');
+const validStates = berthaDefaults.streampages.map((d) => d.state.toLowerCase());
 
 import flags from './config/flags';
 
@@ -43,18 +43,18 @@ function setSVGHeaders(res) {
   return res;
 }
 
-function setJSONHeaders(res){
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Cache-Control', 'public, max-age=' + maxAge);
-    return res;
+function setJSONHeaders(res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Cache-Control', 'public, max-age=' + maxAge);
+  return res;
 }
 
 // takes query parameters and orders properly for cache key format
 function convertToCacheKeyName(queryRequest) {
   const paramOrder = ['background', 'startDate', 'endDate', 'size', 'type', 'state', 'logo'];
 
-  const cacheKey = paramOrder.reduce(function(a, b) {
+  const cacheKey = paramOrder.reduce(function (a, b) {
     return a + queryRequest[b];
   }, queryRequest['fontless']);
 
@@ -80,48 +80,47 @@ app.get('/__gtg', (req, res) => {
   res.send('ok');
 });
 
-app.get('/favicon.ico', (req, res)=>{ //explicit override to redirect if favicon is requested
+app.get('/favicon.ico', (req, res) => { // explicit override to redirect if favicon is requested
   res.redirect(301, 'https://ig.ft.com/favicon.ico');
 });
 
 app.get('/polls.svg', async (req, res) => {
   const value = await makePollTimeSeries(req.query);
-  if(value){
+  if (value) {
     setSVGHeaders(res).send(value);
-  }else{
+  }else {
     res.status(500).send('something broke');
   }
 });
 
 app.get('/templated-polls.svg', async (req, res) => {
-  const pollData = await pollAverages('July 1, 2015','June 29, 2016','us');
-  console.log( pollData.length + ' poll averages' );
+  const pollData = await pollAverages('July 1, 2015', 'June 29, 2016', 'us');
+  console.log(pollData.length + ' poll averages');
 
   const value = nunjucks.render('templated-polls.svg', layoutTimeSeries(pollData, req.query));
 
-  if(value){
+  if (value) {
     setSVGHeaders(res).send(value);
-  }else{
+  }else {
     res.status(500).send('something broke');
   }
 });
 
-async function pollAverages(start, end, state){
-    if(!state) state='us';
-    console.log(start);
-    console.log(end);
-    const dbCacheKey = 'dbAverages-' + [state, start, end].join('-');
-    let dbResponse = cache.get(dbCacheKey);
-    if(!dbResponse){
+async function pollAverages(start, end, state) {
+  if (!state) state = 'us';
+  console.log(start);
+  console.log(end);
+  const dbCacheKey = 'dbAverages-' + [state, start, end].join('-');
+  let dbResponse = cache.get(dbCacheKey);
+  if (!dbResponse) {
       dbResponse = await getPollAverages(state, start, end);
       cache.set(dbCacheKey, dbResponse);
     }
-    return dbResponse;
+  return dbResponse;
 }
 
-async function makePollTimeSeries(chartOpts){
-
-  const formattedNowDate = d3.timeFormat('%B %e, %Y')( new Date() );
+async function makePollTimeSeries(chartOpts) {
+  const formattedNowDate = d3.timeFormat('%B %e, %Y')(new Date());
 
   const [svgWidth, svgHeight] = (chartOpts.size || '600x300').split('x');
 
@@ -147,8 +146,8 @@ async function makePollTimeSeries(chartOpts){
     const tempEndDatePieces = options.endDate.replace(/\s{2}/, ' ').split(' ');
     const queryEndDate = tempEndDatePieces[0] + ' ' + (+tempEndDatePieces[1].replace(/,/g, '') + 1) + ', ' + tempEndDatePieces[2];
 
-    //db request
-    let dbResponse = await pollAverages(options.startDate, queryEndDate, options.state);
+    // db request
+    const dbResponse = await pollAverages(options.startDate, queryEndDate, options.state);
     // const dbCacheKey = 'dbAverages-' + [options.state, options.startDate, queryEndDate].join('-');
     // let dbResponse = cache.get(dbCacheKey);
     // if(!dbResponse){
@@ -167,7 +166,6 @@ async function makePollTimeSeries(chartOpts){
   }
   return value;
 }
-
 
 
 app.get('/polls/:state.json', async (req, res) => {
@@ -191,28 +189,26 @@ app.get('/polls/:state.json', async (req, res) => {
 });
 
 
-
 app.get('/', statePage);
-app.get('/:state', (req,res) => {
-  if(validStates.indexOf(req.params.state)>=0){
-    statePage(req, res)
-  }else{
+app.get('/:state', (req, res) => {
+  if (validStates.indexOf(req.params.state) >= 0) {
+    statePage(req, res);
+  } else{
     res.sendStatus(404);
   }
 });
 
-app.get('/polls/:state', (req,res) => {
-  if(validStates.indexOf(req.params.state)>=0){
-    statePage(req, res)
-  }else{
+app.get('/polls/:state', (req, res) => {
+  if (validStates.indexOf(req.params.state) >= 0) {
+    statePage(req, res);
+  }else {
     res.sendStatus(404);
   }
 });
 
 async function statePage(req, res) {
-
   let state = 'us';
-  if(req.params.state) state = req.params.state;
+  if (req.params.state) state = req.params.state;
   const canonicalURL = `polls/${state}`;
 
   res.setHeader('Cache-Control', `public, max-age=${maxAge}, s-maxage=${sMaxAge}`);
@@ -223,7 +219,6 @@ async function statePage(req, res) {
   let renderedPage = cache.get(pageCacheKey); // check to see if we've cached this page recently
 
   if (!renderedPage) {
-
     const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
     // get intro text
     const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links,streampages';
@@ -233,7 +228,7 @@ async function statePage(req, res) {
       const contentRes = await Promise.resolve(fetch(contentURL))
           .timeout(3000, new Error(`Timeout - bertha took too long to respond: ${contentURL}`));
       data = await contentRes.json();
-    }catch(err){
+    } catch(err) {
       cachePage = false;
       console.log('bertha fetching problem, resorting to default bertha config');
     }
@@ -249,7 +244,7 @@ async function statePage(req, res) {
 
     // last update time
     let lastUpdatedTime = new Date(await lastUpdated());
-    const streamTextLastUpdated =  new Date(_.findWhere(data.options, { name: 'updated' }).value);
+    const streamTextLastUpdated = new Date(_.findWhere(data.options, { name: 'updated' }).value);
     if (streamTextLastUpdated > lastUpdatedTime) {
       lastUpdatedTime = streamTextLastUpdated;
     }
@@ -260,9 +255,9 @@ async function statePage(req, res) {
         fontless: true,
         notext: true,
         startDate: 'June 1, 2016',
-        size: size,
+        size,
         type: 'area',
-        state: state,
+        state,
         logo: false,
       });
     }
@@ -271,11 +266,11 @@ async function statePage(req, res) {
     let allIndividualPolls = await getAllPolls(state);
     allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
     allIndividualPolls = _.values(allIndividualPolls);
-    let formattedIndividualPolls = [];
-    _.each(allIndividualPolls, function(poll) {
+    const formattedIndividualPolls = [];
+    _.each(allIndividualPolls, function (poll) {
       let winner = '';
-      const clintonVal = _.findWhere(poll, {'candidatename': 'Clinton'}).pollvalue;
-      const trumpVal = _.findWhere(poll, {'candidatename': 'Trump'}).pollvalue;
+      const clintonVal = _.findWhere(poll, { 'candidatename': 'Clinton' }).pollvalue;
+      const trumpVal = _.findWhere(poll, { 'candidatename': 'Trump' }).pollvalue;
 
       if (clintonVal > trumpVal) {
         winner = 'Clinton';
@@ -288,12 +283,12 @@ async function statePage(req, res) {
       // unshift instead of push because dates keep being in chron instead of reverse chron
       // even when I change the pg query to order by endDate DESC
       formattedIndividualPolls.unshift({
-        Clinton: _.findWhere(poll, {'candidatename': 'Clinton'}).pollvalue,
-        Trump: _.findWhere(poll, {'candidatename': 'Trump'}).pollvalue,
+        Clinton: _.findWhere(poll, { 'candidatename': 'Clinton' }).pollvalue,
+        Trump: _.findWhere(poll, { 'candidatename': 'Trump' }).pollvalue,
         date: poll[0].date,
         pollster: poll[0].pollster.replace(/\*$/, '').replace(/\//g, ', '), // get rid of asterisk b/c RCP doesn't track what it means
         sampleSize: poll[0].sampleSize,
-        winner: winner,
+        winner,
       });
     });
 
@@ -303,10 +298,10 @@ async function statePage(req, res) {
     const polltrackerLayout = {
       // quick hack for page ID while we only have a UUID for the National page
       id: state === 'us' ? 'e01abff0-5292-11e6-9664-e0bdc13c3bef' : null,
-      state: state,
-      stateName: stateName,
+      state,
+      stateName,
       lastUpdated: lastUpdatedTime,
-      introText: introText,
+      introText,
       pollSVG: {
         default: await getPollSVG('355x200'),
         S: await getPollSVG('630x270'),
@@ -315,12 +310,12 @@ async function statePage(req, res) {
         XL: await getPollSVG('680x310'),
       },
       pollList: formattedIndividualPolls,
-      canonicalURL: canonicalURL,
-      stateStreamURL: stateStreamURL,
+      canonicalURL,
+      stateStreamURL,
       flags: flags(),
       share: {
         title: `US presidential election polls: It's Clinton ${latestPollAverages.Clinton}%, Trump ${latestPollAverages.Trump}%`,
-        summary: `US election poll tracker: Here's who's ahead`,
+        summary: 'US election poll tracker: Here\'s who\'s ahead',
         url: `https://ig.ft.com/us-elections${req.url}`,
       },
     };
