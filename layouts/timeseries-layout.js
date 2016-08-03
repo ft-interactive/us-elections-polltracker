@@ -85,14 +85,30 @@ function timeseriesLayout(data, opts) {
 
   layout.candidateAreas = [];
 
-  layout.candidateLines = candidates.map(function (d) {
+  const pollsByCandidate = candidates.map(function (d) {
     return {
-      stroke: candidateColor[d].line,
-      path: path(data.filter((row) => (row.candidatename === d))),
+      name: d,
+      polls: data.filter((row) => (row.candidatename === d)),
     };
   });
 
-  layout.candidateEndPoints = [];
+  layout.candidateLines = pollsByCandidate.map(function (d) {
+    return {
+      stroke: candidateColor[d.name].line,
+      d: path(d.polls),
+    };
+  });
+
+  layout.candidateEndPoints = pollsByCandidate.map(function (d) {
+    const lastPoll = d.polls[d.polls.length - 1];
+    return {
+      cx: round1dp(xScale(lastPoll.date)),
+      cy: round1dp(yScale(lastPoll.pollaverage)),
+      fill: candidateColor[d.name].line,
+      stroke: candidateColor[d.name].area,
+      label: d3.format('.1f')(lastPoll.pollaverage) + ' ' + d.name,
+    };
+  });
 
   console.log(layout);
 
