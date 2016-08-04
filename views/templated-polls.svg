@@ -2,19 +2,19 @@
 <svg class="poll" width="{{ width }}" height="{{ height }}" viewBox="0 0 {{ width }} {{ height }}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMinYMin meet" font-family="MetricWeb, sans-serif">
 
 <g class="yAxis" transform="translate({{ margin.left }},{{ margin.top }})" fill="none" font-size="10" font-family="sans-serif" text-anchor="end">
-    {% for tick in yTicks %}
-    <g class="tick" transform="translate(0,{{ tick.position }})">
+    {% for yTick in yTicks %}
+    <g class="tick" transform="translate(0,{{ yTick.position }})">
         <line stroke="#C3BCB0"  stroke-dasharray="1,2" x2="{{ width - (margin.left + margin.right) }}" y1="0.5" y2="0.5"></line>
-        <text font-size="14px" fill="#6b6e68" x="0" y="0.5" dy=".32em" dx="{{ yLabelOffset }}">{{ tick.label }}</text>
+        <text font-size="14px" fill="#6b6e68" x="0" y="0.5" dy=".32em" dx="{{ yLabelOffset }}">{{ yTick.label }}</text>
     </g>
     {% endfor %}
 </g>
 <g class="xAxis" transform="translate(35,230)" fill="none" font-size="10" font-family="sans-serif" text-anchor="middle">
     <line class="domain" stroke="#C3BCB0" x1="0" x2="{{ width - (margin.left+margin.right) }}" y1="0.5" y2="0.5"></line>
-    {% for tick in xTicks %}
-    <g class="tick" transform="translate({{ tick.position }},0)">
+    {% for xTick in xTicks %}
+    <g class="tick" transform="translate({{ xTick.position }},0)">
         <line stroke="#C3BCB0" y2="6" x1="0.5" x2="0.5"></line>
-        <text font-size="14px" fill="#6b6e68" y="9" x="0.5" dy=".71em" style="text-anchor: start;" transform="translate(-2, 18)">{{ tick.label }}</text>
+        <text font-size="14px" fill="#6b6e68" y="9" x="0.5" dy=".71em" style="text-anchor: start;" transform="translate(-2, 18)">{{ xTick.label }}</text>
     </g>
     {% endfor %}
 </g>

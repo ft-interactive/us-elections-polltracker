@@ -77,7 +77,13 @@ function timeseriesLayout(data, opts) {
     .domain(timeDomain)
     .range([0, layout.width - (layout.margin.left + layout.margin.right)]);
 
-  console.log(xScale.range());
+
+  layout.xTicks = xScale.ticks(5).map(function(d) {
+    return {
+      label: timeFormat(d),
+      position: xScale(d),
+    };
+  });
 
   // make the path generators etc.
   const path = d3.line()
@@ -88,8 +94,6 @@ function timeseriesLayout(data, opts) {
     label: d,
     position: yScale(d),
   }));
-
-  layout.xTicks = [{ label: '', position: '' }]; // TODO layout ticks
 
   layout.candidateAreas = [];
 
