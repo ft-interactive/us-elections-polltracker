@@ -21,16 +21,16 @@ const candidateColor = {
   },
 };
 
-function mergePolls(a, b, xScale, yScale){
+function mergePolls(a, b, xScale, yScale) {
   console.log(a.name, b.name);
-  return a.polls.map(function(d, i){
+  return a.polls.map(function (d, i) {
     const mergedRow = {};
-    if( b.polls[i].date.getTime() !== d.date.getTime() ){
+    if (b.polls[i].date.getTime() !== d.date.getTime()) {
       console.log('ERROR: non matching arrays can\'t be merged ', d, b.polls[i]);
       return false;
     }
     let leader = b.name;
-    if(d.pollaverage > b.polls[i].pollaverage){
+    if (d.pollaverage > b.polls[i].pollaverage) {
       leader = a.name;
     }
     mergedRow.date = d.date;
@@ -138,10 +138,33 @@ function timeseriesLayout(data, opts) {
     shape('path', { d: layout.candidateLines[1].d })
   );
 
-  let merged = mergePolls(pollsByCandidate[0], pollsByCandidate[1], xScale, yScale);
+  const merged = mergePolls(pollsByCandidate[0], pollsByCandidate[1], xScale, yScale);
 
-  console.log(intersections);
-  console.log(merged);
+  const split = merged.reduce(function (sections, current, index, array) {
+    // if there are no sections make the first
+    if (sections.length === 0) {
+      sections.push([current]);
+      return sections;
+    }
+    // get the leader in last poll in the last array of the array of sections
+    const currentSection = sections[sections.length - 1];
+    const previousLead = currentSection[currentSection.length - 1].lead;
+    // if it's a different leader from the current poll, make a new array and push it on to the sections one
+    if (previousLead !== current.lead) {
+      sections.push([current]);
+    } else {
+      currentSection.push(current);
+    }
+    // insert the current poll into the last array in the array of sections
+    return sections;
+  }, []);
+
+  console.log(split);
+  console.log(split.length);
+  
+
+  // console.log(intersections);
+  // console.log(merged);
 
   layout.candidateAreas = [];
 
@@ -157,7 +180,7 @@ function timeseriesLayout(data, opts) {
       stroke: candidateColor[d.name].area,
       labelValue: d3.format('.1f')(lastPoll.pollaverage),
       labelName: d.name,
-      labelOffset: labelOffset,
+      labelOffset,
     };
   });
 
