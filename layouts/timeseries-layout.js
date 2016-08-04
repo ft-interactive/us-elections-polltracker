@@ -1,7 +1,9 @@
 const d3 = require('d3');
+
 const timeFormat = d3.timeFormat('%B %e, %Y');
-const timeParse = d3.timeParse('%B %e, %Y');
-const oneDP = (d) => (+d3.format('.1f'));
+const roundExtent = (ext, divisor) => [(ext[0] - ext[0] % divisor), (ext[1] + (divisor - ext[1] % divisor))];
+const round1dp = (x) => Math.round(x * 10) / 10;
+
 const candidates = ['Trump', 'Clinton'];
 const candidateColor = {
   Trump: {
@@ -14,20 +16,11 @@ const candidateColor = {
   },
 };
 
-function roundExtent(ext, divisor) {
-  return [(ext[0] - ext[0] % divisor), (ext[1] + (divisor - ext[1] % divisor))];
-}
-
-function round1dp(x) {
-  return Math.round(x * 10) / 10;
-}
 
 function timeseriesLayout(data, opts) {
   const [svgWidth, svgHeight] = (opts.size || '600x300').split('x');
   const layout = {};
-  const timeDomain = d3.extent(data, function (d) {
-    return new Date(d.date);
-  });
+  const timeDomain = d3.extent(data, (d) => new Date(d.date));
 
   console.log(timeDomain);
 
@@ -78,12 +71,10 @@ function timeseriesLayout(data, opts) {
     .range([0, layout.width - (layout.margin.left + layout.margin.right)]);
 
 
-  layout.xTicks = xScale.ticks(5).map(function(d) {
-    return {
-      label: timeFormat(d),
-      position: xScale(d),
-    };
-  });
+  layout.xTicks = xScale.ticks(5).map((d) => ({
+    label: timeFormat(d),
+    position: xScale(d),
+  }));
 
   // make the path generators etc.
   const path = d3.line()
@@ -97,12 +88,10 @@ function timeseriesLayout(data, opts) {
 
   layout.candidateAreas = [];
 
-  const pollsByCandidate = candidates.map(function (d) {
-    return {
-      name: d,
-      polls: data.filter((row) => (row.candidatename === d)),
-    };
-  });
+  const pollsByCandidate = candidates.map((d) => ({
+    name: d,
+    polls: data.filter((row) => (row.candidatename === d)),
+  }));
 
   const currentLeader = pollsByCandidate.reduce(function (previous, current) {
     const currentValue = current.polls[current.polls.length - 1].pollaverage;
@@ -114,12 +103,10 @@ function timeseriesLayout(data, opts) {
     }
   }, { name: 'Trump', value: 0 }).name;
 
-  layout.candidateLines = pollsByCandidate.map(function (d) {
-    return {
-      stroke: candidateColor[d.name].line,
-      d: path(d.polls),
-    };
-  });
+  layout.candidateLines = pollsByCandidate.map((d) => ({
+    stroke: candidateColor[d.name].line,
+    d: path(d.polls),
+  }));
 
   layout.candidateEndPoints = pollsByCandidate.map(function (d) {
     const lastPoll = d.polls[d.polls.length - 1];
@@ -136,8 +123,6 @@ function timeseriesLayout(data, opts) {
       labelOffset,
     };
   });
-
-  // console.log(layout);
 
   return layout;
 }
