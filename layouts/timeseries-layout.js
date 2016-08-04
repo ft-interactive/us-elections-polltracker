@@ -138,35 +138,67 @@ function timeseriesLayout(data, opts) {
     shape('path', { d: layout.candidateLines[1].d })
   );
 
-  const merged = mergePolls(pollsByCandidate[0], pollsByCandidate[1], xScale, yScale);
-
-  const split = merged.reduce(function (sections, current, index, array) {
-    // if there are no sections make the first
-    if (sections.length === 0) {
-      sections.push([current]);
+  const areas = mergePolls(pollsByCandidate[0], pollsByCandidate[1], xScale, yScale)
+    .reduce(function (sections, current) {
+      // if there are no sections make the first
+      if (sections.length === 0) {
+        sections.push([current]);
+        return sections;
+      }
+      // otherwise, get the leader in last poll in the last available section
+      const currentSection = sections[sections.length - 1];
+      const previousLead = currentSection[currentSection.length - 1].lead;
+      // if it's a different leader from the poll currently being considered then make a new array and push it that as a new section
+      if (previousLead !== current.lead) {
+        sections.push([current]);
+      } else {
+        currentSection.push(current);
+      }
+      // insert the current poll into the last array in the array of sections
       return sections;
+    }, []);
+
+  const areaPath = d3.area()
+    .x(d => round1dp(d.x))
+    .y0(d => round1dp(d[candidates[0] + '_y']))
+    .y1(d => round1dp(d[candidates[1] + '_y']));
+
+  layout.candidateAreas = areas.map(function (d, i, a) {
+    const leader = d[0].lead;
+    const section = d;
+    // append intersection points as required TODO: I think this mess of if statements can be simplified
+    if (i === 0 && intersections.length > 0) { // if it's the first section just add the intersection at the end
+      section.push({
+        x: intersections[i].x,
+        [candidates[0] + '_y']: intersections[i].y,
+        [candidates[1] + '_y']: intersections[i].y,
+      });
+    } else if (i === a.length - 1 && intersections.length > 0) { // if it's the last section add just at the start
+      section.unshift({
+        x: intersections[i - 1].x,
+        [candidates[0] + '_y']: intersections[i - 1].y,
+        [candidates[1] + '_y']: intersections[i - 1].y,
+      });
+    } else if (intersections.length > 1) { // if there are more than 2 sections, i.e. more than just a start and an end
+      // push onto the end
+      section.push({
+        x: intersections[i].x,
+        [candidates[0] + '_y']: intersections[i].y,
+        [candidates[1] + '_y']: intersections[i].y,
+      });
+      // and the start of the section
+      section.unshift({
+        x: intersections[i - 1].x,
+        [candidates[0] + '_y']: intersections[i - 1].y,
+        [candidates[1] + '_y']: intersections[i - 1].y,
+      });
     }
-    // get the leader in last poll in the last array of the array of sections
-    const currentSection = sections[sections.length - 1];
-    const previousLead = currentSection[currentSection.length - 1].lead;
-    // if it's a different leader from the current poll, make a new array and push it on to the sections one
-    if (previousLead !== current.lead) {
-      sections.push([current]);
-    } else {
-      currentSection.push(current);
-    }
-    // insert the current poll into the last array in the array of sections
-    return sections;
-  }, []);
 
-  console.log(split);
-  console.log(split.length);
-  
-
-  // console.log(intersections);
-  // console.log(merged);
-
-  layout.candidateAreas = [];
+    return {
+      d: areaPath(section),
+      fill: candidateColor[leader].area,
+    };
+  });
 
   layout.candidateEndPoints = pollsByCandidate.map(function (d) {
     const lastPoll = d.polls[d.polls.length - 1];

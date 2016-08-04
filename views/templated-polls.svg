@@ -19,6 +19,10 @@
     {% endfor %}
 </g>
 <g class="plot" transform="translate(35,70)">
+{% for area in candidateAreas %}
+    <path d="{{ area.d }}" fill="{{ area.fill }}"></path>
+{% endfor %}
+
 {% for line in candidateLines %}
     <path class="candidateLine" d="{{ line.d }}" stroke-width="2px" stroke-linejoin="round"  stroke-linecap="round" fill="none" stroke="{{ line.stroke }}"></path>
 {% endfor %}
