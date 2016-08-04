@@ -95,7 +95,6 @@ app.get('/polls.svg', async (req, res) => {
 
 app.get('/templated-polls.svg', async (req, res) => {
   const pollData = await pollAverages('July 1, 2015', 'June 29, 2016', 'us');
-  console.log(pollData.length + ' poll averages');
 
   const value = nunjucks.render('templated-polls.svg', layoutTimeSeries(pollData, req.query));
 

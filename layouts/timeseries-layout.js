@@ -1,9 +1,14 @@
 const d3 = require('d3');
+const svgIntersections = require('svg-intersections');
+const intersect = svgIntersections.intersect;
+const shape = svgIntersections.shape;
 
+// little utility functions
 const timeFormat = d3.timeFormat('%B %e, %Y');
 const roundExtent = (ext, divisor) => [(ext[0] - ext[0] % divisor), (ext[1] + (divisor - ext[1] % divisor))];
 const round1dp = (x) => Math.round(x * 10) / 10;
 
+// configuration
 const candidates = ['Trump', 'Clinton'];
 const candidateColor = {
   Trump: {
@@ -16,20 +21,41 @@ const candidateColor = {
   },
 };
 
+function mergePolls(a, b, xScale, yScale){
+  console.log(a.name, b.name);
+  return a.polls.map(function(d, i){
+    const mergedRow = {};
+    if( b.polls[i].date.getTime() !== d.date.getTime() ){
+      console.log('ERROR: non matching arrays can\'t be merged ', d, b.polls[i]);
+      return false;
+    }
+    let leader = b.name;
+    if(d.pollaverage > b.polls[i].pollaverage){
+      leader = a.name;
+    }
+    mergedRow.date = d.date;
+    mergedRow[a.name] = d.pollaverage;
+    mergedRow[b.name] = b.polls[i].pollaverage;
+    mergedRow.x = xScale(d.date);
+    mergedRow[a.name + '_y'] = yScale(mergedRow[a.name]);
+    mergedRow[b.name + '_y'] = yScale(mergedRow[b.name]);
+    mergedRow.lead = leader;
+    return mergedRow;
+  });
+}
 
+// the actual layout function
 function timeseriesLayout(data, opts) {
   const [svgWidth, svgHeight] = (opts.size || '600x300').split('x');
   const layout = {};
   const timeDomain = d3.extent(data, (d) => new Date(d.date));
 
-  console.log(timeDomain);
-
-  // derive start and end date from data
+  // set the default options if they're not specified in 'opts'
   Object.assign(layout, {
     fontless: (typeof opts.fontless === 'boolean' ? opts.fontless : (opts.fontless ? opts.fontless === 'true' : true)),
     notext: typeof opts.notext === 'boolean' ? opts.notext : false,
     background: opts.background || 'none',
-    startDate: opts.startDate || new Date(timeDomain[0]),
+    startDate: new Date(timeDomain[0]),
     endDate: opts.endDate || new Date(timeDomain[1]),
     width: svgWidth,
     height: svgHeight,
@@ -86,7 +112,6 @@ function timeseriesLayout(data, opts) {
     position: yScale(d),
   }));
 
-  layout.candidateAreas = [];
 
   const pollsByCandidate = candidates.map((d) => ({
     name: d,
@@ -108,6 +133,18 @@ function timeseriesLayout(data, opts) {
     d: path(d.polls),
   }));
 
+  const intersections = intersect(
+    shape('path', { d: layout.candidateLines[0].d }),
+    shape('path', { d: layout.candidateLines[1].d })
+  );
+
+  let merged = mergePolls(pollsByCandidate[0], pollsByCandidate[1], xScale, yScale);
+
+  console.log(intersections);
+  console.log(merged);
+
+  layout.candidateAreas = [];
+
   layout.candidateEndPoints = pollsByCandidate.map(function (d) {
     const lastPoll = d.polls[d.polls.length - 1];
     let labelOffset = 10;
@@ -120,7 +157,7 @@ function timeseriesLayout(data, opts) {
       stroke: candidateColor[d.name].area,
       labelValue: d3.format('.1f')(lastPoll.pollaverage),
       labelName: d.name,
-      labelOffset,
+      labelOffset: labelOffset,
     };
   });
 
