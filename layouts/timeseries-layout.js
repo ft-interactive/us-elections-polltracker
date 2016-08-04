@@ -23,15 +23,21 @@ function round1dp(x) {
 }
 
 function timeseriesLayout(data, opts) {
-
   const [svgWidth, svgHeight] = (opts.size || '600x300').split('x');
   const layout = {};
+  const timeDomain = d3.extent(data, function (d) {
+    return new Date(d.date);
+  });
+
+  console.log(timeDomain);
+
+  // derive start and end date from data
   Object.assign(layout, {
     fontless: (typeof opts.fontless === 'boolean' ? opts.fontless : (opts.fontless ? opts.fontless === 'true' : true)),
     notext: typeof opts.notext === 'boolean' ? opts.notext : false,
     background: opts.background || 'none',
-    startDate: opts.startDate || 'June 1, 2016',
-    endDate: opts.endDate || timeFormat(new Date()),
+    startDate: opts.startDate || new Date(timeDomain[0]),
+    endDate: opts.endDate || new Date(timeDomain[1]),
     width: svgWidth,
     height: svgHeight,
     type: opts.type || 'area',
@@ -68,8 +74,10 @@ function timeseriesLayout(data, opts) {
   }
 
   const xScale = d3.scaleTime()
-    .domain([timeParse(layout.startDate), timeParse(layout.endDate)])
+    .domain(timeDomain)
     .range([0, layout.width - (layout.margin.left + layout.margin.right)]);
+
+  console.log(xScale.range());
 
   // make the path generators etc.
   const path = d3.line()
@@ -81,7 +89,7 @@ function timeseriesLayout(data, opts) {
     position: yScale(d),
   }));
 
-  layout.xTicks = [{ label: '', position: '' }]; //TODO layout ticks
+  layout.xTicks = [{ label: '', position: '' }]; // TODO layout ticks
 
   layout.candidateAreas = [];
 
@@ -111,20 +119,21 @@ function timeseriesLayout(data, opts) {
 
   layout.candidateEndPoints = pollsByCandidate.map(function (d) {
     const lastPoll = d.polls[d.polls.length - 1];
-    let labelOffset = 5;
-    if (d.name === currentLeader) labelOffset = -10;
+    let labelOffset = 10;
+    if (d.name === currentLeader) labelOffset = 0;
 
     return {
       cx: round1dp(xScale(lastPoll.date)),
       cy: round1dp(yScale(lastPoll.pollaverage)),
       fill: candidateColor[d.name].line,
       stroke: candidateColor[d.name].area,
-      label: d3.format('.1f')(lastPoll.pollaverage) + ' ' + d.name,
+      labelValue: d3.format('.1f')(lastPoll.pollaverage),
+      labelName: d.name,
       labelOffset,
     };
   });
 
-  //console.log(layout);
+  // console.log(layout);
 
   return layout;
 }
