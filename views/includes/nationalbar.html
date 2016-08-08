@@ -104,17 +104,15 @@
     left: 0;
     white-space: nowrap;
     width: 100%;
+    font-weight: 600;
   }
 
-  #national-bar-container--subbars--dem .national-bar-container-keys {
+  #national-bar-container-keys--dem {
     color: #579dd5;
-    font-weight: 600;
-    text-align: left;
   }
 
-  #national-bar-container--subbars--rep .national-bar-container-keys {
+  #national-bar-container-keys--rep {
     color: #e03d46;
-    font-weight: 600;
     text-align: right;
   }
 
@@ -209,18 +207,15 @@
     <div class="national-bar--head-icons" id="national-bar--head-icons-dem"><img src="images/clinton.png" /></div>
     <div id="national-bar-container">
       <div id="national-270-line"></div>
+      <span class="national-bar-container-keys" id="national-bar-container-keys--dem">Clinton (Dem)</span>
+      <div class="national-bar-container-group-sums" id="national-bar-container-group-sums--dem">{{nationalBarCounts.dem + nationalBarCounts.leaningDem}}</div>
       {% for key, value in nationalBarCounts %}
       <div class="national-bar-container--subbars" id="national-bar-container--subbars--{{key}}">
         <span class="national-bar-container-values">{{value}}</span>
-        {% if key == 'dem' %}
-        <span class="national-bar-container-keys">Clinton (Dem)</span>
-        <div class="national-bar-container-group-sums" id="national-bar-container-group-sums--dem">{{nationalBarCounts.dem + nationalBarCounts.leaningDem}}</div>
-        {% elif key == 'rep' %}
-        <span class="national-bar-container-keys">Trump (Rep)</span>
-        <div class="national-bar-container-group-sums" id="national-bar-container-group-sums--rep">{{nationalBarCounts.rep + nationalBarCounts.leaningRep}}</div>
-        {% endif %}
       </div>
       {% endfor %}
+      <span class="national-bar-container-keys" id="national-bar-container-keys--rep">Trump (Rep)</span>
+      <div class="national-bar-container-group-sums" id="national-bar-container-group-sums--rep">{{nationalBarCounts.rep + nationalBarCounts.leaningRep}}</div>
     </div>
     <div class="national-bar--head-icons" id="national-bar--head-icons-rep"><img src="images/trump.png" /></div>
   </div>
