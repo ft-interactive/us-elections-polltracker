@@ -105,6 +105,8 @@
     white-space: nowrap;
     width: 100%;
     font-weight: 600;
+    line-height: 0.9em;
+    margin-top: 0.3em;
   }
 
   #national-bar-container-keys--dem {
@@ -116,11 +118,18 @@
     text-align: right;
   }
 
+  .national-bar-container-keys--party {
+    font-size: 14px;
+    color: #666;
+    font-weight: 400;
+    margin-top: -2px;
+  }
+
   .national-bar-container-group-sums {
-    font-size: 1.3em;
-    font-weight: 600;
+    font-size: 2em;
+    font-weight: 500;
     position: absolute;
-    top: -50px;
+    top: -63px;
   }
 
   #national-bar-container-group-sums--dem {
@@ -197,7 +206,11 @@
     }
 
     .national-bar-container-group-sums {
-      top: 38px;
+      top: 54px;
+    }
+
+    #national-bar-legend {
+      margin-top: 80px;
     }
   }
 
@@ -208,14 +221,14 @@
     <div class="national-bar--head-icons" id="national-bar--head-icons-dem"><img src="images/clinton.png" /></div>
     <div id="national-bar-container">
       <div id="national-270-line"></div>
-      <span class="national-bar-container-keys" id="national-bar-container-keys--dem">Clinton (Dem)</span>
+      <span class="national-bar-container-keys" id="national-bar-container-keys--dem">Clinton<br /><span class="national-bar-container-keys--party">Democrat</span></span>
       <div class="national-bar-container-group-sums" id="national-bar-container-group-sums--dem">{{nationalBarCounts.dem + nationalBarCounts.leaningDem}}</div>
       {% for key, value in nationalBarCounts %}
       <div class="national-bar-container--subbars" id="national-bar-container--subbars--{{key}}">
         <span class="national-bar-container-values">{{value}}</span>
       </div>
       {% endfor %}
-      <span class="national-bar-container-keys" id="national-bar-container-keys--rep">Trump (Rep)</span>
+      <span class="national-bar-container-keys" id="national-bar-container-keys--rep">Trump<br /><span class="national-bar-container-keys--party">Republican</span></span>
       <div class="national-bar-container-group-sums" id="national-bar-container-group-sums--rep">{{nationalBarCounts.rep + nationalBarCounts.leaningRep}}</div>
     </div>
     <div class="national-bar--head-icons" id="national-bar--head-icons-rep"><img src="images/trump.png" /></div>
