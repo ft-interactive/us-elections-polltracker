@@ -1,4 +1,8 @@
 <style>
+  #national-bar {
+    margin: 3em 0;
+  }
+
   #national-bar-wrapper {
     margin: 3em 0;
   }
@@ -130,6 +134,60 @@
     right: 0;
   }
 
+  #national-bar-legend {
+    text-align: center;
+  }
+
+  .national-bar-legend-item--grouped {
+    display: inline-block;
+  }
+
+  .national-bar-legend-item {
+    display: inline;
+    margin-right: 16px;
+  }
+
+  .national-bar-legend-block {
+    width: 20px;
+    height: 10px;
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  #national-bar-legend-item--dem-solid .national-bar-legend-block {
+    background: #579dd5;
+  }
+
+  #national-bar-legend-item--dem-leaning .national-bar-legend-block {
+    background: #a2c1e1;
+  }
+
+  #national-bar-legend-item--tossup .national-bar-legend-block {
+    background: #fcc83c;
+  }
+
+  #national-bar-legend-item--rep-solid .national-bar-legend-block {
+    background: #e03d46;
+  }
+
+  #national-bar-legend-item--rep-leaning .national-bar-legend-block {
+    background: #f4a098;
+  }
+
+  @media (max-width: 480px) {
+    .national-bar-legend-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+    } 
+
+    .national-bar-legend-item--grouped {
+      display: inline-block;
+      width: 32%;
+      text-align: center;
+    }   
+  }
+
   @media (max-width: 400px) {
     .national-bar--head-icons {
       display: none;
@@ -146,22 +204,52 @@
 
 </style>
 
-<div id="national-bar-wrapper">
-  <div class="national-bar--head-icons" id="national-bar--head-icons-dem"><img src="images/clinton.png" /></div>
-  <div id="national-bar-container">
-    <div id="national-270-line"></div>
-    {% for key, value in nationalBarCounts %}
-    <div class="national-bar-container--subbars" id="national-bar-container--subbars--{{key}}">
-      <span class="national-bar-container-values">{{value}}</span>
-      {% if key == 'dem' %}
-      <span class="national-bar-container-keys">Clinton (Dem)</span>
-      <div class="national-bar-container-group-sums" id="national-bar-container-group-sums--dem">{{nationalBarCounts.dem + nationalBarCounts.leaningDem}}</div>
-      {% elif key == 'rep' %}
-      <span class="national-bar-container-keys">Trump (Rep)</span>
-      <div class="national-bar-container-group-sums" id="national-bar-container-group-sums--rep">{{nationalBarCounts.rep + nationalBarCounts.leaningRep}}</div>
-      {% endif %}
+<div id="national-bar">
+  <div id="national-bar-wrapper">
+    <div class="national-bar--head-icons" id="national-bar--head-icons-dem"><img src="images/clinton.png" /></div>
+    <div id="national-bar-container">
+      <div id="national-270-line"></div>
+      {% for key, value in nationalBarCounts %}
+      <div class="national-bar-container--subbars" id="national-bar-container--subbars--{{key}}">
+        <span class="national-bar-container-values">{{value}}</span>
+        {% if key == 'dem' %}
+        <span class="national-bar-container-keys">Clinton (Dem)</span>
+        <div class="national-bar-container-group-sums" id="national-bar-container-group-sums--dem">{{nationalBarCounts.dem + nationalBarCounts.leaningDem}}</div>
+        {% elif key == 'rep' %}
+        <span class="national-bar-container-keys">Trump (Rep)</span>
+        <div class="national-bar-container-group-sums" id="national-bar-container-group-sums--rep">{{nationalBarCounts.rep + nationalBarCounts.leaningRep}}</div>
+        {% endif %}
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
+    <div class="national-bar--head-icons" id="national-bar--head-icons-rep"><img src="images/trump.png" /></div>
   </div>
-  <div class="national-bar--head-icons" id="national-bar--head-icons-rep"><img src="images/trump.png" /></div>
+  <div id="national-bar-legend">
+    <div class="national-bar-legend-item--grouped">
+      <div class="national-bar-legend-item" id="national-bar-legend-item--dem-solid">
+        <span class="national-bar-legend-block"></span>
+        <span class="national-bar-legend-label">Solid</span>
+      </div>
+      <div class="national-bar-legend-item" id="national-bar-legend-item--dem-leaning">
+        <span class="national-bar-legend-block"></span>
+        <span class="national-bar-legend-label">Leaning</span>
+      </div>
+    </div>
+    <div class="national-bar-legend-item--grouped">
+      <div class="national-bar-legend-item" id="national-bar-legend-item--tossup">
+        <span class="national-bar-legend-block"></span>
+        <span class="national-bar-legend-label">Toss-up</span>
+      </div>
+    </div>
+    <div class="national-bar-legend-item--grouped">
+      <div class="national-bar-legend-item" id="national-bar-legend-item--rep-leaning">
+        <span class="national-bar-legend-block"></span>
+        <span class="national-bar-legend-label">Leaning</span>
+      </div>
+      <div class="national-bar-legend-item" id="national-bar-legend-item--rep-solid">
+        <span class="national-bar-legend-block"></span>
+        <span class="national-bar-legend-label">Solid</span>
+      </div>
+    </div>
+  </div>
 </div>
