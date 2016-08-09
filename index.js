@@ -276,6 +276,19 @@ async function statePage(req, res) {
     // get latest poll averages for social
     const latestPollAverages = await getLatestPollAverage(state);
 
+    // get latest state data for map and national bar
+    const stateCounts = {};
+    for (let i = 0; i < stateIds.length; i++) {
+      const stateKey = stateIds[i].state;
+      if (stateKey !== 'US') {
+        stateCounts[stateKey] = {
+          Clinton: 3,
+          Trump: 5,
+          margin: -2,
+        };
+      }
+    }
+
     const polltrackerLayout = {
       // quick hack for page ID while we only have a UUID for the National page
       id: state === 'us' ? 'e01abff0-5292-11e6-9664-e0bdc13c3bef' : null,
@@ -299,6 +312,7 @@ async function statePage(req, res) {
         summary: `US election poll tracker: Here's who's ahead`,
         url: `https://ig.ft.com/us-elections${req.url}`,
       },
+      stateCounts: stateCounts,
       nationalBarCounts: { // dummy data
         dem: 110,
         leaningDem: 140,
