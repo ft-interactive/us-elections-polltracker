@@ -154,6 +154,11 @@
     margin-right: 16px;
   }
 
+  #national-bar-legend-item--rep-solid {
+    float: right;
+    margin-left: 8px;
+  }
+
   .national-bar-legend-block {
     width: 20px;
     height: 10px;
@@ -193,7 +198,12 @@
       width: 32%;
       text-align: center;
       vertical-align: top;
-    }   
+    }  
+
+    #national-bar-legend-item--rep-solid {
+      float: none;
+      margin-left: 0;
+    } 
   }
 
   @media (max-width: 400px) {
@@ -251,13 +261,13 @@
       </div>
     </div>
     <div class="national-bar-legend-item--grouped">
-      <div class="national-bar-legend-item" id="national-bar-legend-item--rep-leaning">
-        <span class="national-bar-legend-block"></span>
-        <span class="national-bar-legend-label">Leaning</span>
-      </div>
       <div class="national-bar-legend-item" id="national-bar-legend-item--rep-solid">
         <span class="national-bar-legend-block"></span>
         <span class="national-bar-legend-label">Solid</span>
+      </div>
+      <div class="national-bar-legend-item" id="national-bar-legend-item--rep-leaning">
+        <span class="national-bar-legend-block"></span>
+        <span class="national-bar-legend-label">Leaning</span>
       </div>
     </div>
   </div>
