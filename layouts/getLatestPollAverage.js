@@ -29,7 +29,10 @@ async function getLatestPollAverage(state) {
 		raw: true
 	});	
 
-	return { Clinton: latestClinton.pollaverage, Trump: latestTrump.pollaverage };
+	if (latestClinton && latestTrump) {
+		return { Clinton: latestClinton.pollaverage, Trump: latestTrump.pollaverage };
+	}
+	return false;
 }
 
 module.exports = getLatestPollAverage;
