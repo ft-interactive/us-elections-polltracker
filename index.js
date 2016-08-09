@@ -275,6 +275,16 @@ async function statePage(req, res) {
 
     // get latest poll averages for social
     const latestPollAverages = await getLatestPollAverage(state);
+    let shareTitle;
+    if (latestPollAverages) {
+      if (state === 'us') {
+        shareTitle = `US presidential election polls: It's Clinton ${latestPollAverages.Clinton}%, Trump ${latestPollAverages.Trump}%`;
+      } else {
+        shareTitle = `US presidential election polls: In ${stateName}, it's Clinton ${latestPollAverages.Clinton}%, Trump ${latestPollAverages.Trump}%`;
+      }
+    } else {
+      shareTitle = `US presidential election polls: Here’s where ${stateName} stands now`;
+    }
 
     // get latest state data for map and national bar
     const stateCounts = {};
@@ -308,7 +318,7 @@ async function statePage(req, res) {
       stateStreamURL: stateStreamURL,
       flags: flags(),
       share: {
-        title: `US presidential election polls: It's Clinton ${latestPollAverages.Clinton}%, Trump ${latestPollAverages.Trump}%`,
+        title: shareTitle,
         summary: `US election poll tracker: Here's who's ahead`,
         url: `https://ig.ft.com/us-elections${req.url}`,
       },
