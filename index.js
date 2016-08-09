@@ -294,6 +294,8 @@ async function statePage(req, res) {
         const pollAverages = await getLatestPollAverage(stateKey); // TODO. Create one query instead of 54 separate ones.
         const overrideCategories = data.overrideCategories;
 
+        console.log('pollaverages', pollAverages);
+
         const clintonAvg = pollAverages.Clinton || null;
         const trumpAvg = pollAverages.Trump || null;
         let margin;
