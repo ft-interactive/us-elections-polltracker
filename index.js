@@ -296,7 +296,7 @@ async function statePage(req, res) {
 
         const clintonAvg = pollAverages.Clinton || null;
         const trumpAvg = pollAverages.Trump || null;
-        let margin = null;
+        let margin;
         if (clintonAvg && trumpAvg) {
           margin = clintonAvg - trumpAvg;
         }
