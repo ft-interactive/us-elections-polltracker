@@ -338,7 +338,7 @@ async function statePage(req, res) {
         dem: _.reduce(_.map(stateCounts, (stateRow) => { if (stateRow.margin >= 10) { return stateRow.ecVotes; } return 0; }), (a, b) => a + b, 0),
         leaningDem: _.reduce(_.map(stateCounts, (stateRow) => { if (stateRow.margin >= 5 && stateRow.margin < 10) { return stateRow.ecVotes; } return 0; }), (a, b) => a + b, 0),
         swing: _.reduce(_.map(stateCounts, (stateRow) => { if (stateRow.margin < 5 && stateRow.margin > -5) { return stateRow.ecVotes; } return 0; }), (a, b) => a + b, 0),
-        nodata: 0,
+        // nodata: 0,
         leaningRep: _.reduce(_.map(stateCounts, (stateRow) => { if (stateRow.margin > -10 && stateRow.margin <= -5) { return stateRow.ecVotes; } return 0; }), (a, b) => a + b, 0),
         rep: _.reduce(_.map(stateCounts, (stateRow) => { if (stateRow.margin <= -10) { return stateRow.ecVotes; } return 0; }), (a, b) => a + b, 0),
       },
