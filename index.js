@@ -202,7 +202,7 @@ async function statePage(req, res) {
 
     const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
     // get intro text
-    const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links,streampages';
+    const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links,streampages,overrideCategories';
     let data = berthaDefaults;
 
     try {
@@ -291,10 +291,21 @@ async function statePage(req, res) {
     for (let i = 0; i < stateIds.length; i++) {
       const stateKey = stateIds[i].state;
       if (stateKey !== 'US') {
+        const pollAverages = await getLatestPollAverage(stateKey); // TODO. Create one query instead of 54 separate ones.
+        const overrideCategories = data.overrideCategories;
+
+        const clintonAvg = pollAverages.Clinton || null;
+        const trumpAvg = pollAverages.Trump || null;
+        let margin = null;
+        if (clintonAvg && trumpAvg) {
+          margin = clintonAvg - trumpAvg;
+        }
+
         stateCounts[stateKey] = {
-          Clinton: 3,
-          Trump: 5,
-          margin: -2,
+          Clinton: clintonAvg,
+          Trump: trumpAvg,
+          margin: margin || _.findWhere(overrideCategories, { state: stateKey }).overridevalue,
+          ecVotes: _.findWhere(stateIds, { state: stateKey }).ecVotes,
         };
       }
     }
@@ -323,13 +334,13 @@ async function statePage(req, res) {
         url: `https://ig.ft.com/us-elections${req.url}`,
       },
       stateCounts: stateCounts,
-      nationalBarCounts: { // dummy data
-        dem: 110,
-        leaningDem: 140,
-        swing: 80,
-        nodata: 38,
-        leaningRep: 70,
-        rep: 100,
+      nationalBarCounts: { // TODO break out reduce/map into separation function
+        dem: _.reduce(_.map(stateCounts, (stateRow) => { if (stateRow.margin >= 10) { return stateRow.ecVotes; } return 0; }), (a, b) => a + b, 0),
+        leaningDem: _.reduce(_.map(stateCounts, (stateRow) => { if (stateRow.margin >= 5 && stateRow.margin < 10) { return stateRow.ecVotes; } return 0; }), (a, b) => a + b, 0),
+        swing: _.reduce(_.map(stateCounts, (stateRow) => { if (stateRow.margin < 5 && stateRow.margin > -5) { return stateRow.ecVotes; } return 0; }), (a, b) => a + b, 0),
+        nodata: 0,
+        leaningRep: _.reduce(_.map(stateCounts, (stateRow) => { if (stateRow.margin > -10 && stateRow.margin <= -5) { return stateRow.ecVotes; } return 0; }), (a, b) => a + b, 0),
+        rep: _.reduce(_.map(stateCounts, (stateRow) => { if (stateRow.margin <= -10) { return stateRow.ecVotes; } return 0; }), (a, b) => a + b, 0),
       },
     };
 
