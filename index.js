@@ -334,7 +334,7 @@ async function statePage(req, res) {
         url: `https://ig.ft.com/us-elections${req.url}`,
       },
       stateCounts: stateCounts,
-      nationalBarCounts: { // TODO break out reduce/map into separation function
+      nationalBarCounts: { // TODO break out reduce/map into separate function
         dem: _.reduce(_.map(stateCounts, (stateRow) => { if (stateRow.margin >= 10) { return stateRow.ecVotes; } return 0; }), (a, b) => a + b, 0),
         leaningDem: _.reduce(_.map(stateCounts, (stateRow) => { if (stateRow.margin >= 5 && stateRow.margin < 10) { return stateRow.ecVotes; } return 0; }), (a, b) => a + b, 0),
         swing: _.reduce(_.map(stateCounts, (stateRow) => { if (stateRow.margin < 5 && stateRow.margin > -5) { return stateRow.ecVotes; } return 0; }), (a, b) => a + b, 0),
