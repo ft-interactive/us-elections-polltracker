@@ -22,7 +22,6 @@ const candidateColor = {
 };
 
 function mergePolls(a, b, xScale, yScale) {
-  console.log(a.name, b.name);
   return a.polls.map(function (d, i) {
     const mergedRow = {};
     if (b.polls[i].date.getTime() !== d.date.getTime()) {
@@ -96,22 +95,32 @@ function timeseriesLayout(data, opts) {
     .domain(timeDomain)
     .range([0, layout.width - (layout.margin.left + layout.margin.right)]);
 
-
+  // set axis ticks
   layout.xTicks = xScale.ticks(5).map((d) => ({
     label: timeFormat(d),
     position: xScale(d),
+    important: false,
   }));
 
-  // make the path generators etc.
-  const path = d3.line()
-      .x(d => round1dp(xScale(d.date)))
-      .y(d => round1dp(yScale(d.pollaverage)));
+  xScale.domain().forEach(function(d) {
+    layout.xTicks.push({
+      label: timeFormat(d),
+      position: xScale(d),
+      important: true,
+    });
+  });
+
+  // add domain extent ticks
 
   layout.yTicks = yScale.ticks(tickCount).map(d => ({
     label: d,
     position: yScale(d),
   }));
 
+  // make the path generators etc.
+  const path = d3.line()
+      .x(d => round1dp(xScale(d.date)))
+      .y(d => round1dp(yScale(d.pollaverage)));
 
   const pollsByCandidate = candidates.map((d) => ({
     name: d,
@@ -163,17 +172,22 @@ function timeseriesLayout(data, opts) {
     .y0(d => round1dp(d[candidates[0] + '_y']))
     .y1(d => round1dp(d[candidates[1] + '_y']));
 
+
+// produce the array fo areas
   layout.candidateAreas = areas.map(function (d, i, a) {
     const leader = d[0].lead;
     const section = d;
+    const arrayLast = (i === a.length - 1);
+    const arrayFirst = (i === 0);
+
     // append intersection points as required TODO: I think this mess of if statements can be simplified
-    if (i === 0 && intersections.length > 0) { // if it's the first section just add the intersection at the end
+    if (arrayFirst && intersections.length > 0) { // if it's the first section just add the intersection at the end
       section.push({
         x: intersections[i].x,
         [candidates[0] + '_y']: intersections[i].y,
         [candidates[1] + '_y']: intersections[i].y,
       });
-    } else if (i === a.length - 1 && intersections.length > 0) { // if it's the last section add just at the start
+    } else if (arrayLast && intersections.length > 0) { // if it's the last section add just at the start
       section.unshift({
         x: intersections[i - 1].x,
         [candidates[0] + '_y']: intersections[i - 1].y,
@@ -199,6 +213,7 @@ function timeseriesLayout(data, opts) {
       fill: candidateColor[leader].area,
     };
   });
+
 
   layout.candidateEndPoints = pollsByCandidate.map(function (d) {
     const lastPoll = d.polls[d.polls.length - 1];
