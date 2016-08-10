@@ -346,7 +346,7 @@ function nationalCount(stateData) {
       .range(['rep', 'leaningRep', 'swing', 'leaningDem', 'dem'])
       .domain([-10, -5, 5, 10]);
 
-  return Object.keys(stateData).reduce(function (cumulative, stateCode) {
+  const stateCounts = Object.keys(stateData).reduce(function (cumulative, stateCode) {
     const state = stateData[stateCode];
     cumulative[classification(state.margin)] += state.ecVotes;
     return cumulative;
@@ -356,6 +356,10 @@ function nationalCount(stateData) {
     swing: 0,
     leaningRep: 0,
     rep: 0 });
+
+  // TODO deal with Nebraska and Maine
+
+  return stateCounts;
 }
 
 
