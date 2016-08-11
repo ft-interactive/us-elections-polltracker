@@ -22,7 +22,7 @@
 </g>
 <g class="plot" transform="translate(35,70)">
 {% for area in candidateAreas %}
-    <path d="{{ area.d }}" fill="{{ area.fill }}"></path>
+    <path d="{{ area.d }}" fill="{{ area.fill }}" fill-opacity="0.5"></path>
 {% endfor %}
 
 {% for line in candidateLines %}
