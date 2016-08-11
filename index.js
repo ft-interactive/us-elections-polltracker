@@ -88,19 +88,25 @@ app.get('/polls.svg', async (req, res) => {
   const value = await makePollTimeSeries(req.query);
   if (value) {
     setSVGHeaders(res).send(value);
-  }else {
+  } else {
     res.status(500).send('something broke');
   }
 });
 
 app.get('/templated-polls.svg', async (req, res) => {
-  const pollData = await pollAverages('July 1, 2015', 'June 29, 2016', 'us');
+  let startDate = 'July 1, 2015';
+  let endDate = 'June 29, 2016';
+  let state = 'us';
+  if (req.params.startDate) startDate = req.params.startDate;
+  if (req.params.endDate) endDate = req.params.endDate;
+  if (req.params.state) state = req.params.state;
+  const pollData = await pollAverages(startDate, endDate, state);
 
   const value = nunjucks.render('templated-polls.svg', layoutTimeSeries(pollData, req.query));
 
   if (value) {
     setSVGHeaders(res).send(value);
-  }else {
+  } else {
     res.status(500).send('something broke');
   }
 });
@@ -112,9 +118,9 @@ async function pollAverages(start, end, state) {
   const dbCacheKey = 'dbAverages-' + [state, start, end].join('-');
   let dbResponse = cache.get(dbCacheKey);
   if (!dbResponse) {
-      dbResponse = await getPollAverages(state, start, end);
-      cache.set(dbCacheKey, dbResponse);
-    }
+    dbResponse = await getPollAverages(state, start, end);
+    cache.set(dbCacheKey, dbResponse);
+  }
   return dbResponse;
 }
 
@@ -192,7 +198,7 @@ app.get('/', statePage);
 app.get('/:state', (req, res) => {
   if (validStates.indexOf(req.params.state) >= 0) {
     statePage(req, res);
-  } else{
+  } else {
     res.sendStatus(404);
   }
 });
@@ -200,7 +206,7 @@ app.get('/:state', (req, res) => {
 app.get('/polls/:state', (req, res) => {
   if (validStates.indexOf(req.params.state) >= 0) {
     statePage(req, res);
-  }else {
+  } else {
     res.sendStatus(404);
   }
 });
@@ -227,7 +233,7 @@ async function statePage(req, res) {
       const contentRes = await Promise.resolve(fetch(contentURL))
           .timeout(3000, new Error(`Timeout - bertha took too long to respond: ${contentURL}`));
       data = await contentRes.json();
-    } catch(err) {
+    } catch (err) {
       cachePage = false;
       console.log('bertha fetching problem, resorting to default bertha config');
     }
@@ -323,7 +329,7 @@ async function statePage(req, res) {
       flags: flags(),
       share: {
         title: shareTitle,
-        summary: `US election poll tracker: Here's who's ahead`,
+        summary: 'US election poll tracker: Here\'s who\'s ahead',
         url: `https://ig.ft.com/us-elections${req.url}`,
       },
     };

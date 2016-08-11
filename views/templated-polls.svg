@@ -9,7 +9,7 @@
     </g>
     {% endfor %}
 </g>
-<g class="xAxis" transform="translate(35,230)" fill="none" font-size="10" font-family="sans-serif" text-anchor="middle">
+<g class="xAxis" transform="translate(35,{{ height - (margin.bottom) }})" fill="none" font-size="10" font-family="sans-serif" text-anchor="middle">
     <line class="domain" stroke="#C3BCB0" x1="0" x2="{{ width - (margin.left+margin.right) }}" y1="0.5" y2="0.5"></line>
     {% for xTick in xTicks %}
     <g class="tick" transform="translate( {{ xTick.position }} ,0)">
@@ -37,7 +37,7 @@
     <g class="annotations">
         <text font-size="21px" fill="#3B3D3B" class="headline" x="-28" y="-46">{{ title }}</text>
         <text font-size="14px" fill="#6b6e68" class="subhead" x="-28" y="-24">{{ subtitle }}</text>
-        <text font-size="11.5px" fill="#6b6e68" class="sourceline" x="-28" y="220">{{ source }}</text>
+        <text font-size="11.5px" fill="#6b6e68" class="sourceline" x="-28" y="{{height - (margin.bottom)}}">{{ source }}</text>
     </g>
 </g>
 
