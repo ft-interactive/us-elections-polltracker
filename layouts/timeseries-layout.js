@@ -196,6 +196,7 @@ function timeseriesLayout(data, opts) {
 
 
 // produce the array fo areas
+
   layout.candidateAreas = areas.map(function (d, i, a) {
     const leader = d[0].lead;
     const section = d;
@@ -203,30 +204,31 @@ function timeseriesLayout(data, opts) {
     const arrayFirst = (i === 0);
 
     // append intersection points as required TODO: I think this mess of if statements can be simplified
-    if (arrayFirst && intersections.length > 0) { // if it's the first section just add the intersection at the end
+    if (arrayFirst && intersections.points.length > 0) { // if it's the first section just add the intersection at the end
       section.push({
-        x: intersections[i].x,
-        [candidates[0] + '_y']: intersections[i].y,
-        [candidates[1] + '_y']: intersections[i].y,
+        x: intersections.points[i].x,
+        [candidates[0] + '_y']: intersections.points[i].y,
+        [candidates[1] + '_y']: intersections.points[i].y,
       });
-    } else if (arrayLast && intersections.length > 0) { // if it's the last section add just at the start
+    } else if (arrayLast && intersections.points.length > 0) { // if it's the last section add just at the start
       section.unshift({
-        x: intersections[i - 1].x,
-        [candidates[0] + '_y']: intersections[i - 1].y,
-        [candidates[1] + '_y']: intersections[i - 1].y,
+        x: intersections.points[i - 1].x,
+        [candidates[0] + '_y']: intersections.points[i - 1].y,
+        [candidates[1] + '_y']: intersections.points[i - 1].y,
       });
-    } else if (intersections.length > 1) { // if there are more than 2 sections, i.e. more than just a start and an end
-      // push onto the end
-      section.push({
-        x: intersections[i].x,
-        [candidates[0] + '_y']: intersections[i].y,
-        [candidates[1] + '_y']: intersections[i].y,
-      });
+    } else if (intersections.points.length > 1) { // if there are more than 2 sections, i.e. more than just a start and an end
       // and the start of the section
       section.unshift({
-        x: intersections[i - 1].x,
-        [candidates[0] + '_y']: intersections[i - 1].y,
-        [candidates[1] + '_y']: intersections[i - 1].y,
+        x: intersections.points[i - 1].x,
+        [candidates[0] + '_y']: intersections.points[i - 1].y,
+        [candidates[1] + '_y']: intersections.points[i - 1].y,
+      });
+
+      // push onto the end
+      section.push({
+        x: intersections.points[i].x,
+        [candidates[0] + '_y']: intersections.points[i].y,
+        [candidates[1] + '_y']: intersections.points[i].y,
       });
     }
 
@@ -236,6 +238,8 @@ function timeseriesLayout(data, opts) {
     };
   });
 
+
+  console.log(layout.candidateAreas);
 
   layout.candidateEndPoints = pollsByCandidate.map(function (d) {
     const lastPoll = d.polls[d.polls.length - 1];
