@@ -45,6 +45,7 @@ function mergePolls(a, b, xScale, yScale) {
 
 // the actual layout function
 function timeseriesLayout(data, opts) {
+  if(!data) return;
   const [svgWidth, svgHeight] = (opts.size || '600x300').split('x');
   const layout = {};
   const timeDomain = d3.extent(data, (d) => new Date(d.date));
@@ -53,7 +54,7 @@ function timeseriesLayout(data, opts) {
   Object.assign(layout, {
     fontless: (typeof opts.fontless === 'boolean' ? opts.fontless : (opts.fontless ? opts.fontless === 'true' : true)),
     notext: typeof opts.notext === 'boolean' ? opts.notext : false,
-    background: opts.background || 'none',
+    background: opts.background || null,
     startDate: new Date(timeDomain[0]),
     endDate: opts.endDate || new Date(timeDomain[1]),
     width: svgWidth,
@@ -122,10 +123,13 @@ function timeseriesLayout(data, opts) {
       .x(d => round1dp(xScale(d.date)))
       .y(d => round1dp(yScale(d.pollaverage)));
 
+
   const pollsByCandidate = candidates.map((d) => ({
     name: d,
     polls: data.filter((row) => (row.candidatename === d)),
   }));
+
+  console.log(pollsByCandidate);
 
   const currentLeader = pollsByCandidate.reduce(function (previous, current) {
     const currentValue = current.polls[current.polls.length - 1].pollaverage;

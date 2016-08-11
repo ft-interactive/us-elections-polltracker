@@ -1,6 +1,8 @@
 
 <svg class="poll" width="{{ width }}" height="{{ height }}" viewBox="0 0 {{ width }} {{ height }}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMinYMin meet" font-family="MetricWeb, sans-serif">
-
+{% if background %}
+<rect fill="#{{ background }}" width="{{ width }}" height="{{ height }}"></rect>
+{% endif %}
 <g class="yAxis" transform="translate({{ margin.left }},{{ margin.top }})" fill="none" font-size="10" font-family="sans-serif" text-anchor="end">
     {% for yTick in yTicks %}
     <g class="tick" transform="translate(0,{{ yTick.position }})">
@@ -37,7 +39,7 @@
     <g class="annotations">
         <text font-size="21px" fill="#3B3D3B" class="headline" x="-28" y="-46">{{ title }}</text>
         <text font-size="14px" fill="#6b6e68" class="subhead" x="-28" y="-24">{{ subtitle }}</text>
-        <text font-size="11.5px" fill="#6b6e68" class="sourceline" x="-28" y="{{height - (margin.bottom)}}">{{ source }}</text>
+        <text font-size="11.5px" fill="#6b6e68" class="sourceline" x="-28" y="{{height - (margin.bottom + 1)}}">{{ source }}</text>
     </g>
 </g>
 

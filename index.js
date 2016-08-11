@@ -94,14 +94,12 @@ app.get('/polls.svg', async (req, res) => {
 });
 
 app.get('/templated-polls.svg', async (req, res) => {
-  let startDate = 'July 1, 2015';
-  let endDate = 'June 29, 2016';
-  let state = 'us';
-  if (req.params.startDate) startDate = req.params.startDate;
-  if (req.params.endDate) endDate = req.params.endDate;
-  if (req.params.state) state = req.params.state;
-  const pollData = await pollAverages(startDate, endDate, state);
+  const startDate = req.query.startDate ? req.query.startDate : 'July 1, 2015';
+  const endDate = req.query.endDate ? req.query.endDate : 'July 1, 2016';
+  const state = req.query.state ? req.query.state : 'us';
 
+  const pollData = await pollAverages(startDate, endDate, state);
+  
   const value = nunjucks.render('templated-polls.svg', layoutTimeSeries(pollData, req.query));
 
   if (value) {
@@ -113,8 +111,6 @@ app.get('/templated-polls.svg', async (req, res) => {
 
 async function pollAverages(start, end, state) {
   if (!state) state = 'us';
-  console.log(start);
-  console.log(end);
   const dbCacheKey = 'dbAverages-' + [state, start, end].join('-');
   let dbResponse = cache.get(dbCacheKey);
   if (!dbResponse) {
