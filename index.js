@@ -56,7 +56,7 @@ function convertToCacheKeyName(queryRequest) {
 
   const cacheKey = paramOrder.reduce(function (a, b) {
     return a + queryRequest[b];
-  }, queryRequest['fontless']);
+  }, queryRequest.fontless);
 
   return cacheKey;
 }

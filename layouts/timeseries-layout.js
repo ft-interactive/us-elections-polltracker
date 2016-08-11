@@ -45,7 +45,7 @@ function mergePolls(a, b, xScale, yScale) {
 
 // the actual layout function
 function timeseriesLayout(data, opts) {
-  if(!data) return;
+  if (!data) return;
   const [svgWidth, svgHeight] = (opts.size || '600x300').split('x');
   const layout = {};
   const timeDomain = d3.extent(data, (d) => new Date(d.date));
@@ -104,33 +104,29 @@ function timeseriesLayout(data, opts) {
   }));
 
   // add domain extent ticks
-  xScale.domain().forEach(function(d,i) {
+  xScale.domain().forEach(function (d, i) {
     layout.xTicks.push({
       label: timeFormat(d),
       position: xScale(d),
       important: true,
-      textanchor: (i==1) ? 'end' : 'start',
+      textanchor: (i === 1) ? 'end' : 'start',
     });
   });
 
   // if a year boundaries are crossed add those ticks
-  if(xScale.domain()[0].getFullYear() != xScale.domain()[1].getFullYear()){
-    console.log('not the same year', xScale.domain()[0].getFullYear())
+  if (xScale.domain()[0].getFullYear() !== xScale.domain()[1].getFullYear()) {
     let currentYear = xScale.domain()[0].getFullYear();
-    do{
+    do {
       currentYear ++;
-      let currentDate = new Date(currentYear,0,1);
-      console.log(currentYear, currentDate);
+      const currentDate = new Date(currentYear, 0, 1);
       layout.xTicks.push({
-        label:currentYear,
-        position:xScale(currentDate),
-        important:true,
-        textanchor:'middle',
-      })
-    }while (currentYear < xScale.domain()[1].getFullYear())
+        label: currentYear,
+        position: xScale(currentDate),
+        important: true,
+        textanchor: 'middle',
+      });
+    } while (currentYear < xScale.domain()[1].getFullYear());
   }
-
-
 
 
   layout.yTicks = yScale.ticks(tickCount).map(d => ({
@@ -200,35 +196,20 @@ function timeseriesLayout(data, opts) {
   layout.candidateAreas = areas.map(function (d, i, a) {
     const leader = d[0].lead;
     const section = d;
-    const arrayLast = (i === a.length - 1);
-    const arrayFirst = (i === 0);
-
-    // append intersection points as required TODO: I think this mess of if statements can be simplified
-    if (arrayFirst && intersections.points.length > 0) { // if it's the first section just add the intersection at the end
-      section.push({
-        x: intersections.points[i].x,
-        [candidates[0] + '_y']: intersections.points[i].y,
-        [candidates[1] + '_y']: intersections.points[i].y,
-      });
-    } else if (arrayLast && intersections.points.length > 0) { // if it's the last section add just at the start
+    const startIntersection = intersections.points[i - 1];
+    const endIntersection = intersections.points[i];
+    if (startIntersection) {
       section.unshift({
-        x: intersections.points[i - 1].x,
-        [candidates[0] + '_y']: intersections.points[i - 1].y,
-        [candidates[1] + '_y']: intersections.points[i - 1].y,
+        x: startIntersection.x,
+        [candidates[0] + '_y']: startIntersection.y,
+        [candidates[1] + '_y']: startIntersection.y,
       });
-    } else if (intersections.points.length > 1) { // if there are more than 2 sections, i.e. more than just a start and an end
-      // and the start of the section
-      section.unshift({
-        x: intersections.points[i - 1].x,
-        [candidates[0] + '_y']: intersections.points[i - 1].y,
-        [candidates[1] + '_y']: intersections.points[i - 1].y,
-      });
-
-      // push onto the end
+    }
+    if (endIntersection) {
       section.push({
-        x: intersections.points[i].x,
-        [candidates[0] + '_y']: intersections.points[i].y,
-        [candidates[1] + '_y']: intersections.points[i].y,
+        x: endIntersection.x,
+        [candidates[0] + '_y']: endIntersection.y,
+        [candidates[1] + '_y']: endIntersection.y,
       });
     }
 
@@ -237,9 +218,6 @@ function timeseriesLayout(data, opts) {
       fill: candidateColor[leader].area,
     };
   });
-
-
-  console.log(layout.candidateAreas);
 
   layout.candidateEndPoints = pollsByCandidate.map(function (d) {
     const lastPoll = d.polls[d.polls.length - 1];
