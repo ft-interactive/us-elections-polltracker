@@ -16,7 +16,7 @@
     {% for xTick in xTicks %}
     <g class="tick" transform="translate( {{ xTick.position }} ,0)">
         <line stroke="#C3BCB0" y2="6" x1="0.5" x2="0.5"></line>
-        {% if xTick.important %}<text font-size="14px" fill="#6b6e68" y="9" x="0.5" dy=".71em" style="text-anchor: start;" transform="translate(-2, 18)">{{ xTick.label }}</text>{% endif %}
+        {% if xTick.important %}<text font-size="14px" fill="#6b6e68" y="9" x="0.5" dy=".71em" {% if xTick.textanchor %} text-anchor="{{ xTick.textanchor }}" {% endif %} transform="translate(-2, 18)">{{ xTick.label }}</text>{% endif %}
     </g>
     {% endfor %}
 </g>

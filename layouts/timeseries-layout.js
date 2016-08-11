@@ -4,7 +4,7 @@ const intersect = svgIntersections.intersect;
 const shape = svgIntersections.shape;
 
 // little utility functions
-const timeFormat = d3.timeFormat('%B %e, %Y');
+const timeFormat = d3.timeFormat('%b %e, %Y');
 const roundExtent = (ext, divisor) => [(ext[0] - ext[0] % divisor), (ext[1] + (divisor - ext[1] % divisor))];
 const round1dp = (x) => Math.round(x * 10) / 10;
 
@@ -62,8 +62,8 @@ function timeseriesLayout(data, opts) {
     type: opts.type || 'area',
     state: opts.state || 'us',
     logo: (opts.logo ? opts.logo === 'true' : false),
-    title: '!!!Which White House candidate is leading in the polls?',
-    subtitle: 'National polling average as of August 2, 2016 (%)',
+    title: 'Which White House candidate is leading in the polls?',
+    subtitle: 'Polling average (%)',
     source: 'Source: Real Clear Politics',
     yLabelOffset: '-7',
     margin: {
@@ -103,15 +103,35 @@ function timeseriesLayout(data, opts) {
     important: false,
   }));
 
-  xScale.domain().forEach(function(d) {
+  // add domain extent ticks
+  xScale.domain().forEach(function(d,i) {
     layout.xTicks.push({
       label: timeFormat(d),
       position: xScale(d),
       important: true,
+      textanchor: (i==1) ? 'end' : 'start',
     });
   });
 
-  // add domain extent ticks
+  // if a year boundaries are crossed add those ticks
+  if(xScale.domain()[0].getFullYear() != xScale.domain()[1].getFullYear()){
+    console.log('not the same year', xScale.domain()[0].getFullYear())
+    let currentYear = xScale.domain()[0].getFullYear();
+    do{
+      currentYear ++;
+      let currentDate = new Date(currentYear,0,1);
+      console.log(currentYear, currentDate);
+      layout.xTicks.push({
+        label:currentYear,
+        position:xScale(currentDate),
+        important:true,
+        textanchor:'middle',
+      })
+    }while (currentYear < xScale.domain()[1].getFullYear())
+  }
+
+
+
 
   layout.yTicks = yScale.ticks(tickCount).map(d => ({
     label: d,
@@ -128,8 +148,6 @@ function timeseriesLayout(data, opts) {
     name: d,
     polls: data.filter((row) => (row.candidatename === d)),
   }));
-
-  console.log(pollsByCandidate);
 
   const currentLeader = pollsByCandidate.reduce(function (previous, current) {
     const currentValue = current.polls[current.polls.length - 1].pollaverage;
