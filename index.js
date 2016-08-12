@@ -20,8 +20,8 @@ const fetch = require('isomorphic-fetch');
 const _ = require('underscore');
 const stateIds = require('./layouts/stateIds').states;
 const filters = require('./filters');
-const berthaDefaults = require('./config/bertha-defaults.json')
-const validStates = berthaDefaults.streampages.map( (d)=>d.state.toLowerCase() );
+const berthaDefaults = require('./config/bertha-defaults.json');
+const validStates = berthaDefaults.streampages.map((d) => d.state.toLowerCase());
 
 import flags from './config/flags';
 
@@ -42,18 +42,18 @@ function setSVGHeaders(res) {
   return res;
 }
 
-function setJSONHeaders(res){
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Cache-Control', 'public, max-age=' + maxAge);
-    return res;
+function setJSONHeaders(res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Cache-Control', 'public, max-age=' + maxAge);
+  return res;
 }
 
 // takes query parameters and orders properly for cache key format
 function convertToCacheKeyName(queryRequest) {
   const paramOrder = ['background', 'startDate', 'endDate', 'size', 'type', 'state', 'logo'];
 
-  const cacheKey = paramOrder.reduce(function(a, b) {
+  const cacheKey = paramOrder.reduce(function (a, b) {
     return a + queryRequest[b];
   }, queryRequest['fontless']);
 
@@ -79,21 +79,20 @@ app.get('/__gtg', (req, res) => {
   res.send('ok');
 });
 
-app.get('/favicon.ico', (req, res)=>{ //explicit override to redirect if favicon is requested
+app.get('/favicon.ico', (req, res) => { // explicit override to redirect if favicon is requested
   res.redirect(301, 'https://ig.ft.com/favicon.ico');
 });
 
 app.get('/polls.svg', async (req, res) => {
-
   const value = await makePollTimeSeries(req.query);
-  if(value){
+  if (value) {
     setSVGHeaders(res).send(value);
-  }else{
+  } else {
     res.status(500).send('something broke');
   }
 });
 
-async function makePollTimeSeries(chartOpts){
+async function makePollTimeSeries(chartOpts) {
   const nowDate = new Date().toString().split(' ')
     .slice(1, 4)
     .join(' ');
@@ -124,10 +123,10 @@ async function makePollTimeSeries(chartOpts){
     const tempEndDatePieces = options.endDate.replace(/\s{2}/, ' ').split(' ');
     const queryEndDate = tempEndDatePieces[0] + ' ' + (+tempEndDatePieces[1].replace(/,/g, '') + 1) + ', ' + tempEndDatePieces[2];
 
-    //cache the db request
+    // cache the db request
     const dbCacheKey = 'dbAverages-' + [options.state, options.startDate, queryEndDate].join('-');
     let dbResponse = cache.get(dbCacheKey);
-    if(!dbResponse){
+    if (!dbResponse) {
       dbResponse = await getPollAverages(options.state, options.startDate, queryEndDate);
       cache.set(dbCacheKey, dbResponse);
     }
@@ -143,7 +142,6 @@ async function makePollTimeSeries(chartOpts){
   }
   return value;
 }
-
 
 
 app.get('/polls/:state.json', async (req, res) => {
@@ -167,28 +165,26 @@ app.get('/polls/:state.json', async (req, res) => {
 });
 
 
-
 app.get('/', statePage);
-app.get('/:state', (req,res) => {
-  if(validStates.indexOf(req.params.state)>=0){
-    statePage(req, res)
-  }else{
+app.get('/:state', (req, res) => {
+  if (validStates.indexOf(req.params.state) >= 0) {
+    statePage(req, res);
+  } else {
     res.sendStatus(404);
   }
 });
 
-app.get('/polls/:state', (req,res) => {
-  if(validStates.indexOf(req.params.state)>=0){
-    statePage(req, res)
-  }else{
+app.get('/polls/:state', (req, res) => {
+  if (validStates.indexOf(req.params.state) >= 0) {
+    statePage(req, res);
+  } else {
     res.sendStatus(404);
   }
 });
 
 async function statePage(req, res) {
-
   let state = 'us';
-  if(req.params.state) state = req.params.state;
+  if (req.params.state) state = req.params.state;
   const canonicalURL = `polls/${state}`;
 
   res.setHeader('Cache-Control', `public, max-age=${maxAge}, s-maxage=${sMaxAge}`);
@@ -199,17 +195,16 @@ async function statePage(req, res) {
   let renderedPage = cache.get(pageCacheKey); // check to see if we've cached this page recently
 
   if (!renderedPage) {
-
     const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
     // get intro text
-    const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links,streampages';
+    const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links,streampages,overrideCategories';
     let data = berthaDefaults;
 
     try {
       const contentRes = await Promise.resolve(fetch(contentURL))
           .timeout(3000, new Error(`Timeout - bertha took too long to respond: ${contentURL}`));
       data = await contentRes.json();
-    }catch(err){
+    } catch (err) {
       cachePage = false;
       console.log('bertha fetching problem, resorting to default bertha config');
     }
@@ -225,7 +220,7 @@ async function statePage(req, res) {
 
     // last update time
     let lastUpdatedTime = new Date(await lastUpdated());
-    const streamTextLastUpdated =  new Date(_.findWhere(data.options, { name: 'updated' }).value);
+    const streamTextLastUpdated = new Date(_.findWhere(data.options, { name: 'updated' }).value);
     if (streamTextLastUpdated > lastUpdatedTime) {
       lastUpdatedTime = streamTextLastUpdated;
     }
@@ -236,9 +231,9 @@ async function statePage(req, res) {
         fontless: true,
         notext: true,
         startDate: 'June 1, 2016',
-        size: size,
+        size,
         type: 'area',
-        state: state,
+        state,
         logo: false,
       });
     }
@@ -247,11 +242,11 @@ async function statePage(req, res) {
     let allIndividualPolls = await getAllPolls(state);
     allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
     allIndividualPolls = _.values(allIndividualPolls);
-    let formattedIndividualPolls = [];
-    _.each(allIndividualPolls, function(poll) {
+    const formattedIndividualPolls = [];
+    _.each(allIndividualPolls, function (poll) {
       let winner = '';
-      const clintonVal = _.findWhere(poll, {'candidatename': 'Clinton'}).pollvalue;
-      const trumpVal = _.findWhere(poll, {'candidatename': 'Trump'}).pollvalue;
+      const clintonVal = _.findWhere(poll, { candidatename: 'Clinton' }).pollvalue;
+      const trumpVal = _.findWhere(poll, { candidatename: 'Trump' }).pollvalue;
 
       if (clintonVal > trumpVal) {
         winner = 'Clinton';
@@ -264,18 +259,17 @@ async function statePage(req, res) {
       // unshift instead of push because dates keep being in chron instead of reverse chron
       // even when I change the pg query to order by endDate DESC
       formattedIndividualPolls.unshift({
-        Clinton: _.findWhere(poll, {'candidatename': 'Clinton'}).pollvalue,
-        Trump: _.findWhere(poll, {'candidatename': 'Trump'}).pollvalue,
+        Clinton: _.findWhere(poll, { candidatename: 'Clinton' }).pollvalue,
+        Trump: _.findWhere(poll, { candidatename: 'Trump' }).pollvalue,
         date: poll[0].date,
         pollster: poll[0].pollster.replace(/\*$/, '').replace(/\//g, ', '), // get rid of asterisk b/c RCP doesn't track what it means
         sampleSize: poll[0].sampleSize,
-        winner: winner,
+        winner,
       });
     });
 
     // get latest poll averages for social
     const latestPollAverages = await getLatestPollAverage(state);
-
     let shareTitle;
     if (latestPollAverages) {
       if (state === 'us') {
@@ -287,13 +281,37 @@ async function statePage(req, res) {
       shareTitle = `US presidential election polls: Here’s where ${stateName} stands now`;
     }
 
+    // get latest state data for map and national bar
+    const stateCounts = {};
+    for (let i = 0; i < stateIds.length; i++) {
+      const stateKey = stateIds[i].state;
+      if (stateKey !== 'US') {
+        const pollAverages = await getLatestPollAverage(stateKey.toLowerCase()); // TODO. Create one query instead of 54 separate ones.
+        const overrideCategories = data.overrideCategories;
+
+        const clintonAvg = pollAverages.Clinton || null;
+        const trumpAvg = pollAverages.Trump || null;
+        let margin;
+        if (clintonAvg && trumpAvg) {
+          margin = clintonAvg - trumpAvg;
+        }
+
+        stateCounts[stateKey] = {
+          Clinton: clintonAvg,
+          Trump: trumpAvg,
+          margin: margin || _.findWhere(overrideCategories, { state: stateKey }).overridevalue,
+          ecVotes: _.findWhere(stateIds, { state: stateKey }).ecVotes,
+        };
+      }
+    }
+
     const polltrackerLayout = {
       // quick hack for page ID while we only have a UUID for the National page
       id: state === 'us' ? 'e01abff0-5292-11e6-9664-e0bdc13c3bef' : null,
-      state: state,
-      stateName: stateName,
+      state,
+      stateName,
       lastUpdated: lastUpdatedTime,
-      introText: introText,
+      introText,
       pollSVG: {
         default: await getPollSVG('355x200'),
         S: await getPollSVG('630x270'),
@@ -302,22 +320,83 @@ async function statePage(req, res) {
         XL: await getPollSVG('680x310'),
       },
       pollList: formattedIndividualPolls,
-      canonicalURL: canonicalURL,
-      stateStreamURL: stateStreamURL,
+      canonicalURL,
+      stateStreamURL,
       flags: flags(),
       share: {
         title: shareTitle,
-        summary: `US election poll tracker: Here's who's ahead`,
+        summary: 'US election poll tracker: Here\'s who\'s ahead',
         url: `https://ig.ft.com/us-elections${req.url}`,
       },
+      stateCounts,
+      nationalBarCounts: nationalCount(stateCounts),
     };
 
     renderedPage = nunjucks.render('polls.html', polltrackerLayout);
     if (cachePage) cache.set(pageCacheKey, renderedPage);
   }
 
+
   res.send(renderedPage);
 }
+
+function nationalCount(stateData) {
+  const classification = d3.scaleThreshold()
+      .range(['rep', 'leaningRep', 'swing', 'leaningDem', 'dem'])
+      .domain([-10, -5, 5, 10]);
+
+  // for ME and NE classification
+  // if one CD (congressional district) is rep and another is leaningRep (or dem and leaningDem), do another round of classification to categorize 2 remaining votes as leaningRep or leaningDem
+  const meneClassification = d3.scaleThreshold()
+    .range(['leaningRep', 'swing', 'leaningDem'])
+    .domain([-5, 5]);
+
+  const stateCounts = Object.keys(stateData).reduce((cumulative, stateCode) => {
+    const state = stateData[stateCode];
+
+    // deal with Nebraska and Maine. TODO get rid of redundancies here
+    if (stateCode === 'ME') {
+      if (classification(stateData.ME.margin) === classification(stateData.MECD.margin)) {
+        cumulative[classification(stateData.ME.margin)] += 2;
+        // console.log(stateCode, 'added 2 to ', classification(state.margin));
+      } else {
+        if (meneClassification(stateData.ME.margin) === meneClassification(stateData.MECD.margin)) {
+          cumulative[meneClassification(stateData.ME.margin)] += 2;
+          // console.log(stateCode, 'added 2 to ', meneClassification(stateData.ME.margin));
+        } else {
+          cumulative.swing += 2;
+          // console.log(stateCode, 'added 2 to swing else');
+        }
+      }
+    }
+
+    if (stateCode === 'NE') {
+      if (classification(stateData.NE.margin) === classification(stateData.NECD.margin) && classification(stateData.NECD.margin) === classification(stateData.NECD2.margin)) {
+        cumulative[classification(stateData.NE.margin)] += 2;
+        // console.log(stateCode, 'added 2 to ', classification(stateData.NE.margin));
+      } else {
+        if (meneClassification(stateData.NE.margin) === meneClassification(stateData.NECD.margin) && meneClassification(stateData.NECD.margin) === meneClassification(stateData.NECD2.margin)) {
+          cumulative[meneClassification(stateData.NE.margin)] += 2;
+          // console.log(stateCode, 'added 2 to ', meneClassification(stateData.NE.margin));
+        } else {
+          cumulative.swing += 2;
+          // console.log(stateCode, 'added 2 to swing else');
+        }
+      }
+    }
+
+    cumulative[classification(state.margin)] += state.ecVotes;
+    return cumulative;
+  }, {
+    dem: 0,
+    leaningDem: 0,
+    swing: 0,
+    leaningRep: 0,
+    rep: 0 });
+
+  return stateCounts;
+}
+
 
 const server = app.listen(process.env.PORT || 5000, () => {
   const host = server.address().address;
