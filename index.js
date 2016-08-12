@@ -85,7 +85,12 @@ app.get('/favicon.ico', (req, res) => { // explicit override to redirect if favi
 });
 
 app.get('/polls.svg', async (req, res) => {
-  const value = await makePollTimeSeries(req.query);
+  const cacheKey = 'polls-svg-' + convertToCacheKeyName(req.query);
+  let value = cache.get(cacheKey);
+  if (!value) {
+    value = await makePollTimeSeries(req.query);
+    if (value) cache.set(cacheKey, value);
+  }
   if (value) {
     setSVGHeaders(res).send(value);
   } else {
@@ -203,6 +208,7 @@ async function statePage(req, res) {
         type: 'area',
         state,
         logo: false,
+        margin: { top: 10, left: 35, bottom: 30, right: 90 },
       });
     }
 

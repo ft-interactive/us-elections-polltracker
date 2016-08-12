@@ -68,7 +68,7 @@ function timeseriesLayout(data, opts) {
     subtitle: 'Polling average (%)',
     source: 'Source: Real Clear Politics',
     yLabelOffset: '-7',
-    margin: {
+    margin: opts.margin ? opts.margin : {
       top: 70,
       left: 35,
       right: 90,
