@@ -117,15 +117,22 @@ function timeseriesLayout(data, opts) {
 
   // add month ticks
   const currentDate = xScale.domain()[0];
+  currentDate.setMonth(currentDate.getMonth() + 1);
   do {
     console.log('month');
-    layout.xTicks.push({
-      date: currentDate,
-      label: timeFormatMonth(currentDate),
-      position: xScale(currentDate),
-      important: false,
-      textanchor: 'middle',
-    });
+    if(currentDate.getMonth() !== 0){ //dona't add a tick for jan as that'll be given a new year tick
+      layout.xTicks.push({
+        date: currentDate,
+        label: timeFormatMonth(currentDate),
+        position: xScale(currentDate),
+        important: function(date){
+            // don't add a label if it's too close to the ends (where domain ticks will be)
+            if(xScale(currentDate) < 100 || xScale(currentDate) > (svgWidth-(layout.margin.left + layout.margin.right)-50)) return false; 
+            return true; 
+        }(currentDate),
+        textanchor: 'middle',
+      });
+    }
     currentDate.setDate(1);
     currentDate.setMonth(currentDate.getMonth() + 1);
   } while (currentDate.getTime() < xScale.domain()[1].getTime());

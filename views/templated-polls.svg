@@ -1,5 +1,10 @@
 
 <svg class="poll" width="{{ width }}" height="{{ height }}" viewBox="0 0 {{ width }} {{ height }}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMinYMin meet" font-family="MetricWeb, sans-serif">
+<style>
+text{
+    font-family: MetricWeb, sans-serif;
+}
+</style>
 {% if background %}
 <rect fill="#{{ background }}" width="{{ width }}" height="{{ height }}"></rect>
 {% endif %}
