@@ -228,7 +228,7 @@
 
 <div id="national-bar">
   <h2>Who would win if the election were held today?</h2>
-  <p>This is what the polls suggest the electoral college outcome might be.</p>
+  <p>The latest polls suggest that the electoral college outcome {% if nationalBarCounts.dem + nationalBarCounts.leaningDem > 270 %}would be in Hillary Clinton's favor{% else %}is too close to call{% endif %}.</p>
   <div id="national-bar-wrapper">
     <div class="national-bar--head-icons" id="national-bar--head-icons-dem"><img src="images/clinton.png" /></div>
     <div id="national-bar-container">
