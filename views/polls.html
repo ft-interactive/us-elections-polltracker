@@ -478,10 +478,6 @@ a {
             <div data-o-grid-colspan="center 12 M10 L8 XL7">
               <div class="article-body o-typography-body-wrapper" itemprop="articleBody">
 
-                {% if flags.nationalBar %}
-                  {% include "includes/nationalbar.html" %}
-                {% endif %}
-
                 {% if state == 'us' %}
                 <div>
                   {% markdown %}
@@ -490,6 +486,10 @@ a {
                 </div>
 
                 <p class="off-link"><a href="http://www.ft.com/us-election-2016">All US Election 2016 coverage</a></p>
+                {% endif %}
+
+                {% if flags.nationalBar %}
+                  {% include "includes/nationalbar.html" %}
                 {% endif %}
 
                 <div class="article-figure">

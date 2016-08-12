@@ -6,7 +6,6 @@ process.on('unhandledRejection', error => {
 });
 
 const express = require('express');
-const drawChart = require('./layouts/drawChart.js');
 const getPollAverages = require('./layouts/getPollAverages.js');
 const getAllPolls = require('./layouts/getAllPolls.js');
 const getLatestPollAverage = require('./layouts/getLatestPollAverage.js');
@@ -170,7 +169,7 @@ async function statePage(req, res) {
   if (!renderedPage) {
     const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
     // get intro text
-    const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links,streampages';
+    const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links,streampages,overrideCategories';
     let data = berthaDefaults;
 
     try {
@@ -219,8 +218,8 @@ async function statePage(req, res) {
     const formattedIndividualPolls = [];
     _.each(allIndividualPolls, function (poll) {
       let winner = '';
-      const clintonVal = _.findWhere(poll, { 'candidatename': 'Clinton' }).pollvalue;
-      const trumpVal = _.findWhere(poll, { 'candidatename': 'Trump' }).pollvalue;
+      const clintonVal = _.findWhere(poll, { candidatename: 'Clinton' }).pollvalue;
+      const trumpVal = _.findWhere(poll, { candidatename: 'Trump' }).pollvalue;
 
       if (clintonVal > trumpVal) {
         winner = 'Clinton';
@@ -233,8 +232,8 @@ async function statePage(req, res) {
       // unshift instead of push because dates keep being in chron instead of reverse chron
       // even when I change the pg query to order by endDate DESC
       formattedIndividualPolls.unshift({
-        Clinton: _.findWhere(poll, { 'candidatename': 'Clinton' }).pollvalue,
-        Trump: _.findWhere(poll, { 'candidatename': 'Trump' }).pollvalue,
+        Clinton: _.findWhere(poll, { candidatename: 'Clinton' }).pollvalue,
+        Trump: _.findWhere(poll, { candidatename: 'Trump' }).pollvalue,
         date: poll[0].date,
         pollster: poll[0].pollster.replace(/\*$/, '').replace(/\//g, ', '), // get rid of asterisk b/c RCP doesn't track what it means
         sampleSize: poll[0].sampleSize,
@@ -251,6 +250,30 @@ async function statePage(req, res) {
         shareTitle = `US presidential election polls: It's Clinton ${latestPollAverages.Clinton}%, Trump ${latestPollAverages.Trump}%`;
       } else {
         shareTitle = `US presidential election polls: In ${stateName}, it's Clinton ${latestPollAverages.Clinton}%, Trump ${latestPollAverages.Trump}%`;
+      }
+    }
+
+    // get latest state data for map and national bar
+    const stateCounts = {};
+    for (let i = 0; i < stateIds.length; i++) {
+      const stateKey = stateIds[i].state;
+      if (stateKey !== 'US') {
+        const pollAverages = await getLatestPollAverage(stateKey.toLowerCase()); // TODO. Create one query instead of 54 separate ones.
+        const overrideCategories = data.overrideCategories;
+
+        const clintonAvg = pollAverages.Clinton || null;
+        const trumpAvg = pollAverages.Trump || null;
+        let margin;
+        if (clintonAvg && trumpAvg) {
+          margin = clintonAvg - trumpAvg;
+        }
+
+        stateCounts[stateKey] = {
+          Clinton: clintonAvg,
+          Trump: trumpAvg,
+          margin: margin || _.findWhere(overrideCategories, { state: stateKey }).overridevalue,
+          ecVotes: _.findWhere(stateIds, { state: stateKey }).ecVotes,
+        };
       }
     }
 
@@ -277,6 +300,8 @@ async function statePage(req, res) {
         summary: 'US election poll tracker: Here\'s who\'s ahead',
         url: `https://ig.ft.com/us-elections${req.url}`,
       },
+      stateCounts,
+      nationalBarCounts: nationalCount(stateCounts),
     };
 
     renderedPage = nunjucks.render('polls.html', polltrackerLayout);
@@ -284,6 +309,27 @@ async function statePage(req, res) {
   }
 
   res.send(renderedPage);
+}
+
+function nationalCount(stateData) {
+  const classification = d3.scaleThreshold()
+      .range(['rep', 'leaningRep', 'swing', 'leaningDem', 'dem'])
+      .domain([-10, -5, 5, 10]);
+
+  const stateCounts = Object.keys(stateData).reduce((cumulative, stateCode) => {
+    const state = stateData[stateCode];
+    cumulative[classification(state.margin)] += state.ecVotes;
+    return cumulative;
+  }, {
+    dem: 0,
+    leaningDem: 0,
+    swing: 0,
+    leaningRep: 0,
+    rep: 0 });
+
+  // TODO deal with Nebraska and Maine
+
+  return stateCounts;
 }
 
 const server = app.listen(process.env.PORT || 5000, () => {
