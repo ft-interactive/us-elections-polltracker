@@ -305,7 +305,6 @@ async function statePage(req, res) {
       }
     }
 
-
     const polltrackerLayout = {
       // quick hack for page ID while we only have a UUID for the National page
       id: state === 'us' ? 'e01abff0-5292-11e6-9664-e0bdc13c3bef' : null,
@@ -355,7 +354,7 @@ function nationalCount(stateData) {
   const stateCounts = Object.keys(stateData).reduce((cumulative, stateCode) => {
     const state = stateData[stateCode];
 
-    // deal with Nebraska and Maine
+    // deal with Nebraska and Maine. TODO get rid of redundancies here
     if (stateCode === 'ME') {
       if (classification(stateData.ME.margin) === classification(stateData.MECD.margin)) {
         cumulative[classification(stateData.ME.margin)] += 2;
