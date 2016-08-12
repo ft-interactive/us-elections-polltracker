@@ -245,8 +245,8 @@ async function statePage(req, res) {
     const formattedIndividualPolls = [];
     _.each(allIndividualPolls, function (poll) {
       let winner = '';
-      const clintonVal = _.findWhere(poll, { 'candidatename': 'Clinton' }).pollvalue;
-      const trumpVal = _.findWhere(poll, { 'candidatename': 'Trump' }).pollvalue;
+      const clintonVal = _.findWhere(poll, { candidatename: 'Clinton' }).pollvalue;
+      const trumpVal = _.findWhere(poll, { candidatename: 'Trump' }).pollvalue;
 
       if (clintonVal > trumpVal) {
         winner = 'Clinton';
@@ -259,8 +259,8 @@ async function statePage(req, res) {
       // unshift instead of push because dates keep being in chron instead of reverse chron
       // even when I change the pg query to order by endDate DESC
       formattedIndividualPolls.unshift({
-        Clinton: _.findWhere(poll, { 'candidatename': 'Clinton' }).pollvalue,
-        Trump: _.findWhere(poll, { 'candidatename': 'Trump' }).pollvalue,
+        Clinton: _.findWhere(poll, { candidatename: 'Clinton' }).pollvalue,
+        Trump: _.findWhere(poll, { candidatename: 'Trump' }).pollvalue,
         date: poll[0].date,
         pollster: poll[0].pollster.replace(/\*$/, '').replace(/\//g, ', '), // get rid of asterisk b/c RCP doesn't track what it means
         sampleSize: poll[0].sampleSize,
@@ -346,7 +346,7 @@ function nationalCount(stateData) {
       .range(['rep', 'leaningRep', 'swing', 'leaningDem', 'dem'])
       .domain([-10, -5, 5, 10]);
 
-  const stateCounts = Object.keys(stateData).reduce(function (cumulative, stateCode) {
+  const stateCounts = Object.keys(stateData).reduce((cumulative, stateCode) => {
     const state = stateData[stateCode];
     cumulative[classification(state.margin)] += state.ecVotes;
     return cumulative;
