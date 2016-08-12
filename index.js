@@ -93,21 +93,13 @@ app.get('/polls.svg', async (req, res) => {
   }
 });
 
-app.get('/templated-polls.svg', async (req, res) => {
-  const startDate = req.query.startDate ? req.query.startDate : 'July 1, 2015';
-  const endDate = req.query.endDate ? req.query.endDate : 'July 1, 2016';
-  const state = req.query.state ? req.query.state : 'us';
-
+async function makePollTimeSeries(chartOpts) {
+  const startDate = chartOpts.startDate ? chartOpts.startDate : 'July 1, 2015';
+  const endDate = chartOpts.endDate ? chartOpts.endDate : d3.timeFormat('%B %e, %Y')(new Date());
+  const state = chartOpts.state ? chartOpts.state : 'us';
   const pollData = await pollAverages(startDate, endDate, state);
-  
-  const value = nunjucks.render('templated-polls.svg', layoutTimeSeries(pollData, req.query));
-
-  if (value) {
-    setSVGHeaders(res).send(value);
-  } else {
-    res.status(500).send('something broke');
-  }
-});
+  return nunjucks.render('templated-polls.svg', layoutTimeSeries(pollData, chartOpts));
+}
 
 async function pollAverages(start, end, state) {
   if (!state) state = 'us';
@@ -119,55 +111,6 @@ async function pollAverages(start, end, state) {
   }
   return dbResponse;
 }
-
-async function makePollTimeSeries(chartOpts) {
-  const formattedNowDate = d3.timeFormat('%B %e, %Y')(new Date());
-
-  const [svgWidth, svgHeight] = (chartOpts.size || '600x300').split('x');
-
-  const options = {
-    fontless: (typeof chartOpts.fontless === 'boolean' ? chartOpts.fontless : (chartOpts.fontless ? chartOpts.fontless === 'true' : true)),
-    notext: typeof chartOpts.notext === 'boolean' ? chartOpts.notext : false,
-    background: chartOpts.background || 'none',
-    startDate: chartOpts.startDate || 'June 1, 2016',
-    endDate: chartOpts.endDate || formattedNowDate,
-    size: `${svgWidth}x${svgHeight}`,
-    width: svgWidth,
-    height: svgHeight,
-    type: chartOpts.type || 'area',
-    state: chartOpts.state || 'us',
-    logo: (chartOpts.logo ? chartOpts.logo === 'true' : false),
-  };
-  const cacheKey = convertToCacheKeyName(options);
-
-  let value = cache.get(cacheKey);
-
-  if (!value) {
-    // weird hack: add one day to endDate to capture the end date in the sequelize query
-    const tempEndDatePieces = options.endDate.replace(/\s{2}/, ' ').split(' ');
-    const queryEndDate = tempEndDatePieces[0] + ' ' + (+tempEndDatePieces[1].replace(/,/g, '') + 1) + ', ' + tempEndDatePieces[2];
-
-    // db request
-    const dbResponse = await pollAverages(options.startDate, queryEndDate, options.state);
-    // const dbCacheKey = 'dbAverages-' + [options.state, options.startDate, queryEndDate].join('-');
-    // let dbResponse = cache.get(dbCacheKey);
-    // if(!dbResponse){
-    //   dbResponse = await getPollAverages(options.state, options.startDate, queryEndDate);
-    //   cache.set(dbCacheKey, dbResponse);
-    // }
-
-    try {
-      const chartLayout = await drawChart(options, dbResponse);
-      value = nunjucks.render('poll.svg', chartLayout);
-      cache.set(cacheKey, value);
-    } catch (error) {
-      console.error(error);
-      value = false;
-    }
-  }
-  return value;
-}
-
 
 app.get('/polls/:state.json', async (req, res) => {
   const state = req.params.state;

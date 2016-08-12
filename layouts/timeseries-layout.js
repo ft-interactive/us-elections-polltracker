@@ -100,12 +100,6 @@ function timeseriesLayout(data, opts) {
 
   // set axis ticks
   layout.xTicks = [];
-  //  = xScale.ticks(5).map((d) => ({
-  //   date: d,
-  //   label: timeFormat(d),
-  //   position: xScale(d),
-  //   important: false,
-  // }));
 
   // add domain extent ticks
   xScale.domain().forEach(function (d, i) {
@@ -150,12 +144,6 @@ function timeseriesLayout(data, opts) {
       });
     } while (currentYear < xScale.domain()[1].getFullYear());
   }
-
-  layout.xTicks = layout.xTicks.filter(function (d) {
-    console.log(d.date.getDate(), d.date.getDate() === 1);
-    return d.important || d.date.getDate() === 1;
-//    return (d.important || (d.date.getDate() === 1)); // remove ticks that ren't important or don't fall on the first of a month
-  });
 
   layout.yTicks = yScale.ticks(tickCount).map(d => ({
     label: d,
