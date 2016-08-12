@@ -5,6 +5,8 @@ const shape = svgIntersections.shape;
 
 // little utility functions
 const timeFormat = d3.timeFormat('%b %e, %Y');
+const timeFormatShort = d3.timeFormat('%b %e');
+const timeFormatMonth = d3.timeFormat('%b');
 const roundExtent = (ext, divisor) => [(ext[0] - ext[0] % divisor), (ext[1] + (divisor - ext[1] % divisor))];
 const round1dp = (x) => Math.round(x * 10) / 10;
 
@@ -97,37 +99,63 @@ function timeseriesLayout(data, opts) {
     .range([0, layout.width - (layout.margin.left + layout.margin.right)]);
 
   // set axis ticks
-  layout.xTicks = xScale.ticks(5).map((d) => ({
-    label: timeFormat(d),
-    position: xScale(d),
-    important: false,
-  }));
+  layout.xTicks = [];
+  //  = xScale.ticks(5).map((d) => ({
+  //   date: d,
+  //   label: timeFormat(d),
+  //   position: xScale(d),
+  //   important: false,
+  // }));
 
   // add domain extent ticks
   xScale.domain().forEach(function (d, i) {
     layout.xTicks.push({
-      label: timeFormat(d),
+      date: d,
+      label: function (date, index) {
+        if (index > 0) return timeFormatShort(date);
+        return timeFormat(date);
+      }(d, i),
       position: xScale(d),
-      important: true,
+      important: true,  // extent ticks should always be labeled
       textanchor: (i === 1) ? 'end' : 'start',
     });
   });
 
-  // if a year boundaries are crossed add those ticks
+  // add month ticks
+  const currentDate = xScale.domain()[0];
+  do {
+    currentDate.setDate(1);
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    layout.xTicks.push({
+      date: currentDate,
+      label: timeFormatMonth(currentDate),
+      position: xScale(currentDate),
+      important: false,
+      textanchor: 'middle',
+    });
+  } while (currentDate.getTime() < xScale.domain()[0].getTime());
+
+  // if a year boundaries are crossed add year ticks
   if (xScale.domain()[0].getFullYear() !== xScale.domain()[1].getFullYear()) {
     let currentYear = xScale.domain()[0].getFullYear();
     do {
       currentYear ++;
       const currentDate = new Date(currentYear, 0, 1);
       layout.xTicks.push({
+        date: currentDate,
         label: currentYear,
         position: xScale(currentDate),
-        important: true,
+        important: true,  // years should always be labeled
         textanchor: 'middle',
       });
     } while (currentYear < xScale.domain()[1].getFullYear());
   }
 
+  layout.xTicks = layout.xTicks.filter(function (d) {
+    console.log(d.date.getDate(), d.date.getDate() === 1);
+    return d.important || d.date.getDate() === 1;
+//    return (d.important || (d.date.getDate() === 1)); // remove ticks that ren't important or don't fall on the first of a month
+  });
 
   layout.yTicks = yScale.ticks(tickCount).map(d => ({
     label: d,
@@ -191,7 +219,7 @@ function timeseriesLayout(data, opts) {
     .y1(d => round1dp(d[candidates[1] + '_y']));
 
 
-// produce the array fo areas
+// produce the array of areas
 
   layout.candidateAreas = areas.map(function (d, i, a) {
     const leader = d[0].lead;
