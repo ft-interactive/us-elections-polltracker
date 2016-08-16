@@ -140,7 +140,9 @@ async function makePollTimeSeries(chartOpts) {
 }
 
 async function makeForecastMap(chartOpts){
-  return nunjucks.render('map.svg',{});
+  return nunjucks.render('map.svg',{ 
+    AK:{fill:'#999', stroke:'#000',}
+  });
 }
 
 async function pollAverages(start, end, state) {
