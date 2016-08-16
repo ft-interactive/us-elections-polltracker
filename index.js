@@ -207,7 +207,7 @@ async function statePage(req, res) {
         type: 'area',
         state,
         logo: false,
-        margin: { top: 10, left: 35, bottom: 30, right: 90 },
+        margin: { top: 10, left: 35, bottom: 50, right: 90 },
       });
     }
 

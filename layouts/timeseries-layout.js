@@ -110,6 +110,7 @@ function timeseriesLayout(data, opts) {
         return timeFormat(date);
       }(d, i),
       position: xScale(d),
+      extent: true, //the ticks at the end of the axis may be posiotined differently
       important: true,  // extent ticks should always be labeled
       textanchor: (i === 1) ? 'end' : 'start',
     });
@@ -118,17 +119,22 @@ function timeseriesLayout(data, opts) {
   // add month ticks
   const currentDate = xScale.domain()[0];
   currentDate.setMonth(currentDate.getMonth() + 1);
+  const monthSpacing = xScale(new Date(2016,1,1)) - xScale(new Date(2016,0,1));
+  const tickBuffer = 10;
+  console.log('month spacing' + monthSpacing);
   do {
     if(currentDate.getMonth() !== 0){ //dona't add a tick for jan as that'll be given a new year tick
       layout.xTicks.push({
         date: currentDate,
         label: timeFormatMonth(currentDate),
         position: xScale(currentDate),
-        important: function(date){
-            // don't add a label if it's too close to the ends (where domain ticks will be)
-            if(xScale(currentDate) < 100 || xScale(currentDate) > (svgWidth-(layout.margin.left + layout.margin.right)-50)) return false; 
-            return true; 
-        }(currentDate),
+        important: function(d){ //make this true under certain circumstances i.e. if there are few enough ticks and the tick in question is distant enough from the end of the axis 
+          return (
+            monthSpacing > 20
+            && (xScale(currentDate) < xScale.range()[1] - tickBuffer)
+            && (xScale(currentDate) > xScale.range()[0] + tickBuffer)
+          );
+        }(currentDate), 
         textanchor: 'middle',
       });
     }
@@ -188,6 +194,8 @@ function timeseriesLayout(data, opts) {
     shape('path', { d: layout.candidateLines[1].d })
   );
 
+
+// produce the array of areas
   const areas = mergePolls(pollsByCandidate[0], pollsByCandidate[1], xScale, yScale)
     .reduce(function (sections, current) {
       // if there are no sections make the first
@@ -212,9 +220,6 @@ function timeseriesLayout(data, opts) {
     .x(d => round1dp(d.x))
     .y0(d => round1dp(d[candidates[0] + '_y']))
     .y1(d => round1dp(d[candidates[1] + '_y']));
-
-
-// produce the array of areas
 
   layout.candidateAreas = areas.map(function (d, i, a) {
     const leader = d[0].lead;
