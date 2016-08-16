@@ -97,12 +97,50 @@ app.get('/polls.svg', async (req, res) => {
   }
 });
 
+
+app.get('/forecast-map.svg', async (req, res) => {
+  const cacheKey = 'forecast-map-svg-' + convertToCacheKeyName(req.query);
+  let value = cache.get(cacheKey);
+  if (!value) {
+    value = await makeForecastMap(req.query);
+    console.log('???')
+    if (value) cache.set(cacheKey, value);
+  }
+  if (value) {
+    setSVGHeaders(res).send(value);
+  } else {
+    res.status(500).send('something broke');
+  }
+});
+
+app.get('/', statePage);
+app.get('/:state', (req, res) => {
+  if (validStates.indexOf(req.params.state) >= 0) {
+    statePage(req, res);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
+app.get('/polls/:state', (req, res) => {
+  if (validStates.indexOf(req.params.state) >= 0) {
+    statePage(req, res);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
+
 async function makePollTimeSeries(chartOpts) {
   const startDate = chartOpts.startDate ? chartOpts.startDate : 'July 1, 2015';
   const endDate = chartOpts.endDate ? chartOpts.endDate : d3.timeFormat('%B %e, %Y')(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';
   const pollData = await pollAverages(startDate, endDate, state);
   return nunjucks.render('templated-polls.svg', layoutTimeSeries(pollData, chartOpts));
+}
+
+async function makeForecastMap(chartOpts){
+  return nunjucks.render('map.svg',{});
 }
 
 async function pollAverages(start, end, state) {
@@ -134,24 +172,6 @@ app.get('/polls/:state.json', async (req, res) => {
     }
   }
   return value;
-});
-
-
-app.get('/', statePage);
-app.get('/:state', (req, res) => {
-  if (validStates.indexOf(req.params.state) >= 0) {
-    statePage(req, res);
-  } else {
-    res.sendStatus(404);
-  }
-});
-
-app.get('/polls/:state', (req, res) => {
-  if (validStates.indexOf(req.params.state) >= 0) {
-    statePage(req, res);
-  } else {
-    res.sendStatus(404);
-  }
 });
 
 async function statePage(req, res) {
