@@ -6,6 +6,7 @@ process.on('unhandledRejection', error => {
 });
 
 const express = require('express');
+const forecastMapLayout = require('./layouts/forecast-map-layout');
 const getPollAverages = require('./layouts/getPollAverages.js');
 const getAllPolls = require('./layouts/getAllPolls.js');
 const getLatestPollAverage = require('./layouts/getLatestPollAverage.js');
@@ -103,7 +104,6 @@ app.get('/forecast-map.svg', async (req, res) => {
   let value = cache.get(cacheKey);
   if (!value) {
     value = await makeForecastMap(req.query);
-    console.log('???')
     if (value) cache.set(cacheKey, value);
   }
   if (value) {
@@ -139,9 +139,11 @@ async function makePollTimeSeries(chartOpts) {
   return nunjucks.render('templated-polls.svg', layoutTimeSeries(pollData, chartOpts));
 }
 
-async function makeForecastMap(chartOpts){
-  return nunjucks.render('map.svg',{ 
-    AK:{fill:'#999', stroke:'#000',}
+async function makeForecastMap(chartOpts) {
+
+  forecastMapLayout();
+  return nunjucks.render('map.svg', {
+    AK: { fill: '#999', stroke: '#000'  },
   });
 }
 
