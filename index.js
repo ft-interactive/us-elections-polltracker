@@ -6,7 +6,6 @@ process.on('unhandledRejection', error => {
 });
 
 const express = require('express');
-const forecastMapLayout = require('./layouts/forecast-map-layout');
 const getPollAverages = require('./layouts/getPollAverages.js');
 const getAllPolls = require('./layouts/getAllPolls.js');
 const getLatestPollAverage = require('./layouts/getLatestPollAverage.js');
@@ -19,8 +18,10 @@ const d3 = require('d3');
 const lru = require('lru-cache');
 const fetch = require('isomorphic-fetch');
 const _ = require('underscore');
+const stateClassification = require('./layouts/state-classifications.js');
 const stateIds = require('./layouts/stateIds').states;
 const layoutTimeSeries = require('./layouts/timeseries-layout.js');
+const layoutForecastMap = require('./layouts/forecast-map-layout');
 const filters = require('./filters');
 const berthaDefaults = require('./config/bertha-defaults.json');
 const validStates = berthaDefaults.streampages.map((d) => d.state.toLowerCase());
@@ -141,8 +142,8 @@ async function makePollTimeSeries(chartOpts) {
 }
 
 async function makeForecastMap(chartOpts) {
-
-  forecastMapLayout();
+  const statePollingData = await(getStateCounts(await getBerthaData()));
+  layoutForecastMap(statePollingData);
   return nunjucks.render('map.svg', {
     AK: { fill: '#999', stroke: '#000'  },
   });
@@ -194,18 +195,8 @@ async function statePage(req, res) {
   if (!renderedPage) {
     const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
     // get intro text
-    const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links,streampages,overrideCategories';
-    let data = berthaDefaults;
-
-    try {
-      const contentRes = await Promise.resolve(fetch(contentURL))
-          .timeout(3000, new Error(`Timeout - bertha took too long to respond: ${contentURL}`));
-      data = await contentRes.json();
-    } catch (err) {
-      cachePage = false;
-      console.log('bertha fetching problem, resorting to default bertha config');
-    }
-
+    const data = await getBerthaData();
+    
     const stateStreamURL = _.findWhere(data.streampages, { 'state': state.toUpperCase() }).link;
 
     const introtext1 = _.findWhere(data.options, { name: 'text' }).value;
@@ -315,6 +306,21 @@ async function statePage(req, res) {
   res.send(renderedPage);
 }
 
+
+async function getBerthaData(){
+    const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links,streampages,overrideCategories';
+    let data = berthaDefaults;
+
+    try {
+      const contentRes = await Promise.resolve(fetch(contentURL))
+          .timeout(3000, new Error(`Timeout - bertha took too long to respond: ${contentURL}`));
+      return await contentRes.json();
+    } catch (err) {
+      cachePage = false;
+      console.log('bertha fetching problem, resorting to default bertha config');
+    }
+}
+
 async function getStateCounts(overrideData) {
   const latestStateAverages = await getAllLatestStateAverages();
   const groupedStateCounts = _.groupBy(latestStateAverages, 'state');
@@ -350,15 +356,11 @@ async function getStateCounts(overrideData) {
 }
 
 function nationalCount(stateData) {
-  const classification = d3.scaleThreshold()
-      .range(['rep', 'leaningRep', 'swing', 'leaningDem', 'dem'])
-      .domain([-10, -5, 5, 10]);
+  const classification = stateClassification.forecast;
 
   // for ME and NE classification
   // if one CD (congressional district) is rep and another is leaningRep (or dem and leaningDem), do another round of classification to categorize 2 remaining votes as leaningRep or leaningDem
-  const meneClassification = d3.scaleThreshold()
-    .range(['leaningRep', 'swing', 'leaningDem'])
-    .domain([-5, 5]);
+  const meneClassification = stateClassification.forecastMENE;
 
   const stateCounts = Object.keys(stateData).reduce((cumulative, stateCode) => {
     const state = stateData[stateCode];
