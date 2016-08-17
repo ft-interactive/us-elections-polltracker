@@ -1,0 +1,82 @@
+
+<svg class="poll" width="{{ width }}" height="{{ height }}" viewBox="0 0 {{ width }} {{ height }}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMinYMin meet" font-family="MetricWeb, sans-serif">
+{% if not fontless %}
+<style>
+@font-face{
+  src:url(https://origami-build.ft.com/v2/files/o-fonts-assets@1.3.0/MetricWeb-Regular.woff?#iefix) format("woff");
+  font-family:MetricWeb;
+  font-weight:400;
+  font-style:normal
+}
+
+@font-face{
+  src:url("https://origami-build.ft.com/v2/files/o-fonts-assets@1.3.0/MetricWeb-RegularItalic.woff?#iefix") format("woff");
+  font-family:MetricWeb;
+  font-weight:400;
+  font-style:italic;
+}
+
+@font-face{
+  src:url("https://origami-build.ft.com/v2/files/o-fonts-assets@1.3.0/MetricWeb-Semibold.woff?#iefix") format("woff");
+  font-family:MetricWeb;
+  font-weight:600;
+  font-style:normal;
+}
+</style>
+{% endif %}
+<style>
+text{
+    font-family: MetricWeb, sans-serif;
+}
+</style>
+{% if background %}
+<rect fill="#{{ background }}" width="{{ width }}" height="{{ height }}"></rect>
+{% endif %}
+<g class="yAxis" transform="translate({{ margin.left }},{{ margin.top }})" fill="none" font-size="10" font-family="sans-serif" text-anchor="end">
+    {% for yTick in yTicks %}
+    <g class="tick" transform="translate(0,{{ yTick.position }})">
+        <line stroke="#C3BCB0"  stroke-dasharray="1,2" x2="{{ width - (margin.left + margin.right) }}" y1="0.5" y2="0.5"></line>
+        <text font-size="14px" fill="#6b6e68" x="0" y="0.5" dy=".32em" dx="{{ yLabelOffset }}">{{ yTick.label }}</text>
+    </g>
+    {% endfor %}
+</g>
+<g class="xAxis" transform="translate({{margin.left}},{{ height - (margin.bottom) }})" fill="none" font-size="10" font-family="sans-serif" text-anchor="middle">
+    <line class="domain" stroke="#C3BCB0" x1="0" x2="{{ width - (margin.left+margin.right) }}" y1="0.5" y2="0.5"></line>
+    {% for xTick in xTicks %}
+    <g class="tick" transform="translate( {{ xTick.position }} ,0)">
+        <line stroke="#C3BCB0" {% if xTick.extent %}y2="18"{% else %}y2="6"{% endif %} x1="0.5" x2="0.5"></line>
+        {% if xTick.important %}<text font-size="14px" fill="#6b6e68" y="2" x="0.5" {% if xTick.extent %}dy="18"{% else %}dy="1"{% endif %} {% if xTick.textanchor %} text-anchor="{{ xTick.textanchor }}" {% endif %} transform="translate(-2, 18)">{{ xTick.label }}</text>{% endif %}
+    </g>
+    {% endfor %}
+</g>
+<g class="plot" transform="translate({{margin.left}},{{margin.top}})">
+{% for area in candidateAreas %}
+    <path d="{{ area.d }}" fill="{{ area.fill }}" fill-opacity="0.5"></path>
+{% endfor %}
+
+{% for line in candidateLines %}
+    <path class="candidateLine" d="{{ line.d }}" stroke-width="2px" stroke-linejoin="round"  stroke-linecap="round" fill="none" stroke="{{ line.stroke }}"></path>
+{% endfor %}
+
+{% for point in candidateEndPoints %}
+    <circle class="lastpointlabel" cx="{{ point.cx }}" cy="{{ point.cy }}" r="3" fill="{{ point.fill }}"></circle>
+    <text font-size="14px" class="lastpointtext" transform="translate({{ point.cx + 10 }},{{ point.cy + point.labelOffset }})" fill="{{ point.fill }}">
+        <tspan style="font-weight: 600;">{{ point.labelValue }}</tspan>
+        <tspan>{{ point.labelName }}</tspan>
+    </text>
+{% endfor %}
+{% if notext!=true %}
+    <g class="annotations">
+        <text font-size="21px" fill="#3B3D3B" class="headline" x="-28" y="-46">{{ title }}</text>
+        <text font-size="14px" fill="#6b6e68" class="subhead" x="-28" y="-24">{{ subtitle }}</text>
+        <text font-size="11.5px" fill="#6b6e68" class="sourceline" x="-28" y="{{height - margin.bottom}}" dy="-4">{{ source }}</text>
+    </g>
+{% endif %}
+{% if logo %}
+<g transform='translate({{ width-34 }}, {{ height - 21 }})' width="29" height="16">
+    <path style="fill: #dacfc5;" d="M0,16h7.6v-0.6c-0.5,0-0.9,0-1.2-0.1c-0.3,0-0.5-0.1-0.7-0.3c-0.2-0.1-0.3-0.3-0.4-0.6c-0.1-0.2-0.1-0.6-0.1-1V8.2h1.2c1.1,0,1.9,0.2,2.3,0.5c0.5,0.3,0.8,0.9,1,1.9h0.6V5H9.8C9.7,5.6,9.5,6,9.3,6.3c-0.2,0.3-0.5,0.5-1,0.6C7.9,7,7.3,7.1,6.5,7.1H5.3V2c0-0.3,0.1-0.5,0.2-0.7c0.1-0.1,0.3-0.2,0.7-0.2h2.4c0.8,0,1.4,0,1.9,0.1c0.5,0.1,0.9,0.2,1.2,0.4c0.3,0.2,0.6,0.4,0.7,0.7c0.2,0.3,0.3,0.7,0.5,1.1h0.7L13.4,0H0v0.6c0.4,0,0.8,0.1,1,0.1c0.2,0,0.4,0.1,0.6,0.3C1.8,1.1,1.9,1.3,2,1.5c0.1,0.2,0.1,0.6,0.1,1v10.9c0,0.4,0,0.8-0.1,1c-0.1,0.2-0.2,0.4-0.4,0.6c-0.2,0.1-0.4,0.2-0.6,0.3c-0.2,0-0.6,0.1-1,0.1V16z M14.2,3.5H15c0.3-0.9,0.6-1.5,1-1.8c0.4-0.4,1.1-0.5,1.9-0.5h2v12.3c0,0.4,0,0.8-0.1,1c-0.1,0.2-0.2,0.4-0.4,0.6c-0.2,0.1-0.4,0.2-0.7,0.3c-0.3,0-0.6,0.1-1.1,0.1V16h7.7v-0.6c-0.5,0-0.9,0-1.1-0.1c-0.3,0-0.5-0.1-0.7-0.3c-0.2-0.1-0.3-0.3-0.4-0.6c-0.1-0.2-0.1-0.6-0.1-1V1.2h2c0.8,0,1.5,0.2,1.9,0.5c0.4,0.4,0.8,1,1,1.8h0.8L28.5,0H14.6L14.2,3.5z"></path>
+</g>
+{% endif %}
+</g>
+
+</svg>

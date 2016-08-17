@@ -1,5 +1,4 @@
-module.exports = {
-  states: [{ state: 'US', stateName: 'United States', raceId: 5491, ecVotes: 538 },
+const states = [{ state: 'US', stateName: 'United States', raceId: 5491, ecVotes: 538 },
 { state: 'AL', stateName: 'Alabama', raceId: null, ecVotes: 9 },
 { state: 'AK', stateName: 'Alaska', raceId: 5884, ecVotes: 3 },
 { state: 'AZ', stateName: 'Arizona', raceId: 5832, ecVotes: 11 },
@@ -54,4 +53,17 @@ module.exports = {
 { state: 'WV', stateName: 'West Virginia', raceId: 5885, ecVotes: 5 },
 { state: 'WI', stateName: 'Wisconsin', raceId: 5659, ecVotes: 10 },
 { state: 'WY', stateName: 'Wyoming', raceId: null, ecVotes: 3 },
-] };
+];
+
+function makeLookup(a, key){
+  const lookup = {};
+  a.forEach(function(d){
+    lookup[d[key]] = d;
+  });
+  return lookup;
+}
+
+module.exports = {
+  states,
+  byID: makeLookup(states, 'state'),
+};

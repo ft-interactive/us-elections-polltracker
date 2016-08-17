@@ -6,7 +6,6 @@ process.on('unhandledRejection', error => {
 });
 
 const express = require('express');
-const drawChart = require('./layouts/drawChart.js');
 const getPollAverages = require('./layouts/getPollAverages.js');
 const getAllPolls = require('./layouts/getAllPolls.js');
 const getLatestPollAverage = require('./layouts/getLatestPollAverage.js');
@@ -20,6 +19,7 @@ const lru = require('lru-cache');
 const fetch = require('isomorphic-fetch');
 const _ = require('underscore');
 const stateIds = require('./layouts/stateIds').states;
+const layoutTimeSeries = require('./layouts/timeseries-layout.js');
 const filters = require('./filters');
 const berthaDefaults = require('./config/bertha-defaults.json');
 const validStates = berthaDefaults.streampages.map((d) => d.state.toLowerCase());
@@ -56,7 +56,7 @@ function convertToCacheKeyName(queryRequest) {
 
   const cacheKey = paramOrder.reduce(function (a, b) {
     return a + queryRequest[b];
-  }, queryRequest['fontless']);
+  }, queryRequest.fontless);
 
   return cacheKey;
 }
@@ -85,7 +85,14 @@ app.get('/favicon.ico', (req, res) => { // explicit override to redirect if favi
 });
 
 app.get('/polls.svg', async (req, res) => {
-  const value = await makePollTimeSeries(req.query);
+  const cacheKey = 'polls-svg-' + convertToCacheKeyName(req.query);
+  let value = cache.get(cacheKey);
+  if (!value) {
+    try {
+      value = await makePollTimeSeries(req.query);
+      if (value) cache.set(cacheKey, value);
+    } catch (err) { console.log('ERROR making pollchart ', req.url); }
+  }
   if (value) {
     setSVGHeaders(res).send(value);
   } else {
@@ -94,56 +101,23 @@ app.get('/polls.svg', async (req, res) => {
 });
 
 async function makePollTimeSeries(chartOpts) {
-  const nowDate = new Date().toString().split(' ')
-    .slice(1, 4)
-    .join(' ');
-
-  const formattedNowDate = d3.timeFormat('%B %e, %Y')((d3.timeParse('%b %d %Y')(nowDate)));
-
-  const [svgWidth, svgHeight] = (chartOpts.size || '600x300').split('x');
-
-  const options = {
-    fontless: (typeof chartOpts.fontless === 'boolean' ? chartOpts.fontless : (chartOpts.fontless ? chartOpts.fontless === 'true' : true)),
-    notext: typeof chartOpts.notext === 'boolean' ? chartOpts.notext : false,
-    background: chartOpts.background || 'none',
-    startDate: chartOpts.startDate || 'June 1, 2016',
-    endDate: chartOpts.endDate || formattedNowDate,
-    size: `${svgWidth}x${svgHeight}`,
-    width: svgWidth,
-    height: svgHeight,
-    type: chartOpts.type || 'area',
-    state: chartOpts.state || 'us',
-    logo: (chartOpts.logo ? chartOpts.logo === 'true' : false),
-  };
-  const cacheKey = convertToCacheKeyName(options);
-
-  let value = cache.get(cacheKey);
-
-  if (!value) {
-    // weird hack: add one day to endDate to capture the end date in the sequelize query
-    const tempEndDatePieces = options.endDate.replace(/\s{2}/, ' ').split(' ');
-    const queryEndDate = tempEndDatePieces[0] + ' ' + (+tempEndDatePieces[1].replace(/,/g, '') + 1) + ', ' + tempEndDatePieces[2];
-
-    // cache the db request
-    const dbCacheKey = 'dbAverages-' + [options.state, options.startDate, queryEndDate].join('-');
-    let dbResponse = cache.get(dbCacheKey);
-    if (!dbResponse) {
-      dbResponse = await getPollAverages(options.state, options.startDate, queryEndDate);
-      cache.set(dbCacheKey, dbResponse);
-    }
-
-    try {
-      const chartLayout = await drawChart(options, dbResponse);
-      value = nunjucks.render('poll.svg', chartLayout);
-      cache.set(cacheKey, value);
-    } catch (error) {
-      console.error(error);
-      value = false;
-    }
-  }
-  return value;
+  const startDate = chartOpts.startDate ? chartOpts.startDate : 'June 1, 2016';
+  const endDate = chartOpts.endDate ? chartOpts.endDate : d3.timeFormat('%B %e, %Y')(new Date());
+  const state = chartOpts.state ? chartOpts.state : 'us';
+  const pollData = await pollAverages(startDate, endDate, state);
+  return nunjucks.render('templated-polls.svg', layoutTimeSeries(pollData, chartOpts));
 }
 
+async function pollAverages(start, end, state) {
+  if (!state) state = 'us';
+  const dbCacheKey = 'dbAverages-' + [state, start, end].join('-');
+  let dbResponse = cache.get(dbCacheKey);
+  if (!dbResponse) {
+    dbResponse = await getPollAverages(state, start, end);
+    cache.set(dbCacheKey, dbResponse);
+  }
+  return dbResponse;
+}
 
 app.get('/polls/:state.json', async (req, res) => {
   const state = req.params.state;
@@ -236,6 +210,7 @@ async function statePage(req, res) {
         type: 'area',
         state,
         logo: false,
+        margin: { top: 10, left: 35, bottom: 50, right: 90 },
       });
     }
 
@@ -271,15 +246,14 @@ async function statePage(req, res) {
 
     // get latest poll averages for social
     const latestPollAverages = await getLatestPollAverage(state);
-    let shareTitle;
+
+    let shareTitle = `US presidential election polls: Here’s where ${stateName} stands now`;
     if (latestPollAverages) {
       if (state === 'us') {
         shareTitle = `US presidential election polls: It's Clinton ${latestPollAverages.Clinton}%, Trump ${latestPollAverages.Trump}%`;
       } else {
         shareTitle = `US presidential election polls: In ${stateName}, it's Clinton ${latestPollAverages.Clinton}%, Trump ${latestPollAverages.Trump}%`;
       }
-    } else {
-      shareTitle = `US presidential election polls: Here’s where ${stateName} stands now`;
     }
 
     // get latest state data for map and national bar
@@ -315,7 +289,6 @@ async function statePage(req, res) {
     renderedPage = nunjucks.render('polls.html', polltrackerLayout);
     if (cachePage) cache.set(pageCacheKey, renderedPage);
   }
-
 
   res.send(renderedPage);
 }
@@ -410,7 +383,6 @@ function nationalCount(stateData) {
 
   return stateCounts;
 }
-
 
 const server = app.listen(process.env.PORT || 5000, () => {
   const host = server.address().address;
