@@ -131,8 +131,7 @@ function timeseriesLayout(data, opts) {
   const currentDate = xScale.domain()[0];
   currentDate.setMonth(currentDate.getMonth() + 1);
   const monthSpacing = xScale(new Date(2016, 1, 1)) - xScale(new Date(2016, 0, 1));
-  const tickBuffer = [5,35];
-  console.log('month spacing' + monthSpacing);
+  const tickBuffer = [5, 35];
   do {
     if (currentDate.getMonth() !== 0) { // dona't add a tick for jan as that'll be given a new year tick
       layout.xTicks.push({
