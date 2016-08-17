@@ -46,11 +46,11 @@ function mergePolls(a, b, xScale, yScale) {
   });
 }
 
-function getTitle(state, width){
-  if(width< 450 && (state == 'us' || !state)) return 'Latest polls';
-  if(state && state != 'us'){
+function getTitle(state, width) {
+  if (width < 450 && (state == 'us' || !state)) return 'Latest polls';
+  if (state && state != 'us') {
     const stateName = stateByID[state.toUpperCase()].stateName;
-    if(width< 450) return 'Latest polls: ' + stateName;
+    if (width < 450) return 'Latest polls: ' + stateName;
     return 'Which candidate is leading in ' + stateName + '?';
   }
   return 'Which White House candidate is leading in the polls?';
@@ -75,7 +75,7 @@ function timeseriesLayout(data, opts) {
     type: opts.type || 'area',
     state: opts.state || 'us',
     logo: (opts.logo ? opts.logo === 'true' : false),
-    title:getTitle(opts.state, svgWidth),
+    title: getTitle(opts.state, svgWidth),
     subtitle: 'Polling average (%)',
     source: 'Source: Real Clear Politics',
     yLabelOffset: '-7',
@@ -121,7 +121,7 @@ function timeseriesLayout(data, opts) {
         return timeFormat(date);
       }(d, i),
       position: xScale(d),
-      extent: true, //the ticks at the end of the axis may be posiotined differently
+      extent: true, // the ticks at the end of the axis may be posiotined differently
       important: true,  // extent ticks should always be labeled
       textanchor: (i === 1) ? 'end' : 'start',
     });
@@ -130,22 +130,22 @@ function timeseriesLayout(data, opts) {
   // add month ticks
   const currentDate = xScale.domain()[0];
   currentDate.setMonth(currentDate.getMonth() + 1);
-  const monthSpacing = xScale(new Date(2016,1,1)) - xScale(new Date(2016,0,1));
+  const monthSpacing = xScale(new Date(2016, 1, 1)) - xScale(new Date(2016, 0, 1));
   const tickBuffer = 20;
   console.log('month spacing' + monthSpacing);
   do {
-    if(currentDate.getMonth() !== 0){ //dona't add a tick for jan as that'll be given a new year tick
+    if (currentDate.getMonth() !== 0) { // dona't add a tick for jan as that'll be given a new year tick
       layout.xTicks.push({
         date: currentDate,
         label: timeFormatMonth(currentDate),
         position: xScale(currentDate),
-        important: function(d){ //make this true under certain circumstances i.e. if there are few enough ticks and the tick in question is distant enough from the end of the axis 
+        important: function (d) { // make this true under certain circumstances i.e. if there are few enough ticks and the tick in question is distant enough from the end of the axis
           return (
             monthSpacing > 50
             && (xScale(currentDate) < xScale.range()[1] - tickBuffer)
             && (xScale(currentDate) > xScale.range()[0] + tickBuffer)
           );
-        }(currentDate), 
+        }(currentDate),
         textanchor: 'start',
       });
     }
@@ -185,15 +185,13 @@ function timeseriesLayout(data, opts) {
     polls: data.filter((row) => (row.candidatename === d)),
   }));
 
-  const currentLeader = pollsByCandidate.reduce(function (previous, current) {
-    const currentValue = current.polls[current.polls.length - 1].pollaverage;
-    if (previous.value < currentValue) {
-      return {
-        name: current.name,
-        value: currentValue,
-      };
-    }
-  }, { name: 'Trump', value: 0 }).name;
+  let currentLeader = '';
+   if (pollsByCandidate[0].polls[pollsByCandidate[0].polls.length - 1].pollaverage
+    > pollsByCandidate[1].polls[pollsByCandidate[1].polls.length - 1].pollaverage) {
+    currentLeader = pollsByCandidate[0].name;
+  } else {
+    currentLeader = pollsByCandidate[1].name;
+  }
 
   layout.candidateLines = pollsByCandidate.map((d) => ({
     stroke: candidateColor[d.name].line,
