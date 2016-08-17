@@ -47,8 +47,8 @@ function mergePolls(a, b, xScale, yScale) {
 }
 
 function getTitle(state, width) {
-  if (width < 450 && (state == 'us' || !state)) return 'Latest polls';
-  if (state && state != 'us') {
+  if (width < 450 && (state === 'us' || !state)) return 'Latest polls';
+  if (state && state !== 'us') {
     const stateName = stateByID[state.toUpperCase()].stateName;
     if (width < 450) return 'Latest polls: ' + stateName;
     return 'Which candidate is leading in ' + stateName + '?';
@@ -131,7 +131,7 @@ function timeseriesLayout(data, opts) {
   const currentDate = xScale.domain()[0];
   currentDate.setMonth(currentDate.getMonth() + 1);
   const monthSpacing = xScale(new Date(2016, 1, 1)) - xScale(new Date(2016, 0, 1));
-  const tickBuffer = 20;
+  const tickBuffer = [5,35];
   console.log('month spacing' + monthSpacing);
   do {
     if (currentDate.getMonth() !== 0) { // dona't add a tick for jan as that'll be given a new year tick
@@ -142,8 +142,8 @@ function timeseriesLayout(data, opts) {
         important: function (d) { // make this true under certain circumstances i.e. if there are few enough ticks and the tick in question is distant enough from the end of the axis
           return (
             monthSpacing > 50
-            && (xScale(currentDate) < xScale.range()[1] - tickBuffer)
-            && (xScale(currentDate) > xScale.range()[0] + tickBuffer)
+            && (xScale(currentDate) < xScale.range()[1] - tickBuffer[1])
+            && (xScale(currentDate) > xScale.range()[0] + tickBuffer[0])
           );
         }(currentDate),
         textanchor: 'start',
@@ -186,7 +186,7 @@ function timeseriesLayout(data, opts) {
   }));
 
   let currentLeader = '';
-   if (pollsByCandidate[0].polls[pollsByCandidate[0].polls.length - 1].pollaverage
+  if (pollsByCandidate[0].polls[pollsByCandidate[0].polls.length - 1].pollaverage
     > pollsByCandidate[1].polls[pollsByCandidate[1].polls.length - 1].pollaverage) {
     currentLeader = pollsByCandidate[0].name;
   } else {
@@ -202,7 +202,6 @@ function timeseriesLayout(data, opts) {
     shape('path', { d: layout.candidateLines[0].d }),
     shape('path', { d: layout.candidateLines[1].d })
   );
-
 
 // produce the array of areas
   const areas = mergePolls(pollsByCandidate[0], pollsByCandidate[1], xScale, yScale)
