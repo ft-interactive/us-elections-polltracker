@@ -120,7 +120,7 @@ function timeseriesLayout(data, opts) {
   const currentDate = xScale.domain()[0];
   currentDate.setMonth(currentDate.getMonth() + 1);
   const monthSpacing = xScale(new Date(2016,1,1)) - xScale(new Date(2016,0,1));
-  const tickBuffer = 10;
+  const tickBuffer = 20;
   console.log('month spacing' + monthSpacing);
   do {
     if(currentDate.getMonth() !== 0){ //dona't add a tick for jan as that'll be given a new year tick
@@ -130,12 +130,12 @@ function timeseriesLayout(data, opts) {
         position: xScale(currentDate),
         important: function(d){ //make this true under certain circumstances i.e. if there are few enough ticks and the tick in question is distant enough from the end of the axis 
           return (
-            monthSpacing > 30
+            monthSpacing > 50
             && (xScale(currentDate) < xScale.range()[1] - tickBuffer)
             && (xScale(currentDate) > xScale.range()[0] + tickBuffer)
           );
         }(currentDate), 
-        textanchor: 'middle',
+        textanchor: 'start',
       });
     }
     currentDate.setDate(1);
@@ -153,7 +153,7 @@ function timeseriesLayout(data, opts) {
         label: currentYear,
         position: xScale(currentDate),
         important: true,  // years should always be labeled
-        textanchor: 'middle',
+        textanchor: 'start',
       });
     } while (currentYear < xScale.domain()[1].getFullYear());
   }
