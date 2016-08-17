@@ -99,7 +99,7 @@ app.get('/polls.svg', async (req, res) => {
   }
 });
 
-
+//Create map of current forecasts
 app.get('/forecast-map.svg', async (req, res) => {
   const cacheKey = 'forecast-map-svg-' + convertToCacheKeyName(req.query);
   let value = cache.get(cacheKey);
