@@ -56,9 +56,13 @@ function getTitle(state, width) {
   return 'Which White House candidate is leading in the polls?';
 }
 
-function getSubtitle(date, state){
-  if(state && state !== 'us')   return 'Polling average as of ' + timeFormatLong(date) + '  (%)';
-  return 'National polling average as of ' + timeFormatLong(date) + '  (%)';
+function getSubtitle(date, width, state){
+  if(width<350){
+      if(state && state !== 'us')   return 'Polling average to ' + timeFormat(date) + ' (%)';
+      return 'National polling average to ' + timeFormat(date) + ' (%)';    
+  }
+  if(state && state !== 'us')   return 'Polling average as of ' + timeFormatLong(date) + ' (%)';
+  return 'National polling average as of ' + timeFormatLong(date) + ' (%)';
 }
 
 // the actual layout function
@@ -81,7 +85,7 @@ function timeseriesLayout(data, opts) {
     state: opts.state || 'us',
     logo: (opts.logo ? opts.logo === 'true' : false),
     title: getTitle(opts.state, svgWidth),
-    subtitle: getSubtitle(timeDomain[1]),
+    subtitle: getSubtitle(timeDomain[1], svgWidth),
     source: 'Source: Real Clear Politics',
     yLabelOffset: '-7',
     margin: opts.margin ? opts.margin : {
