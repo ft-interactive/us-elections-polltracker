@@ -56,8 +56,9 @@ function getTitle(state, width) {
   return 'Which White House candidate is leading in the polls?';
 }
 
-function getSubtitle(date){
-  return 'Polling average as of ' + timeFormatLong(date) + '  (%)';
+function getSubtitle(date, state){
+  if(!state || state !== 'us')   return 'Polling average as of ' + timeFormatLong(date) + '  (%)';
+  return 'National polling average as of ' + timeFormatLong(date) + '  (%)';
 }
 
 // the actual layout function
