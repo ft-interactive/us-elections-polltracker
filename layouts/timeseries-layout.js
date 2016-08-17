@@ -57,7 +57,7 @@ function getTitle(state, width) {
 }
 
 function getSubtitle(date, state){
-  if(!state || state !== 'us')   return 'Polling average as of ' + timeFormatLong(date) + '  (%)';
+  if(state && state !== 'us')   return 'Polling average as of ' + timeFormatLong(date) + '  (%)';
   return 'National polling average as of ' + timeFormatLong(date) + '  (%)';
 }
 
