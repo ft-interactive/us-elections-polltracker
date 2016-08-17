@@ -5,6 +5,7 @@ const shape = svgIntersections.shape;
 
 // little utility functions
 const timeFormat = d3.timeFormat('%b %e, %Y');
+const timeFormatLong = d3.timeFormat('%B %e, %Y');
 const timeFormatShort = d3.timeFormat('%b %e');
 const timeFormatMonth = d3.timeFormat('%b');
 const roundExtent = (ext, divisor) => [(ext[0] - ext[0] % divisor), (ext[1] + (divisor - ext[1] % divisor))];
@@ -55,6 +56,10 @@ function getTitle(state, width) {
   return 'Which White House candidate is leading in the polls?';
 }
 
+function getSubtitle(date){
+  return 'Polling average as of ' + timeFormatLong(date) + '  (%)';
+}
+
 // the actual layout function
 function timeseriesLayout(data, opts) {
   if (!data) return;
@@ -75,7 +80,7 @@ function timeseriesLayout(data, opts) {
     state: opts.state || 'us',
     logo: (opts.logo ? opts.logo === 'true' : false),
     title: getTitle(opts.state, svgWidth),
-    subtitle: 'Polling average (%)',
+    subtitle: getSubtitle(timeDomain[1]),
     source: 'Source: Real Clear Politics',
     yLabelOffset: '-7',
     margin: opts.margin ? opts.margin : {
