@@ -9,6 +9,7 @@ const timeFormatShort = d3.timeFormat('%b %e');
 const timeFormatMonth = d3.timeFormat('%b');
 const roundExtent = (ext, divisor) => [(ext[0] - ext[0] % divisor), (ext[1] + (divisor - ext[1] % divisor))];
 const round1dp = (x) => Math.round(x * 10) / 10;
+const stateByID = require('./stateIds').byID;
 
 // configuration
 const candidates = ['Trump', 'Clinton'];
@@ -45,6 +46,16 @@ function mergePolls(a, b, xScale, yScale) {
   });
 }
 
+function getTitle(state, width){
+  if(width< 450 && (state == 'us' || !state)) return 'Latest polls';
+  if(state && state != 'us'){
+    const stateName = stateByID[state.toUpperCase()].stateName;
+    if(width< 450) return 'Latest polls: ' + stateName;
+    return 'Which candidate is leading in ' + stateName + '?';
+  }
+  return 'Which White House candidate is leading in the polls?';
+}
+
 // the actual layout function
 function timeseriesLayout(data, opts) {
   if (!data) return;
@@ -64,7 +75,7 @@ function timeseriesLayout(data, opts) {
     type: opts.type || 'area',
     state: opts.state || 'us',
     logo: (opts.logo ? opts.logo === 'true' : false),
-    title: 'Which White House candidate is leading in the polls?',
+    title:getTitle(opts.state, svgWidth),
     subtitle: 'Polling average (%)',
     source: 'Source: Real Clear Politics',
     yLabelOffset: '-7',
