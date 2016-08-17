@@ -28,7 +28,6 @@ function mergePolls(a, b, xScale, yScale) {
   return a.polls.map(function (d, i) {
     const mergedRow = {};
     if (b.polls[i].date.getTime() !== d.date.getTime()) {
-      console.log('ERROR: non matching arrays can\'t be merged ', d, b.polls[i]);
       return false;
     }
     let leader = b.name;

@@ -88,9 +88,12 @@ app.get('/polls.svg', async (req, res) => {
   const cacheKey = 'polls-svg-' + convertToCacheKeyName(req.query);
   let value = cache.get(cacheKey);
   if (!value) {
-    value = await makePollTimeSeries(req.query);
-    if (value) cache.set(cacheKey, value);
+    try{
+      value = await makePollTimeSeries(req.query);
+      if (value) cache.set(cacheKey, value);
+    }catch(err){ console.log('ERROR making pollchart ', req.url ); }
   }
+
   if (value) {
     setSVGHeaders(res).send(value);
   } else {
