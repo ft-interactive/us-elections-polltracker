@@ -5,13 +5,13 @@ process.on('unhandledRejection', error => {
   process.exit(1);
 });
 
-const color = require('./layouts/color.js');
+const color = require('./models/color.js');
 const express = require('express');
-const getPollAverages = require('./layouts/getPollAverages.js');
-const getAllPolls = require('./layouts/getAllPolls.js');
-const getLatestPollAverage = require('./layouts/getLatestPollAverage.js');
-const getAllLatestStateAverages = require('./layouts/getAllLatestStateAverages.js');
-const lastUpdated = require('./layouts/getLastUpdated.js');
+const getPollAverages = require('./models/getPollAverages.js');
+const getAllPolls = require('./models/getAllPolls.js');
+const getLatestPollAverage = require('./models/getLatestPollAverage.js');
+const getAllLatestStateAverages = require('./models/getAllLatestStateAverages.js');
+const lastUpdated = require('./models/getLastUpdated.js');
 const nunjucks = require('nunjucks');
 const markdown = require('nunjucks-markdown');
 const marked = require('marked');
@@ -19,10 +19,10 @@ const d3 = require('d3');
 const lru = require('lru-cache');
 const fetch = require('isomorphic-fetch');
 const _ = require('underscore');
-const stateIds = require('./layouts/stateIds').states;
+const stateIds = require('./models/stateIds').states;
 const layoutTimeSeries = require('./layouts/timeseries-layout.js');
 const filters = require('./filters');
-const berthaDefaults = require('./config/bertha-defaults.json');
+const berthaDefaults = require('./models/bertha-defaults.json');
 const validStates = berthaDefaults.streampages.map((d) => d.state.toLowerCase());
 
 import flags from './config/flags';

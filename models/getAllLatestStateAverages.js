@@ -1,4 +1,4 @@
-const db = require('../models/index');
+const db = require('./index');
 
 // runs a psql query to get the latest polling averages for all states
 async function getAllLatestStateAverages() {
