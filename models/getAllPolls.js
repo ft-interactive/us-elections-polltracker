@@ -1,9 +1,8 @@
-var	db = require('../models/index'),
-	Polldata = require('../models/index').Polldata;
+const db = require('./index');
 
 // runs a psql query to get data from db
 async function getAllPolls(state) {
-	return Polldata.findAll({
+	return db.Polldata.findAll({
 		where: {
 			state: state,
 		},

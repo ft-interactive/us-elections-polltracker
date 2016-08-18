@@ -1,13 +1,11 @@
-var	db = require('../models/index'),
-	_ = require('underscore'),
-	d3 = require('d3'),
-	Pollaverages = require('../models/index').Pollaverages;
+const db = require('./index');
+const d3 = require('d3');
 
 const deleteTimezoneOffset = d3.timeFormat('%B %e, %Y');
 
 // runs a psql query to get data from db
 async function getLatestPollAverage(state) {
-	const latestClinton =  await Pollaverages.find({
+	const latestClinton =  await db.Pollaverages.find({
 		where: {
 			state: state,
 			candidatename: 'Clinton',
@@ -18,7 +16,7 @@ async function getLatestPollAverage(state) {
 		raw: true
 	});
 
-	const latestTrump =  await Pollaverages.find({
+	const latestTrump =  await db.Pollaverages.find({
 		where: {
 			state: state,
 			candidatename: 'Trump',

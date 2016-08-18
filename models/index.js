@@ -13,6 +13,8 @@ const cls = require('continuation-local-storage');
 const namespace = cls.createNamespace('poll-db');
 Sequelize.cls = namespace;
 
+const modelDir = path.normalize(__dirname+'/sequelize/');
+
 if (config.use_env_variable) {
   var sequelize = new Sequelize(process.env[config.use_env_variable], {
     dialectOptions: {
@@ -24,12 +26,12 @@ if (config.use_env_variable) {
 }
 
 fs
-  .readdirSync(__dirname)
+  .readdirSync( modelDir )
   .filter(function(file) {
     return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
   })
   .forEach(function(file) {
-    var model = sequelize['import'](path.join(__dirname, file));
+    var model = sequelize['import'](path.join(modelDir, file));
     db[model.name] = model;
   });
 
