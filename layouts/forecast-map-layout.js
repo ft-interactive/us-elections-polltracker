@@ -20,8 +20,8 @@ function forecastMapLayout(stateData) {
           data: currentState,
     };
 	});
-  layoutObject.landColor = color.land;
-  layoutObject.borderColor = color.border;
+  layoutObject.landColor = '#FFF';//color.land;
+  layoutObject.borderColor = '#DEDEDE';//color.border;
   return layoutObject;
 }
 

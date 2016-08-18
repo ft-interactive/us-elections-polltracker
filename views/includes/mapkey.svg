@@ -1,0 +1,24 @@
+<g id="key">
+        <text text-anchor="start">Clinton</text>
+        <text text-anchor="end">Trump</text>
+    <g id="dem">
+        <rect x="0" y="0" width="20" height="10" fill="{{ color.dem }}"/>
+        <text x="0" y="0">Solid</text>
+    </g>
+    <g id="lean-dem">
+        <rect x="0" y="0" width="20" height="10" fill="{{ color.leaningDem }}"/>
+        <text x="0" y="0">Leaning</text>
+    </g>
+    <g id="swing">
+        <rect x="0" y="0" width="20" height="10" fill="{{ color.swing }}"/>
+        <text x="0" y="0">Toss-up</text>
+    </g>
+    <g id="lean-rep">
+        <rect x="0" y="0" width="20" height="10" fill="{{ color.leaningRep }}"/>
+        <text x="0" y="0">Leaning</text>
+    </g>
+    <g id="solid-rep">
+        <rect x="0" y="0" width="20" height="10" fill="{{ color.rep }}"/>
+        <text x="0" y="0">Solid</text>
+    </g>
+</g>
