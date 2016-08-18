@@ -22,8 +22,8 @@ function forecastMapLayout(stateData) {
           data: currentState,
     };
 	});
-  layoutObject.backgroundColour = '#444';
-  layoutObject.borderColour = '#FFF';
+  layoutObject.landColor = '#444';
+  layoutObject.borderColor = '#FFF';
   return layoutObject;
 }
 
