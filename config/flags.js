@@ -8,4 +8,5 @@ export default () => ({
   ads: true,
   shareButtons: true,
   onwardjourney: true,
+  nationalBar: true,
 });

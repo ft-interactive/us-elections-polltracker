@@ -204,12 +204,12 @@ td{
 }
 
 td.clinton.winner {
-  background: #a2c1e1;
+  background: {{ color.leaningDem }};
   font-weight: 600;
 }
 
 td.trump.winner {
-  background: #f4a098;
+  background: {{ color.leaningRep }};
   font-weight: 600;
 }
 
@@ -486,6 +486,10 @@ a {
                 </div>
 
                 <p class="off-link"><a href="http://www.ft.com/us-election-2016">All US Election 2016 coverage</a></p>
+                {% endif %}
+
+                {% if flags.nationalBar %}
+                  {% include "includes/nationalbar.html" %}
                 {% endif %}
 
                 <div class="article-figure">
