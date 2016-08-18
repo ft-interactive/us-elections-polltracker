@@ -5,6 +5,7 @@ process.on('unhandledRejection', error => {
   process.exit(1);
 });
 
+const color = require('./layouts/color.js');
 const express = require('express');
 const getPollAverages = require('./layouts/getPollAverages.js');
 const getAllPolls = require('./layouts/getAllPolls.js');
@@ -284,6 +285,7 @@ async function statePage(req, res) {
       },
       stateCounts,
       nationalBarCounts: nationalCount(stateCounts),
+      color,
     };
 
     renderedPage = nunjucks.render('polls.html', polltrackerLayout);

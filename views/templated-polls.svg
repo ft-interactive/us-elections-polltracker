@@ -51,7 +51,7 @@ text{
 </g>
 <g class="plot" transform="translate({{margin.left}},{{margin.top}})">
 {% for area in candidateAreas %}
-    <path d="{{ area.d }}" fill="{{ area.fill }}" fill-opacity="0.5"></path>
+    <path d="{{ area.d }}" fill="{{ area.fill }}" fill-opacity="0.3"></path>
 {% endfor %}
 
 {% for line in candidateLines %}
