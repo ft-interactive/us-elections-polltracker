@@ -7,6 +7,7 @@ const classification = d3.scaleThreshold()
   .range(['rep', 'leaningRep', 'swing', 'leaningDem', 'dem'])
   .domain([-10, -5, 5, 10]); // margins
 
+
 function forecastMapLayout(stateData) {
 	  const layoutObject = {};
 	  Object.keys(stateData).forEach(function (d) {
