@@ -1,3 +1,5 @@
+
+const color = require('./color.js');
 const d3 = require('d3');
 const svgIntersections = require('svg-intersections');
 const intersect = svgIntersections.intersect;
@@ -16,12 +18,12 @@ const stateByID = require('./stateIds').byID;
 const candidates = ['Trump', 'Clinton'];
 const candidateColor = {
   Trump: {
-    line: '#e5262d',
-    area: '#f4a098',
+    line: color.Trump,
+    area: color.Trump,
   },
   Clinton: {
-    line: '#238fce',
-    area: '#a2c1e1',
+    line: color.Clinton,
+    area: color.Clinton,
   },
 };
 
@@ -94,6 +96,7 @@ function timeseriesLayout(data, opts) {
       right: 90,
       bottom: 70,
     },
+    color,
   });
 
   // make the scales
