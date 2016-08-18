@@ -7,5 +7,5 @@ export default () => ({
   googleAnalytics: prod,
   ads: true,
   shareButtons: true,
-  onwardjourney: false,
+  onwardjourney: true,
 });

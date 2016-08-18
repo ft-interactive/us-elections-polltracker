@@ -571,15 +571,9 @@ a {
       </article>
     </main>
 
-    <div class="o-grid-container">
-      <div class="container o-grid-row">
-        <div data-o-grid-colspan="12 center">
-          {% if flags.onwardjourney %}
-            {% include "includes/onwardjourney.html" %}
-          {% endif %}
-        </div>
-      </div>
-    </div>
+    {% if flags.onwardjourney %}
+      {% include "includes/onwardjourney.html" %}
+    {% endif %}
 
     {% include "includes/footer.html" %}
 
