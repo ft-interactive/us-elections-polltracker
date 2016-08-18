@@ -22,7 +22,7 @@ const _ = require('underscore');
 const stateIds = require('./models/stateIds').states;
 const layoutTimeSeries = require('./layouts/timeseries-layout.js');
 const filters = require('./filters');
-const berthaDefaults = require('./config/bertha-defaults.json');
+const berthaDefaults = require('./models/bertha-defaults.json');
 const validStates = berthaDefaults.streampages.map((d) => d.state.toLowerCase());
 
 import flags from './config/flags';
