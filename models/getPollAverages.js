@@ -1,13 +1,12 @@
-var	db = require('../models/index'),
-	_ = require('underscore'),
-	d3 = require('d3'),
-	Pollaverages = require('../models/index').Pollaverages;
+const db = require('./index');
+const _ = require('underscore');
+const d3 = require('d3');
 
 const deleteTimezoneOffset = d3.timeFormat('%B %e, %Y');
 
 // runs a psql query to get data from db
 async function getPollAverages(state, startDate, endDate) {
-	return Pollaverages.findAll({
+	return db.Pollaverages.findAll({
 		where: {
 			state: state,
 			date: {

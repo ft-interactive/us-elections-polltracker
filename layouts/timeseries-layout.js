@@ -1,5 +1,5 @@
 
-const color = require('./color.js');
+const color = require('../models/color.js');
 const d3 = require('d3');
 const svgIntersections = require('svg-intersections');
 const intersect = svgIntersections.intersect;
