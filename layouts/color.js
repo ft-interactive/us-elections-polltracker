@@ -1,4 +1,7 @@
 module.exports = {
+    ftpink:'#fff1e0',
+    border:'#bbb',
+    land:'#e9e9e9',
     Trump:'#e03d46',
     Clinton:'#579dd5',
     rep:'#e03d46',

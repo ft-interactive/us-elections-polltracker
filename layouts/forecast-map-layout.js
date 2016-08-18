@@ -1,7 +1,7 @@
 // provides a dictionary of state colours based on defined thresholds for how safe a bet a given state is for a given candidate
 
 const d3 = require('d3');
-const color = require('/color.js');
+const color = require('./color.js');
 
 const classification = d3.scaleThreshold()
   .range(['rep', 'leaningRep', 'swing', 'leaningDem', 'dem'])
@@ -19,8 +19,8 @@ function forecastMapLayout(stateData) {
           data: currentState,
     };
 	});
-  layoutObject.landColor = '#444';
-  layoutObject.borderColor = '#FFF';
+  layoutObject.landColor = color.land;
+  layoutObject.borderColor = color.border;
   return layoutObject;
 }
 
