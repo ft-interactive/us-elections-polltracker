@@ -1,7 +1,5 @@
 const db = require('./index');
-const _ = require('underscore');
 const d3 = require('d3');
-
 const deleteTimezoneOffset = d3.timeFormat('%B %e, %Y');
 
 // runs a psql query to get data from db
@@ -20,10 +18,11 @@ async function getPollAverages(state, startDate, endDate) {
 		raw: true
 	})
 	.then(function(data) {
-		data = _.each(data, function(row) {
-			row.date = new Date(deleteTimezoneOffset(row.date));
+		return data.map(function(row) {	
+			const copy = Object.assign({}, row);
+			copy.date = new Date(deleteTimezoneOffset(row.date));
+			return copy;
 		});
-		return data;
 	});
 }
 
