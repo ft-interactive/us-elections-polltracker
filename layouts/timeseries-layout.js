@@ -12,7 +12,7 @@ const timeFormatShort = d3.timeFormat('%b %e');
 const timeFormatMonth = d3.timeFormat('%b');
 const roundExtent = (ext, divisor) => [(ext[0] - ext[0] % divisor), (ext[1] + (divisor - ext[1] % divisor))];
 const round1dp = (x) => Math.round(x * 10) / 10;
-const stateByID = require('./stateIds').byID;
+const stateByID = require('../models/stateIds').byID;
 
 // configuration
 const candidates = ['Trump', 'Clinton'];
