@@ -2,17 +2,14 @@
 const fetch = require('isomorphic-fetch');
 const winston = require('winston');
 const db = require('./models/index');
-const Pollaverages = require('./models/index').Pollaverages;
-const Polldata = require('./models/index').Polldata;
-const lastupdates = require('./models/index').lastupdates;
-const stateIds = require('./layouts/stateIds').states;
+const stateIds = require('./models/stateIds').states;
 
 // Pollaverages.sync({force: true}) // use this to drop table and recreate
 db.sequelize.sync();
 
 function addPollAveragesToDatabase(polldate, candidate, value, state) {
   db.sequelize.transaction(function (t1) {
-    return Pollaverages.findAll({
+    return db.Pollaverages.findAll({
       where: {
         date: polldate,
         candidatename: candidate,
@@ -22,7 +19,7 @@ function addPollAveragesToDatabase(polldate, candidate, value, state) {
       if (res.length > 0) { // already in the db
         // check to make sure value hasn't changed
         if (res[0].dataValues.pollaverage !== parseFloat(value)) {
-          Pollaverages.update({
+          db.Pollaverages.update({
             pollaverage: value,
           }, {
             where: {
@@ -32,7 +29,7 @@ function addPollAveragesToDatabase(polldate, candidate, value, state) {
           winston.log('warn', 'RCP value for '+candidate+' on '+polldate+' changed from '+res[0].dataValues.pollaverage+' to '+value + ' in state ' + state);
         }
       } else {
-        Pollaverages.create({ date: polldate, candidatename: candidate, pollaverage: value, state: state }).then(function(poll) {
+        db.Pollaverages.create({ date: polldate, candidatename: candidate, pollaverage: value, state: state }).then(function(poll) {
           winston.log('info', 'New poll average added for '+candidate+' on '+polldate+' with value '+value + ' in state ' + state);
         });
       }
@@ -60,7 +57,7 @@ function getPollAverageData(rcpURL, state) {
 
 function addIndividualPollsToDatabase(rcpid, type, pollster, rcpUpdated, link, date, startDate, endDate, confidenceInterval, sampleSize, marginError, partisan, pollsterType, candidate, value, state) {
   db.sequelize.transaction(function (t2) {
-    return Polldata.findAll({
+    return db.Polldata.findAll({
       where: {
         rcpid: rcpid,
         candidatename: candidate,
@@ -70,7 +67,7 @@ function addIndividualPollsToDatabase(rcpid, type, pollster, rcpUpdated, link, d
       if (res.length > 0) { // already in the db
         // check to make sure value hasn't changed
         if (res[0].dataValues.pollvalue !== parseFloat(value)) {
-          Polldata.update({
+          db.Polldata.update({
             pollvalue: value
           }, {
             where: {
@@ -80,7 +77,7 @@ function addIndividualPollsToDatabase(rcpid, type, pollster, rcpUpdated, link, d
           winston.log('warn', 'RCP value for '+candidate+' with id '+rcpid+' changed from '+res[0].dataValues.pollvalue+' to '+value + ' in state ' + state);
         }
       } else {
-        Polldata.create({ rcpid: rcpid, pollster: pollster, rcpUpdated: rcpUpdated, link: link, date: date, startDate: startDate, endDate: endDate, confidenceInterval: confidenceInterval, sampleSize: sampleSize, marginError: marginError, partisan: partisan, pollsterType: pollsterType, candidatename: candidate, pollvalue: value, state: state }).then(function(poll) {
+        db.Polldata.create({ rcpid: rcpid, pollster: pollster, rcpUpdated: rcpUpdated, link: link, date: date, startDate: startDate, endDate: endDate, confidenceInterval: confidenceInterval, sampleSize: sampleSize, marginError: marginError, partisan: partisan, pollsterType: pollsterType, candidatename: candidate, pollvalue: value, state: state }).then(function(poll) {
           winston.log('info', 'New individual poll added for '+candidate+' with id '+rcpid+' and pollster '+pollster+' with value '+value + ' in state ' + state);
         });
       }
@@ -121,10 +118,10 @@ function getIndividualPollData(rcpURL, state) {
 
 function updateLastUpdatedDate() {
   db.sequelize.transaction(function (t3) {
-    return lastupdates.findAll({
+    return db.lastupdates.findAll({
     }).then((res) => {
       if (res.length > 0) { // already in the db
-        lastupdates.update({
+        db.lastupdates.update({
           lastupdate: new Date(),
         }, {
           where: {
@@ -132,7 +129,7 @@ function updateLastUpdatedDate() {
           },
         });
       } else {
-        lastupdates.create({ lastupdate: new Date() });
+        db.lastupdates.create({ lastupdate: new Date() });
       }
     });
   });
