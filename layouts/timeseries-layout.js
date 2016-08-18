@@ -1,3 +1,5 @@
+
+const color = require('./color.js');
 const d3 = require('d3');
 const svgIntersections = require('svg-intersections');
 const intersect = svgIntersections.intersect;
@@ -5,21 +7,23 @@ const shape = svgIntersections.shape;
 
 // little utility functions
 const timeFormat = d3.timeFormat('%b %e, %Y');
+const timeFormatLong = d3.timeFormat('%B %e, %Y');
 const timeFormatShort = d3.timeFormat('%b %e');
 const timeFormatMonth = d3.timeFormat('%b');
 const roundExtent = (ext, divisor) => [(ext[0] - ext[0] % divisor), (ext[1] + (divisor - ext[1] % divisor))];
 const round1dp = (x) => Math.round(x * 10) / 10;
+const stateByID = require('./stateIds').byID;
 
 // configuration
 const candidates = ['Trump', 'Clinton'];
 const candidateColor = {
   Trump: {
-    line: '#e5262d',
-    area: '#f4a098',
+    line: color.Trump,
+    area: color.Trump,
   },
   Clinton: {
-    line: '#238fce',
-    area: '#a2c1e1',
+    line: color.Clinton,
+    area: color.Clinton,
   },
 };
 
@@ -27,7 +31,6 @@ function mergePolls(a, b, xScale, yScale) {
   return a.polls.map(function (d, i) {
     const mergedRow = {};
     if (b.polls[i].date.getTime() !== d.date.getTime()) {
-      console.log('ERROR: non matching arrays can\'t be merged ', d, b.polls[i]);
       return false;
     }
     let leader = b.name;
@@ -45,10 +48,29 @@ function mergePolls(a, b, xScale, yScale) {
   });
 }
 
+function getTitle(state, width) {
+  if (width < 450 && (state === 'us' || !state)) return 'Latest polls';
+  if (state && state !== 'us') {
+    const stateName = stateByID[state.toUpperCase()].stateName;
+    if (width < 450) return 'Latest polls: ' + stateName;
+    return 'Which candidate is leading in ' + stateName + '?';
+  }
+  return 'Which White House candidate is leading in the polls?';
+}
+
+function getSubtitle(date, width, state){
+  if(width<350){
+      if(state && state !== 'us')   return 'Polling average to ' + timeFormat(date) + ' (%)';
+      return 'National polling average to ' + timeFormat(date) + ' (%)';    
+  }
+  if(state && state !== 'us')   return 'Polling average as of ' + timeFormatLong(date) + ' (%)';
+  return 'National polling average as of ' + timeFormatLong(date) + ' (%)';
+}
+
 // the actual layout function
 function timeseriesLayout(data, opts) {
   if (!data) return;
-  const [svgWidth, svgHeight] = (opts.size || '600x300').split('x');
+  const [svgWidth, svgHeight] = (opts.size || '600x300').split(/\D/); // split on non digit characters
   const layout = {};
   const timeDomain = d3.extent(data, (d) => new Date(d.date));
 
@@ -64,8 +86,8 @@ function timeseriesLayout(data, opts) {
     type: opts.type || 'area',
     state: opts.state || 'us',
     logo: (opts.logo ? opts.logo === 'true' : false),
-    title: 'Which White House candidate is leading in the polls?',
-    subtitle: 'Polling average (%)',
+    title: getTitle(opts.state, svgWidth),
+    subtitle: getSubtitle(timeDomain[1], svgWidth),
     source: 'Source: Real Clear Politics',
     yLabelOffset: '-7',
     margin: opts.margin ? opts.margin : {
@@ -74,6 +96,7 @@ function timeseriesLayout(data, opts) {
       right: 90,
       bottom: 70,
     },
+    color,
   });
 
   // make the scales
@@ -110,7 +133,7 @@ function timeseriesLayout(data, opts) {
         return timeFormat(date);
       }(d, i),
       position: xScale(d),
-      extent: true, //the ticks at the end of the axis may be posiotined differently
+      extent: true, // the ticks at the end of the axis may be posiotined differently
       important: true,  // extent ticks should always be labeled
       textanchor: (i === 1) ? 'end' : 'start',
     });
@@ -119,22 +142,23 @@ function timeseriesLayout(data, opts) {
   // add month ticks
   const currentDate = xScale.domain()[0];
   currentDate.setMonth(currentDate.getMonth() + 1);
-  const monthSpacing = xScale(new Date(2016,1,1)) - xScale(new Date(2016,0,1));
-  const tickBuffer = 20;
+  const monthSpacing = xScale(new Date(2016, 1, 1)) - xScale(new Date(2016, 0, 1));
+  const tickBuffer = [5, 35];
+
   do {
-    if(currentDate.getMonth() !== 0){ //dona't add a tick for jan as that'll be given a new year tick
+    if (currentDate.getMonth() !== 0) { // dona't add a tick for jan as that'll be given a new year tick
       layout.xTicks.push({
         date: currentDate,
         label: timeFormatMonth(currentDate),
         position: xScale(currentDate),
-        important: function(d){ //make this true under certain circumstances i.e. if there are few enough ticks and the tick in question is distant enough from the end of the axis 
+        important: function (d) { // make this true under certain circumstances i.e. if there are few enough ticks and the tick in question is distant enough from the end of the axis
           return (
-            monthSpacing > 20
-            && (xScale(currentDate) < xScale.range()[1] - tickBuffer)
-            && (xScale(currentDate) > xScale.range()[0] + tickBuffer)
+            monthSpacing > 50
+            && (xScale(currentDate) < xScale.range()[1] - tickBuffer[1])
+            && (xScale(currentDate) > xScale.range()[0] + tickBuffer[0])
           );
-        }(currentDate), 
-        textanchor: 'middle',
+        }(currentDate),
+        textanchor: 'start',
       });
     }
     currentDate.setDate(1);
@@ -152,7 +176,7 @@ function timeseriesLayout(data, opts) {
         label: currentYear,
         position: xScale(currentDate),
         important: true,  // years should always be labeled
-        textanchor: 'middle',
+        textanchor: 'start',
       });
     } while (currentYear < xScale.domain()[1].getFullYear());
   }
@@ -173,15 +197,13 @@ function timeseriesLayout(data, opts) {
     polls: data.filter((row) => (row.candidatename === d)),
   }));
 
-  const currentLeader = pollsByCandidate.reduce(function (previous, current) {
-    const currentValue = current.polls[current.polls.length - 1].pollaverage;
-    if (previous.value < currentValue) {
-      return {
-        name: current.name,
-        value: currentValue,
-      };
-    }
-  }, { name: 'Trump', value: 0 }).name;
+  let currentLeader = '';
+  if (pollsByCandidate[0].polls[pollsByCandidate[0].polls.length - 1].pollaverage
+    > pollsByCandidate[1].polls[pollsByCandidate[1].polls.length - 1].pollaverage) {
+    currentLeader = pollsByCandidate[0].name;
+  } else {
+    currentLeader = pollsByCandidate[1].name;
+  }
 
   layout.candidateLines = pollsByCandidate.map((d) => ({
     stroke: candidateColor[d.name].line,
@@ -192,7 +214,6 @@ function timeseriesLayout(data, opts) {
     shape('path', { d: layout.candidateLines[0].d }),
     shape('path', { d: layout.candidateLines[1].d })
   );
-
 
 // produce the array of areas
   const areas = mergePolls(pollsByCandidate[0], pollsByCandidate[1], xScale, yScale)

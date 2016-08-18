@@ -5,6 +5,7 @@ process.on('unhandledRejection', error => {
   process.exit(1);
 });
 
+const color = require('./layouts/color.js');
 const express = require('express');
 const getPollAverages = require('./layouts/getPollAverages.js');
 const getAllPolls = require('./layouts/getAllPolls.js');
@@ -89,8 +90,10 @@ app.get('/polls.svg', async (req, res) => {
   const cacheKey = 'polls-svg-' + convertToCacheKeyName(req.query);
   let value = cache.get(cacheKey);
   if (!value) {
-    value = await makePollTimeSeries(req.query);
-    if (value) cache.set(cacheKey, value);
+    try {
+      value = await makePollTimeSeries(req.query);
+      if (value) cache.set(cacheKey, value);
+    } catch (err) { console.log('ERROR making pollchart ', req.url); }
   }
   if (value) {
     setSVGHeaders(res).send(value);
@@ -133,7 +136,7 @@ app.get('/polls/:state', (req, res) => {
 
 
 async function makePollTimeSeries(chartOpts) {
-  const startDate = chartOpts.startDate ? chartOpts.startDate : 'July 1, 2015';
+  const startDate = chartOpts.startDate ? chartOpts.startDate : 'June 1, 2016';
   const endDate = chartOpts.endDate ? chartOpts.endDate : d3.timeFormat('%B %e, %Y')(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';
   const pollData = await pollAverages(startDate, endDate, state);
@@ -293,6 +296,7 @@ async function statePage(req, res) {
       },
       stateCounts,
       nationalBarCounts: nationalCount(stateCounts),
+      color,
     };
 
     renderedPage = nunjucks.render('polls.html', polltrackerLayout);
