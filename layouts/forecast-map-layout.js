@@ -12,6 +12,9 @@ function forecastMapLayout(stateData, opts) {
     const layoutObject = { 
       color,
       key: (opts.key ? opts.key === 'true' : false),
+      logo: (opts.logo ? opts.logo === 'true' : false),
+      width: 900,
+      height: 590,
     };
 
     Object.keys(stateData).forEach(function (d) {
@@ -24,6 +27,8 @@ function forecastMapLayout(stateData, opts) {
           data: currentState,
     };
 	});
+  console.log( 'logo', layoutObject.logo );
+
   return layoutObject;
 }
 
