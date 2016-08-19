@@ -16,6 +16,7 @@ function forecastMapLayout(stateData, opts) {
       logo: (opts.logo ? opts.logo === 'true' : false),
       width: svgWidth,
       height: svgHeight,
+      background: opts.background || null,
     };
 
     Object.keys(stateData).forEach(function (d) {
