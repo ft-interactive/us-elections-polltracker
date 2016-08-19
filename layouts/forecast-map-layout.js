@@ -9,7 +9,9 @@ const classification = d3.scaleThreshold()
 
 
 function forecastMapLayout(stateData) {
-	  const layoutObject = { color };
+	  const layoutObject = { 
+      color, 
+    };
 	  Object.keys(stateData).forEach(function (d) {
       const currentState = stateData[d];
       const stateClassification = classification(currentState.margin);
@@ -20,8 +22,6 @@ function forecastMapLayout(stateData) {
           data: currentState,
     };
 	});
-  layoutObject.landColor = '#FFF';//color.land;
-  layoutObject.borderColor = '#DEDEDE';//color.border;
   return layoutObject;
 }
 

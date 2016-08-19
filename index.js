@@ -54,7 +54,7 @@ function setJSONHeaders(res) {
 
 // takes query parameters and orders properly for cache key format
 function convertToCacheKeyName(queryRequest) {
-  const paramOrder = ['background', 'startDate', 'endDate', 'size', 'type', 'state', 'logo'];
+  const paramOrder = ['background', 'startDate', 'endDate', 'size', 'type', 'state', 'logo','dots','key'];
 
   const cacheKey = paramOrder.reduce(function (a, b) {
     return a + queryRequest[b];
@@ -145,7 +145,8 @@ async function makePollTimeSeries(chartOpts) {
 
 async function makeForecastMap(chartOpts) {
   const statePollingData = await getStateCounts(await getBerthaData());
-  return nunjucks.render('dot-map.svg', layoutForecastMap(statePollingData));
+  if(chartOpts.dots) return nunjucks.render('dot-map.svg', layoutForecastMap(statePollingData));
+  return nunjucks.render('map.svg', layoutForecastMap(statePollingData));
 }
 
 async function pollAverages(start, end, state) {
