@@ -1,24 +1,28 @@
-<g id="key">
-        <text text-anchor="start">Clinton</text>
-        <text text-anchor="end">Trump</text>
-    <g id="dem">
+
+{% set keyfontcolor = "#555" %}
+<g class="mapkey" font-family="MetricWeb, sans-serif">
+    <g class="mapkey-title" fill="{{ keyfontcolor }}" font-size="30">
+        <text text-anchor="start" dy="-15">Clinton</text>
+        <text text-anchor="end" x="420" dy="-15">Trump</text>
+    </g>
+    <g class="mapkey-dem" transform="translate(0,0)">
         <rect x="0" y="0" width="20" height="10" fill="{{ color.dem }}"/>
-        <text x="0" y="0">Solid</text>
+        <text x="25" y="10" fill="{{ keyfontcolor }}">Solid</text>
     </g>
-    <g id="lean-dem">
+    <g class="mapkey-leandem" transform="translate(90,0)">
         <rect x="0" y="0" width="20" height="10" fill="{{ color.leaningDem }}"/>
-        <text x="0" y="0">Leaning</text>
+        <text x="25" y="10" fill="{{ keyfontcolor }}">Leaning</text>
     </g>
-    <g id="swing">
+    <g class="mapkey-swing" transform="translate(180,0)">
         <rect x="0" y="0" width="20" height="10" fill="{{ color.swing }}"/>
-        <text x="0" y="0">Toss-up</text>
+        <text x="25" y="10" fill="{{ keyfontcolor }}">Toss-up</text>
     </g>
-    <g id="lean-rep">
+    <g class="mapkey-leanrep" transform="translate(270,0)">
         <rect x="0" y="0" width="20" height="10" fill="{{ color.leaningRep }}"/>
-        <text x="0" y="0">Leaning</text>
+        <text x="25" y="10" fill="{{ keyfontcolor }}">Leaning</text>
     </g>
-    <g id="solid-rep">
+    <g class="mapkey-solidrep" transform="translate(360,0)">
         <rect x="0" y="0" width="20" height="10" fill="{{ color.rep }}"/>
-        <text x="0" y="0">Solid</text>
+        <text x="25" y="10" fill="{{ keyfontcolor }}">Solid</text>
     </g>
 </g>
