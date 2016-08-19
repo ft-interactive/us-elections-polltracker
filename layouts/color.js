@@ -1,4 +1,7 @@
 module.exports = {
+    ftpink:'#fff1e0',
+    border:'#dadada',
+    land:'#fff',
     Trump:'#e03d46',
     Clinton:'#579dd5',
     rep:'#e03d46',
@@ -7,4 +10,4 @@ module.exports = {
     leaningDem:'#a2c1e1',
     swing:'#fcc83c',
     nodata:'#b0b0b0',
-}
+};

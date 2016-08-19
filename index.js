@@ -21,6 +21,7 @@ const fetch = require('isomorphic-fetch');
 const _ = require('underscore');
 const stateIds = require('./layouts/stateIds').states;
 const layoutTimeSeries = require('./layouts/timeseries-layout.js');
+const layoutForecastMap = require('./layouts/forecast-map-layout');
 const filters = require('./filters');
 const berthaDefaults = require('./config/bertha-defaults.json');
 const validStates = berthaDefaults.streampages.map((d) => d.state.toLowerCase());
@@ -53,7 +54,7 @@ function setJSONHeaders(res) {
 
 // takes query parameters and orders properly for cache key format
 function convertToCacheKeyName(queryRequest) {
-  const paramOrder = ['background', 'startDate', 'endDate', 'size', 'type', 'state', 'logo'];
+  const paramOrder = ['background', 'startDate', 'endDate', 'size', 'type', 'state', 'logo','dots','key'];
 
   const cacheKey = paramOrder.reduce(function (a, b) {
     return a + queryRequest[b];
@@ -101,12 +102,52 @@ app.get('/polls.svg', async (req, res) => {
   }
 });
 
+//Create map of current forecasts
+app.get('/forecast-map.svg', async (req, res) => {
+  const cacheKey = 'forecast-map-svg-' + convertToCacheKeyName(req.query);
+  let value = cache.get(cacheKey);
+  if (!value) {
+    value = await makeForecastMap(req.query);
+    if (value) cache.set(cacheKey, value);
+  }
+  if (value) {
+    setSVGHeaders(res).send(value);
+  } else {
+    res.status(500).send('something broke');
+  }
+});
+
+app.get('/', statePage);
+app.get('/:state', (req, res) => {
+  if (validStates.indexOf(req.params.state) >= 0) {
+    statePage(req, res);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
+app.get('/polls/:state', (req, res) => {
+  if (validStates.indexOf(req.params.state) >= 0) {
+    statePage(req, res);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
+
 async function makePollTimeSeries(chartOpts) {
   const startDate = chartOpts.startDate ? chartOpts.startDate : 'June 1, 2016';
   const endDate = chartOpts.endDate ? chartOpts.endDate : d3.timeFormat('%B %e, %Y')(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';
   const pollData = await pollAverages(startDate, endDate, state);
   return nunjucks.render('templated-polls.svg', layoutTimeSeries(pollData, chartOpts));
+}
+
+async function makeForecastMap(chartOpts) {
+  const statePollingData = await getStateCounts(await getBerthaData());
+  const layout = layoutForecastMap(statePollingData, chartOpts);
+  if(chartOpts.dots === 'true') return nunjucks.render('dot-map.svg', layout);
+  return nunjucks.render('map.svg', layout);
 }
 
 async function pollAverages(start, end, state) {
@@ -140,24 +181,6 @@ app.get('/polls/:state.json', async (req, res) => {
   return value;
 });
 
-
-app.get('/', statePage);
-app.get('/:state', (req, res) => {
-  if (validStates.indexOf(req.params.state) >= 0) {
-    statePage(req, res);
-  } else {
-    res.sendStatus(404);
-  }
-});
-
-app.get('/polls/:state', (req, res) => {
-  if (validStates.indexOf(req.params.state) >= 0) {
-    statePage(req, res);
-  } else {
-    res.sendStatus(404);
-  }
-});
-
 async function statePage(req, res) {
   let state = 'us';
   if (req.params.state) state = req.params.state;
@@ -173,18 +196,8 @@ async function statePage(req, res) {
   if (!renderedPage) {
     const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
     // get intro text
-    const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links,streampages,overrideCategories';
-    let data = berthaDefaults;
-
-    try {
-      const contentRes = await Promise.resolve(fetch(contentURL))
-          .timeout(3000, new Error(`Timeout - bertha took too long to respond: ${contentURL}`));
-      data = await contentRes.json();
-    } catch (err) {
-      cachePage = false;
-      console.log('bertha fetching problem, resorting to default bertha config');
-    }
-
+    const data = await getBerthaData();
+    
     const stateStreamURL = _.findWhere(data.streampages, { 'state': state.toUpperCase() }).link;
 
     const introtext1 = _.findWhere(data.options, { name: 'text' }).value;
@@ -293,6 +306,21 @@ async function statePage(req, res) {
   }
 
   res.send(renderedPage);
+}
+
+
+async function getBerthaData(){
+    const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links,streampages,overrideCategories';
+    let data = berthaDefaults;
+
+    try {
+      const contentRes = await Promise.resolve(fetch(contentURL))
+          .timeout(3000, new Error(`Timeout - bertha took too long to respond: ${contentURL}`));
+      return await contentRes.json();
+    } catch (err) {
+      cachePage = false;
+      console.log('bertha fetching problem, resorting to default bertha config');
+    }
 }
 
 async function getStateCounts(overrideData) {
