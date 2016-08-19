@@ -8,11 +8,13 @@ const classification = d3.scaleThreshold()
   .domain([-10, -5, 5, 10]); // margins
 
 
-function forecastMapLayout(stateData) {
-	  const layoutObject = { 
-      color, 
+function forecastMapLayout(stateData, opts) {
+    const layoutObject = { 
+      color,
+      key: (opts.key ? opts.key === 'true' : false),
     };
-	  Object.keys(stateData).forEach(function (d) {
+
+    Object.keys(stateData).forEach(function (d) {
       const currentState = stateData[d];
       const stateClassification = classification(currentState.margin);
       layoutObject[d] = {

@@ -145,8 +145,10 @@ async function makePollTimeSeries(chartOpts) {
 
 async function makeForecastMap(chartOpts) {
   const statePollingData = await getStateCounts(await getBerthaData());
-  if(chartOpts.dots) return nunjucks.render('dot-map.svg', layoutForecastMap(statePollingData));
-  return nunjucks.render('map.svg', layoutForecastMap(statePollingData));
+  const layout = layoutForecastMap(statePollingData, chartOpts);
+  console.log(layout.key)
+  if(chartOpts.dots === 'true') return nunjucks.render('dot-map.svg', layout);
+  return nunjucks.render('map.svg', layout);
 }
 
 async function pollAverages(start, end, state) {
