@@ -1,4 +1,28 @@
 <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg width="{{ width }}" height="{{height}}" viewBox="0 0 900 590" preserveAspectRatio="xMinYMin" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+{% if not fontless %}
+<style>
+@font-face{
+  src:url(https://origami-build.ft.com/v2/files/o-fonts-assets@1.3.0/MetricWeb-Regular.woff?#iefix) format("woff");
+  font-family:MetricWeb;
+  font-weight:400;
+  font-style:normal
+}
+
+@font-face{
+  src:url("https://origami-build.ft.com/v2/files/o-fonts-assets@1.3.0/MetricWeb-RegularItalic.woff?#iefix") format("woff");
+  font-family:MetricWeb;
+  font-weight:400;
+  font-style:italic;
+}
+
+@font-face{
+  src:url("https://origami-build.ft.com/v2/files/o-fonts-assets@1.3.0/MetricWeb-Semibold.woff?#iefix") format("woff");
+  font-family:MetricWeb;
+  font-weight:600;
+  font-style:normal;
+}
+</style>
+{% endif %}
 {% if background %}
 <rect x="0" y="0" width="900" height="590" fill="#{{ background }}"></rect>
 {% endif %}
