@@ -9,12 +9,13 @@ const classification = d3.scaleThreshold()
 
 
 function forecastMapLayout(stateData, opts) {
+    const [svgWidth, svgHeight] = (opts.size || '900x58').split(/\D/); // split on non digit characters
     const layoutObject = { 
       color,
       key: (opts.key ? opts.key === 'true' : false),
       logo: (opts.logo ? opts.logo === 'true' : false),
-      width: 900,
-      height: 590,
+      width: svgWidth,
+      height: svgHeight,
     };
 
     Object.keys(stateData).forEach(function (d) {
