@@ -86,6 +86,16 @@ app.get('/favicon.ico', (req, res) => { // explicit override to redirect if favi
   res.redirect(301, 'https://ig.ft.com/favicon.ico');
 });
 
+app.get('/polls/:state.json', async (req, res) => {
+  let value = await pollAverages('July 1, 2015', 'November 9, 2016', req.params.state);
+  if (value) {
+    setJSONHeaders(res).send(value);
+  } else {
+    value = false;
+  }
+  return value;
+});
+
 app.get('/polls.svg', async (req, res) => {
   const cacheKey = 'polls-svg-' + convertToCacheKeyName(req.query);
   let value = cache.get(cacheKey);
@@ -160,26 +170,6 @@ async function pollAverages(start, end, state) {
   }
   return dbResponse;
 }
-
-app.get('/polls/:state.json', async (req, res) => {
-  const state = req.params.state;
-
-  let value = cache.get(`pollaverages-json-${state}`); // check to see if we've cached poll averages json for state recently
-
-  if (value) {
-    setJSONHeaders(res).send(value);
-  } else {
-    try {
-      value = await getPollAverages(state, 'July 1, 2015', 'November 9, 2016');
-      setJSONHeaders(res).send(value);
-      cache.set(`pollaverages-json-${state}`, value);
-    } catch (error) {
-      console.error(error);
-      value = false;
-    }
-  }
-  return value;
-});
 
 async function statePage(req, res) {
   let state = 'us';
