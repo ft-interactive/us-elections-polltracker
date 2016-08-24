@@ -1,1 +1,25 @@
-<h2>State demographics</h2>
+<style>
+  #statedemographics {
+    margin: 3em 0;
+  }
+
+  .demographic-container {
+    width: 33%;
+    height: 200px;
+    border: 1px solid #333;
+    display: inline-block;
+  }
+</style>
+
+<div id="statedemographics">
+  <h2>Demographic data (%)</h2>
+  <div class="demographic-wrapper">
+    {% for stateDemo in stateDemographics %}
+    <div class="demographic-container">
+      <h3>{{ stateDemo.category }}</h3>
+      <div class="state-rect">{{ stateDemo.stateValue * 100 }}</div>
+      <div class="us-rect">{{ stateDemo.nationalValue * 100 }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
