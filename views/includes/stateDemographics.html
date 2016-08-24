@@ -3,22 +3,60 @@
     margin: 3em 0;
   }
 
+  #demographic-wrapper {
+    width: 100%;
+  }
+
   .demographic-container {
-    width: 33%;
-    height: 200px;
-    border: 1px solid #333;
+    width: 32%;
+    height: 150px;
+    /*border: 1px solid #333;*/
     display: inline-block;
+    vertical-align: top;
+    text-align: center;
+  }
+
+  .demographic-container h3 {
+    text-transform: uppercase;
+    margin-bottom: 1em;
+    font-family: MetricWeb, sans-serif;
+    font-size: 1em;
+    line-height: 1em;
+    height: 2.5em;
+  }
+
+  .demographic-rect {
+    width: 20px;
+    display: inline-block;
+    vertical-align: bottom;
+    margin-right: 20px;
+    position: relative;
+  }
+
+  .demographic-state-rect {
+    background: #6D5E7F;
+  }
+
+  .demographic-us-rect {
+    background: #B2B2B2;
+  }
+
+  .demographic-rect-label {
+    position: absolute;
+    bottom: -1.2em;
+    left: 0;
+    width: 100%;
   }
 </style>
 
 <div id="statedemographics">
   <h2>Demographic data (%)</h2>
-  <div class="demographic-wrapper">
+  <div id="demographic-wrapper">
     {% for stateDemo in stateDemographics %}
     <div class="demographic-container">
       <h3>{{ stateDemo.category }}</h3>
-      <div class="state-rect">{{ stateDemo.stateValue * 100 }}</div>
-      <div class="us-rect">{{ stateDemo.nationalValue * 100 }}</div>
+      <div class="demographic-rect demographic-state-rect" style="height: {{stateDemo.stateValue * 50 / stateDemo.maxYVal}}px;"><span class="demographic-rect-label">{{ (stateDemo.stateValue * 100) | round1dp }}</span></div>
+      <div class="demographic-rect demographic-us-rect" style="height: {{stateDemo.nationalValue * 50 / stateDemo.maxYVal}}px;"><span class="demographic-rect-label">{{ (stateDemo.nationalValue * 100) | round1dp }}</span></div>
     </div>
     {% endfor %}
   </div>

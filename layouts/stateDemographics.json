@@ -14,11 +14,11 @@
       "outcome2012":"Obama",
       "wageGrowth2015":"2015 Wage growth (%)",
       "realGdpBn2015":"Real GDP $bn\n2015 Q4",
-      "unemployment":"Unemployment rate (%)\nApril",
-      "africanAmerican":"African-American population % \n",
-      "hispanic":"Hispanic population %\n",
-      "graduates":"Bachelor's degree or higher %",
-      "poverty":"Poverty rate %"
+      "unemployment":"Unemployment rate (%)",
+      "africanAmerican":"African-American population (%)",
+      "hispanic":"Hispanic population (%)",
+      "graduates":"Bachelor's degree or higher (%)",
+      "poverty":"Poverty rate (%)"
    },
    "AL":{
       "stateName":"Alabama",

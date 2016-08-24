@@ -273,6 +273,7 @@ async function statePage(req, res) {
         category: stateDemographicsData.label[stateDemoKey],
         stateValue: stateDemographicsData[state.toUpperCase()][stateDemoKey],
         nationalValue: stateDemographicsData.US[stateDemoKey],
+        maxYVal: Math.max(stateDemographicsData[state.toUpperCase()][stateDemoKey], stateDemographicsData.US[stateDemoKey]),
       });
     }
 
