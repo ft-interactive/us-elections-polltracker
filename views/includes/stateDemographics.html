@@ -40,7 +40,7 @@
     width: 20px;
     display: inline-block;
     vertical-align: bottom;
-    margin-right: 20px;
+    margin-right: 10px;
     position: relative;
   }
 
@@ -54,9 +54,19 @@
 
   .demographic-rect-label {
     position: absolute;
-    bottom: -1.2em;
-    left: 0;
+    bottom: -2px;
     width: 100%;
+  }
+
+  .demographic-state-rect .demographic-rect-label {
+    text-align: right;
+    left: -27px;
+    font-weight: 500;
+  }
+
+  .demographic-us-rect .demographic-rect-label {
+    left: 27px;
+    text-align: left;
   }
 </style>
 
@@ -72,4 +82,5 @@
     </div>
     {% endfor %}
   </div>
+  <p class="source"><small>Source: TKTK</small></p>
 </div>
