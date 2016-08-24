@@ -3,8 +3,19 @@
     margin: 3em 0;
   }
 
+  #statedemographics h2 {
+    margin-bottom: -0.2em;
+  }
+
+  #statedemographics p.subhead {
+    color: #555;
+    font-family: MetricWeb, sans-serif;
+    margin-bottom: 1em;
+  }
+
   #demographic-wrapper {
     width: 100%;
+    margin-top: 2em;
   }
 
   .demographic-container {
@@ -50,7 +61,8 @@
 </style>
 
 <div id="statedemographics">
-  <h2>Demographic data (%)</h2>
+  <h2>Key data about {{ stateName }}</h2>
+  <p class="subhead">Economic and demographic indicators (%)</p>
   <div id="demographic-wrapper">
     {% for stateDemo in stateDemographics %}
     <div class="demographic-container">
