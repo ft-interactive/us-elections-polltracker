@@ -421,6 +421,39 @@ a {
         min-height: 48.1vw
     }
 }
+
+/**
+ * Who Won Here? styles
+ */
+.state-winners-table .gop {
+  background-color: #f4a098;
+}
+
+.state-winners-table .dem {
+  background-color: #a2c1e1;
+}
+
+.state-winners-table__year {
+  width: 10%;
+  text-align: center;
+}
+
+.state-winners-table__winner,
+.state-winners-table__loser {
+  text-align: center;
+}
+
+.state-winners-table__winning-pct {
+  width: 50%;
+}
+
+.state-winners-table__winning-pct-bar {
+  height: 1em;
+  background-color: black;
+  margin-right: 0.5em;
+  float: left;
+}
+
     </style>
 
     {% if flags.errorReporting %}
@@ -512,6 +545,21 @@ a {
                   </div>
                   {% endif %}
                   {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if state != 'us' %}
+                <div class="article-figure">
+                  <h2 class="article-figure__heading">
+                    Who won here?
+                  </h2>
+                  <p class="article-figure__subheading">
+                    {{ stateName }} presidential elections since 1972 (winner's margin of victory, %)
+                  </p>
+
+                  {% include "includes/who-won-here.html" %}
+
+                  <p class="source"><small>Source: ????????????</small></p>
                 </div>
                 {% endif %}
 

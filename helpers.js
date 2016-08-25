@@ -1,0 +1,45 @@
+/**
+ * Various helper functions
+ */
+
+// Defining D3 globally because it's used everywhere.
+const d3 = require('d3');
+
+/**
+ * This munges the stateDemographicsData for the "Who Won Here?" table.
+ * @param  {Object} data  Contents of const stateDemographicsData
+ * @param  {String} state State abbreviation
+ * @return {Array}        Array of results split into years.
+ */
+export function getHistoricalResults(data, state) {
+  const winners = Object.keys(data.label)
+    .filter(label => !!~label.indexOf('outcome'))
+    .sort()
+    .reverse()
+    .map(outcome => data.label[outcome]);
+
+  const losers = Object.keys(data.label)
+    .filter(label => !!~label.indexOf('loser'))
+    .sort()
+    .reverse()
+    .map(outcome => data.label[outcome]);
+
+  const barExtents = d3.extent(Object.keys(data[state.toUpperCase()])
+    .filter(label => !!~label.indexOf('outcome'))
+    .map(d => Math.abs(data[state.toUpperCase()][d])));
+  const barScale = d3.scaleLinear().domain(barExtents).range([0, 100]);
+
+  return Object.keys(data[state.toUpperCase()])
+    .filter(label => !!~label.indexOf('outcome'))
+    .sort()
+    .reverse()
+    .map((key, i) => ({
+      year: key.replace('outcome', ''),
+      winningPctScaled: barScale(Math.abs(data[state.toUpperCase()][key])),
+      winningPct: Math.abs(data[state.toUpperCase()][key]) * 100,
+      winner: winners[i],
+      loser: losers[i],
+      winnerParty: data[state.toUpperCase()][key] > 0 ? 'dem' : 'gop',
+      loserParty: data[state.toUpperCase()][key] > 0 ? 'gop' : 'dem',
+    }));
+}

@@ -1,0 +1,41 @@
+{# "who won here" template for state pages #}
+
+{% if historicalResults %}
+<table class="state-winners-table">
+  <!-- <thead>
+    <tr>
+      <th>
+        Year
+      </th>
+      <th>
+        Margin of victory (%)
+      </th>
+      <th>
+        Winner
+      </th>
+      <th>
+        Loser
+      </th>
+    </tr>
+  </thead> -->
+  <tbody>
+    {% for row in historicalResults %}
+    <tr>
+      <td class="state-winners-table__year">
+        <strong>{{ row.year }}</strong>
+      </td>
+      <td class="state-winners-table__winning-pct">
+        <div style="width: {{ row.winningPctScaled - 20 }}%" class="state-winners-table__winning-pct-bar {{row.winnerParty}}"></div>
+        {{row.winningPct | round(1)}}%
+      </td>
+      <td class="state-winners-table__winner {{row.winnerParty}}">
+        <strong>{{ row.winner }}</strong>
+      </td>
+      <td class="state-winners-table__loser">
+        {{ row.loser }}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
