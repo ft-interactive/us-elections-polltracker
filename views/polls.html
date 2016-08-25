@@ -492,6 +492,7 @@ a {
                   {% include "includes/nationalbar.html" %}
                 {% endif %}
 
+                {% if pollSVG.default != false %}
                 <div class="article-figure">
                   <h2 class="article-figure__heading">
                   {% if state == "us" %}
@@ -511,6 +512,7 @@ a {
 
                   <p class="source"><small>Source: Real Clear Politics</small></p>
                 </div>
+                {% endif %}
 
                 {% if state != 'us' and stateStreamURL %}
                 <p class="off-link"><a href="{{ stateStreamURL }}">All {{ stateName }} coverage</a></p>
