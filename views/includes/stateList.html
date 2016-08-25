@@ -11,12 +11,8 @@
   border-bottom: 1px solid #cec6b9;
 }
 
-#statelist svg {
-  background: rgb(58, 58, 54);;
-}
-
 #statelist .minimap {
-  fill: #8C8B8B;
+  fill: #EADECF;
 }
 
 #statelist .statelist-minimap-background {
@@ -27,8 +23,8 @@
 {% for state, stateData in stateCounts %}
 
 #statelist .statelist-staterow-{{state | lower }} .statelist-minimap-highlight-{{state | lower }} {
-  fill: #fff;
-  stroke: #fff;
+  fill: #5d493b;
+  stroke: #fff1e0;
 }
 
 {% endfor %}
