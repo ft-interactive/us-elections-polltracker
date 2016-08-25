@@ -516,7 +516,7 @@ a {
                 <p class="off-link"><a href="{{ stateStreamURL }}">All {{ stateName }} coverage</a></p>
                 {% endif %}
 
-                {% if flags.statePage %}
+                {% if flags.stateDemographics and state != 'us' %}
                   {% include "includes/stateDemographics.html" %}
                 {% endif %}
 

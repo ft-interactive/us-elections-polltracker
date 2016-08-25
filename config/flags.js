@@ -9,5 +9,5 @@ export default () => ({
   shareButtons: true,
   onwardjourney: true,
   nationalBar: true,
-  statePage: true,
+  stateDemographics: true,
 });
