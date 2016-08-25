@@ -488,7 +488,7 @@ a {
                 <p class="off-link"><a href="http://www.ft.com/us-election-2016">All US Election 2016 coverage</a></p>
                 {% endif %}
 
-                {% if flags.nationalBar %}
+                {% if flags.nationalBar and state == 'us' %}
                   {% include "includes/nationalbar.html" %}
                 {% endif %}
 
