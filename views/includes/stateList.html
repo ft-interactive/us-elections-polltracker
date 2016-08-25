@@ -17,10 +17,14 @@
   stroke-width: 0.25px;
 }
 
-#statelist .statelist-minimap-highlight-ia {
+{% for state, stateData in stateCounts %}
+
+#statelist .statelist-staterow-{{state | lower }} .statelist-minimap-highlight-{{state | lower }} {
   fill: #fff;
   stroke: #fff;
 }
+
+{% endfor %}
 
 .statelist-catLabel {
   color: white;
@@ -102,7 +106,7 @@
     </thead>
     <tbody class="o-expander__content">
       {% for state, stateData in stateCounts %}
-      <tr class="statelist-{{ stateData.margin | getClassificationFromMargin }}">
+      <tr class="statelist-{{ stateData.margin | getClassificationFromMargin }} statelist-staterow-{{ state | lower }}">
         <td class="statelist-map">
           {% include "minimap.svg" %}
         </td>
