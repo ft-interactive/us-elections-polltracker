@@ -68,34 +68,44 @@
 
 <div id="statelist">
   <h2>State polls</h2>
-  <table>
-  <thead>
-    <tr>
-      <th>State</th>
-      <th>Poll margin</th>
-      <th>Electoral college votes</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for state, stateData in stateCounts %}
-    <tr class="statelist-{{ stateData.margin | getClassificationFromMargin }}">
-      <td class="statelist-state">
-        {{ state }}
-        <div class="statelist-catLabel"></div>
-      </td>
-      <td class="statelist-pollmargin">
-        <b>{{ stateData.margin | round1dp }}</b>
-        {% if stateData.margin > 0 %}
-        Clinton
-        {% else %}
-        Trump
-        {% endif %}
-      </td>
-      <td class="statelist-ecvotes">{{ stateData.ecVotes }}</td>
-      <td class="statelist-navbutton"><button>></button></td>
-    </tr>
-    {% endfor %}
-  </tbody>
-  </table>
+  {% set row_num_collapse = 10 %}
+  <div data-o-component="o-expander" class="o-expander items"
+    data-o-expander-collapsed-toggle-text="Show more states"
+    data-o-expander-expanded-toggle-text="Show fewer states"
+    data-o-expander-toggle-selector=".table-toggle-btn"
+    data-o-expander-shrink-to="{{ row_num_collapse }}"
+    data-o-expander-count-selector="tbody tr">
+    <table>
+    <thead>
+      <tr>
+        <th>State</th>
+        <th>Poll margin</th>
+        <th>Electoral college votes</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody class="o-expander__content">
+      {% for state, stateData in stateCounts %}
+      <tr class="statelist-{{ stateData.margin | getClassificationFromMargin }}">
+        <td class="statelist-state">
+          {{ state }}
+          <div class="statelist-catLabel"></div>
+        </td>
+        <td class="statelist-pollmargin">
+          <b>{{ stateData.margin | round1dp }}</b>
+          {% if stateData.margin > 0 %}
+          Clinton
+          {% else %}
+          Trump
+          {% endif %}
+        </td>
+        <td class="statelist-ecvotes">{{ stateData.ecVotes }}</td>
+        <td class="statelist-navbutton"><button>></button></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+    <button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big">Show more states</button>
+    <p class="source"><small>Source: Real Clear Politics</small></p>
+  </div>
 </div>
