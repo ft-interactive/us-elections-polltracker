@@ -35,3 +35,7 @@ export function spoorTrackingPixel(str) {
   */
   return new nunjucks.runtime.SafeString(`<noscript data-o-component="o-tracking">${img}</noscript>`);
 }
+
+export function round1dp(n) {
+  return Math.round(n * 10) / 10;
+}
