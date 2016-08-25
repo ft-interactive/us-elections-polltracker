@@ -253,6 +253,10 @@ td.date{
   height: auto;
 }
 
+p.notavailable {
+  color: #666;
+  font-size: 1em;
+}
 
 p.off-link{
   font-size: 24px;
@@ -533,6 +537,7 @@ a {
 
                 <h2>Full list of individual polls</h2>
 
+                {% if pollList.length > 0 %}
                 {% set row_num_collapse = 20 %}
                 <div data-o-component="o-expander" class="o-expander items"
                         data-o-expander-collapsed-toggle-text="Show more polls"
@@ -569,6 +574,9 @@ a {
                   <button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big">Show more polls</button>
                   {% endif %}
                 </div>
+                {% else %}
+                <p class="notavailable">Polls for this state are not available yet.</p>
+                {% endif %}
 
                 <footer class="o-typography-footer">
                   <small><a href="http://www.ft.com/servicestools/help/copyright" data-trackable="link-copyright">Copyright</a>
