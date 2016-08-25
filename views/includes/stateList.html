@@ -3,8 +3,23 @@
   border-collapse: collapse; 
 }
 
+#statelist td {
+  padding: 1em 10px;
+}
+
 #statelist tr {
   border-bottom: 1px solid #666;
+}
+
+#statelist .statelist-minimap-background {
+  fill: #8C8B8B;
+  stroke: #fff1e0;
+  stroke-width: 0.25px;
+}
+
+#statelist .statelist-minimap-highlight-ia {
+  fill: #fff;
+  stroke: #fff;
 }
 
 .statelist-catLabel {
@@ -78,6 +93,7 @@
     <table>
     <thead>
       <tr>
+        <th></th>
         <th>State</th>
         <th>Poll margin</th>
         <th>Electoral college votes</th>
@@ -87,6 +103,9 @@
     <tbody class="o-expander__content">
       {% for state, stateData in stateCounts %}
       <tr class="statelist-{{ stateData.margin | getClassificationFromMargin }}">
+        <td class="statelist-map">
+          {% include "minimap.svg" %}
+        </td>
         <td class="statelist-state">
           {{ state }}
           <div class="statelist-catLabel"></div>
