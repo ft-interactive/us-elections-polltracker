@@ -119,7 +119,7 @@
           {% endif %}
         </td>
         <td class="statelist-ecvotes">{{ stateData.ecVotes }}</td>
-        <td class="statelist-navbutton"><button>></button></td>
+        <td class="statelist-navbutton"><a href="./{{ state | lower }}"><button>></button></a></td>
       </tr>
       {% endfor %}
     </tbody>
