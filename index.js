@@ -20,6 +20,7 @@ const lru = require('lru-cache');
 const fetch = require('isomorphic-fetch');
 const _ = require('underscore');
 const stateIds = require('./layouts/stateIds').states;
+const stateDemographicsData = require('./layouts/stateDemographics');
 const layoutTimeSeries = require('./layouts/timeseries-layout.js');
 const layoutForecastMap = require('./layouts/forecast-map-layout');
 const filters = require('./filters');
@@ -263,6 +264,19 @@ async function statePage(req, res) {
     // get latest state data for map and national bar
     const stateCounts = await getStateCounts(data);
 
+    // get state demographics data
+    const stateDemographics = [];
+    const stateDemoKeys = ['wageGrowth2015', 'unemployment', 'poverty', 'graduates', 'hispanic', 'africanAmerican'];
+    for (let i = 0; i < stateDemoKeys.length; i++) {
+      const stateDemoKey = stateDemoKeys[i];
+      stateDemographics.push({
+        category: stateDemographicsData.label[stateDemoKey],
+        stateValue: stateDemographicsData[state.toUpperCase()][stateDemoKey],
+        nationalValue: stateDemographicsData.US[stateDemoKey],
+        maxYVal: Math.max(stateDemographicsData[state.toUpperCase()][stateDemoKey], stateDemographicsData.US[stateDemoKey]),
+      });
+    }
+
     const polltrackerLayout = {
       // quick hack for page ID while we only have a UUID for the National page
       id: state === 'us' ? 'e01abff0-5292-11e6-9664-e0bdc13c3bef' : null,
@@ -292,6 +306,7 @@ async function statePage(req, res) {
       forecastMapLayout: layoutForecastMap(await getStateCounts(await getBerthaData()), {
         size: '680x400'
       }),
+      stateDemographics,
     };
 
     renderedPage = nunjucks.render('polls.html', polltrackerLayout);
