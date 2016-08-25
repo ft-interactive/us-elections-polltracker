@@ -10,4 +10,5 @@ export default () => ({
   onwardjourney: true,
   nationalBar: true,
   stateDemographics: true,
+  stateList: true,
 });
