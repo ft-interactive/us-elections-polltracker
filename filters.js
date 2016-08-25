@@ -1,4 +1,5 @@
 import nunjucks from 'nunjucks';
+const d3 = require('d3');
 
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
@@ -38,4 +39,12 @@ export function spoorTrackingPixel(str) {
 
 export function round1dp(n) {
   return Math.round(n * 10) / 10;
+}
+
+export function getClassificationFromMargin(margin) {
+  const classification = d3.scaleThreshold()
+    .range(['rep', 'leaningRep', 'swing', 'leaningDem', 'dem'])
+    .domain([-10, -5, 5, 10]);
+
+  return classification(margin);
 }

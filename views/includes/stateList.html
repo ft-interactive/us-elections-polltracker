@@ -1,7 +1,101 @@
 <style>
+#statelist table {
+  border-collapse: collapse; 
+}
+
+#statelist tr {
+  border-bottom: 1px solid #666;
+}
+
+.statelist-catLabel {
+  color: white;
+  margin-top: 0.2em;
+}
+
+.statelist-catLabel:before {
+  padding: 0.1em 0.5em;
+}
+
+.statelist-dem .statelist-catLabel:before {
+  background: {{ color.dem }};
+  content: "Safe Dem.";
+}
+
+.statelist-leaningDem .statelist-catLabel:before {
+  background: {{ color.leaningDem }};
+  content: "Leaning Dem.";
+}
+
+.statelist-swing .statelist-catLabel:before {
+  background: {{ color.swing }};
+  content: "Too close to call";
+  color: black;
+}
+
+.statelist-rep .statelist-catLabel:before {
+  background: {{ color.rep }};
+  content: "Safe Rep.";
+}
+
+.statelist-leaningRep .statelist-catLabel:before {
+  background: {{ color.leaningRep }};
+  content: "Leaning Rep.";
+}
+
+
+
+.statelist-dem .statelist-pollmargin {
+  color: {{ color.dem }};
+}
+
+.statelist-leaningDem .statelist-pollmargin {
+  color: {{ color.dem }};
+}
+
+.statelist-swing .statelist-pollmargin {
+  color: {{ color.swing }};
+}
+
+.statelist-rep .statelist-pollmargin {
+  color: {{ color.rep }};
+}
+
+.statelist-leaningRep .statelist-pollmargin {
+  color: {{ color.rep }};
+}
 
 </style>
 
 <div id="statelist">
-  <h2>State list!</h2>
+  <h2>State polls</h2>
+  <table>
+  <thead>
+    <tr>
+      <th>State</th>
+      <th>Poll margin</th>
+      <th>Electoral college votes</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for state, stateData in stateCounts %}
+    <tr class="statelist-{{ stateData.margin | getClassificationFromMargin }}">
+      <td class="statelist-state">
+        {{ state }}
+        <div class="statelist-catLabel"></div>
+      </td>
+      <td class="statelist-pollmargin">
+        <b>{{ stateData.margin | round1dp }}</b>
+        {% if stateData.margin > 0 %}
+        Clinton
+        {% else %}
+        Trump
+        {% endif %}
+      </td>
+      <td class="statelist-ecvotes">{{ stateData.ecVotes }}</td>
+      <td class="statelist-navbutton"><button>></button></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  </table>
 </div>
