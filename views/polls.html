@@ -253,6 +253,11 @@ td.date{
   height: auto;
 }
 
+.forecast-map {
+}
+.forecast-map__label--external > rect {
+  stroke-width: 1.5;
+}
 
 p.off-link{
   font-size: 24px;
@@ -490,6 +495,16 @@ a {
 
                 {% if flags.nationalBar %}
                   {% include "includes/nationalbar.html" %}
+                {% endif %}
+
+                {% if flags.forecastMap %}
+                  {% from 'includes/forecast-map-macro.svg' import ForecastMap %}
+
+                  <div>
+                    <h2>Forecast map</h2>
+                    <p></p>
+                    {{ ForecastMap(forecastMapLayout, color) }}
+                  </div>
                 {% endif %}
 
                 <div class="article-figure">

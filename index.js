@@ -289,6 +289,9 @@ async function statePage(req, res) {
       stateCounts,
       nationalBarCounts: nationalCount(stateCounts),
       color,
+      forecastMapLayout: layoutForecastMap(await getStateCounts(await getBerthaData()), {
+        size: '680x400'
+      }),
     };
 
     renderedPage = nunjucks.render('polls.html', polltrackerLayout);
