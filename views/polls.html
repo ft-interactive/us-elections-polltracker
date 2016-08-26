@@ -259,7 +259,7 @@ td.date{
 }
 
 .forecast-map__label > text {
-  fill: #333;
+  fill: #222;
 }
 
 .forecast-map__label--external > rect {
@@ -271,6 +271,8 @@ td.date{
   stroke-width: 1.5;
 }
 
+.forecast-map__two-letter-name { display: none; }
+
 .forecast-map__state-shape--AK,
 .forecast-map__state-shape--HI {
   stroke: none;
@@ -280,6 +282,12 @@ td.date{
   .forecast-map {
     width: 30.625em;
     height: 18em;
+  }
+
+  .forecast-map__short-name { display: none; }
+  .forecast-map__two-letter-name {
+    display: inline;
+    font-size: 27px;
   }
 }
 
