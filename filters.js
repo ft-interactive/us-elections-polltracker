@@ -1,5 +1,7 @@
 import nunjucks from 'nunjucks';
 const d3 = require('d3');
+const _ = require('underscore');
+const stateIds = require('./layouts/stateIds').states;
 
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
@@ -48,3 +50,9 @@ export function getClassificationFromMargin(margin) {
 
   return classification(margin);
 }
+
+export function toStateName(stateAbbreviation) {
+  const fullStateName = _.findWhere(stateIds, { state: stateAbbreviation.toUpperCase() }).stateName;
+  return fullStateName;
+}
+

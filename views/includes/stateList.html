@@ -122,7 +122,7 @@
           {% include "minimap.svg" %}
         </td>
         <td class="statelist-state">
-          {{ state }}
+          {{ state | toStateName }}
           <div class="statelist-catLabel"></div>
         </td>
         <td class="statelist-pollmargin">
