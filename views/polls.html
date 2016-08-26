@@ -444,7 +444,7 @@ a {
 }
 
 .state-winners-table__winning-pct {
-  width: 50%;
+  width: 55%;
 }
 
 .state-winners-table__winning-pct-bar {
@@ -452,6 +452,11 @@ a {
   background-color: black;
   margin-right: 0.5em;
   float: left;
+}
+
+.state-winners-table__vs {
+  width: 1em;
+  text-align: center;
 }
 
 @media (max-width: 768px) {
@@ -561,12 +566,12 @@ a {
                     Who won here?
                   </h2>
                   <p class="article-figure__subheading">
-                    {{ stateName }} presidential elections since 1972 (winner's margin of victory, %)
+                    {{ stateName }} presidential winner's margin of victory, popular vote (%)
                   </p>
 
                   {% include "includes/who-won-here.html" %}
 
-                  <p class="source"><small>Source: ????????????</small></p>
+                  <p class="source"><small>Source: countingthevotes.com</small></p>
                 </div>
                 {% endif %}
 

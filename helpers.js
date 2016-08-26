@@ -12,6 +12,7 @@ const d3 = require('d3');
  * @return {Array}        Array of results split into years.
  */
 export function getHistoricalResults(data, state) {
+  const MIN_BAR_WIDTH = 5;
   const winners = Object.keys(data.label)
     .filter(label => !!~label.indexOf('outcome'))
     .sort()
@@ -27,7 +28,8 @@ export function getHistoricalResults(data, state) {
   const barExtents = d3.extent(Object.keys(data[state.toUpperCase()])
     .filter(label => !!~label.indexOf('outcome'))
     .map(d => Math.abs(data[state.toUpperCase()][d])));
-  const barScale = d3.scaleLinear().domain(barExtents).range([0, 100]);
+
+  const barScale = d3.scaleLinear().domain(barExtents).range([5, 80]);
 
   return Object.keys(data[state.toUpperCase()])
     .filter(label => !!~label.indexOf('outcome'))
