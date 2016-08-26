@@ -12,7 +12,6 @@ const d3 = require('d3');
  * @return {Array}        Array of results split into years.
  */
 export function getHistoricalResults(data, state) {
-  const MIN_BAR_WIDTH = 5;
   const winners = Object.keys(data.label)
     .filter(label => !!~label.indexOf('outcome'))
     .sort()
@@ -29,7 +28,7 @@ export function getHistoricalResults(data, state) {
     .filter(label => !!~label.indexOf('outcome'))
     .map(d => Math.abs(data[state.toUpperCase()][d])));
 
-  const barScale = d3.scaleLinear().domain(barExtents).range([5, 80]);
+  const barScale = d3.scaleLinear().domain(barExtents).range([2, 80]);
 
   return Object.keys(data[state.toUpperCase()])
     .filter(label => !!~label.indexOf('outcome'))
@@ -42,7 +41,7 @@ export function getHistoricalResults(data, state) {
       stateWinnerColor: data[state.toUpperCase()][key] > 0 ? 'dem' : 'gop',
       dem: !!~winners[i].indexOf('(DEM)') ? winners[i].replace(/\s\((GOP|DEM)\)/, '') : losers[i].replace(/\s\((GOP|DEM)\)/, ''),
       gop: !!~winners[i].indexOf('(GOP)') ? winners[i].replace(/\s\((GOP|DEM)\)/, '') : losers[i].replace(/\s\((GOP|DEM)\)/, ''),
-      isDemWinner: !!~winners[i].indexOf('(DEM)') ? 'dem-winner' : '',
-      isGopWinner: !!~winners[i].indexOf('(GOP)') ? 'gop-winner' : '',
+      isDemWinner: data[state.toUpperCase()][key] > 0 ? 'dem-winner' : '',
+      isGopWinner: data[state.toUpperCase()][key] < 0 ? 'gop-winner' : '',
     }));
 }

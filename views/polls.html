@@ -426,19 +426,35 @@ a {
  * Who Won Here? styles
  */
 
+.state-winners-table {
+  width: 100%;
+  max-width: 700px;
+}
+
+.state-winners-table__dems {
+  text-align: right;
+  width: 22.5%;
+}
+
+.state-winners-table__vs {
+  width: 1em;
+  text-align: center;
+  width: 5%;
+}
+
+.state-winners-table__republicans {
+  text-align: left;
+  width: 22.5%;
+}
+
 .state-winners-table__year {
-  width: auto;
+  width: 5%;
   text-align: right;
   padding: 0;
 }
 
-.state-winners-table__winner,
-.state-winners-table__loser {
-  text-align: center;
-}
-
 .state-winners-table__winning-pct {
-  width: 64%;
+  width: 45%;
 }
 
 .state-winners-table__winning-pct-bar {
@@ -468,17 +484,12 @@ a {
   font-weight: bold;
 }
 
-.state-winners-table__vs {
-  width: 1em;
-  text-align: center;
-}
-
 @media (max-width: 768px) {
-  .state-winners-table tbody tr td:last-child:not(.gop-winner),
+  .state-winners-table tbody tr td:first-child:not(.gop-winner),
   /*.state-winners-table thead tr th:last-child,*/
-  .state-winners-table tbody tr td:nth-last-child(3):not(.dem-winner),
+  .state-winners-table tbody tr td:nth-child(3):not(.dem-winner),
   /*.state-winners-table thead tr th:nth-last-child(2),*/
-  .state-winners-table tbody tr td:nth-last-child(2) {
+  .state-winners-table tbody tr td:nth-child(2) {
   /*.state-winners-table thead tr th:nth-last-child(3) {*/
     display: none;
   }
@@ -584,7 +595,7 @@ a {
                     Who won here?
                   </h2>
                   <p class="article-figure__subheading">
-                    {{ stateName }} presidential winner's margin of victory, popular vote (%)
+                    {{ stateName }} presidential winner's margin of victory, popular vote (% points)
                   </p>
 
                   {% include "includes/who-won-here.html" %}
