@@ -24,7 +24,11 @@
 
 #statelist .statelist-staterow-{{state | lower }} .statelist-minimap-highlight-{{state | lower }} {
   fill: #5d493b;
-  stroke: #fff1e0;
+  stroke: #5d493b;
+  stroke-width: 1px;
+  {% if state in ['CT', 'DC', 'DE', 'RI', 'MD', 'NJ', 'NH', 'VT'] %}  
+  stroke-width: 5px;
+  {% endif %}
 }
 
 {% endfor %}
