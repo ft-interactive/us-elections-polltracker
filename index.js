@@ -304,7 +304,7 @@ async function statePage(req, res) {
       nationalBarCounts: nationalCount(stateCounts),
       color,
       forecastMapLayout: layoutForecastMap(await getStateCounts(await getBerthaData()), {
-        size: '680x400'
+        size: '640x380'
       }),
       stateDemographics,
     };

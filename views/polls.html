@@ -253,6 +253,11 @@ td.date{
   height: auto;
 }
 
+.forecast-map {
+  display: block;
+  margin: 0 auto;
+}
+
 .forecast-map__label > text {
   fill: #333;
 }
@@ -269,6 +274,20 @@ td.date{
 .forecast-map__state-shape--AK,
 .forecast-map__state-shape--HI {
   stroke: none;
+}
+
+@media (max-width: 46.25em) {
+  .forecast-map {
+    width: 30.625em;
+    height: 18em;
+  }
+}
+
+@media (max-width: 30.625em) {
+  .forecast-map {
+    width: 300px;
+    height: 11.3em;
+  }
 }
 
 p.off-link{
