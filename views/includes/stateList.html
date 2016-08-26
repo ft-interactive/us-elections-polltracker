@@ -13,6 +13,8 @@
 
 #statelist .minimap {
   fill: #EADECF;
+  stroke: #fff1e0;
+  stroke-width: 0.25px;
 }
 
 #statelist .statelist-minimap-background {
@@ -25,8 +27,7 @@
 #statelist .statelist-staterow-{{state | lower }} .statelist-minimap-highlight-{{state | lower }} {
   fill: #5d493b;
   stroke: #5d493b;
-  stroke-width: 1px;
-  {% if state in ['CT', 'DC', 'DE', 'RI', 'MD', 'NJ', 'NH', 'VT'] %}  
+  {% if state in ['CT', 'DC', 'DE', 'HI', 'RI', 'MD', 'NJ', 'NH', 'VT'] %}  
   stroke-width: 5px;
   {% endif %}
 }
