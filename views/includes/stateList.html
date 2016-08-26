@@ -44,7 +44,7 @@
 
 .statelist-dem .statelist-catLabel:before {
   background: {{ color.dem }};
-  content: "Safe Dem.";
+  content: "Solid Dem.";
 }
 
 .statelist-leaningDem .statelist-catLabel:before {
@@ -54,13 +54,13 @@
 
 .statelist-swing .statelist-catLabel:before {
   background: {{ color.swing }};
-  content: "Too close to call";
+  content: "Toss-up";
   color: black;
 }
 
 .statelist-rep .statelist-catLabel:before {
   background: {{ color.rep }};
-  content: "Safe Rep.";
+  content: "Solid Rep.";
 }
 
 .statelist-leaningRep .statelist-catLabel:before {
@@ -68,6 +68,10 @@
   content: "Leaning Rep.";
 }
 
+
+.statelist-nodata {
+  color: #666;
+}
 
 
 .statelist-dem .statelist-pollmargin {
@@ -122,11 +126,15 @@
           <div class="statelist-catLabel"></div>
         </td>
         <td class="statelist-pollmargin">
-          <b>{{ stateData.margin | round1dp }}</b>
-          {% if stateData.margin > 0 %}
-          Clinton
+          {% if stateData.Clinton == null %}
+          <span class="statelist-nodata">No poll data available</span>
           {% else %}
-          Trump
+            <b>{{ stateData.margin | round1dp }}</b>
+            {% if stateData.margin > 0 %}
+            Clinton
+            {% else %}
+            Trump
+            {% endif %}
           {% endif %}
         </td>
         <td class="statelist-ecvotes">{{ stateData.ecVotes }}</td>
