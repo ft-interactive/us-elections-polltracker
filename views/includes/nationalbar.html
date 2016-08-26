@@ -1,6 +1,6 @@
 <style>
   #national-bar {
-    margin: 3em 0;
+    margin: 1em 0;
   }
 
   #national-bar-wrapper {
@@ -229,8 +229,7 @@
 </style>
 
 <div id="national-bar">
-  <h2>Who would win if the election were held today?</h2>
-  <p>The latest polls suggest that the electoral college outcome {% if nationalBarCounts.dem + nationalBarCounts.leaningDem > 270 %}would be in Hillary Clinton's favour{% elif nationalBarCounts.rep + nationalBarCounts.leaningRep > 270 %}would be in Donald Trump's favour{% else %}is too close to call{% endif %}.</p>
+  <p>The latest polls suggest that the electoral college outcome {% if nationalBarCounts.dem + nationalBarCounts.leaningDem > 270 %}would be in Hillary Clinton's favour{% elif nationalBarCounts.rep + nationalBarCounts.leaningRep > 270 %}would be in Donald Trump's favour{% else %}is too close to call{% endif %}. A candidate needs at least 270 electoral votes to win the race to the White House. The two candidates will be paying attention to toss-up states in the run-up to election day on November 8.</p>
   <div id="national-bar-wrapper">
     <div class="national-bar--head-icons" id="national-bar--head-icons-dem"><img src="images/clinton.png" /></div>
     <div id="national-bar-container">
@@ -275,8 +274,4 @@
       </div>
     </div>
   </div>
-  <p class="source"><small>Electoral college votes shown above are based on state polling averages.</small></p>
-
-  <br />
-  <p>A candidate needs at least 270 electoral votes to win the race to the White House. The two candidates will be paying attention to toss-up states in the run-up to election day on November 8.</p>
 </div>
