@@ -56,3 +56,31 @@ export function toStateName(stateAbbreviation) {
   return fullStateName;
 }
 
+export function orderStatesByImportance(stateObj) {
+  // convert object into array
+  const orderedStatesPolls = [];
+  const orderedStatesNoPolls = [];
+  for (const key in stateObj) {
+    if (stateObj.hasOwnProperty(key)) {
+      if (stateObj[key].Clinton != null) {
+        orderedStatesPolls.push([key, stateObj[key]]); // each item is an array in format [key, value]
+      } else {
+        orderedStatesNoPolls.push([key, stateObj[key]]);
+      }
+    }
+  }
+
+  // sort items with poll averages by value
+  orderedStatesPolls.sort((a, b) => Math.abs(0 - a[1].margin) - Math.abs(0 - b[1].margin)); // compare how close numbers are to 0
+  orderedStatesNoPolls.sort((a, b) => a - b); // compare how close numbers are to 0
+
+  const allPolls = orderedStatesPolls.concat(orderedStatesNoPolls);
+
+  // turn back into dictionary
+  const newStateObj = {};
+  for (let i = 0; i < allPolls.length; i++) {
+    newStateObj[allPolls[i][0]] = allPolls[i][1];
+  }
+
+  return newStateObj;
+}
