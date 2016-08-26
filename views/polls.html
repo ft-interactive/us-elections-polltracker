@@ -298,6 +298,11 @@ td.date{
   }
 }
 
+p.notavailable {
+  color: #666;
+  font-size: 1em;
+}
+
 p.off-link{
   font-size: 24px;
   text-align: right;
@@ -532,7 +537,7 @@ a {
                 <p class="off-link"><a href="http://www.ft.com/us-election-2016">All US Election 2016 coverage</a></p>
                 {% endif %}
 
-                {% if flags.nationalBar %}
+                {% if flags.nationalBar and state == 'us' %}
                   {% include "includes/nationalbar.html" %}
                 {% endif %}
 
@@ -546,6 +551,7 @@ a {
                   </div>
                 {% endif %}
 
+                {% if pollSVG.default != false %}
                 <div class="article-figure">
                   <h2 class="article-figure__heading">
                   {% if state == "us" %}
@@ -565,6 +571,7 @@ a {
 
                   <p class="source"><small>Source: Real Clear Politics</small></p>
                 </div>
+                {% endif %}
 
                 {% if state != 'us' and stateStreamURL %}
                 <p class="off-link"><a href="{{ stateStreamURL }}">All {{ stateName }} coverage</a></p>
@@ -585,6 +592,7 @@ a {
 
                 <h2>Full list of individual polls</h2>
 
+                {% if pollList.length > 0 %}
                 {% set row_num_collapse = 20 %}
                 <div data-o-component="o-expander" class="o-expander items"
                         data-o-expander-collapsed-toggle-text="Show more polls"
@@ -621,6 +629,9 @@ a {
                   <button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big">Show more polls</button>
                   {% endif %}
                 </div>
+                {% else %}
+                <p class="notavailable">Polls for this state are not available yet.</p>
+                {% endif %}
 
                 <footer class="o-typography-footer">
                   <small><a href="http://www.ft.com/servicestools/help/copyright" data-trackable="link-copyright">Copyright</a>

@@ -70,7 +70,7 @@ function getSubtitle(date, width, state){
 
 // the actual layout function
 function timeseriesLayout(data, opts) {
-  if (!data) return;
+  if (!data || data.length < 1) return;
   const [svgWidth, svgHeight] = (opts.size || '600x300').split(/\D/); // split on non digit characters
   const layout = {};
   const timeDomain = d3.extent(data, (d) => new Date(d.date));
