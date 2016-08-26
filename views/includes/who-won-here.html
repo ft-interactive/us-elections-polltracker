@@ -25,7 +25,7 @@
         <strong>{{ row.year }}</strong>
       </td>
       <td class="state-winners-table__winning-pct">
-        <div style="width: {{ row.winningPctScaled - 20 }}%" class="state-winners-table__winning-pct-bar {{row.winnerParty}}"></div>
+        <div style="width: {{ row.winningPctScaled - 20 }}%" class="state-winners-table__winning-pct-bar {{row.stateWinnerColor}}"></div>
         {{row.winningPct | round(1)}}%
       </td>
       <td class="state-winners-table__winner {{row.winnerParty}}">

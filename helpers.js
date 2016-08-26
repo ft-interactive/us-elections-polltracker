@@ -37,9 +37,10 @@ export function getHistoricalResults(data, state) {
       year: key.replace('outcome', ''),
       winningPctScaled: barScale(Math.abs(data[state.toUpperCase()][key])),
       winningPct: Math.abs(data[state.toUpperCase()][key]) * 100,
-      winner: winners[i],
-      loser: losers[i],
-      winnerParty: data[state.toUpperCase()][key] > 0 ? 'dem' : 'gop',
-      loserParty: data[state.toUpperCase()][key] > 0 ? 'gop' : 'dem',
+      stateWinnerColor: data[state.toUpperCase()][key] > 0 ? 'dem' : 'gop',
+      winner: winners[i].replace(/\s\((GOP|DEM)\)/, ''),
+      loser: losers[i].replace(/\s\((GOP|DEM)\)/, ''),
+      winnerParty: !!~winners[i].indexOf('DEM') ? 'dem' : 'gop',
+      loserParty: !!~losers[i].indexOf('DEM') ? 'dem' : 'gop',
     }));
 }

@@ -454,6 +454,13 @@ a {
   float: left;
 }
 
+@media (max-width: 768px) {
+  .state-winners-table tbody tr td:last-child,
+  .state-winners-table thead tr th:last-child {
+    display: none;
+  }
+}
+
     </style>
 
     {% if flags.errorReporting %}
