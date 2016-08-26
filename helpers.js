@@ -40,9 +40,9 @@ export function getHistoricalResults(data, state) {
       winningPctScaled: barScale(Math.abs(data[state.toUpperCase()][key])),
       winningPct: Math.abs(data[state.toUpperCase()][key]) * 100,
       stateWinnerColor: data[state.toUpperCase()][key] > 0 ? 'dem' : 'gop',
-      winner: winners[i].replace(/\s\((GOP|DEM)\)/, ''),
-      loser: losers[i].replace(/\s\((GOP|DEM)\)/, ''),
-      winnerParty: !!~winners[i].indexOf('DEM') ? 'dem' : 'gop',
-      loserParty: !!~losers[i].indexOf('DEM') ? 'dem' : 'gop',
+      dem: !!~winners[i].indexOf('(DEM)') ? winners[i].replace(/\s\((GOP|DEM)\)/, '') : losers[i].replace(/\s\((GOP|DEM)\)/, ''),
+      gop: !!~winners[i].indexOf('(GOP)') ? winners[i].replace(/\s\((GOP|DEM)\)/, '') : losers[i].replace(/\s\((GOP|DEM)\)/, ''),
+      isDemWinner: !!~winners[i].indexOf('(DEM)') ? 'dem-winner' : '',
+      isGopWinner: !!~winners[i].indexOf('(GOP)') ? 'gop-winner' : '',
     }));
 }

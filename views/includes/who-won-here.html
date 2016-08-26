@@ -28,14 +28,14 @@
         <div style="width: {{ row.winningPctScaled }}%" class="state-winners-table__winning-pct-bar {{row.stateWinnerColor}}"></div>
         {{row.winningPct | round(1)}}%
       </td>
-      <td class="state-winners-table__winner {{row.winnerParty}}">
-        <strong>{{ row.winner }}</strong>
+      <td class="state-winners-table__dems {{ row.isDemWinner }}">
+        {{ row.dem }}
       </td>
       <td class="state-winners-table__vs">
         v.
       </td>
-      <td class="state-winners-table__loser">
-        {{ row.loser }}
+      <td class="state-winners-table__republicans {{ row.isGopWinner }}">
+        {{ row.gop }}
       </td>
     </tr>
     {% endfor %}

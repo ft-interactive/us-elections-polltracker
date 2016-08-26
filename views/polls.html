@@ -425,17 +425,11 @@ a {
 /**
  * Who Won Here? styles
  */
-.state-winners-table .gop {
-  background-color: #f4a098;
-}
-
-.state-winners-table .dem {
-  background-color: #a2c1e1;
-}
 
 .state-winners-table__year {
-  width: 10%;
-  text-align: center;
+  width: auto;
+  text-align: right;
+  padding: 0;
 }
 
 .state-winners-table__winner,
@@ -444,7 +438,7 @@ a {
 }
 
 .state-winners-table__winning-pct {
-  width: 55%;
+  width: 64%;
 }
 
 .state-winners-table__winning-pct-bar {
@@ -452,6 +446,26 @@ a {
   background-color: black;
   margin-right: 0.5em;
   float: left;
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+}
+
+.state-winners-table__winning-pct-bar.gop {
+  background-color: #e03d46;
+}
+
+.state-winners-table__winning-pct-bar.dem {
+  background-color: #579DD5;
+}
+
+.state-winners-table__republicans.gop-winner {
+  color: #e03d46;
+  font-weight: bold;
+}
+
+.state-winners-table__dems.dem-winner {
+  color: #579DD5;
+  font-weight: bold;
 }
 
 .state-winners-table__vs {
@@ -460,8 +474,12 @@ a {
 }
 
 @media (max-width: 768px) {
-  .state-winners-table tbody tr td:last-child,
-  .state-winners-table thead tr th:last-child {
+  .state-winners-table tbody tr td:last-child:not(.gop-winner),
+  /*.state-winners-table thead tr th:last-child,*/
+  .state-winners-table tbody tr td:nth-last-child(3):not(.dem-winner),
+  /*.state-winners-table thead tr th:nth-last-child(2),*/
+  .state-winners-table tbody tr td:nth-last-child(2) {
+  /*.state-winners-table thead tr th:nth-last-child(3) {*/
     display: none;
   }
 }
