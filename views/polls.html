@@ -569,7 +569,7 @@ a {
                 {% endif %}
 
                 {% if (state == 'us' and flags.nationalBar) or (state == 'us' and flags.forecastMap) %}
-                <p class="note"><small>Projected electoral college votes are based on state polling averages.</small></p>
+                <p class="note"><small>Projected electoral college votes are based on latest state polling averages.</small></p>
                 {% endif %}
 
                 {% if state == 'us' %}
@@ -591,7 +591,7 @@ a {
                     Which candidate is leading in {{ stateName }}?
                   {% endif %}
                   </h2>
-                  <p class="article-figure__subheading">Polling average %</p>
+                  <p class="article-figure__subheading">{% if state == 'us' %}National{% else %}State{% endif %} polling average (%)</p>
                   {% for gridsize, svg in pollSVG %}
                   {% if svg %}
                   <div class="pollchart pollchart--{{gridsize}}">
