@@ -86,13 +86,7 @@ export function orderStatesByImportance(stateObj) {
     return 0;
   }); // sort alphabetically
 
-  const allPolls = orderedStatesPolls.concat(orderedStatesNoPolls);
-
-  // turn back into dictionary
-  const newStateObj = {};
-  for (let i = 0; i < allPolls.length; i++) {
-    newStateObj[allPolls[i][0]] = allPolls[i][1];
-  }
+  const sortedPolls = orderedStatesPolls.concat(orderedStatesNoPolls);
 
   // const stateArray = Object.keys(stateObj).map(key => ({ state: key, stateData: stateObj[key] }));
   // const allStates = stateArray.sort((a, b) => {
@@ -114,5 +108,5 @@ export function orderStatesByImportance(stateObj) {
   // console.log(stateArray);
 
 
-  return newStateObj;
+  return sortedPolls;
 }

@@ -117,7 +117,9 @@
       </tr>
     </thead>
     <tbody class="o-expander__content">
-      {% for state, stateData in stateCounts | orderStatesByImportance %}
+      {% for stateRow in stateCounts | orderStatesByImportance %}
+      {% set state = stateRow[0] %}
+      {% set stateData = stateRow[1] %}
       <tr class="statelist-{{ stateData.margin | getClassificationFromMargin }} statelist-staterow-{{ state | lower }}">
         <td class="statelist-map">
           {% include "minimap.svg" %}
