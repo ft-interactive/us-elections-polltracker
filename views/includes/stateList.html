@@ -130,7 +130,7 @@
           {% if stateData.Clinton == null %}
           <span class="statelist-nodata">No poll data available</span>
           {% else %}
-            <b>{{ stateData.margin | round1dp }}</b>
+            <b>+{{ stateData.margin | round1dp | replace('-', '') }}</b>
             {% if stateData.margin > 0 %}
             Clinton
             {% else %}
