@@ -568,7 +568,7 @@ a {
                   </div>
                 {% endif %}
 
-                {% if flags.nationalBar or flags.forecastMap and state == 'us' %}
+                {% if (state == 'us' and flags.nationalBar) or (state == 'us' and flags.forecastMap) %}
                 <p class="note"><small>Electoral college votes shown above are based on state polling averages.</small></p>
                 {% endif %}
 
