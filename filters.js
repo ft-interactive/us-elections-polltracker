@@ -71,8 +71,13 @@ export function orderStatesByImportance(stateObj) {
   }
 
   // sort items with poll averages by value
-  orderedStatesPolls.sort((a, b) => Math.abs(0 - a[1].margin) - Math.abs(0 - b[1].margin)); // compare how close numbers are to 0
-  orderedStatesNoPolls.sort((a, b) => a - b); // compare how close numbers are to 0
+  orderedStatesPolls.sort((a, b) => {
+    if (Math.abs(0 - a[1].margin) !== Math.abs(0 - b[1].margin)) {
+      return Math.abs(0 - a[1].margin) - Math.abs(0 - b[1].margin); // compare how close numbers are to 0
+    }
+    return Math.abs(0 - a[1].margin) - Math.abs(0 - b[1].margin) - ((a[1].ecVotes - b[1].ecVotes) / 100); // if equal distance to 0, sort by ecVotes
+  });
+  orderedStatesNoPolls.sort((a, b) => a - b); // sort alphabetically
 
   const allPolls = orderedStatesPolls.concat(orderedStatesNoPolls);
 
