@@ -148,7 +148,10 @@ async function makePollTimeSeries(chartOpts) {
   const endDate = chartOpts.endDate ? chartOpts.endDate : d3.timeFormat('%B %e, %Y')(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';
   const pollData = await pollAverages(startDate, endDate, state);
-  return template.render('templated-polls.svg', layoutTimeSeries(pollData, chartOpts));
+  if (pollData && pollData.length > 0) {
+    return nunjucks.render('templated-polls.svg', layoutTimeSeries(pollData, chartOpts));
+  }
+  return false;
 }
 
 async function makeForecastMap(chartOpts) {
@@ -300,6 +303,9 @@ async function statePage(req, res) {
       stateCounts,
       nationalBarCounts: nationalCount(stateCounts),
       color,
+      forecastMapLayout: layoutForecastMap(await getStateCounts(await getBerthaData()), {
+        size: '640x380'
+      }),
       stateDemographics,
     };
 
