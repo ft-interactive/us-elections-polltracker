@@ -19,6 +19,7 @@
 
 #statelist th.statelist-state {
   padding-left: 0;
+  width: 200px;
 }
 
 #statelist td {
@@ -28,17 +29,24 @@
 }
 
 #statelist .statelist-pollmargin {
-  width: 180px;
-  text-align: center;
+  text-align: right;
+  padding-right: 50px;
+  width: 120px;
 }
 
-#statelist .statelist-ecvotes {
-  width: 120px;
+#statelist th.statelist-ecvotes {
   text-align: center;
+  width: 120px;
+}
+
+#statelist td.statelist-ecvotes {
+  padding-right: 58px;
+  text-align: right;
 }
 
 #statelist tr {
   border-bottom: 1px solid #cec6b9;
+  height: 30px;
 }
 
 #statelist tr.statelist-staterow:hover {
@@ -88,10 +96,24 @@
   color: #666;
 }
 
-@media (max-width: 600px) {
-  #statelist .statelist-ecvotes {
+@media (max-width: 400px) {
+  #statelist th.statelist-ecvotes {
+    text-align: center;
     width: 100px;
   }
+
+  #statelist td.statelist-ecvotes {
+    padding-right: 32px;
+    text-align: right;
+  }
+
+  #statelist .statelist-pollmargin {
+    text-align: right;
+    padding-left: 0;
+    padding-right: 0;
+    width: 140px;
+  }
+
 }
 
 </style>
