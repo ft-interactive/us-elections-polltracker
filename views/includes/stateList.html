@@ -18,7 +18,7 @@
 }
 
 #statelist th.statelist-state {
-  padding-left: 0;
+  padding-left: 35px;
   width: 200px;
 }
 
@@ -36,11 +36,13 @@
 
 #statelist th.statelist-ecvotes {
   text-align: center;
-  width: 120px;
+  width: 102px;
+  min-width: 102px;
+  padding-right: 0;
 }
 
 #statelist td.statelist-ecvotes {
-  padding-right: 58px;
+  padding-right: 40px;
   text-align: right;
 }
 
@@ -99,7 +101,7 @@
 @media (max-width: 400px) {
   #statelist th.statelist-ecvotes {
     text-align: center;
-    width: 100px;
+    min-width: 0px;
   }
 
   #statelist td.statelist-ecvotes {
@@ -112,6 +114,7 @@
     padding-left: 0;
     padding-right: 0;
     width: 140px;
+    min-width: 80px;
   }
 
 }
@@ -146,7 +149,7 @@
         </td>
         <td class="statelist-pollmargin">
           {% if stateData.Clinton == null %}
-          <span class="statelist-nodata">No poll data available</span>
+          <span class="statelist-nodata">No poll data</span>
           {% else %}
             {% if stateData.margin > 0 %}
             Clinton
