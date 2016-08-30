@@ -12,17 +12,49 @@ const d3 = require('d3');
  * @return {Array}        Array of results split into years.
  */
 export function getHistoricalResults(data, state) {
-  const winners = Object.keys(data.label)
+  /**
+   * This creates an object matching each year to the candidate
+   * from each party.
+   * @type {Object}
+   */
+  const candidates = Object.keys(data.label)
+    .filter(label => !!~label.indexOf('outcome'))
+    .reduce((last, outcome) => {
+      const year = outcome.replace('outcome', '');
+      last[outcome] = { // eslint-disable-line no-param-reassign
+        dem: !!~data.label[outcome].indexOf('(DEM)') ?
+          data.label[outcome].replace(' (DEM)', '') :
+          data.label[`loser${year}`].replace(' (DEM)', ''),
+        gop: !!~data.label[outcome].indexOf('(GOP)') ?
+          data.label[outcome].replace(' (GOP)', '') :
+          data.label[`loser${year}`].replace(' (GOP)', ''),
+      };
+      return last;
+    }, {});
+
+  /**
+   * This creates an array of federal winners, in reverse-chronological
+   * order.
+   * @type {Array<String>}
+   */
+  const winnersFederal = Object.keys(data.label)
     .filter(label => !!~label.indexOf('outcome'))
     .sort()
     .reverse()
     .map(outcome => data.label[outcome]);
 
-  const losers = Object.keys(data.label)
-    .filter(label => !!~label.indexOf('loser'))
+  /**
+   * Same as the above, but for the selected state.
+   * @type {Array<String>}
+   */
+  const winnersState = Object.keys(data[state.toUpperCase()])
+    .filter(label => !!~label.indexOf('outcome'))
     .sort()
     .reverse()
-    .map(outcome => data.label[outcome]);
+    .map(outcome => (data[state.toUpperCase()][outcome] > 0 ?
+      candidates[outcome].dem :
+      candidates[outcome].gop)
+    );
 
   /**
    * This kinda-dense bit of functional programming loops
@@ -42,28 +74,31 @@ export function getHistoricalResults(data, state) {
         .filter(i => i));
     }, []));
 
-  d3.extent(Object.keys(data[state.toUpperCase()])
-    .filter(label => !!~label.indexOf('outcome'))
-    .map(d => Math.abs(data[state.toUpperCase()][d])));
-
+  /**
+   * This scale is used to draw the length of the bars.
+   * Notice range() — 0.5 is to prevent small values from being invisible,
+   * 75 is used to pad the end for the 5-character percentage value.
+   * @type {d3.Scale}
+   */
   const barScale = d3.scaleLinear().domain(barExtents).range([0.5, 75]);
 
+  /**
+   * Finally, iterate through each "outcome" and return an object munging
+   * all the above together.
+   */
   return Object.keys(data[state.toUpperCase()])
     .filter(label => !!~label.indexOf('outcome'))
     .sort()
     .reverse()
     .map((key, i) => ({
       year: key.replace('outcome', ''),
-      winningPctScaled: barScale(Math.abs(data[state.toUpperCase()][key])),
-      winningPct: Math.abs(data[state.toUpperCase()][key]) * 100,
+      winningPctScaledState: barScale(Math.abs(data[state.toUpperCase()][key])),
+      winningPctState: Math.abs(data[state.toUpperCase()][key]) * 100,
       stateWinnerColor: data[state.toUpperCase()][key] > 0 ? 'dem' : 'gop',
-      dem: !!~winners[i].indexOf('(DEM)') ?
-        winners[i].replace(/\s\((GOP|DEM)\)/, '') :
-        losers[i].replace(/\s\((GOP|DEM)\)/, ''),
-      gop: !!~winners[i].indexOf('(GOP)') ?
-        winners[i].replace(/\s\((GOP|DEM)\)/, '') :
-        losers[i].replace(/\s\((GOP|DEM)\)/, ''),
-      isDemWinner: data[state.toUpperCase()][key] > 0 ? 'dem-winner' : '',
-      isGopWinner: data[state.toUpperCase()][key] < 0 ? 'gop-winner' : '',
+      winnerState: winnersState[i].replace(/\((DEM|GOP)\)/, ''),
+      winningPctScaledFederal: barScale(Math.abs(data.label[key.replace('outcome', 'margin')])),
+      winningPctFederal: Math.abs(data.label[key.replace('outcome', 'margin')]) * 100,
+      federalWinnerColor: data.label[key.replace('outcome', 'margin')] > 0 ? 'dem' : 'gop',
+      winnerFederal: winnersFederal[i].replace(/\((DEM|GOP)\)/, ''),
     }));
 }
