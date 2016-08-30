@@ -1,11 +1,20 @@
 <style>
 #statelist {
+  width: 100%;
+}
+
+#statelist-table {
   max-width: 478px;
-  margin: 0 auto;
+  margin: 0 auto;  
 }
 
 #statelist table {
   border-collapse: collapse; 
+  border-spacing: 0;
+}
+
+#statelist tr th {
+  border-color: #999999 !important;
 }
 
 #statelist th {
@@ -123,48 +132,49 @@
 
 <div id="statelist">
   <h2>State polls</h2>
-  {% set row_num_collapse = 10 %}
-  <div data-o-component="o-expander" class="o-expander items"
-    data-o-expander-collapsed-toggle-text="Show more states"
-    data-o-expander-expanded-toggle-text="Show fewer states"
-    data-o-expander-toggle-selector=".table-toggle-btn"
-    data-o-expander-shrink-to="{{ row_num_collapse }}"
-    data-o-expander-count-selector="tbody tr">
-    <table>
-    <thead>
-      <tr>
-        <th class="statelist-state">State</th>
-        <th class="statelist-pollmargin">Poll margin</th>
-        <th class="statelist-ecvotes">Electoral college votes</th>
-      </tr>
-    </thead>
-    <tbody class="o-expander__content">
-      {% for stateRow in stateCounts | orderStatesByImportance %}
-      {% set state = stateRow[0] %}
-      {% set stateData = stateRow[1] %}
-      <tr class="statelist-staterow statelist-{{ stateData.margin | getClassificationFromMargin }} statelist-staterow-{{ state | lower }}">
-        <td class="statelist-state">
-          <div class="statelist-catLabel"></div>
-          <a href="./{{state | lower }}"><div class="statelist-stateLabel">{{ state | toStateName }}</div></a>
-        </td>
-        <td class="statelist-pollmargin">
-          {% if stateData.Clinton == null %}
-          <span class="statelist-nodata">No poll data</span>
-          {% else %}
-            {% if stateData.margin > 0 %}
-            Clinton
+  <div id="statelist-table">
+    {% set row_num_collapse = 10 %}
+    <div data-o-component="o-expander" class="o-expander items"
+      data-o-expander-collapsed-toggle-text="Show more states"
+      data-o-expander-expanded-toggle-text="Show fewer states"
+      data-o-expander-toggle-selector=".table-toggle-btn"
+      data-o-expander-shrink-to="{{ row_num_collapse }}"
+      data-o-expander-count-selector="tbody tr">
+      <table>
+      <thead>
+        <tr>
+          <th class="statelist-state">State</th>
+          <th class="statelist-pollmargin">Poll margin</th>
+          <th class="statelist-ecvotes">Electoral college votes</th>
+        </tr>
+      </thead>
+      <tbody class="o-expander__content">
+        {% for stateRow in stateCounts | orderStatesByImportance %}
+        {% set state = stateRow[0] %}
+        {% set stateData = stateRow[1] %}
+        <tr class="statelist-staterow statelist-{{ stateData.margin | getClassificationFromMargin }} statelist-staterow-{{ state | lower }}">
+          <td class="statelist-state">
+            <div class="statelist-catLabel"></div>
+            <a href="./{{state | lower }}"><div class="statelist-stateLabel">{{ state | toStateName }}</div></a>
+          </td>
+          <td class="statelist-pollmargin">
+            {% if stateData.Clinton == null %}
+            <span class="statelist-nodata">No poll data</span>
             {% else %}
-            Trump
+              {% if stateData.margin > 0 %}
+              Clinton
+              {% else %}
+              Trump
+              {% endif %}
+              +{{ stateData.margin | round1dp | replace('-', '') }}
             {% endif %}
-            +{{ stateData.margin | round1dp | replace('-', '') }}
-          {% endif %}
-        </td>
-        <td class="statelist-ecvotes">{{ stateData.ecVotes }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-    </table>
-    <button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big">Show more states</button>
-    <p class="source"><small>Source: Real Clear Politics</small></p>
+          </td>
+          <td class="statelist-ecvotes">{{ stateData.ecVotes }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      </table>
+      <button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big">Show more states</button>
+    </div>
   </div>
 </div>
