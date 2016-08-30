@@ -1,98 +1,85 @@
 <style>
+#statelist {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
 #statelist table {
   border-collapse: collapse; 
 }
 
+#statelist th {
+  text-align: left;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 0.9em;
+  vertical-align: bottom;
+  padding-bottom: 0.3em;
+}
+
+#statelist th.statelist-state {
+  padding-left: 0;
+}
+
 #statelist td {
   padding: 0.25em 10px;
+  position: relative;
+}
+
+#statelist .statelist-ecvotes {
+  width: 100px;
+  text-align: center;
 }
 
 #statelist tr {
   border-bottom: 1px solid #cec6b9;
 }
 
-#statelist .minimap {
-  fill: #EADECF;
-  stroke: #fff1e0;
-  stroke-width: 0.25px;
+#statelist tr.statelist-staterow:hover {
+  background: #f6e9d8;
 }
 
-#statelist .statelist-minimap-background {
-  stroke: #fff1e0;
-  stroke-width: 0.25px;
+#statelist tr.statelist-staterow:hover .statelist-stateLabel {
+  text-decoration: underline;
 }
-
-{% for state, stateData in stateCounts %}
-
-#statelist .statelist-staterow-{{state | lower }} .statelist-minimap-highlight-{{state | lower }} {
-  fill: #5d493b;
-  stroke: #5d493b;
-  {% if state in ['CT', 'DC', 'DE', 'HI', 'RI', 'MD', 'NJ', 'NH', 'VT'] %}  
-  stroke-width: 3px;
-  {% endif %}
-}
-
-{% endfor %}
 
 .statelist-catLabel {
   color: white;
-  margin-top: 0.2em;
+  width: 20px;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
-.statelist-catLabel:before {
-  padding: 0.1em 0.5em;
+.statelist-stateLabel {
+  margin-left: 25px;
+  color: #333;
 }
 
-.statelist-dem .statelist-catLabel:before {
+.statelist-dem .statelist-catLabel {
   background: {{ color.dem }};
-  content: "Solid Dem.";
 }
 
-.statelist-leaningDem .statelist-catLabel:before {
+.statelist-leaningDem .statelist-catLabel {
   background: {{ color.leaningDem }};
-  content: "Leaning Dem.";
 }
 
-.statelist-swing .statelist-catLabel:before {
+.statelist-swing .statelist-catLabel {
   background: {{ color.swing }};
-  content: "Toss-up";
-  color: black;
 }
 
-.statelist-rep .statelist-catLabel:before {
+.statelist-rep .statelist-catLabel {
   background: {{ color.rep }};
-  content: "Solid Rep.";
 }
 
-.statelist-leaningRep .statelist-catLabel:before {
+.statelist-leaningRep .statelist-catLabel {
   background: {{ color.leaningRep }};
-  content: "Leaning Rep.";
 }
 
 
 .statelist-nodata {
   color: #666;
-}
-
-
-.statelist-dem .statelist-pollmargin {
-  color: {{ color.dem }};
-}
-
-.statelist-leaningDem .statelist-pollmargin {
-  color: {{ color.dem }};
-}
-
-.statelist-swing .statelist-pollmargin {
-  color: {{ color.swing }};
-}
-
-.statelist-rep .statelist-pollmargin {
-  color: {{ color.rep }};
-}
-
-.statelist-leaningRep .statelist-pollmargin {
-  color: {{ color.rep }};
 }
 
 </style>
@@ -109,39 +96,33 @@
     <table>
     <thead>
       <tr>
-        <th></th>
-        <th>State</th>
-        <th>Poll margin</th>
-        <th>Electoral college votes</th>
-        <th></th>
+        <th class="statelist-state">State</th>
+        <th class="statelist-pollmargin">Poll margin</th>
+        <th class="statelist-ecvotes">Electoral college votes</th>
       </tr>
     </thead>
     <tbody class="o-expander__content">
       {% for stateRow in stateCounts | orderStatesByImportance %}
       {% set state = stateRow[0] %}
       {% set stateData = stateRow[1] %}
-      <tr class="statelist-{{ stateData.margin | getClassificationFromMargin }} statelist-staterow-{{ state | lower }}">
-        <td class="statelist-map">
-          {% include "minimap.svg" %}
-        </td>
+      <tr class="statelist-staterow statelist-{{ stateData.margin | getClassificationFromMargin }} statelist-staterow-{{ state | lower }}">
         <td class="statelist-state">
-          {{ state | toStateName }}
           <div class="statelist-catLabel"></div>
+          <a href=`./${state}`><div class="statelist-stateLabel">{{ state | toStateName }}</div></a>
         </td>
         <td class="statelist-pollmargin">
           {% if stateData.Clinton == null %}
           <span class="statelist-nodata">No poll data available</span>
           {% else %}
-            <b>+{{ stateData.margin | round1dp | replace('-', '') }}</b>
             {% if stateData.margin > 0 %}
             Clinton
             {% else %}
             Trump
             {% endif %}
+            +{{ stateData.margin | round1dp | replace('-', '') }}
           {% endif %}
         </td>
         <td class="statelist-ecvotes">{{ stateData.ecVotes }}</td>
-        <td class="statelist-navbutton"><a href="./{{ state | lower }}"><button>></button></a></td>
       </tr>
       {% endfor %}
     </tbody>
