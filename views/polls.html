@@ -425,45 +425,62 @@ a {
 /**
  * Who Won Here? styles
  */
+.article-figure__heading--state-winners-table {
+  margin-bottom: 0.75em; /* Needed due to lack of subhead */
+}
 
 .state-winners-table {
   width: 100%;
-  max-width: 700px;
+  max-width: 440px;
+}
+
+.state-winners-table thead tr.state-winners-table__hide-desktop {
+  display: none;
+}
+
+.state-winners-table th {
+  min-width: auto;
+}
+
+.state-winners-table__empty {
+  border-bottom: 0;
 }
 
 .state-winners-table__dems {
-  text-align: right;
   width: 22.5%;
+  text-align: center;
+  padding: 0;
 }
 
 .state-winners-table__vs {
-  width: 1em;
+  width: auto;
   text-align: center;
-  width: 5%;
+  padding: 0;
+  color: #6b6e68;
 }
 
 .state-winners-table__republicans {
-  text-align: left;
   width: 22.5%;
+  text-align: center;
+  padding: 0;
 }
 
 .state-winners-table__year {
-  width: 5%;
-  text-align: right;
-  padding: 0;
+  width: auto;
+  text-align: center;
+  padding: 0 0.8em;
 }
 
 .state-winners-table__winning-pct {
   width: 45%;
+  padding: 0.3em 0;
 }
 
 .state-winners-table__winning-pct-bar {
   height: 1em;
   background-color: black;
-  margin-right: 0.5em;
+  margin-right: 0.3em;
   float: left;
-  margin-top: 0.3em;
-  margin-bottom: 0.3em;
 }
 
 .state-winners-table__winning-pct-bar.gop {
@@ -485,12 +502,16 @@ a {
 }
 
 @media (max-width: 768px) {
-  .state-winners-table tbody tr td:first-child:not(.gop-winner),
-  /*.state-winners-table thead tr th:last-child,*/
-  .state-winners-table tbody tr td:nth-child(3):not(.dem-winner),
-  /*.state-winners-table thead tr th:nth-last-child(2),*/
+  .state-winners-table thead tr.state-winners-table__hide-desktop {
+    display: table-row;
+  }
+
+  .state-winners-table thead tr.state-winners-table__hide-mobile {
+    display: none;
+  }
+  .state-winners-table tbody tr td:first-child:not(.dem-winner),
+  .state-winners-table tbody tr td:nth-child(3):not(.gop-winner),
   .state-winners-table tbody tr td:nth-child(2) {
-  /*.state-winners-table thead tr th:nth-last-child(3) {*/
     display: none;
   }
 }
@@ -590,18 +611,7 @@ a {
                 {% endif %}
 
                 {% if state != 'us' %}
-                <div class="article-figure">
-                  <h2 class="article-figure__heading">
-                    Who won here?
-                  </h2>
-                  <p class="article-figure__subheading">
-                    {{ stateName }} presidential winner's margin of victory, popular vote (% points)
-                  </p>
-
                   {% include "includes/who-won-here.html" %}
-
-                  <p class="source"><small>Source: countingthevotes.com</small></p>
-                </div>
                 {% endif %}
 
                 {% if state != 'us' and stateStreamURL %}

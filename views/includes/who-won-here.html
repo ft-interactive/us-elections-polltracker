@@ -1,44 +1,70 @@
 {# "who won here" template for state pages #}
 
-{% if historicalResults %}
-<table class="state-winners-table">
-  <!-- <thead>
-    <tr>
-      <th>
-        Year
-      </th>
-      <th>
-        Margin of victory (%)
-      </th>
-      <th>
-        Winner
-      </th>
-      <th>
-        Loser
-      </th>
-    </tr>
-  </thead> -->
-  <tbody>
-    {% for row in historicalResults %}
-    <tr>
-      <td class="state-winners-table__dems {{ row.isDemWinner }}">
-        {{ row.dem }}
-      </td>
-      <td class="state-winners-table__vs">
-        v
-      </td>
-      <td class="state-winners-table__republicans {{ row.isGopWinner }}">
-        {{ row.gop }}
-      </td>
-      <td class="state-winners-table__year">
-        <strong>{{ row.year }}</strong>
-      </td>
-      <td class="state-winners-table__winning-pct">
-        <div style="width: {{ row.winningPctScaled }}%" class="state-winners-table__winning-pct-bar {{row.stateWinnerColor}}"></div>
-        {{row.winningPct | round(1)}}%
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% endif %}
+<div class="article-figure">
+  <h2 class="article-figure__heading--state-winners-table">
+    Past presidential races in this state
+  </h2>
+  <!-- <p class="article-figure__subheading">
+    {{ stateName }} presidential winner's margin of victory, popular vote (% points)
+  </p> -->
+
+  {% if historicalResults %}
+  <table class="state-winners-table">
+    <thead>
+      <tr class="state-winners-table__hide-mobile">
+        <th colspan="3">
+          Presidential Race
+        </th>
+        <th colspan="2">
+          Margin of victory (% points)
+        </th>
+      </tr>
+      <tr class="state-winners-table__hide-mobile">
+        <th>
+          <small>Dem</small>
+        </th>
+        <th class="state-winners-table__empty"></th>
+        <th>
+          <small>GOP</small>
+        </th>
+        <th colspan="3" class="state-winners-table__empty"></th>
+      </tr>
+      <tr  class="state-winners-table__hide-desktop">
+        <th>
+          Winner
+        </th>
+        <th>
+          Year
+        </th>
+        <th>
+          Margin of victory (% points)
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in historicalResults %}
+      <tr>
+        <td class="state-winners-table__dems {{ row.isDemWinner }}">
+          {{ row.dem }}
+        </td>
+        <td class="state-winners-table__vs">
+          v
+        </td>
+        <td class="state-winners-table__republicans {{ row.isGopWinner }}">
+          {{ row.gop }}
+        </td>
+        <td class="state-winners-table__year">
+          <strong>{{ row.year }}</strong>
+        </td>
+        <td class="state-winners-table__winning-pct">
+          <div style="width: {{ row.winningPctScaled }}%" class="state-winners-table__winning-pct-bar {{row.stateWinnerColor}}"></div>
+          {{row.winningPct | round(1)}}%
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+
+  <!-- <p class="source"><small>Source: countingthevotes.com</small></p> -->
+</div>

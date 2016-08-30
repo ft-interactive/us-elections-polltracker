@@ -28,7 +28,7 @@ export function getHistoricalResults(data, state) {
     .filter(label => !!~label.indexOf('outcome'))
     .map(d => Math.abs(data[state.toUpperCase()][d])));
 
-  const barScale = d3.scaleLinear().domain(barExtents).range([2, 80]);
+  const barScale = d3.scaleLinear().domain(barExtents).range([2, 75]);
 
   return Object.keys(data[state.toUpperCase()])
     .filter(label => !!~label.indexOf('outcome'))
