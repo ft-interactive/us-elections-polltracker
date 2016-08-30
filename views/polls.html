@@ -233,10 +233,20 @@ td.date{
     min-width: 70px;
 }
 
-.o-typography-body-wrapper .source{
+.o-typography-body-wrapper .source {
+  line-height: 1.1;
+  margin-top: 3em;
+  padding: 0.1em;
+  color: #333;
+  font-style: italic;
+  font-family: MetricWeb, sans-serif;
+  border-top: 1px solid #cec6b9;
+}
+
+.o-typography-body-wrapper .note {
   line-height: 1.1;
   margin-top: 0.5em;
-  margin-bottom: 0.5em;
+  margin-bottom: 1em;
   color: #6b6e68;
   font-family: MetricWeb, sans-serif;
 }
@@ -253,6 +263,69 @@ td.date{
   height: auto;
 }
 
+#latestnews {
+  border-top: 1px solid #cec6b9;
+  border-bottom: 1px solid #cec6b9;
+  margin: 3em 0;
+}
+
+#latestnews h3 {
+  font-family: MetricWeb, sans-serif;
+  margin: 0.5em 0 1em 0;
+  font-weight: 500;
+}
+
+.forecast-map {
+  display: block;
+  margin: 0 auto;
+}
+
+.forecast-map__label > text {
+  fill: #222;
+}
+
+.forecast-map__label--external > rect {
+  stroke: none;
+}
+
+.forecast-map__state-shape {
+  stroke: #fff1e0;
+  stroke-width: 1.5;
+}
+
+.forecast-map__two-letter-name { display: none; }
+
+.forecast-map__state-shape--AK,
+.forecast-map__state-shape--HI {
+  stroke: none;
+}
+
+.o-typography-body-wrapper footer {
+  font-size: 21px;
+  line-height: 24px;
+  margin: 20px 0;
+}
+
+@media (max-width: 46.25em) {
+  .forecast-map {
+    width: 30.625em;
+    height: 18em;
+  }
+
+  .forecast-map__short-name { display: none; }
+  .forecast-map__two-letter-name {
+    display: inline;
+    font-size: 27px;
+  }
+}
+
+@media (max-width: 30.625em) {
+  .forecast-map {
+    width: 300px;
+    height: 11.3em;
+  }
+}
+
 p.notavailable {
   color: #666;
   font-size: 1em;
@@ -264,6 +337,7 @@ p.off-link{
   font-family: MetricWeb, sans-serif;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
+  max-width: none;
 }
 
 p.off-link a{
@@ -472,7 +546,7 @@ a {
               {% endif %}
 
               <div><a href="http://www.ft.com/us-election-2016" class="o-typography-link-topic o-typography-link-topic--medium">US Election 2016</a></div>
-              <h1 class="o-typography-heading1" itemprop="headline">{% if state != 'us' %}{{ stateName }} US Election polls{% else %}US election poll tracker{% endif %}</h1>
+              <h1 class="o-typography-heading1" itemprop="headline">{% if state != 'us' %}US election poll tracker: {{ stateName }}{% else %}US election poll tracker{% endif %}</h1>
               <p class="o-typography-timestamp"><span class="lastupdated">Updated: </span><time itemprop="dateModified" content="{{ lastUpdated.toISOString() }}" class="o-date" data-o-component="o-date" datetime="{{ lastUpdated.toISOString() }}" data-o-date-js>{{ lastUpdated | ftdate }}</time></p>
             </header>
           </div>
@@ -481,19 +555,26 @@ a {
           <div class="o-grid-row">
             <div data-o-grid-colspan="center 12 M10 L8 XL7">
               <div class="article-body o-typography-body-wrapper" itemprop="articleBody">
+                {% if flags.nationalBar and state == 'us' %}
+                  {% include "includes/nationalbar.html" %}
+                {% endif %}
+
+                {% if flags.forecastMap and state == 'us' %}
+                  {% from 'includes/forecast-map-macro.svg' import ForecastMap %}
+
+                  <div>
+                    {{ ForecastMap(forecastMapLayout, color) }}
+                  </div>
+                {% endif %}
 
                 {% if state == 'us' %}
-                <div>
+                <div id="latestnews">
+                  <h3>Latest news</h3>
                   {% markdown %}
                   {{ introText | safe }}
                   {% endmarkdown %}
+                  <p class="off-link"><a href="http://www.ft.com/us-election-2016">All US Election 2016 coverage</a></p>
                 </div>
-
-                <p class="off-link"><a href="http://www.ft.com/us-election-2016">All US Election 2016 coverage</a></p>
-                {% endif %}
-
-                {% if flags.nationalBar and state == 'us' %}
-                  {% include "includes/nationalbar.html" %}
                 {% endif %}
 
                 {% if pollSVG.default != false %}
@@ -505,7 +586,7 @@ a {
                     Which candidate is leading in {{ stateName }}?
                   {% endif %}
                   </h2>
-                  <p class="article-figure__subheading">Polling average %</p>
+                  <p class="article-figure__subheading">{% if state == 'us' %}National{% else %}State{% endif %} polling average (%)</p>
                   {% for gridsize, svg in pollSVG %}
                   {% if svg %}
                   <div class="pollchart pollchart--{{gridsize}}">
@@ -513,8 +594,6 @@ a {
                   </div>
                   {% endif %}
                   {% endfor %}
-
-                  <p class="source"><small>Source: Real Clear Politics</small></p>
                 </div>
                 {% endif %}
 
@@ -573,7 +652,7 @@ a {
                       {% endfor %}
                     </tbody>
                   </table>
-                  <p class="source"><small>* RV indicates registered voters; LV indicates likely voters<br />Source: Real Clear Politics</small></p>
+                  <p class="note"><small>* RV indicates registered voters; LV indicates likely voters</small></p>
                   {% if pollList.length > row_num_collapse %}
                   <button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big">Show more polls</button>
                   {% endif %}
@@ -581,6 +660,8 @@ a {
                 {% else %}
                 <p class="notavailable">Polls for this state are not available yet.</p>
                 {% endif %}
+
+                <p class="source"><small>Sources: Real Clear Politics, US Census, Bureau of Labor Statistics, Bureau of Economic Analysis</small></p>
 
                 <footer class="o-typography-footer">
                   <small><a href="http://www.ft.com/servicestools/help/copyright" data-trackable="link-copyright">Copyright</a>

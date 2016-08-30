@@ -10,7 +10,7 @@
   #statedemographics p.subhead {
     color: #555;
     font-family: MetricWeb, sans-serif;
-    display: inline-block;
+    display: block;
   }
 
   #demographic-wrapper {
@@ -29,13 +29,20 @@
   }
 
   .demographic-container h3 {
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     margin-bottom: 1em;
     font-family: MetricWeb, sans-serif;
-    font-size: 1em;
+    font-size: 14px;
+    font-weight: 400;
     line-height: 1em;
     height: 2.5em;
     padding: auto 5px;
+  }
+
+  .demographic-rect-container {
+    border-bottom: 1px solid #a7a59b;
+    width: 100px;
+    margin: 0 auto;
   }
 
   .demographic-rect {
@@ -43,39 +50,44 @@
     height: 14px;
     display: inline-block;
     vertical-align: bottom;
-    margin-right: 3px;
     position: relative;
   }
 
   .demographic-state-rect {
     background: #6D5E7F;
+    margin-right: 3.5px;
   }
 
   .demographic-us-rect {
     background: #B2B2B2;
+    margin-left: 3.5px;
   }
 
   .demographic-rect-label {
     position: absolute;
-    bottom: -2px;
+    /*bottom: 3px;*/
+    top: -20px;
     width: 200%;
+    left: -10px;
+    font-size: 14px;
+    letter-spacing: 0.05em;
   }
 
   .demographic-state-rect .demographic-rect-label {
-    text-align: right;
-    left: -46px;
+    /*text-align: right;*/
+    /*left: -46px;*/
     font-weight: 500;
   }
 
   .demographic-us-rect .demographic-rect-label {
-    left: 27px;
-    text-align: left;
+    /*left: 27px;*/
+    /*text-align: left;*/
   }
 
   #demographic-legend {
-    display: inline-block;
-    float: right;
-    margin-top: 0.3em;
+    display: block;
+    margin-top: -0.66em;
+    margin-bottom: 1em;
   }
 
   #demographic-legend .demographic-rect {
@@ -90,27 +102,13 @@
     position: relative;
     display: inline;
     margin-right: 15px;
-  }
-
-  #demographic-legend .demographic-rect-label {
+    letter-spacing: initial;
     font-weight: 400;
-  }
-
-  #demographic-legend .demographic-rect-label {
+    top: 0;
+    left: 0;
   }
 
   @media (max-width: 500px) {
-    #statedemographics p.subhead {
-      display: block;
-    }
-
-    #demographic-legend {
-      display: block;
-      float: none;
-      margin-top: -0.3em;
-      margin-bottom: 1em;
-    }
-
     .demographic-container {
       width: 49%;
     }
@@ -130,10 +128,11 @@
     {% for stateDemo in stateDemographics %}
     <div class="demographic-container">
       <h3>{{ stateDemo.category }}</h3>
-      <div class="demographic-rect demographic-state-rect" style="height: {{stateDemo.stateValue * 50 / stateDemo.maxYVal}}px;"><span class="demographic-rect-label">{{ (stateDemo.stateValue * 100) | round1dp }}</span></div>
-      <div class="demographic-rect demographic-us-rect" style="height: {{stateDemo.nationalValue * 50 / stateDemo.maxYVal}}px;"><span class="demographic-rect-label">{{ (stateDemo.nationalValue * 100) | round1dp }}</span></div>
+      <div class="demographic-rect-container">
+        <div class="demographic-rect demographic-state-rect" style="height: {{stateDemo.stateValue * 50 / stateDemo.maxYVal}}px;"><span class="demographic-rect-label">{{ (stateDemo.stateValue * 100) | round1dp }}</span></div>
+        <div class="demographic-rect demographic-us-rect" style="height: {{stateDemo.nationalValue * 50 / stateDemo.maxYVal}}px;"><span class="demographic-rect-label">{{ (stateDemo.nationalValue * 100) | round1dp }}</span></div>
+      </div>
     </div>
     {% endfor %}
   </div>
-  <p class="source"><small>Sources: US Census, Bureau of Labor Statistics, Bureau of Economic Analysis</small></p>
 </div>
