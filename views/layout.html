@@ -1,0 +1,21 @@
+{% extends "g-ui/layout/article" %}
+
+{% set layout = {name: 'centered-body'} %}
+
+{% block article_body %}
+
+  <div class="o-grid-container">
+    <div class="o-grid-row">
+      <div data-o-grid-colspan="center 12 M10 L8 XL7">
+        <div class="o-typography-body-wrapper" itemprop="articleBody">
+        {% block content %}{% endblock %}
+        <p class="source"><small>Sources: Real Clear Politics, US Census, Bureau of Labor Statistics, Bureau of Economic Analysis</small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% block sidebar %}
+  {% endblock %}
+
+{% endblock %}

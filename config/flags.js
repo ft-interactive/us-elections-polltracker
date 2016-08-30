@@ -7,7 +7,10 @@ export default () => ({
   googleAnalytics: prod,
   ads: true,
   shareButtons: true,
-  onwardjourney: true,
+  onwardJourney: true,
   nationalBar: true,
   stateDemographics: true,
+  forecastMap: true,
+  header: true,
+  footer: true,
 });

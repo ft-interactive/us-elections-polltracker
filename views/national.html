@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% from 'includes/forecast-map-macro.svg' import ForecastMap %}
+{% import 'polling-history.html' as PollingHistory %}
+{% import "g-ui/ads" as Ads -%}
+
+{% block content %}
+
+{% if flags.nationalBar %}
+  {% include "includes/nationalbar.html" %}
+{% endif %}
+
+{% if flags.forecastMap %}
+  <div>{{ ForecastMap(forecastMapLayout) }}</div>
+{% endif %}
+
+<div id="latestnews">
+  <h3>Latest news</h3>
+  <div>{{ introText | md}}</div>
+  <p class="off-link"><a href="http://www.ft.com/us-election-2016">All US Election 2016 coverage</a></p>
+</div>
+
+{{
+  PollingHistory.LineChart(
+    title="Which White House candidate is leading in the polls?",
+    substitle="National polling average (%)",
+    svgs=pollHistory.lineCharts
+  )
+}}
+
+{{ Ads.MidContent(on=flags.ads) }}
+
+{{
+  PollingHistory.Table(
+    title="Full list of individual polls",
+    list=pollHistory.list
+  )
+}}
+
+{% endblock %}
