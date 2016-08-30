@@ -30,7 +30,7 @@ function forecastMapLayout(stateData, opts) {
           data: currentState,
     };
 	});
-  console.log( 'logo', layoutObject.logo );
+  // console.log( 'logo', layoutObject.logo );
 
   return layoutObject;
 }
