@@ -229,7 +229,18 @@
 </style>
 
 <div id="national-bar">
-  <p>A candidate needs at least 270 electoral votes to win the race to the White House. The latest polls suggest that the electoral college outcome {% if nationalBarCounts.dem + nationalBarCounts.leaningDem > 270 %}would be in Hillary Clinton's favour{% elif nationalBarCounts.rep + nationalBarCounts.leaningRep > 270 %}would be in Donald Trump's favour{% else %}is too close to call{% endif %}. The two candidates will be paying attention to toss-up states in the run-up to election day on November 8.</p>
+  <p>
+    {% if nationalBarCounts.dem + nationalBarCounts.leaningDem > 270 %}
+      Hillary Clinton leads the race for 270 electoral college votes.
+    {% elif nationalBarCounts.rep + nationalBarCounts.leaningRep > 270 %}
+      Donald Trump leads the race for 270 electoral college votes.
+    {% else %}
+      The race for 270 electoral college votes is too close to call.
+    {% endif %}
+
+    Both candidates will be paying attention to <span style="border-bottom:3px solid {{color.swing}}">toss-up states</span> in the run-up to November 8.
+  </p>
+
   <div id="national-bar-wrapper">
     <div class="national-bar--head-icons" id="national-bar--head-icons-dem"><img src="images/clinton.png" /></div>
     <div id="national-bar-container">
