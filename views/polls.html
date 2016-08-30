@@ -555,7 +555,6 @@ a {
           <div class="o-grid-row">
             <div data-o-grid-colspan="center 12 M10 L8 XL7">
               <div class="article-body o-typography-body-wrapper" itemprop="articleBody">
-
                 {% if flags.nationalBar and state == 'us' %}
                   {% include "includes/nationalbar.html" %}
                 {% endif %}
@@ -566,10 +565,6 @@ a {
                   <div>
                     {{ ForecastMap(forecastMapLayout, color) }}
                   </div>
-                {% endif %}
-
-                {% if (state == 'us' and flags.nationalBar) or (state == 'us' and flags.forecastMap) %}
-                <p class="note"><small>Projected electoral college votes are based on latest state polling averages.</small></p>
                 {% endif %}
 
                 {% if state == 'us' %}
