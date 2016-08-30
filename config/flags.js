@@ -7,8 +7,11 @@ export default () => ({
   googleAnalytics: prod,
   ads: true,
   shareButtons: true,
-  onwardjourney: true,
+  onwardJourney: true,
   nationalBar: true,
   forecastMap: 'choropleth', // Options: 'choropleth', 'dots'
   stateDemographics: true,
+  forecastMap: true,
+  header: true,
+  footer: true,
 });

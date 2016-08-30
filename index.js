@@ -1,4 +1,15 @@
 import Promise from 'bluebird';
+const d3 = require('d3');
+const lru = require('lru-cache');
+const fetch = require('isomorphic-fetch');
+const _ = require('underscore');
+
+import * as nunjucks from './server/nunjucks';
+import nationalController from './server/controllers/national';
+import stateController from './server/controllers/state';
+
+import flags from './config/flags';
+const express = require('express');
 
 process.on('unhandledRejection', error => {
   console.error('unhandledRejection', error.stack);
@@ -6,28 +17,18 @@ process.on('unhandledRejection', error => {
 });
 
 const color = require('./layouts/color.js');
-const express = require('express');
 const getPollAverages = require('./layouts/getPollAverages.js');
 const getAllPolls = require('./layouts/getAllPolls.js');
 const getLatestPollAverage = require('./layouts/getLatestPollAverage.js');
 const getAllLatestStateAverages = require('./layouts/getAllLatestStateAverages.js');
 const lastUpdated = require('./layouts/getLastUpdated.js');
-const nunjucks = require('nunjucks');
-const markdown = require('nunjucks-markdown');
-const marked = require('marked');
-const d3 = require('d3');
-const lru = require('lru-cache');
-const fetch = require('isomorphic-fetch');
-const _ = require('underscore');
+const template = nunjucks.env;
 const stateIds = require('./layouts/stateIds').states;
 const stateDemographicsData = require('./layouts/stateDemographics');
 const layoutTimeSeries = require('./layouts/timeseries-layout.js');
 const layoutForecastMap = require('./layouts/forecast-map-layout');
-const filters = require('./filters');
 const berthaDefaults = require('./config/bertha-defaults.json');
 const validStates = berthaDefaults.streampages.map((d) => d.state.toLowerCase());
-
-import flags from './config/flags';
 
 
 const app = express();
@@ -64,15 +65,6 @@ function convertToCacheKeyName(queryRequest) {
   return cacheKey;
 }
 
-const env = nunjucks.configure('views', {
-  autoescape: true,
-  express: app,
-});
-
-Object.assign(env.filters, filters);
-
-markdown.register(env, marked);
-
 const cache = lru({
   max: 500,
   maxAge: 60 * 1000, // 60 seconds
@@ -86,6 +78,9 @@ app.get('/__gtg', (req, res) => {
 app.get('/favicon.ico', (req, res) => { // explicit override to redirect if favicon is requested
   res.redirect(301, 'https://ig.ft.com/favicon.ico');
 });
+
+app.get('/national', nationalController);
+app.get('/state-:state', stateController);
 
 app.get('/polls/:state.json', async (req, res) => {
   let value = await pollAverages('July 1, 2015', 'November 9, 2016', req.params.state);
@@ -146,22 +141,21 @@ app.get('/polls/:state', (req, res) => {
 });
 
 
+
+
 async function makePollTimeSeries(chartOpts) {
   const startDate = chartOpts.startDate ? chartOpts.startDate : 'June 1, 2016';
   const endDate = chartOpts.endDate ? chartOpts.endDate : d3.timeFormat('%B %e, %Y')(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';
   const pollData = await pollAverages(startDate, endDate, state);
-  if (pollData && pollData.length > 0) {
-    return nunjucks.render('templated-polls.svg', layoutTimeSeries(pollData, chartOpts));
-  }
-  return false;
+  return template.render('templated-polls.svg', layoutTimeSeries(pollData, chartOpts));
 }
 
 async function makeForecastMap(chartOpts) {
   const statePollingData = await getStateCounts(await getBerthaData());
   const layout = layoutForecastMap(statePollingData, chartOpts);
-  if(chartOpts.dots === 'true') return nunjucks.render('dot-map.svg', layout);
-  return nunjucks.render('map.svg', layout);
+  if(chartOpts.dots === 'true') return template.render('dot-map.svg', layout);
+  return template.render('map.svg', layout);
 }
 
 async function pollAverages(start, end, state) {
@@ -191,7 +185,7 @@ async function statePage(req, res) {
     const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
     // get intro text
     const data = await getBerthaData();
-    
+
     const stateStreamURL = _.findWhere(data.streampages, { 'state': state.toUpperCase() }).link;
 
     const introtext1 = _.findWhere(data.options, { name: 'text' }).value;
@@ -312,7 +306,7 @@ async function statePage(req, res) {
       stateDemographics,
     };
 
-    renderedPage = nunjucks.render('polls.html', polltrackerLayout);
+    renderedPage = template.render('polls.html', polltrackerLayout);
     if (cachePage) cache.set(pageCacheKey, renderedPage);
   }
 

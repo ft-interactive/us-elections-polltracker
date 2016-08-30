@@ -1,0 +1,155 @@
+<!doctype html><html lang="en-GB" class="core" data-buildtime="2016-08-26T16:47:27.758Z" data-content-id=""><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://origami-build.ft.com"><link rel="preconnect" href="https://build.origami.ft.com" crossorigin><link rel="preconnect" href="https://cdn.polyfill.io"><!--[if lt IE 9]><script>!function(e,t){function n(e,t){var n=e.createElement("p"),r=e.getElementsByTagName("head")[0]||e.documentElement;return n.innerHTML="x<style>"+t+"</style>",r.insertBefore(n.lastChild,r.firstChild)}function r(){var e=y.elements;return"string"==typeof e?e.split(" "):e}function a(e,t){var n=y.elements;"string"!=typeof n&&(n=n.join(" ")),"string"!=typeof e&&(e=e.join(" ")),y.elements=n+" "+e,m(t)}function c(e){var t=E[e[p]];return t||(t={},v++,e[p]=v,E[v]=t),t}function o(e,n,r){if(n||(n=t),u)return n.createElement(e);r||(r=c(n));var a;return a=r.cache[e]?r.cache[e].cloneNode():g.test(e)?(r.cache[e]=r.createElem(e)).cloneNode():r.createElem(e),!a.canHaveChildren||f.test(e)||a.tagUrn?a:r.frag.appendChild(a)}function i(e,n){if(e||(e=t),u)return e.createDocumentFragment();n=n||c(e);for(var a=n.frag.cloneNode(),o=0,i=r(),l=i.length;l>o;o++)a.createElement(i[o]);return a}function l(e,t){t.cache||(t.cache={},t.createElem=e.createElement,t.createFrag=e.createDocumentFragment,t.frag=t.createFrag()),e.createElement=function(n){return y.shivMethods?o(n,e,t):t.createElem(n)},e.createDocumentFragment=Function("h,f","return function(){var n=f.cloneNode(),c=n.createElement;h.shivMethods&&("+r().join().replace(/[\w\-:]+/g,function(e){return t.createElem(e),t.frag.createElement(e),'c("'+e+'")'})+");return n}")(y,t.frag)}function m(e){e||(e=t);var r=c(e);return!y.shivCSS||s||r.hasCSS||(r.hasCSS=!!n(e,"article,aside,dialog,figcaption,figure,footer,header,hgroup,main,nav,section{display:block}mark{background:#FF0;color:#000}template{display:none}")),u||l(e,r),e}var s,u,d="3.7.2",h=e.html5||{},f=/^<|^(?:button|map|select|textarea|object|iframe|option|optgroup)$/i,g=/^(?:a|b|code|div|fieldset|h1|h2|h3|h4|h5|h6|i|label|li|ol|p|q|span|strong|style|table|tbody|td|th|tr|ul)$/i,p="_html5shiv",v=0,E={};!function(){try{var e=t.createElement("a");e.innerHTML="<xyz></xyz>",s="hidden"in e,u=1==e.childNodes.length||function(){t.createElement("a");var e=t.createDocumentFragment();return"undefined"==typeof e.cloneNode||"undefined"==typeof e.createDocumentFragment||"undefined"==typeof e.createElement}()}catch(n){s=!0,u=!0}}();var y={elements:h.elements||"abbr article aside audio bdi canvas data datalist details dialog figcaption figure footer header hgroup main mark meter nav output picture progress section summary template time video",version:d,shivCSS:h.shivCSS!==!1,supportsUnknownElements:u,shivMethods:h.shivMethods!==!1,type:"default",shivDocument:m,createElement:o,createDocumentFragment:i,addElements:a};e.html5=y,m(t)}(this,document)</script><![endif]--><script>!function(){window.flags={prod:!0,errorReporting:!0,analytics:!0,googleAnalytics:!0,ads:!0,onwardJourney:!0,shareButtons:!0,header:!0,footer:!0,comments:!0}}()</script><script>(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.init = init;
+/* eslint-disable */
+
+function add_script(src, async, defer, cb) {
+  var script = document.createElement('script');
+  script.src = src;
+  script.async = !!async;
+  if (defer) script.defer = !!defer;
+  var oldScript = document.getElementsByTagName('script')[0];
+  if (!cb && typeof defer === 'function') {
+    cb = defer;
+  }
+
+  if (typeof cb === 'function') {
+    if (script.hasOwnProperty('onreadystatechange')) {
+      script.onreadystatechange = function () {
+        if (script.readyState === 'loaded') {
+          cb();
+        }
+      };
+    } else {
+      script.onload = cb;
+    }
+  }
+  oldScript.parentNode.appendChild(script);
+  return script;
+}
+
+function exec(script) {
+  if (!window.cutsTheMustard) return;
+  var s = typeof script;
+  if (s === 'string') {
+    try {
+      add_script.apply(window, arguments);
+    } catch (e) {}
+  } else if (s === 'function') {
+    try {
+      script();
+    } catch (e) {}
+  } else if (script) {
+    try {
+      var args = Array.prototype.slice.call(arguments, 1);
+      for (var i = 0; i < script.length; i++) {
+        exec.apply(window, [script[i]].concat(args));
+      }
+    } catch (e) {}
+  }
+}
+
+var queued_scripts = [];
+var low_priority_queue = [];
+
+function queue(src, cb, low_priority) {
+  var args = [src, true, !!low_priority, cb];
+
+  if (!queued_scripts) {
+    exec.apply(window, args);
+    return;
+  }
+
+  if (low_priority) {
+    low_priority_queue.push(args);
+  } else {
+    queued_scripts.push(args);
+  }
+}
+
+function empty_queue(q) {
+  var arr = q.slice(0);
+  for (var i = 0; i < arr.length; i++) {
+    exec.apply(window, arr[i]);
+  }
+}
+
+function clear_queue() {
+  empty_queue(queued_scripts);
+  queued_scripts = null;
+  var callback = low_priority_queue.length ? low_priority_queue[low_priority_queue.length - 1][3] : null;
+
+  var done = function done() {
+    document.documentElement.className = document.documentElement.className + ' js-success';
+  };
+
+  var onLoaded = typeof callback !== 'function' ? done : function () {
+    callback();
+    done();
+  };
+
+  if (low_priority_queue.length) {
+    low_priority_queue[low_priority_queue.length - 1][3] = onLoaded;
+  } else {
+    setTimeout(function () {
+      onLoaded();
+    }, 1);
+  }
+
+  empty_queue(low_priority_queue);
+  low_priority_queue = null;
+}
+
+// Load the polyfill service with custom features. Exclude big unneeded polyfills.
+// and use ?callback= to clear the queue of scripts to load
+const defaultPolyfillFeatures = ['default', 'requestAnimationFrame', 'Promise', 'matchMedia', 'IntersectionObserver', 'HTMLPictureElement', 'fetch|always|gated'];
+
+const createPolyfillURL = features => `https://cdn.polyfill.io/v2/polyfill.min.js?callback=clear_queue&features=${ features.join(',') }&excludes=Symbol,Symbol.iterator,Symbol.species,Map,Set`;
+
+function init({ polyfillFeatures = defaultPolyfillFeatures } = {}) {
+
+  if (!window.cutsTheMustard) {
+    window.cutsTheMustard = typeof Function.prototype.bind !== 'undefined';
+  }
+
+  window.queue = queue;
+  window.clear_queue = clear_queue;
+  window.exec = exec;
+
+  exec(function () {
+    window.isNext = document.cookie.indexOf('FT_SITE=NEXT') !== -1;
+    window.isLoggedIn = document.cookie.indexOf('FTSession=') !== -1;
+    document.documentElement.className = document.documentElement.className.replace(/\bcore\b/g, ['enhanced', window.isNext ? 'is-next' : 'is-falcon', window.isLoggedIn ? 'is-loggedin' : 'is-anonymous'].join(' '));
+  });
+
+  exec(createPolyfillURL(polyfillFeatures), true, true);
+}
+
+},{}],2:[function(require,module,exports){
+'use strict';
+
+require("./../../bower_components/g-ui/asset-loader/script-loader").init();
+
+},{"./../../bower_components/g-ui/asset-loader/script-loader":1}]},{},[2]);
+</script><style>@font-face{font-family:MetricWeb;font-style:normal;font-weight:200;src:url("https://origami-build.ft.com/v2/files/o-fonts-assets@1.3.0/MetricWeb-Light.woff?#iefix") format("woff")}@font-face{font-family:MetricWeb;font-style:italic;font-weight:200;src:url("https://origami-build.ft.com/v2/files/o-fonts-assets@1.3.0/MetricWeb-LightItalic.woff?#iefix") format("woff")}@font-face{font-family:MetricWeb;font-style:normal;font-weight:400;src:url("https://origami-build.ft.com/v2/files/o-fonts-assets@1.3.0/MetricWeb-Regular.woff?#iefix") format("woff")}@font-face{font-family:MetricWeb;font-style:italic;font-weight:400;src:url("https://origami-build.ft.com/v2/files/o-fonts-assets@1.3.0/MetricWeb-RegularItalic.woff?#iefix") format("woff")}@font-face{font-family:FinancierDisplayWeb;font-style:italic;font-weight:200;src:url("https://origami-build.ft.com/v2/files/o-fonts-assets@1.3.0/FinancierDisplayWeb-LightItalic.woff?#iefix") format("woff")}@font-face{font-family:FinancierDisplayWeb;font-style:normal;font-weight:400;src:url("https://origami-build.ft.com/v2/files/o-fonts-assets@1.3.0/FinancierDisplayWeb-Regular.woff?#iefix") format("woff")}html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body,html{margin:0;padding:0;background-color:#fff1e0;font-family:MetricWeb, sans-serif}main{display:block}.core .o--if-js,.enhanced .o--if-no-js,.is-anonymous .hide-anonymous,.is-falcon .hide-falcon,.is-loggedin .hide-loggedin,.is-next .hide-next{display:none !important}.hide-anonymous,.hide-falcon,.hide-loggedin,.hide-next,.show-anonymous,.show-falcon,.show-loggedin,.show-next{display:none}.is-anonymous .show-anonymous,.is-falcon .hide-next,.is-falcon .show-falcon,.is-loggedin .show-loggedin,.is-next .hide-falcon,.is-next .show-next{display:inherit}
+</style><link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-grid@^4.2.1"><link rel="stylesheet" href="g-ui/main-d74aed9850.css"><link rel="stylesheet" href="main-d41d8cd98f.css"><script type="application/ld+json">{
+"@context": "http://schema.org",
+"@type": "WebSite",
+"name": "Financial Times",
+"alternateName": "FT.com",
+"url": "http://www.ft.com"
+}</script><script type="application/ld+json">{
+"@context": "http://schema.org",
+"@type": "BreadcrumbList",
+"itemListElement": [
+  {"@type": "ListItem","position": 1,
+  "item": {
+    "@id": "/foo",
+    "name": "Starter Kit","image": ""
+  }
+}]
+}</script><script type="application/json" data-o-errors-config>{"sentryEndpoint": "{ sentryEndpoint | default("https://ddbd80489ff549538250bbe37fa52bbd@app.getsentry.com/71130", true) }}"}</script><script async src="https://origami-build.ft.com/v2/bundles/js?export=oErrors&modules=o-errors@^3.4.0"></script><title>Politics and the English Language &mdash; FT.com</title><link rel="canonical" href="$url"><meta name="description" content=""><link rel="image_src" href=""><meta name="robots" content="index,follow"><meta name="copyright" content="Financial Times"><link rel="shortcut icon" href="https://ig.ft.com/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="https://ig.ft.com/apple-touch-icon.png"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#fff1e0"><link href="https://plus.google.com/113457471429583444041/" rel="publisher"><meta property="fb:app_id" content="429755910551755"><meta property="og:url" content="$url"><meta property="og:title" content="Politics and the English Language"><meta property="og:description" content=""><meta property="og:image" content=""><meta name="twitter:card" content="summary"><meta name="twitter:url" content="$url"><meta name="twitter:site" content="@ft"><meta name="twitter:title" content="Politics and the English Language"><meta property="ft.track:product" content="IG"><script type="application/json" data-o-ads-config>{"gpt": {"unitName" : "5887/ft.com/world/us.and.canada"}}</script></head><body><div class="o-ads above-header-advert advert advert--background advert--transition advert--reserve-90 o-ads--center" data-o-ads-name="entry" data-o-ads-center="true" data-o-ads-targeting="pos=top" data-o-ads-formats-default="false" data-o-ads-formats-small="false" data-o-ads-formats-medium="Leaderboard,Responsive" data-o-ads-formats-large="SuperLeaderboard,Leaderboard,Responsive" data-o-ads-formats-extra="Billboard,SuperLeaderboard,Leaderboard,Responsive" data-o-ads-lazy-load="true" aria-hidden="true"></div><!--[if lt IE 9]><img src="https://spoor-api.ft.com/px.gif?data=%7B%22action%22%3A%22view%22%2C%22category%22%3A%22page%22%2C%22context%22%3A%7B%22content%22%3A%7B%22asset_type%22%3A%22interactive%22%2C%22uuid%22%3A%22%24uuid%22%7D%2C%22product%22%3A%22IG%22%7D%2C%22system%22%3A%7B%22is_live%22%3Afalse%2C%22apiKey%22%3A%22qUb9maKfKbtpRsdp0p2J7uWxRPGJEP%22%2C%22source%22%3A%22o-tracking-ns%22%2C%22version%22%3A%221.0.0%22%7D%7D" height="1" width="1"><![endif]--><noscript data-o-component="o-tracking"><img src="https://spoor-api.ft.com/px.gif?data=%7B%22action%22%3A%22view%22%2C%22category%22%3A%22page%22%2C%22context%22%3A%7B%22content%22%3A%7B%22asset_type%22%3A%22interactive%22%2C%22uuid%22%3A%22%24uuid%22%7D%2C%22product%22%3A%22IG%22%7D%2C%22system%22%3A%7B%22is_live%22%3Afalse%2C%22apiKey%22%3A%22qUb9maKfKbtpRsdp0p2J7uWxRPGJEP%22%2C%22source%22%3A%22o-tracking-ns%22%2C%22version%22%3A%221.0.0%22%7D%7D" height="1" width="1"></noscript><script>!function(e,a,t,n,c,s,o){e.GoogleAnalyticsObject=c,e[c]=e[c]||function(){(e[c].q=e[c].q||[]).push(arguments)},e[c].l=1*new Date,s=a.createElement(t),o=a.getElementsByTagName(t)[0],s.async=1,s.src=n,o.parentNode.insertBefore(s,o)}(window,document,"script","//www.google-analytics.com/analytics.js","ga"),ga("create","UA-35229645-1","auto"),ga("require","displayfeatures"),ga("send","pageview")</script><link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-header@^6.5.1"><header class="o-header o-header--simple" data-o-component="o-header" data-o-header--no-js=""><div class="o-header__row o-header__top"><div class="o-header__container"><div class="o-header__top-wrapper"><div class="o-header__top-column o-header__top-column--center"><a class="o-header__top-logo" href="//www.ft.com/" title="Go to Financial Times homepage"><span class="o-header__visually-hidden">Financial Times</span></a></div></div></div></div></header><script async>queue("https://origami-build.ft.com/v2/bundles/js?export=oHeader&modules=o-header@^6.5.1",null,!0)</script><main role="main"><article class="article" itemscope itemtype="http://schema.org/Article"><div class="article-head section-head o-grid-container"><div class="o-grid-row"><header data-o-grid-colspan="12 S11 Scenter M9 L8 XL7"><div class="section-head__share"><link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-share@^2"><div data-o-component="o-share" class="o-share o-share--vertical o-share--muted" data-o-share-links="twitter facebook" data-o-share-url="$url" data-o-share-title="Politics and the English Language" data-o-share-summary="Political language is designed to make lies sound truthfuland murder respectable, and to give an appearance of solidity to pure wind" data-o-share-relatedtwitteraccounts="@ft"></div><script async>queue("https://origami-build.ft.com/v2/bundles/js?export=oShare&modules=o-share@^2",null,!0)</script></div><div><a href="/foo" class="o-typography-link-topic o-typography-link-topic--medium">Starter Kit</a></div><h1 class="o-typography-heading1" itemprop="headline">Politics and the English Language</h1><p class="o-typography-lead">Political language is designed to make lies sound truthfuland murder respectable, and to give an appearance of solidity to pure wind <a href="https://en.wikipedia.org/wiki/Politics_and_the_English_Language" class="o-typography-link">Related article »</a></p><meta itemprop="dateModified" content=""><p><time class="article__timestamp o-date o-typography-timestamp" data-o-component="o-date" datetime="2016-08-26T16:47:27.706Z" itemprop="datePublished" content="2016-08-26T16:47:27.706Z" data-o-date-js>Friday, 26 August 2016</time>&#32;<span class="article__byline">by&nbsp;<a href="/foo/bar" class="o-typography-link-topic o-typography-link-topic--small" itemprop="author">Author One</a> and Author Two</span></p></header></div></div><div class="article-body section-body body o-typography-body-wrapper" itemprop="articleBody"><p>…the defense of the English language implies more than this, and perhaps it is best to start by saying what it does <em>not</em> imply.</p><figure class="graphic graphic-b-1 graphic-pad-1"><img alt="" src="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fcom.ft.imagepublish.prod.s3.amazonaws.com%2Fc4bf0be4-7c15-11e4-a7b8-00144feabdc0?source=ig&fit=scale-down&width=700"><figcaption class="o-typography-caption"><a class="o-typography-link" href="#void">&#xA9;Credit person</a> George Orwell at his typewriter</figcaption></figure><p>To begin with it has nothing to do with archaism, with the salvaging of<br>obsolete words and turns of speech, or with the setting up of a “standard<br>English” which must never be departed from. On the contrary, it is<br>especially concerned with the scrapping of every word or idiom which has<br>outworn its usefulness. It has nothing to do with correct grammar and syntax,<br>which are of no importance so long as one makes one’s meaning clear, or with<br>the avoidance of Americanisms, or with having what is called a “good prose<br>style.” On the other hand, it is not concerned with fake simplicity and<br>the attempt to make written English colloquial. Nor does it even imply in every<br>case preferring the Saxon word to the Latin one, though it does imply using the fewest and shortest words that will cover one’s meaning. What is above all<br>needed is to let the meaning choose the word, and not the other way around. In prose, the worst thing one can do with words is surrender to them. When you think of a concrete object, you think wordlessly, and then, if you want to<br>describe the thing you have been visualizing you probably hunt about until you<br>find the exact words that seem to fit it. When you think of something abstract<br>you are more inclined to use words from the start, and unless you make a<br>conscious effort to prevent it, the existing dialect will come rushing in and<br>do the job for you, at the expense of blurring or even changing your meaning.<br>Probably it is better to put off using words as long as possible and get one’s<br>meaning as clear as one can through pictures and sensations. Afterward one can choose – not simply <em>accept</em> – the phrases that will best cover the<br>meaning, and then switch round and decide what impressions one’s words are<br>likely to make on another person. This last effort of the mind cuts out all<br>stale or mixed images, all prefabricated phrases, needless repetitions, and<br>humbug and vagueness generally. But one can often be in doubt about the effect of a word or a phrase, and one needs rules that one<br>can rely on when instinct fails. I think the following rules will cover most cases:</p><div class="o-ads above-header-advert advert advert--reserve-250 o-ads--center" data-o-ads-name="mid" data-o-ads-center="true" data-o-ads-targeting="pos=mid" data-o-ads-formats="MediumRectangle,Responsive" data-o-ads-lazy-load="true" aria-hidden="true"></div><ol><li>Never use a metaphor, simile, or other figure of speech which you are used to seeing in print.</li><li>Never use a long word where a short one will do.</li><li>If it is possible to cut a word out, always cut it out.</li><li>Never use the passive where you can use the active.</li><li>Never use a foreign phrase, a scientific word, or a jargon word if you can think of an everyday English equivalent.</li><li>Break any of these rules sooner than say anything outright barbarous.</li></ol><p>These rules sound elementary, and so they are, but they demand a deep change<br>of attitude in anyone who has grown used to writing in the style now<br>fashionable. One could keep all of them and still write bad English, but one<br>could not write the kind of stuff that I quoted in those five specimens at the<br>beginning of this article.</p><p></p><h2>This is an example graphic</h2><p></p><div style="font-family:monospace;font-size:50px;color:green">10</div><p>Source something</p><p>I have not here been considering the literary use of language, but merely<br>language as an instrument for expressing and not for concealing or preventing<br>thought. Stuart Chase and others have come near to claiming that all abstract<br>words are meaningless, and have used this as a pretext for advocating a kind of<br>political quietism. Since you don’t know what Fascism is, how can you struggle<br>against Fascism? One need not swallow such absurdities as this, but one ought<br>to recognize that the present political chaos is connected with the decay of<br>language, and that one can probably bring about some improvement by starting at<br>the verbal end. If you simplify your English, you are freed from the worst<br>follies of orthodoxy. You cannot speak any of the necessary dialects, and when<br>you make a stupid remark its stupidity will be obvious, even to yourself.<br>Political language – and with variations this is true of all political<br>parties, from Conservatives to Anarchists – is designed to make lies sound<br>truthful and murder respectable, and to give an appearance of solidity to pure<br>wind. One cannot change this all in a moment, but one can at least change one’s<br>own habits, and from time to time one can even, if one jeers loudly enough,<br>send some worn-out and useless phrase – some <em>jackboot, Achilles’ heel,<br>hotbed, melting pot, acid test, veritable inferno</em>, or other lump of verbal<br>refuse – into the dustbin, where it belongs.</p></div><footer class="article-body section-body body o-typography-body-wrapper"><div class="o-typography-footer" itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><small><a href="http://www.ft.com/servicestools/help/copyright" data-trackable="link-copyright">Copyright</a> <span itemprop="name">The Financial Times</span> Limited 2016. All rights reserved. You may share using our article tools. Please don't cut articles from FT.com and redistribute by email or post to the web.</small></div></footer></article></main><aside class="onward-journey__block"><section class="onward-journey__section" data-g-component="onward-journey" data-list="list/graphics" data-rows="1"></section><section class="onward-journey__section" data-g-component="onward-journey" data-list="thing/news" data-rows="1"></section></aside><div class="o-grid-container"><div class="o-grid-row"><link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-comments@^3.3.0"><div id="comments" data-o-grid-colspan="12 S11 Scenter M9 L8 XL7"></div></div></div><!-- <script async>queue('components/core/comments.js', null, true);</script> --><link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-footer@^5.0.3"><footer class="o-footer o-footer--theme-dark" data-o-component="o-footer" data-o-footer--no-js=""><div class="o-footer__container"><div class="o-footer__row"><nav class="o-footer__matrix" role="navigation" aria-label="Useful links"><div class="o-footer__matrix-group o-footer__matrix-group--1"><h6 class="o-footer__matrix-title">Support</h6><div class="o-footer__matrix-content" id="o-footer-section-0"><div class="o-footer__matrix-column"><a class="o-footer__matrix-link" href="//www.ft.com/help">Help</a> <a class="o-footer__matrix-link" href="//www.ft.com/aboutus">About Us</a></div></div></div><div class="o-footer__matrix-group o-footer__matrix-group--1"><h6 class="o-footer__matrix-title">Legal &amp; Privacy</h6><div class="o-footer__matrix-content" id="o-footer-section-1"><div class="o-footer__matrix-column"><a class="o-footer__matrix-link" href="//www.ft.com/servicestools/help/terms">Terms &amp; Conditions</a> <a class="o-footer__matrix-link" href="//www.ft.com/servicestools/help/privacy">Privacy</a> <a class="o-footer__matrix-link" href="//www.ft.com/cookiepolicy">Cookies</a> <a class="o-footer__matrix-link" href="//www.ft.com/servicestools/help/copyright">Copyright</a></div></div></div><div class="o-footer__matrix-group o-footer__matrix-group--2"><h6 class="o-footer__matrix-title" aria-controls="o-footer-section-2">Services</h6><div class="o-footer__matrix-content" id="o-footer-section-2"><div class="o-footer__matrix-column"><a class="o-footer__matrix-link" href="//sub.ft.com/spa_5">Individual Subscriptions</a> <a class="o-footer__matrix-link" href="//enterprise.ft.com/en-gb/services/group-subscriptions/">Group Subscriptions</a> <a class="o-footer__matrix-link" href="//enterprise.ft.com/en-gb/services/republishing/">Republishing</a> <a class="o-footer__matrix-link" href="//www.businessesforsale.com/ft2/notices">Contracts &amp; Tenders</a> <a class="o-footer__matrix-link" href="//commerce.uk.reuters.com/purchase/mostPopular.do?rpc&amp;#x3D;471">Analysts Research</a></div><div class="o-footer__matrix-column"><a class="o-footer__matrix-link" href="//www.exec-appointments.com/">Executive Job Search</a> <a class="o-footer__matrix-link" aria-label="Advertise with the F T" href="//fttoolkit.co.uk/d/">Advertise with the FT</a> <a class="o-footer__matrix-link" aria-label="Follow the F T on Twitter" href="//twitter.com/ft">Follow the FT on Twitter</a></div></div></div><div class="o-footer__matrix-group o-footer__matrix-group--2"><h6 class="o-footer__matrix-title" aria-controls="o-footer-section-3">Tools</h6><div class="o-footer__matrix-content" id="o-footer-section-3"><div class="o-footer__matrix-column"><a class="o-footer__matrix-link" href="//markets.ft.com/data/portfolio/dashboard">Portfolio</a> <a class="o-footer__matrix-link" href="//ftepaper.ft.com">Today&apos;s Paper</a> <a class="o-footer__matrix-link" href="//markets.ft.com/data/alerts/">Alerts Hub</a> <a class="o-footer__matrix-link" href="//lexicon.ft.com/">Lexicon</a> <a class="o-footer__matrix-link" href="//rankings.ft.com/businessschoolrankings/global-mba-ranking-2016">MBA Rankings</a></div><div class="o-footer__matrix-column"><a class="o-footer__matrix-link" href="//markets.ft.com/Research/Economic-Calendar">Economic Calendar</a> <a class="o-footer__matrix-link" href="//nbe.ft.com/nbe/profile.cfm">Newsletters</a> <a class="o-footer__matrix-link" href="//markets.ft.com/research/Markets/Currencies?segid&amp;#x3D;70113">Currency Converter</a> <a class="o-footer__matrix-link" aria-label="E-books" href="//www.ft.com/ebooks">Ebooks</a></div></div></div><div class="o-footer__matrix-group o-footer__matrix-group--6"><h6 class="o-footer__matrix-title" aria-controls="o-footer-section-4">More from FT Group</h6><div class="o-footer__matrix-content" id="o-footer-section-4"><div class="o-footer__matrix-column"><a class="o-footer__matrix-link" href="//www.agendaweek.com/">Agenda</a> <a class="o-footer__matrix-link" href="//www.analyseafrica.com/">Analyse Africa</a> <a class="o-footer__matrix-link" href="//www.boardiq.com/">Board IQ</a> <a class="o-footer__matrix-link" href="//www.ftiecla.com/">Corporate Learning Alliance</a> <a class="o-footer__matrix-link" href="//www.dpn-online.com/">DPN: Deutsche Pensions &amp; Investment Nachrichten</a></div><div class="o-footer__matrix-column"><a class="o-footer__matrix-link" href="//www.execsense.com/">ExecSense</a> <a class="o-footer__matrix-link" href="//www.fdiintelligence.com/">FDI Intelligence</a> <a class="o-footer__matrix-link" href="//financialadvisoriq.com/">Financial Advisor IQ</a> <a class="o-footer__matrix-link" aria-label="F T Chinese" href="//www.ftchinese.com/">FT Chinese</a> <a class="o-footer__matrix-link" aria-label="F T Live" href="//live.ft.com/">FT Live</a></div><div class="o-footer__matrix-column"><a class="o-footer__matrix-link" aria-label="F T Property Listings" href="//propertylistings.ft.com/">FT Property Listings</a> <a class="o-footer__matrix-link" aria-label="F T Advisor" href="//www.ftadviser.com/">FT Advisor</a> <a class="o-footer__matrix-link" href="//www.fundfire.com/">Fund Fire</a> <a class="o-footer__matrix-link" href="//www.globalriskregulator.com/">Global Risk Regulator</a> <a class="o-footer__matrix-link" href="//howtospendit.ft.com/">How to Spend It</a></div><div class="o-footer__matrix-column"><a class="o-footer__matrix-link" href="//www.ignites.com/">Ignites</a> <a class="o-footer__matrix-link" href="//www.ignitesasia.com/">Ignites Asia</a> <a class="o-footer__matrix-link" href="//www.igniteseurope.com/">Ignites Europe</a> <a class="o-footer__matrix-link" href="//www.investorschronicle.co.uk/">Investors Chronicle</a> <a class="o-footer__matrix-link" href="//www.mandatewire.com/">Mandate Wire</a></div><div class="o-footer__matrix-column"><a class="o-footer__matrix-link" href="//www.nyif.com/">New York Insitute of Finance</a> <a class="o-footer__matrix-link" href="//www.non-execs.com/">Non Executive Directors Club</a> <a class="o-footer__matrix-link" href="//www.pensions-expert.com/">Pensions Expert</a> <a class="o-footer__matrix-link" href="//www.pwmnet.com/">Professional Wealth Management</a> <a class="o-footer__matrix-link" href="//the125.ft.com/">125 Club</a></div><div class="o-footer__matrix-column"><a class="o-footer__matrix-link" href="//www.thebanker.com/">The Banker</a> <a class="o-footer__matrix-link" href="//www.thebankerdatabase.com/">The Banker Database</a> <a class="o-footer__matrix-link" href="//www.thisisafricaonline.com/">This is Africa</a></div></div></div></nav></div><div class="o-footer__copyright" role="contentinfo"><small>Markets data delayed by at least 15 minutes. &#xA9; THE FINANCIAL TIMES LTD 2016. <abbr title="Financial Times" aria-label="F T">FT</abbr> and &#x2018;Financial Times&#x2019; are trademarks of The Financial Times Ltd.<br>The Financial Times and its journalism are subject to a self-regulation regime under the <a href="http://www.ft.com/editorialcode" aria-label="F T Editorial Code of Practice">FT Editorial Code of Practice</a>.</small></div></div><div class="o-footer__brand"><div class="o-footer__container"><div class="o-footer__brand-logo"></div></div></div></footer><script async>queue("https://origami-build.ft.com/v2/bundles/js?export=oFooter&modules=o-footer@^5.0.3",null,!0)</script><script async>queue(["main-47394ae274.js","g-ui/index-0465ca28b6.js","https://origami-build.ft.com/v2/bundles/js?export=oDate&modules=o-date@^2.6.0"])</script></body></html>
