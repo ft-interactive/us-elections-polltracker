@@ -12,7 +12,7 @@
   text-align: left;
   font-weight: 400;
   text-transform: uppercase;
-  font-size: 0.9em;
+  font-size: 14px;
   vertical-align: bottom;
   padding-bottom: 0.3em;
 }
@@ -24,10 +24,16 @@
 #statelist td {
   padding: 0.25em 10px;
   position: relative;
+  font-size: 1rem;
+}
+
+#statelist .statelist-pollmargin {
+  width: 180px;
+  text-align: center;
 }
 
 #statelist .statelist-ecvotes {
-  width: 100px;
+  width: 120px;
   text-align: center;
 }
 
@@ -80,6 +86,12 @@
 
 .statelist-nodata {
   color: #666;
+}
+
+@media (max-width: 600px) {
+  #statelist .statelist-ecvotes {
+    width: 100px;
+  }
 }
 
 </style>
