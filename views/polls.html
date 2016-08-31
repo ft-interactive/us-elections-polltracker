@@ -555,19 +555,21 @@ a {
           <div class="o-grid-row">
             <div data-o-grid-colspan="center 12 M10 L8 XL7">
               <div class="article-body o-typography-body-wrapper" itemprop="articleBody">
-                {% if flags.nationalBar and state == 'us' %}
-                  {% include "includes/nationalbar.html" %}
-                {% endif %}
-
-                {% if flags.forecastMap and state == 'us' %}
-                  {% from 'includes/forecast-map-macro.svg' import ForecastMap %}
-
-                  <div>
-                    {{ ForecastMap(forecastMapLayout, color) }}
-                  </div>
-                {% endif %}
-
                 {% if state == 'us' %}
+                  {% if flags.nationalBar %}
+                    {% include "includes/nationalbar.html" %}
+                  {% endif %}
+
+                  {% if flags.forecastMap == 'choropleth' %}
+                    {% from 'includes/forecast-map-macro.svg' import ForecastMap %}
+                    <div>
+                      {{ ForecastMap(forecastMapLayout, color) }}
+                    </div>
+                  {% elif flags.heroMap == 'dots' %}
+                    <div style="margin-bottom: -5rem;">
+                      <img src="/forecast-map.svg?dots=true" width="100%" />
+                    </div>
+                  {% endif %}
                 <div id="latestnews">
                   <h3>Latest news</h3>
                   {% markdown %}
