@@ -1,7 +1,4 @@
 {
-  "name": "us-elections-polltracker",
-  "version": "0.0.1",
-  "description": "Grab/return images of polling data",
   "babel": {
     "presets": [
       "es2015",
@@ -11,26 +8,6 @@
       "transform-runtime"
     ]
   },
-  "main": "setup.js",
-  "scripts": {
-    "start": "node setup.js",
-    "dev": "nodemon setup.js -e js,html,svg"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/ft-interactive/us-elections-polltracker.git"
-  },
-  "keywords": [
-    "us",
-    "elections",
-    "polltracker"
-  ],
-  "author": "FT",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ft-interactive/us-elections-polltracker/issues"
-  },
-  "homepage": "https://github.com/ft-interactive/us-elections-polltracker#readme",
   "dependencies": {
     "babel-core": "^6.10.4",
     "babel-plugin-transform-runtime": "^6.9.0",
@@ -68,5 +45,11 @@
     "eslint-plugin-jsx-a11y": "^1.5.5",
     "eslint-plugin-react": "^5.2.2",
     "nodemon": "^1.9.2"
+  },
+  "main": "setup.js",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon setup.js -e js,html,svg",
+    "start": "node setup.js"
   }
 }
