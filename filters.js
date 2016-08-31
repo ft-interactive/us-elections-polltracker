@@ -6,6 +6,8 @@ const stateIds = require('./layouts/stateIds').states;
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
                   'September', 'October', 'November', 'December'];
+const monthsAbbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
+                  'Sep', 'Oct', 'Nov', 'Dec'];
 
 export function ftdate(d) {
   const day = days[d.getUTCDay()];
@@ -41,6 +43,24 @@ export function spoorTrackingPixel(str) {
 
 export function round1dp(n) {
   return Math.round(n * 10) / 10;
+}
+
+// turn 8/26 - 8/29 to Aug 26 - 29
+export function formatDateForIndividualPollsTable(inputDate) {
+  if (inputDate.match(/\d+\/\d+ - \d+\/\d+/)) {
+    const dateMatch = /(\d+)\/(\d+) - (\d+)\/(\d+)/.exec(inputDate);
+    const startMonth = monthsAbbr[dateMatch[1] - 1];
+    const startDay = dateMatch[2];
+    const endMonth = monthsAbbr[dateMatch[3] - 1];
+    const endDay = dateMatch[4];
+
+    let formattedDate = `${startMonth} ${startDay} - ${endDay}`;
+    if (startMonth !== endMonth) {
+      formattedDate = `${startMonth} ${startDay} - ${endMonth} ${endDay}`;
+    }
+    return formattedDate;
+  }
+  return inputDate;
 }
 
 export function getClassificationFromMargin(margin) {
