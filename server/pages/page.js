@@ -1,4 +1,7 @@
 import flags from '../../config/flags';
+import getBerthaData from '../lib/getBerthaData';
+import getStateCounts from '../lib/getStateCounts';
+import layoutForecastMap from '../../layouts/forecast-map-layout';
 
 const onwardJourney = () => ({
   relatedContent: [
@@ -26,12 +29,6 @@ export default class Page {
     this.description = 'Polling data for the 2016 US presidential election';
     this.flags = flags();
     this.onwardJourney = onwardJourney();
-
-    this.forecastMapLayout = {
-      width: 640,
-      height: 380,
-      FL: { fill: 'red' },
-    };
 
     this.pollHistory = {
       lineCharts: {
@@ -154,6 +151,13 @@ text{
         },
       ],
     };
+  }
+
+  async ready() {
+    this.forecastMapLayout = layoutForecastMap(
+      await getStateCounts(await getBerthaData()),
+      { size: '640x380' }
+    );
   }
 
   tracking = {
