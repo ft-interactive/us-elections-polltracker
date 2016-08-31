@@ -1,0 +1,175 @@
+<style>
+#individualpolls table {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  font-feature-settings: "tnum";
+  border-collapse: collapse; 
+  border-spacing: 0;
+}
+
+#individualpolls tr th {
+  border-bottom: 1px solid #999999 !important;
+}
+
+#individualpolls th {
+  min-width:50px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  text-align: left;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 14px;
+  vertical-align: bottom;
+  padding-bottom: 0.3em;
+}
+
+#individualpolls th:first-child {
+  padding-left: 0;
+}
+
+#individualpolls th:last-child {
+  padding-right: 0;
+}
+
+#individualpolls td:first-child {
+  padding-left: 0;
+}
+
+#individualpolls td:last-child {
+  padding-right: 0;
+}
+
+
+#individualpolls th.numeric {
+  text-align: center;
+}
+
+#individualpolls th.samplesize {
+  text-align: right;
+}
+
+#individualpolls td{
+  font-size: 0.9rem;
+  text-align: left;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+#individualpolls tr {
+  border-bottom: 1px solid #cec6b9;
+  height: 30px;
+}
+
+#individualpolls td.clinton.winner {
+  background: {{ color.leaningDem }};
+}
+
+#individualpolls td.trump.winner {
+  background: {{ color.leaningRep }};
+}
+
+#individualpolls #individualpolls td.winner.narrowonly {
+  font-weight: 400;
+}
+
+#individualpolls td.narrowonly {
+  height: 32px;
+}
+
+#individualpolls td.winner.narrowonly .winner {
+  font-weight: 600;
+}
+
+#individualpolls td.numeric{
+  text-align: center;
+  border-left: 1px solid #cec6b9;  
+}
+
+#individualpolls td.samplesize{
+  text-align: right;
+}
+
+#individualpolls td.date{
+    min-width: 70px;
+}
+
+#individualpolls p.notavailable {
+  color: #666;
+  font-size: 1em;
+}
+
+@media (min-width: 600px) {
+  #individualpolls .narrowonly {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+
+  #individualpolls td.numeric {
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  #individualpolls .secondary {
+    display: none;
+  }
+
+  #individualpolls th {
+    padding: 0;
+  }
+
+  #individualpolls td {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+</style>
+
+<div id="individualpolls">
+  <h2>Full list of individual polls</h2>
+
+  {% if pollList.length > 0 %}
+  {% set row_num_collapse = 20 %}
+  <div data-o-component="o-expander" class="o-expander items"
+          data-o-expander-collapsed-toggle-text="Show more polls"
+          data-o-expander-expanded-toggle-text="Show fewer polls"
+          data-o-expander-toggle-selector=".table-toggle-btn"
+          data-o-expander-shrink-to="{{ row_num_collapse }}"
+          data-o-expander-count-selector="tbody tr">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Pollster</th>
+          <th scope="col" class="numeric narrowonly">Clinton / Trump&nbsp;(%)</th>
+          <th scope="col" class="numeric secondary">Clinton</th>
+          <th scope="col" class="numeric secondary">Trump</th>
+          <th scope="col" class="samplesize secondary">Sample*</th>
+        </tr>
+      </thead>
+      <tbody class="o-expander__content">
+        {% for poll in pollList %}
+        <tr>
+          <td class="date">{{ poll.date }}</td>
+          <td>{{ poll.pollster }}</td>
+          <td class="narrowonly numeric {% if poll.winner == 'Clinton' %}winner clinton{% endif %} {% if poll.winner == 'Trump' %}winner trump{% endif %}"><span class="{% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</span> / <span class="{% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</span></td>
+          <td class="secondary numeric clinton {% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}%</td>
+          <td class="secondary numeric trump {% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}%</td>
+          <td class="numeric samplesize secondary">{{ poll.sampleSize | commas }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="note"><small>* RV indicates registered voters; LV indicates likely voters</small></p>
+    {% if pollList.length > row_num_collapse %}
+    <button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big">Show more polls</button>
+    {% endif %}
+  </div>
+  {% else %}
+  <p class="notavailable">Polls for this state are not available yet.</p>
+  {% endif %}
+</div>
