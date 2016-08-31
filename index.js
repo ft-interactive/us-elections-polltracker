@@ -7,6 +7,7 @@ const _ = require('underscore');
 import * as nunjucks from './server/nunjucks';
 import nationalController from './server/controllers/national';
 import stateController from './server/controllers/state';
+import getBerthaData from './server/lib/getBerthaData.js';
 
 import flags from './config/flags';
 const express = require('express');
@@ -20,7 +21,6 @@ const color = require('./layouts/color.js');
 const getPollAverages = require('./layouts/getPollAverages.js');
 const getAllPolls = require('./layouts/getAllPolls.js');
 const getLatestPollAverage = require('./layouts/getLatestPollAverage.js');
-const getAllLatestStateAverages = require('./layouts/getAllLatestStateAverages.js');
 const lastUpdated = require('./layouts/getLastUpdated.js');
 const template = nunjucks.env;
 const stateIds = require('./layouts/stateIds').states;
@@ -311,55 +311,6 @@ async function statePage(req, res) {
   }
 
   res.send(renderedPage);
-}
-
-
-async function getBerthaData(){
-    const contentURL = 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options,links,streampages,overrideCategories';
-    let data = berthaDefaults;
-
-    try {
-      const contentRes = await Promise.resolve(fetch(contentURL))
-          .timeout(3000, new Error(`Timeout - bertha took too long to respond: ${contentURL}`));
-      return await contentRes.json();
-    } catch (err) {
-      cachePage = false;
-      console.log('bertha fetching problem, resorting to default bertha config');
-    }
-}
-
-async function getStateCounts(overrideData) {
-  const latestStateAverages = await getAllLatestStateAverages();
-  const groupedStateCounts = _.groupBy(latestStateAverages, 'state');
-  const overrideCategories = overrideData.overrideCategories;
-  const stateCounts = {};
-
-  for (let i = 0; i < stateIds.length; i++) {
-    const stateKey = stateIds[i].state;
-    let clintonAvg = null;
-    let trumpAvg = null;
-    let margin = null;
-
-    if (stateKey !== 'US') {
-      if (stateKey.toLowerCase() in groupedStateCounts) {
-        const statePollAverages = groupedStateCounts[stateKey.toLowerCase()];
-        clintonAvg = _.findWhere(statePollAverages, { candidatename: 'Clinton' }).pollaverage || null;
-        trumpAvg = _.findWhere(statePollAverages, { candidatename: 'Trump' }).pollaverage || null;
-        if (clintonAvg && trumpAvg) {
-          margin = clintonAvg - trumpAvg;
-        }
-      }
-
-      stateCounts[stateKey] = {
-        Clinton: clintonAvg,
-        Trump: trumpAvg,
-        margin: margin || _.findWhere(overrideCategories, { state: stateKey.toUpperCase() }).overridevalue,
-        ecVotes: _.findWhere(stateIds, { state: stateKey.toUpperCase() }).ecVotes,
-      };
-    }
-  }
-
-  return stateCounts;
 }
 
 function nationalCount(stateData) {
