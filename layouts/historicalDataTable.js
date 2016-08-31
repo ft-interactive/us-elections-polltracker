@@ -1,23 +1,19 @@
 /**
- * Various helper functions
+ * Historical Results table
  */
 
-// Defining D3 globally because it's used everywhere.
-const d3 = require('d3');
+import { scaleLinear, extent } from 'd3';
+
+const MINIMUM_BAR_VALUE = 0.5;
+const BAR_RIGHT_PADDING = 25;
 
 /**
- * This munges the stateDemographicsData for the "Who Won Here?" table.
- * @param  {Object} data  Contents of const stateDemographicsData
- * @param  {String} state State abbreviation
- * @return {Array}        Array of results split into years.
+ * This creates an object matching each year to the candidate
+ * from each party.
+ * @returns {Object}
  */
-export function getHistoricalResults(data, state) {
-  /**
-   * This creates an object matching each year to the candidate
-   * from each party.
-   * @type {Object}
-   */
-  const candidates = Object.keys(data.label)
+export function getCandidatesList(data) {
+  return Object.keys(data.label)
     .filter(label => !!~label.indexOf('outcome'))
     .reduce((last, outcome) => {
       const year = outcome.replace('outcome', '');
@@ -31,23 +27,27 @@ export function getHistoricalResults(data, state) {
       };
       return last;
     }, {});
+}
 
-  /**
-   * This creates an array of federal winners, in reverse-chronological
-   * order.
-   * @type {Array<String>}
-   */
-  const winnersFederal = Object.keys(data.label)
+/**
+ * This creates an array of federal winners, in reverse-chronological
+ * order.
+ * @returns {Array<String>}
+ */
+export function getFederalWinners(data) {
+  return Object.keys(data.label)
     .filter(label => !!~label.indexOf('outcome'))
     .sort()
     .reverse()
     .map(outcome => data.label[outcome]);
+}
 
-  /**
-   * Same as the above, but for the selected state.
-   * @type {Array<String>}
-   */
-  const winnersState = Object.keys(data[state.toUpperCase()])
+/**
+ * Same as the above, but for the selected state.
+ * @returns {Array<String>}
+ */
+export function getStateWinners(data, state, candidates) {
+  return Object.keys(data[state.toUpperCase()])
     .filter(label => !!~label.indexOf('outcome'))
     .sort()
     .reverse()
@@ -55,17 +55,19 @@ export function getHistoricalResults(data, state) {
       candidates[outcome].dem :
       candidates[outcome].gop)
     );
+}
 
-  /**
-   * This kinda-dense bit of functional programming loops
-   * through the data object, creates an array of each state's outcome values,
-   * then reduces those to a single array of outcomes, which is then
-   * reduced to two values via d3.extent.
-   *
-   * As such, it returns the extents of all the outcomes in the dataset.
-   * @type {Array<Number>}
-   */
-  const barExtents = d3.extent(Object.keys(data)
+/**
+ * This kinda-dense bit of functional programming loops
+ * through the data object, creates an array of each state's outcome values,
+ * then reduces those to a single array of outcomes, which is then
+ * reduced to two values via d3.extent.
+ *
+ * As such, it returns the extents of all the outcomes in the dataset.
+ * @returns {Array<Number>}
+ */
+export function getBarExtents(data) {
+  return extent(Object.keys(data)
     .reduce((last, stateAbbr) => {
       const stateData = data[stateAbbr];
       return last.concat(Object.keys(stateData)
@@ -73,6 +75,19 @@ export function getHistoricalResults(data, state) {
         .map(label => (stateData[label] ? Math.abs(stateData[label]) : undefined))
         .filter(i => i));
     }, []));
+}
+
+/**
+ * This munges the stateDemographicsData for the "Who Won Here?" table.
+ * @param  {Object} data  Contents of const stateDemographicsData
+ * @param  {String} state State abbreviation
+ * @return {Array}        Array of results split into years.
+ */
+export default function getHistoricalResults(data, state) {
+  const candidates = getCandidatesList(data);
+  const winnersFederal = getFederalWinners(data);
+  const winnersState = getStateWinners(data, state, candidates);
+  const barExtents = getBarExtents(data);
 
   /**
    * This scale is used to draw the length of the bars.
@@ -80,7 +95,9 @@ export function getHistoricalResults(data, state) {
    * 75 is used to pad the end for the 5-character percentage value.
    * @type {d3.Scale}
    */
-  const barScale = d3.scaleLinear().domain(barExtents).range([0.5, 75]);
+  const barScale = scaleLinear()
+    .domain(barExtents)
+    .range([MINIMUM_BAR_VALUE, 100 - BAR_RIGHT_PADDING]);
 
   /**
    * Finally, iterate through each "outcome" and return an object munging
@@ -99,6 +116,6 @@ export function getHistoricalResults(data, state) {
       winningPctScaledFederal: barScale(Math.abs(data.label[key.replace('outcome', 'margin')])),
       winningPctFederal: Math.abs(data.label[key.replace('outcome', 'margin')]) * 100,
       federalWinnerColor: data.label[key.replace('outcome', 'margin')] > 0 ? 'dem' : 'gop',
-      winnerFederal: winnersFederal[i].replace(/\((DEM|GOP)\)/, ''),
+      winnerFederal: winnersFederal[i].replace(/\s\((DEM|GOP)\)/, ''),
     }));
 }

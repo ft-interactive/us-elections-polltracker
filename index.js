@@ -19,7 +19,7 @@ const layoutForecastMap = require('./layouts/forecast-map-layout');
 const filters = require('./filters');
 const berthaDefaults = require('./config/bertha-defaults.json');
 const validStates = berthaDefaults.streampages.map((d) => d.state.toLowerCase());
-const getHistoricalResults = require('./helpers').getHistoricalResults;
+const getHistoricalResults = require('./layouts/historicalDataTable').default;
 
 import flags from './config/flags';
 
