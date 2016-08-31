@@ -329,7 +329,6 @@ async function getBerthaData(){
           .timeout(3000, new Error(`Timeout - bertha took too long to respond: ${contentURL}`));
       return await contentRes.json();
     } catch (err) {
-      cachePage = false;
       console.log('bertha fetching problem, resorting to default bertha config');
     }
 }
