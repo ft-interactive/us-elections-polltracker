@@ -4,3 +4,4 @@ parser: babel-eslint
 rules:
   max-len: 0
   no-console: 0
+  generator-star-spacing: 0
