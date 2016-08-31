@@ -431,16 +431,21 @@ a {
 
 .state-winners-table {
   width: 100%;
-  /*max-width: 440px;*/
+  max-width: 33rem;
+  border-spacing: 0;
 }
 
-/*.state-winners-table thead tr.state-winners-table__hide-desktop {
-  display: none;
-}*/
+.state-winners-table thead tr:first-child th:not(.state-winners-table__empty) {
+  border-bottom: 1px solid #CBC5BB;
+  text-transform: uppercase;
+}
 
-/*.state-winners-table th {
-  min-width: auto;
-}*/
+.state-winners-table thead tr:nth-child(2) th {
+  font-size: 0.7rem;
+  font-weight: normal;
+  text-transform: uppercase;
+  border-bottom: none;
+}
 
 .state-winners-table__empty {
   border-bottom: 0;
@@ -448,13 +453,24 @@ a {
 
 .state-winners-table__year {
   width: auto;
-  text-align: center;
+  text-align: right;
   padding: 0 0.8em;
 }
 
 .state-winners-table__state-winner,
 .state-winners-table__federal-winner {
   width: auto;
+  text-align: center;
+}
+
+.state-winners-table__state-winner.dem,
+.state-winners-table__federal-winner.dem {
+  background: #a2c1e1;
+}
+
+.state-winners-table__state-winner.gop,
+.state-winners-table__federal-winner.gop {
+  background: #f4a098;
 }
 
 
@@ -462,6 +478,7 @@ a {
 .state-winners-table__winning-pct-federal {
   width: 25%;
   padding: 0.3em 0;
+  border-left: 1px solid black;
 }
 
 

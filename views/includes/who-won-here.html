@@ -20,6 +20,24 @@
           National
         </th>
       </tr>
+
+      <tr>
+        <th class="state-winners-table__empty"></th>
+        <th>
+          Winner
+        </th>
+        <th>
+          Margin of victory<br />
+          % points
+        </th>
+        <th>
+          Winner
+        </th>
+        <th>
+          Margin of victory<br />
+          % points
+        </th>
+      </tr>
     </thead>
     <tbody>
       {% for row in historicalResults %}
@@ -28,7 +46,7 @@
           <strong>{{ row.year }}</strong>
         </td>
 
-        <td class="state-winners-table__state-winner">
+        <td class="state-winners-table__state-winner {{row.stateWinnerColor}}">
           {{ row.winnerState }}
         </td>
 
@@ -37,7 +55,7 @@
           {{row.winningPctState | round(1)}}%
         </td>
 
-        <td class="state-winners-table__federal-winner">
+        <td class="state-winners-table__federal-winner {{row.federalWinnerColor}}">
           {{ row.winnerFederal }}
         </td>
 
