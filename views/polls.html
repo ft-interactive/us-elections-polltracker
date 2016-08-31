@@ -565,9 +565,10 @@ a {
                     <div>
                       {{ ForecastMap(forecastMapLayout, color) }}
                     </div>
-                  {% elif flags.heroMap == 'dots' %}
-                    <div style="margin-bottom: -5rem;">
-                      <img src="/forecast-map.svg?dots=true" width="100%" />
+                  {% elif flags.forecastMap == 'dots' %}
+                    {% from 'includes/dot-map-macro.svg' import ForecastMap %}
+                    <div style="margin-bottom: -5rem; text-align: center;">
+                      {{ ForecastMap(forecastMapLayout, color) }}
                     </div>
                   {% endif %}
                 <div id="latestnews">
