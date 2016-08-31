@@ -63,6 +63,11 @@ export function formatDateForIndividualPollsTable(inputDate) {
   return inputDate;
 }
 
+// takes '24,104 RV' and returns '24,104 <span class="sampleType">RV</span>'
+export function formatSampleSizeForIndividualPollsTable(sampleSizeString) {
+  return sampleSizeString.replace(/ (RV|LV|A)/, ' <span class="sampleType">$1</span>');
+}
+
 export function getClassificationFromMargin(margin) {
   const classification = d3.scaleThreshold()
     .range(['rep', 'leaningRep', 'swing', 'leaningDem', 'dem'])

@@ -87,8 +87,12 @@
   border-left: 1px solid #cec6b9;  
 }
 
-#individualpolls td.samplesize{
+#individualpolls td.samplesize {
   text-align: right;
+}
+
+#individualpolls td.samplesize .sampleType {
+  color: #777;
 }
 
 #individualpolls td.date{
@@ -160,7 +164,7 @@
           <td class="narrowonly numeric {% if poll.winner == 'Clinton' %}winner clinton{% endif %} {% if poll.winner == 'Trump' %}winner trump{% endif %}"><span class="{% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</span> / <span class="{% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</span></td>
           <td class="secondary numeric clinton {% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}%</td>
           <td class="secondary numeric trump {% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}%</td>
-          <td class="numeric samplesize secondary">{{ poll.sampleSize | commas }}</td>
+          <td class="numeric samplesize secondary">{{ poll.sampleSize | commas | formatSampleSizeForIndividualPollsTable | safe }}</td>
         </tr>
         {% endfor %}
       </tbody>
