@@ -88,25 +88,5 @@ export function orderStatesByImportance(stateObj) {
 
   const sortedPolls = orderedStatesPolls.concat(orderedStatesNoPolls);
 
-  // const stateArray = Object.keys(stateObj).map(key => ({ state: key, stateData: stateObj[key] }));
-  // const allStates = stateArray.sort((a, b) => {
-  //   console.log('a', a, 'b', b);
-  //   if (a.stateData.Clinton !== null && b.stateData.Clinton !== null) {
-  //     if (a.stateData.margin !== b.stateData.margin) {
-  //       return Math.abs(0 - a.stateData.margin) > Math.abs(0 - b.stateData.margin);
-  //     }
-  //     return a.stateData.ecVotes > a.stateData.ecVotes;
-  //   } else if (a.margin == null && b.margin == null) {
-  //     return a.state - b.state;
-  //   } else if (a.stateData.Clinton && b.stateData.Clinton == null) {
-  //     return true;
-  //   } else if (a.stateData.Clinton == null && b.stateData.Clinton) {
-  //     return false;
-  //   }
-  //   return 0;
-  // });
-  // console.log(stateArray);
-
-
   return sortedPolls;
 }
