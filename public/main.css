@@ -77,6 +77,68 @@
   margin-bottom: 0;
 }
 
+.rail__content {
+  padding-bottom: 1em;
+  border-left: 1px solid #cec6b9;
+  font-family: "MetricWeb", sans-serif;
+}
+
+.rail__content h3 {
+  border-bottom: 1px solid #cec6b9;
+  padding-left: 20px;
+  padding-bottom: 5px;
+  font-family: "MetricWeb", sans-serif;
+  font-weight: 500;
+}
+
+.rail__state-list {
+  padding-left: 20px;
+}
+
+.rail__state-list h4 {
+  font-family: "MetricWeb", sans-serif;
+  font-weight: 400;
+}
+
+.rail__state-list ul {
+  margin-left: 0;
+  padding-left: 0;
+  font-family: "MetricWeb", sans-serif;
+  margin-bottom: 2em;
+}
+
+.rail__state-list li {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.rail__state-list li a {
+  color: #6b6e68;
+  border-bottom: none;
+}
+
+.rail__state-list li a:hover {
+  color: #27757b;
+  border-bottom: 1px dotted #27757b;
+}
+
+.rail__state-list select {
+  width: 100%;
+  margin-bottom: 2em;
+}
+
+.rail__state-list__nationalLink a {
+  color: #9e2f50;
+  border-bottom: none;
+  font-weight: 500;
+}
+
+.rail__state-list__nationalLink a:hover {
+  color: #27757b;
+  border-bottom: 1px dotted #27757b;
+}
+
 table {
     margin-left: auto;
     margin-right: auto;
