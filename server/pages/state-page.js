@@ -2,10 +2,12 @@ import _ from 'lodash';
 import axios from 'axios';
 import Page from './page';
 import stateReference from '../../data/states';
+import { getDemographics } from '../lib/demographics';
 
 const states = stateReference.map(d => {
   const slug = _.kebabCase(d.name);
-  return { ...d, slug };
+  const demographics = getDemographics(d.code);
+  return { ...d, slug, demographics };
 });
 
 const slugIndex = states.reduce((map, state) =>
@@ -71,21 +73,3 @@ export async function getBySlug(slug) {
 
   return page;
 }
-
-// TODO: shareTitle = `US presidential election polls: In ${stateName}, it's Clinton ${latestPollAverages.Clinton}%, Trump ${latestPollAverages.Trump}%`;
-// TODO: UUID
-// TODO: stateDemographics,
-
-// const stateDemographicsData = require('./layouts/stateDemographics');
-// get state demographics data
-// const stateDemographics = [];
-// const stateDemoKeys = ['wageGrowth2015', 'unemployment', 'poverty', 'graduates', 'hispanic', 'africanAmerican'];
-// for (let i = 0; i < stateDemoKeys.length; i++) {
-//   const stateDemoKey = stateDemoKeys[i];
-//   stateDemographics.push({
-//     category: stateDemographicsData.label[stateDemoKey],
-//     stateValue: stateDemographicsData[state.toUpperCase()][stateDemoKey],
-//     nationalValue: stateDemographicsData.US[stateDemoKey],
-//     maxYVal: Math.max(stateDemographicsData[state.toUpperCase()][stateDemoKey], stateDemographicsData.US[stateDemoKey]),
-//   });
-// }

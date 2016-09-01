@@ -732,3 +732,108 @@ a {
     padding-right: 5px;
   }
 }
+
+#statedemographics h2 {
+  margin-bottom: -0.2em;
+}
+
+#statedemographics p.subhead {
+  color: #555;
+  font-family: MetricWeb, sans-serif;
+  display: block;
+}
+
+#demographic-wrapper {
+  width: 100%;
+  margin-top: -1em;
+}
+
+.demographic-container {
+  width: 32%;
+  height: 120px;
+  /*border: 1px solid #333;*/
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  margin-top: 2em;
+}
+
+.demographic-container h3 {
+  /*text-transform: uppercase;*/
+  margin-bottom: 1em;
+  font-family: MetricWeb, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1em;
+  height: 2.5em;
+  padding: auto 5px;
+}
+
+.demographic-rect-container {
+  border-bottom: 1px solid #a7a59b;
+  width: 100px;
+  margin: 0 auto;
+}
+
+.demographic-rect {
+  width: 20px;
+  height: 14px;
+  display: inline-block;
+  vertical-align: bottom;
+  position: relative;
+}
+
+.demographic-state-rect {
+  background: #6D5E7F;
+  margin-right: 3.5px;
+}
+
+.demographic-us-rect {
+  background: #B2B2B2;
+  margin-left: 3.5px;
+}
+
+.demographic-rect-label {
+  position: absolute;
+  /*bottom: 3px;*/
+  top: -20px;
+  width: 200%;
+  left: -10px;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+}
+
+.demographic-state-rect .demographic-rect-label {
+  /*text-align: right;*/
+  /*left: -46px;*/
+  font-weight: 500;
+}
+
+.demographic-us-rect .demographic-rect-label {
+  /*left: 27px;*/
+  /*text-align: left;*/
+}
+
+#demographic-legend .demographic-rect {
+  display: inline-block;
+  margin-right: 2px;
+  width: 14px;
+}
+
+#demographic-legend .demographic-rect-label {
+  width: 1000%;
+  text-align: left;
+  position: relative;
+  display: inline;
+  margin-right: 15px;
+  letter-spacing: initial;
+  font-weight: 400;
+  top: 0;
+  left: 0;
+}
+
+@media (max-width: 500px) {
+  .demographic-container {
+    width: 49%;
+  }
+}
