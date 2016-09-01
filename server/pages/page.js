@@ -16,6 +16,8 @@ const ads = {
   aboveHeader: true,
 };
 
+const stateList = require('../../layouts/stateIds').states;
+
 export default class Page {
 
   id = null;
@@ -38,6 +40,7 @@ export default class Page {
     this.canoniclUrl = 'https://ig.ft.com/us-elections/polls/';
     this.flags = flags();
     this.onwardJourney = onwardJourney();
+    this.stateList = stateList;
   }
 
   async pready() {
