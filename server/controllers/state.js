@@ -1,4 +1,4 @@
-import {getBySlug, codeToSlug} from '../pages/state-page';
+import { getBySlug, codeToSlug } from '../pages/state-page';
 import { render } from '../nunjucks';
 
 export default async (req, res) => {
