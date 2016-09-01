@@ -37,6 +37,9 @@ function mergePolls(a, b, xScale, yScale) {
     if (d.pollaverage > b.polls[i].pollaverage) {
       leader = a.name;
     }
+    if (d.pollaverage === b.polls[i].pollaverage) {
+      leader = 'tie';
+    }
     mergedRow.date = d.date;
     mergedRow[a.name] = d.pollaverage;
     mergedRow[b.name] = b.polls[i].pollaverage;
@@ -262,9 +265,14 @@ function timeseriesLayout(data, opts) {
       });
     }
 
+    let fillColor = 'none';
+    if (leader !== 'tie') {
+      fillColor = candidateColor[leader].area;
+    }
+
     return {
       d: areaPath(section),
-      fill: candidateColor[leader].area,
+      fill: fillColor,
     };
   });
 
