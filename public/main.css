@@ -138,48 +138,6 @@
   border-bottom: 1px dotted #9e2f50;
 }
 
-table {
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-    font-feature-settings: "tnum";
-}
-th {
-    border: 0px;
-    border-bottom: solid 1px #1d1d1d;
-    min-width:50px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-td{
-    font-size: 0.9rem;
-    text-align: left;
-    padding-right: 10px;
-    padding-left: 10px;
-}
-td.clinton.winner {
-  background: #a2c1e1;
-  font-weight: 600;
-}
-td.trump.winner {
-  background: #f4a098;
-  font-weight: 600;
-}
-td.winner.narrowonly {
-  font-weight: 400;
-}
-td.narrowonly {
-  height: 32px;
-}
-td.winner.narrowonly .winner {
-  font-weight: 600;
-}
-td.numeric{
-    text-align: right;
-}
-td.date{
-    min-width: 70px;
-}
 .o-typography-body-wrapper .source {
   line-height: 1.1;
   margin-top: 3em;
@@ -322,27 +280,6 @@ a {
     max-width: 741px;
   }
 }
-@media (min-width: 600px) {
-  .narrowonly {
-    display: none;
-  }
-}
-@media (max-width: 600px) {
-  td.numeric {
-    text-align: center;
-    white-space: nowrap;
-  }
-  .secondary {
-    display: none;
-  }
-  th {
-    padding: 0;
-  }
-  td {
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-}
 
 .o-expander .table-toggle-btn {
   margin: 2em auto;
@@ -351,6 +288,13 @@ a {
   max-width: 300px;
 }
 
+.o-typography-body-wrapper .national-bar__header {
+  margin-top: 2em;
+  margin-bottom: -1em;
+  color: #6b6e68;
+  font-family: MetricWeb, sans-serif;
+  font-weight: 400;
+}
 
 #national-bar-wrapper {
   margin: 3em 0;
@@ -654,10 +598,135 @@ a {
 
 }
 
-.o-typography-body-wrapper .national-bar__header {
-  margin-top: 2em;
-  margin-bottom: -1em;
-  color: #6b6e68;
-  font-family: MetricWeb, sans-serif;
+#individualpolls table {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  font-feature-settings: "tnum";
+  border-collapse: collapse; 
+  border-spacing: 0;
+}
+
+#individualpolls tr th {
+  border-bottom: 1px solid #999999 !important;
+}
+
+#individualpolls th {
+  min-width:50px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  text-align: left;
   font-weight: 400;
+  text-transform: uppercase;
+  font-size: 14px;
+  vertical-align: bottom;
+  padding-bottom: 0.3em;
+}
+
+#individualpolls th:first-child {
+  padding-left: 0;
+}
+
+#individualpolls th:last-child {
+  padding-right: 0;
+}
+
+#individualpolls td:first-child {
+  padding-left: 0;
+}
+
+#individualpolls td:last-child {
+  padding-right: 0;
+}
+
+
+#individualpolls th.numeric {
+  text-align: center;
+}
+
+#individualpolls th.samplesize {
+  text-align: right;
+}
+
+#individualpolls td{
+  font-size: 1.06rem;
+  text-align: left;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+#individualpolls tr {
+  border-bottom: 1px solid #cec6b9;
+  height: 30px;
+}
+
+#individualpolls td.clinton.winner {
+  background: #a2c1e1;
+}
+
+#individualpolls td.trump.winner {
+  background: #f4a098;
+}
+
+#individualpolls #individualpolls td.winner.narrowonly {
+  font-weight: 400;
+}
+
+#individualpolls td.narrowonly {
+  height: 32px;
+}
+
+#individualpolls td.winner.narrowonly .winner {
+  font-weight: 600;
+}
+
+#individualpolls td.numeric{
+  text-align: center;
+  border-left: 1px solid #cec6b9;  
+}
+
+#individualpolls td.samplesize {
+  text-align: right;
+}
+
+#individualpolls td.samplesize .sampleType {
+  color: #777;
+}
+
+#individualpolls td.date{
+  min-width: 70px;
+  color: #777777;
+}
+
+#individualpolls p.notavailable {
+  color: #666;
+  font-size: 1em;
+}
+
+@media (min-width: 600px) {
+  #individualpolls .narrowonly {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+
+  #individualpolls td.numeric {
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  #individualpolls .secondary {
+    display: none;
+  }
+
+  #individualpolls th {
+    padding: 0;
+  }
+
+  #individualpolls td {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
 }

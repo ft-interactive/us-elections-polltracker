@@ -1,7 +1,9 @@
-{% macro Render(stateCounts, on=true) %}
+{% import "page-elements.html" as PageElements -%}
+
+{% macro Render(title, stateCounts, on=true) %}
 {% if on %}
 <div id="statelist">
-  <h2>State polls</h2>
+  {% call PageElements.Figure(title=title) %}
   <div id="statelist-table">
     {% set row_num_collapse = 10 %}
     <div data-o-component="o-expander" class="o-expander items"
@@ -47,6 +49,7 @@
       <button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big">Show more states</button>
     </div>
   </div>
+  {% endcall %}
 </div>
 {% endif %}
 {% endmacro %}
