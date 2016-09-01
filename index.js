@@ -147,8 +147,8 @@ app.get('/polls/:state', (req, res) => {
 
 
 async function makePollTimeSeries(chartOpts) {
-  const startDate = chartOpts.startDate ? chartOpts.startDate : 'June 1, 2016';
-  const endDate = chartOpts.endDate ? chartOpts.endDate : d3.timeFormat('%B %e, %Y')(new Date());
+  const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-06-01 00:00:00';
+  const endDate = chartOpts.endDate ? chartOpts.endDate : d3.isoFormat(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';
   const pollData = await pollAverages(startDate, endDate, state);
   if (pollData && pollData.length > 0) {
@@ -191,7 +191,7 @@ async function statePage(req, res) {
     const stateName = _.findWhere(stateIds, { 'state': state.toUpperCase() }).stateName;
     // get intro text
     const data = await getBerthaData();
-    
+
     const stateStreamURL = _.findWhere(data.streampages, { 'state': state.toUpperCase() }).link;
 
     const introtext1 = _.findWhere(data.options, { name: 'text' }).value;
@@ -213,7 +213,7 @@ async function statePage(req, res) {
       return makePollTimeSeries({
         fontless: true,
         notext: true,
-        startDate: 'June 1, 2016',
+        startDate: '2016-06-01T00:00:00',
         size,
         type: 'area',
         state,
