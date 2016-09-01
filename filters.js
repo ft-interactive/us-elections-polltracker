@@ -100,7 +100,7 @@ export function orderStatesByImportance(stateObj) {
     if (Math.abs(0 - a[1].margin) !== Math.abs(0 - b[1].margin)) {
       return Math.abs(0 - a[1].margin) - Math.abs(0 - b[1].margin); // compare how close numbers are to 0
     }
-    return Math.abs(0 - a[1].margin) - Math.abs(0 - b[1].margin) - ((a[1].ecVotes - b[1].ecVotes) / 100); // if equal distance to 0, sort by ecVotes
+    return Math.abs(0 - a[1].margin) - Math.abs(0 - b[1].margin) - ((a[1].ecVotes - b[1].ecVotes) / 1000); // if equal distance to 0, sort by ecVotes
   });
   orderedStatesNoPolls.sort((a, b) => {
     if (toStateName(a[0]) < toStateName(b[0])) {
