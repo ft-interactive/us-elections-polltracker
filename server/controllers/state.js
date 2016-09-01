@@ -13,7 +13,7 @@ export default async (req, res) => {
     const slug = codeToSlug(state);
 
     if (slug) {
-      res.redirect(`/state-${slug}`);
+      res.redirect(301, `/${slug}-polls`);
       return;
     }
 

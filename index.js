@@ -4,8 +4,8 @@ import express from 'express';
 import * as nunjucks from './server/nunjucks';
 import nationalController from './server/controllers/national';
 import stateController from './server/controllers/state';
+import stateCodeRedirectController from './server/controllers/state-code-redirect';
 import getBerthaData from './server/lib/getBerthaData.js';
-
 
 process.on('unhandledRejection', error => {
   console.error('unhandledRejection', error.stack);
@@ -110,12 +110,14 @@ app.get('/', (req, res) => {
   res.redirect('polls');
 });
 
+// convenience redirect in case users inputs it incorrectly
 app.get('/polls-:state', (req, res) => {
-  res.redirect(`${req.params.state}-polls`);
+  res.redirect(301, `${req.params.state}-polls`);
 });
 
 app.get('/polls', nationalController);
 app.get('/:state-polls', stateController);
+app.get('/:code', stateCodeRedirectController);
 
 async function makePollTimeSeries(chartOpts) {
   const startDate = chartOpts.startDate ? chartOpts.startDate : 'June 1, 2016';
