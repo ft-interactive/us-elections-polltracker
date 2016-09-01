@@ -11,31 +11,25 @@
   {% if historicalResults %}
   <table class="state-winners-table">
     <thead>
-      <tr>
+      <tr class="state-winners-table__primary-header">
         <th class="state-winners-table__empty"></th>
-        <th colspan="2">
+        <th colspan="3">
           {{ stateName }}
         </th>
-        <th colspan="2">
+        <th colspan="3">
           National
         </th>
       </tr>
 
-      <tr>
-        <th class="state-winners-table__empty"></th>
-        <th>
-          Winner
+      <tr class="state-winners-table__secondary-header">
+        <th class="state-winners-table__year">
+          Year
         </th>
-        <th>
-          Margin of victory<br />
-          % points
+        <th colspan="3">
+          Margin of victory (pts)
         </th>
-        <th>
-          Winner
-        </th>
-        <th>
-          Margin of victory<br />
-          % points
+        <th colspan="3">
+          Margin of victory (pts)
         </th>
       </tr>
     </thead>
@@ -43,7 +37,7 @@
       {% for row in historicalResults %}
       <tr>
         <td class="state-winners-table__year">
-          <strong>{{ row.year }}</strong>
+          {{ row.year }}
         </td>
 
         <td class="state-winners-table__state-winner {{row.stateWinnerColor}}">
@@ -52,6 +46,9 @@
 
         <td class="state-winners-table__winning-pct-state">
           <div style="width: {{ row.winningPctScaledState }}%" class="state-winners-table__winning-pct-bar {{row.stateWinnerColor}}"></div>
+        </td>
+
+        <td class="state-winners-table__winning-pct-state-figure">
           {{row.winningPctState | round(1)}}%
         </td>
 
@@ -61,6 +58,9 @@
 
         <td class="state-winners-table__winning-pct-federal">
           <div style="width: {{ row.winningPctScaledFederal }}%" class="state-winners-table__winning-pct-bar {{row.federalWinnerColor}}"></div>
+        </td>
+
+        <td class="state-winners-table__winning-pct-federal-figure">
           {{row.winningPctFederal | round(1)}}%
         </td>
       </tr>

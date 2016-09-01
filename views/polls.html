@@ -431,54 +431,99 @@ a {
 
 .state-winners-table {
   width: 100%;
-  max-width: 33rem;
   border-spacing: 0;
 }
 
-.state-winners-table thead tr:first-child th:not(.state-winners-table__empty) {
-  border-bottom: 1px solid #CBC5BB;
-  text-transform: uppercase;
+.state-winners-table th {
+  font-size: 0.875em;
+  min-width: auto;
+  -webkit-font-smoothing: antialiased;
 }
 
-.state-winners-table thead tr:nth-child(2) th {
-  font-size: 0.7rem;
-  font-weight: normal;
-  text-transform: uppercase;
-  border-bottom: none;
+.state-winners-table td {
+  border-bottom: 1px solid #CEC6B9;
+  font-size: 1.06em;
+  -webkit-font-smoothing: antialiased;
 }
 
 .state-winners-table__empty {
   border-bottom: 0;
 }
 
+.state-winners-table__primary-header th {
+  text-transform: uppercase;
+  text-align: left;
+  border-bottom: 0;
+  font-weight: 500;
+  color: black;
+}
+
+.state-winners-table__primary-header th:nth-child(2) {
+  border-right: 1px solid #777;
+}
+
+.state-winners-table__secondary-header th {
+  font-weight: normal;
+  text-transform: uppercase;
+  border-bottom: 1px solid #777;
+  padding-bottom: 0.4em;
+}
+
+.state-winners-table__secondary-header th:first-child {
+  text-align: left;
+  padding-left: 0;
+}
+
+.state-winners-table__secondary-header th:nth-child(2) {
+  border-right: 1px solid #777;
+}
+
+.state-winners-table__secondary-header th:nth-child(2),
+.state-winners-table__secondary-header th:nth-child(3) {
+  text-align: left;
+}
+
+.state-winners-table tbody tr td:first-child {
+  border-right: 1px solid #CEC6B9;
+}
+
+.state-winners-table tbody tr td:nth-child(4) {
+  border-bottom: 1px solid #CEC6B9;
+  border-right: 1px solid #777;
+}
+
 .state-winners-table__year {
   width: auto;
-  text-align: right;
-  padding: 0 0.8em;
+  text-align: left;
+  padding-left: 0;
+  font-weight: normal;
+}
+
+tbody .state-winners-table__year {
+  color: #777;
 }
 
 .state-winners-table__state-winner,
 .state-winners-table__federal-winner {
-  width: auto;
-  text-align: center;
+  width: 20%;
+  text-align: right;
 }
 
-.state-winners-table__state-winner.dem,
+/*.state-winners-table__state-winner.dem,
 .state-winners-table__federal-winner.dem {
-  background: #a2c1e1;
+  color: #a2c1e1;
 }
 
 .state-winners-table__state-winner.gop,
 .state-winners-table__federal-winner.gop {
-  background: #f4a098;
-}
+  color: #f4a098;
+}*/
 
 
 .state-winners-table__winning-pct-state,
 .state-winners-table__winning-pct-federal {
   width: 25%;
   padding: 0.3em 0;
-  border-left: 1px solid black;
 }
 
 
@@ -505,6 +550,15 @@ a {
 .state-winners-table__dems.dem-winner {
   color: #579DD5;
   font-weight: bold;
+}
+
+.state-winners-table__winning-pct-state-figure,
+.state-winners-table__winning-pct-federal-figure {
+  text-align: right;
+}
+
+.state-winners-table__winning-pct-federal-figure {
+  padding-right: 0;
 }
 
 @media (max-width: 768px) {

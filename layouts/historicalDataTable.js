@@ -5,7 +5,7 @@
 import { scaleLinear, extent } from 'd3';
 
 const MINIMUM_BAR_VALUE = 0.5;
-const BAR_RIGHT_PADDING = 25;
+const BAR_RIGHT_PADDING = 0;
 
 /**
  * This creates an object matching each year to the candidate
