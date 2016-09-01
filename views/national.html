@@ -1,34 +1,54 @@
 {% extends "layout.html" %}
 
 {% from 'includes/forecast-map-macro.svg' import ForecastMap %}
+{% from 'latest-news.html' import Block as LatestNews %}
+{% from 'electoral-college-bar.html' import Render as ElectoralCollegeBar %}
 {% import 'polling-history.html' as PollingHistory %}
 {% import "g-ui/ads" as Ads -%}
 
 {% block content %}
 
-{% if flags.nationalBar %}
-  {% include "includes/nationalbar.html" %}
-{% endif %}
+{% markdown %}
+{%- if nationalBarCounts.dem + nationalBarCounts.leaningDem > 270 -%}
+Hillary Clinton leads the race for 270 electoral college votes
+{%- elif nationalBarCounts.rep + nationalBarCounts.leaningRep > 270 -%}
+Donald Trump leads the race for 270 electoral college votes
+{%- else -%}
+The race for 270 electoral college votes is too close to call
+{%- endif -%}. Both candidates will be paying attention to <span style="border-bottom:3px solid {{color.swing}}">toss-up states</span> in the run-up to November 8.
+{% endmarkdown %}
+
+{% call PageElements.Figure(subtitle="Projected electoral college votes") %}
+  {{
+    ElectoralCollegeBar(
+      data=nationalBarCounts,
+      showKey=true,
+      on=flags.nationalBar
+    )
+  }}
+{% endcall %}
 
 {% if flags.forecastMap %}
   <div>{{ ForecastMap(forecastMapLayout) }}</div>
 {% endif %}
 
-<div id="latestnews">
-  <h3>Latest news</h3>
-  <div>{{ introText | md}}</div>
-  <p class="off-link"><a href="http://www.ft.com/us-election-2016">All US Election 2016 coverage</a></p>
-</div>
+{{
+  LatestNews(
+    body=latestNews,
+    linkText="All US Election 2016 coverage",
+    linkUrl=topic.url
+  )
+}}
 
 {{
   PollingHistory.LineChart(
     title="Which White House candidate is leading in the polls?",
-    substitle="National polling average (%)",
+    subtitle="National polling average (%)",
     svgs=pollHistory.lineCharts
   )
 }}
 
-{{ Ads.MidContent(on=flags.ads) }}
+{{ Ads.MidContent(on=false) }}
 
 {{
   PollingHistory.Table(
