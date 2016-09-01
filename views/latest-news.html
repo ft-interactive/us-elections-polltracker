@@ -1,0 +1,11 @@
+{% macro Block(title="Latest news", body, linkText, linkUrl) %}
+<div id="latestnews">
+  <h3>{{ title | md(true) }}</h3>
+  {% if body %}
+  <div>{{ body | md }}</div>
+  {% endif %}
+  {% if linkText and linkUrl %}
+  <p class="off-link"><a href="{{ linkUrl }}">{{ linkText | md(true) }}</a></p>
+  {% endif %}
+</div>
+{% endmacro %}

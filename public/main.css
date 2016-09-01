@@ -51,11 +51,17 @@
   color: #6b6e68;
   font-size: 16px;
   font-family: inherit;
-  margin-top: 0.3em;
-  margin-bottom: 0.5em;
-  margin-left: 0;
-  margin-right: 0;
+  margin: 0.3em 0 0 0;
 }
+
+.article-figure__heading + .article-figure__content {
+  margin-top: 0.8em;
+}
+
+.article-figure__subheading + .article-figure__content {
+  margin-top: 0.5em;
+}
+
 @media (max-width: 46.24em) {
   .article-figure .article-figure__subheading {
     font-size: 14px;
@@ -91,11 +97,11 @@ td{
     padding-left: 10px;
 }
 td.clinton.winner {
-  background: {{ color.leaningDem }};
+  background: #a2c1e1;
   font-weight: 600;
 }
 td.trump.winner {
-  background: {{ color.leaningRep }};
+  background: #f4a098;
   font-weight: 600;
 }
 td.winner.narrowonly {
@@ -276,9 +282,192 @@ a {
     padding-right: 5px;
   }
 }
-.table-toggle-btn {
+
+.o-expander .table-toggle-btn {
   margin: 1em auto;
   display: block;
   width: 80%;
   max-width: 300px;
+}
+
+
+#national-bar-wrapper {
+  margin: 3em 0;
+}
+
+#national-bar-wrapper * {
+  box-sizing: border-box;
+}
+
+.national-bar--head-icons {
+  width: 9%;
+  display: inline-block;
+  vertical-align: bottom;
+  margin-bottom: -16px;
+}
+
+.national-bar--head-icons img {
+  width: 100%;
+}
+
+#national-bar-container {
+  width: 80%;
+  height: 20px;
+  position: relative;
+  display: inline-block;
+}
+
+#national-270-line {
+  position: absolute;
+  width: 50%;
+  height: 250%;
+  border-right: 2px solid black;
+  bottom: 0;
+  z-index: 2;
+}
+
+#national-270-line:after {
+  content: "270 to win";
+  position: absolute;
+  right: -30px;
+  top: -20px;
+  font-weight: 600;
+}
+
+.national-bar-container--subbars {
+  display: inline-block;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  float: left;
+  text-align: center;
+  position: relative;
+}
+
+.national-bar-container-values {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  width: 100%;
+  font-size: 14px;
+}
+
+.national-bar-container-keys {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  white-space: nowrap;
+  width: 100%;
+  font-weight: 600;
+  line-height: 0.9em;
+  margin-top: 0.3em;
+}
+
+#national-bar-container-keys--dem {
+  color: #579dd5;
+}
+
+#national-bar-container-keys--rep {
+  color: #e03d46;
+  text-align: right;
+}
+
+.national-bar-container-keys--party {
+  font-size: 14px;
+  color: #666;
+  font-weight: 400;
+  margin-top: -2px;
+}
+
+.national-bar-container-group-sums {
+  font-size: 2em;
+  font-weight: 500;
+  position: absolute;
+  top: -63px;
+}
+
+#national-bar-container-group-sums--dem {
+  color: #579dd5;
+}
+
+#national-bar-container-group-sums--rep {
+  color: #e03d46;
+  right: 0;
+}
+
+#national-bar-legend {
+  text-align: center;
+}
+
+.national-bar-legend-item--grouped {
+  display: inline-block;
+}
+
+.national-bar-legend-item {
+  display: inline;
+  margin-right: 16px;
+}
+
+#national-bar-legend-item--rep-solid {
+  float: right;
+  margin-left: 8px;
+}
+
+.national-bar-legend-block {
+  width: 20px;
+  height: 10px;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+@media (max-width: 580px) {
+  #national-bar-wrapper {
+    margin: 5em 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .national-bar-legend-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+
+  .national-bar-legend-item--grouped {
+    display: inline-block;
+    width: 32%;
+    text-align: center;
+    vertical-align: top;
+  }
+
+  #national-bar-legend-item--rep-solid {
+    float: none;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  .national-bar--head-icons {
+    display: none;
+  }
+
+  #national-bar-container {
+    width: 100%;
+  }
+
+  .national-bar-container-group-sums {
+    top: 54px;
+  }
+
+  #national-bar-legend {
+    margin-top: 80px;
+  }
+}
+
+.o-typography-body-wrapper .national-bar__header {
+  margin-top: 2em;
+  margin-bottom: -1em;
+  color: #6b6e68;
+  font-family: MetricWeb, sans-serif;
+  font-weight: 400;
 }

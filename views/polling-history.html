@@ -1,55 +1,55 @@
+{% import "page-elements.html" as PageElements -%}
+
 {% macro LineChart(title, subtitle, svgs) %}
-<div class="article-figure">
-<h2 class="article-figure__heading">{{ title }}</h2>
-<p class="article-figure__subheading">{{ subtitle }}</p>
-  {% for gridsize, svg in svgs %}
-    {% if svg %}
-    <div class="pollchart pollchart--{{gridsize}}">{{ svg | safe }}</div>
-    {% endif %}
-  {% endfor %}
-</div>
+  {% call PageElements.Figure(title=title, subtitle=subtitle) %}
+    {% for gridsize, svg in svgs %}
+      {% if svg %}
+      <div class="pollchart pollchart--{{gridsize}}">{{ svg | safe }}</div>
+      {% endif %}
+    {% endfor %}
+  {% endcall %}
 {% endmacro %}
 
-{% macro Table(title, list) %}
-<h2>{{ title }}</h2>
-{% if list.length > 0 %}
-{% set row_num_collapse = 20 %}
-<div data-o-component="o-expander" class="o-expander items"
-      data-o-expander-collapsed-toggle-text="Show more polls"
-      data-o-expander-expanded-toggle-text="Show fewer polls"
-      data-o-expander-toggle-selector=".table-toggle-btn"
-      data-o-expander-shrink-to="{{ row_num_collapse }}"
-      data-o-expander-count-selector="tbody tr">
-<table>
-  <thead>
-    <tr>
-      <th scope="col" class="narrowonly">Clinton / Trump&nbsp;(%)</th>
-      <th scope="col" class="secondary">Clinton&nbsp;%</th>
-      <th scope="col" class="secondary">Trump&nbsp;%</th>
-      <th scope="col">Date</th>
-      <th scope="col">Pollster</th>
-      <th scope="col" class="secondary">Sample*</th>
-    </tr>
-  </thead>
-  <tbody class="o-expander__content">
-    {% for poll in list %}
-    <tr>
-      <td class="narrowonly numeric {% if poll.winner == 'Clinton' %}winner clinton{% endif %} {% if poll.winner == 'Trump' %}winner trump{% endif %}"><span class="{% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</span> / <span class="{% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</span></td>
-      <td class="secondary numeric clinton {% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</td>
-      <td class="secondary numeric trump {% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</td>
-      <td class="numeric date">{{ poll.date }}</td>
-      <td>{{ poll.pollster }}</td>
-      <td class="numeric secondary">{{ poll.sampleSize | commas }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-<p class="note"><small>* RV indicates registered voters; LV indicates likely voters</small></p>
-{% if list.length > row_num_collapse %}
-<button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big">Show more polls</button>
-{% endif %}
-</div>
-{% else %}
-<p class="notavailable">Polls for this state are not available yet.</p>
-{% endif %}
+{% macro Table(title, list, startCollapse=20) %}
+  {% call PageElements.Figure(title=title, subtitle=subtitle) %}
+    {% if list and list.length > 0 %}
+    <div data-o-component="o-expander" class="o-expander items"
+          data-o-expander-collapsed-toggle-text="Show more polls"
+          data-o-expander-expanded-toggle-text="Show fewer polls"
+          data-o-expander-toggle-selector=".table-toggle-btn"
+          data-o-expander-shrink-to="{{ startCollapse }}"
+          data-o-expander-count-selector="tbody tr">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col" class="narrowonly">Clinton / Trump&nbsp;(%)</th>
+          <th scope="col" class="secondary">Clinton&nbsp;%</th>
+          <th scope="col" class="secondary">Trump&nbsp;%</th>
+          <th scope="col">Date</th>
+          <th scope="col">Pollster</th>
+          <th scope="col" class="secondary">Sample*</th>
+        </tr>
+      </thead>
+      <tbody class="o-expander__content">
+        {% for poll in list %}
+        <tr>
+          <td class="narrowonly numeric {% if poll.winner == 'Clinton' %}winner clinton{% endif %} {% if poll.winner == 'Trump' %}winner trump{% endif %}"><span class="{% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</span> / <span class="{% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</span></td>
+          <td class="secondary numeric clinton {% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</td>
+          <td class="secondary numeric trump {% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</td>
+          <td class="numeric date">{{ poll.date }}</td>
+          <td>{{ poll.pollster }}</td>
+          <td class="numeric secondary">{{ poll.sampleSize | commas }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="note"><small>* RV indicates registered voters; LV indicates likely voters</small></p>
+    {% if list.length > startCollapse %}
+    <button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big">Show more polls</button>
+    {% endif %}
+    </div>
+    {% else %}
+    <p class="notavailable">Polls for this state are not available yet.</p>
+    {% endif %}
+  {% endcall %}
 {% endmacro %}
