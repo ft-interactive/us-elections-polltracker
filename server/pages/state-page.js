@@ -1,15 +1,18 @@
 import _ from 'lodash';
 import axios from 'axios';
 import Page from './page';
-import * as stateReference from '../../layouts/stateIds';
+import stateReference from '../../data/states';
 
-class State {
-  constructor(name, code) {
-    this.name = name;
-    this.code = code.toUpperCase();
-    this.slug = _.kebabCase(name);
-  }
-}
+const states = stateReference.map(d => {
+  const slug = _.kebabCase(d.name);
+  return { ...d, slug };
+});
+
+const slugIndex = states.reduce((map, state) =>
+        map.set(state.slug, state), new Map());
+
+const codeIndex = states.reduce((map, state) =>
+        map.set(state.code, state.slug), new Map());
 
 class StatePage extends Page {
   constructor(state) {
@@ -25,26 +28,9 @@ class StatePage extends Page {
   }
 }
 
-// TODO: shareTitle = `US presidential election polls: In ${stateName}, it's Clinton ${latestPollAverages.Clinton}%, Trump ${latestPollAverages.Trump}%`;
-// TODO: UUID
-// TODO: stateDemographics,
-
-function refDataToState(refData) {
-  return new State(refData.stateName, refData.state);
-}
-
-const index = stateReference.states.reduce((m, refData) => {
-  const state = refDataToState(refData);
-  return m.set(state.slug, state);
-}, new Map());
-
-const codeToSlugLookup = stateReference.states.reduce((m, state) =>
-      m.set(state.state.toUpperCase(), _.kebabCase(state.stateName)), new Map());
-
 export function codeToSlug(code) {
-  const uppered = code.toUpperCase();
-  if (!codeToSlugLookup.has(uppered)) return null;
-  return codeToSlugLookup.get(uppered);
+  if (!code) return null;
+  return codeIndex.get(code.toUpperCase());
 }
 
 const STREAM_INFO_URL = (process.env.STREAM_INFO_URL ||
@@ -70,9 +56,10 @@ async function getStreamInfo() {
 }
 
 export async function getBySlug(slug) {
-  if (!index.has(slug)) return null;
+  const state = slugIndex.get(slug);
 
-  const state = index.get(slug);
+  if (!state) return null;
+
   const streams = await getStreamInfo();
   const page = new StatePage(state);
 
@@ -85,6 +72,9 @@ export async function getBySlug(slug) {
   return page;
 }
 
+// TODO: shareTitle = `US presidential election polls: In ${stateName}, it's Clinton ${latestPollAverages.Clinton}%, Trump ${latestPollAverages.Trump}%`;
+// TODO: UUID
+// TODO: stateDemographics,
 
 // const stateDemographicsData = require('./layouts/stateDemographics');
 // get state demographics data

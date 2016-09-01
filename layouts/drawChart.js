@@ -11,8 +11,11 @@ function round_1dp(x) {
   return Math.round(x * 10) / 10;
 }
 
-function roundExtent(ext, divisor){
-  return [(ext[0] - ext[0]%divisor) , (ext[1] + (divisor-ext[1]%divisor) )];
+function roundExtent(ext, divisor) {
+  return [
+    (ext[0] - ext[0] % divisor),
+    (ext[1] + (divisor - ext[1] % divisor)),
+  ];
 }
 
 async function drawChart(options, data) {
@@ -70,13 +73,13 @@ async function drawChart(options, data) {
   rawExtent = [rawExtent[0] - 1, rawExtent[1] + 1];
   const extent = roundExtent(rawExtent, tickInterval);
   const yScale = d3.scaleLinear()
-    .domain( extent )
+    .domain(extent)
     .range([options.height - margins.top - margins.bottom, 0]);
 
-  let tickCount = (extent[1] - extent[0])/tickInterval;
+  let tickCount = (extent[1] - extent[0]) / tickInterval;
 
-  if (tickCount < 3){
-    tickCount = Math.round(extent[1] - extent[0])
+  if (tickCount < 3) {
+    tickCount = Math.round(extent[1] - extent[0]);
   }
 
   const yAxis = d3.axisLeft()
@@ -87,15 +90,11 @@ async function drawChart(options, data) {
 
   const yLabel = svg.append('g')
     .attr('class', 'yAxis')
-    .attr('transform', function() {
-      return 'translate(' + (round_1dp(options.width - margins.right)) + ',' + margins.top + ')';
-    })
+    .attr('transform', () => `translate(${round_1dp(options.width - margins.right)},${margins.top})`)
     .call(yAxis);
 
   yLabel.selectAll('text')
-      .attr('transform', function() {
-          return 'translate(' + (-margins.left - 7) + ',0)';
-      });
+      .attr('transform', () => `translate(${-margins.left - 7},0)`);
 
   const xScale = d3.scaleTime()
     .domain([userInputParse(options.startDate), userInputParse(options.endDate)])
@@ -108,8 +107,12 @@ async function drawChart(options, data) {
   }
   let xAxisTicks = [userInputParse(options.startDate)].concat(xScale.ticks(numTicks, d3.timeMonth.every(1))).concat([userInputParse(options.endDate)]);
   // now get rid of duplicates (e.g. when startDate or endDate fall at the beginning of a month)
-  xAxisTicks = _.map(_.uniq(_.map(xAxisTicks, function(date) { return date.toString(); })), function(date) { return new Date(date); });
-
+  xAxisTicks = _.map(
+    _.uniq(
+      _.map(xAxisTicks, date => date.toString())
+    ),
+    date => new Date(date)
+  );
 
   let tickSizeOuter = 20;
   if (xAxisTicks.length === 2) {
@@ -135,9 +138,7 @@ async function drawChart(options, data) {
 
   const xLabel = svg.append('g')
     .attr('class', 'xAxis')
-    .attr('transform', function() {
-      return 'translate(' + (margins.left) + ',' + (options.height - margins.bottom) + ')';
-    })
+    .attr('transform', () => `translate(${margins.left},${options.height - margins.bottom})`)
     .call(xAxis);
 
   xLabel.selectAll('text')
@@ -158,9 +159,7 @@ async function drawChart(options, data) {
 
   const candidateAreaGroups = svg.append('g')
     .attr('class', 'candidate area')
-    .attr('transform', function() {
-      return 'translate('+(margins.left)+','+(margins.top)+')'
-    });
+    .attr('transform', `translate(${margins.left},${margins.top})`);
 
   // check who is ahead in the latest average and put their line on top
   const latestClinton = formattedData[formattedData.length - 1].Clinton;
@@ -187,19 +186,17 @@ async function drawChart(options, data) {
     .data(keyOrder)
     .enter()
     .append('g')
-    .attr('class', function(d) { return 'candidate ' + d; })
-    .attr('transform', function() {
-      return 'translate('+(margins.left)+','+(margins.top)+')'
-    });
+    .attr('class', d => `candidate ${d}`)
+    .attr('transform', () => `translate(${margins.left},${margins.top})`);
 
   const convertLineData = d3.line()
-      .x(function(d) { return round_1dp(xScale(d.date)); })
-      .y(function(d) { return round_1dp(yScale(d.pollaverage)); });
+      .x(d => round_1dp(xScale(d.date)))
+      .y(d => round_1dp(yScale(d.pollaverage)));
 
   const candidateLine = candidateGroups.append('path')
     .attr('class', 'candidateLine')
-    .attr('d', function(d) { return convertLineData(data_groupedBy_candidate[d]); })
-    .style('stroke', function(d) { return colors[d]; })
+    .attr('d', d => convertLineData(data_groupedBy_candidate[d]))
+    .style('stroke', d => colors[d])
     .style('stroke-width', '2');
 
   const lastPointLabels = candidateGroups.append('circle')
@@ -211,7 +208,7 @@ async function drawChart(options, data) {
       return round_1dp(yScale(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].pollaverage));
     })
     .attr('r', '3.66')
-    .style('fill', function(d) { return colors[d]; });
+    .style('fill', d => colors[d]);
 
   const lastPointText = candidateGroups.append('text')
     .attr('class', 'lastpointtext')
@@ -229,23 +226,20 @@ async function drawChart(options, data) {
 
       return round_1dp(yScale(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].pollaverage) - yOverlapOffset);
     })
-    .style('fill', function(d) { return colors[d]; });
+    .style('fill', d => colors[d]);
 
   lastPointText.append('tspan')
     .text(function(d) { return d3.format(".1f")(data_groupedBy_candidate[d][data_groupedBy_candidate[d].length - 1].pollaverage) })
     .style('font-weight', 600);
 
-  lastPointText.append('tspan')
-    .text(function(d) {
-      return ` ${d}`;
-    })
+  lastPointText.append('tspan').text(d => ` ${d}`);
 
   // split up each area by intersections
   if (options.type === 'area') {
     const convertAreaData = d3.area()
-      .x(function(d) { return round_1dp(xScale(new Date(d.date))); })
-      .y0(function(d) { return round_1dp(yScale(d.Clinton)); })
-      .y1(function(d) { return round_1dp(yScale(d.Trump)); });
+      .x(d => round_1dp(xScale(new Date(d.date))))
+      .y0(d => round_1dp(yScale(d.Clinton)))
+      .y1(d => round_1dp(yScale(d.Trump)));
 
     const intersections = intersect(
       shape('path', { d: svg.select('.candidate.Clinton path.candidateLine').attr('d') }),
@@ -260,9 +254,10 @@ async function drawChart(options, data) {
       const point = intersections.points[0];
       const pointDate = new Date(xScale.invert(point.x));
       const pointValue = yScale.invert(point.y);
-      filteredFormattedData = _.filter(formattedData, function(row) {
-        return new Date(row.date) >= firstDataPointDate && new Date(row.date) < pointDate;
-      });
+      filteredFormattedData = _.filter(
+        formattedData,
+        row => new Date(row.date) >= firstDataPointDate && new Date(row.date) < pointDate
+      );
       filteredFormattedData.push({
         date: pointDate,
         Clinton: pointValue,
@@ -277,9 +272,7 @@ async function drawChart(options, data) {
       const candidateArea = candidateAreaGroups.append('path')
         .datum(filteredFormattedData)
         .attr('class', 'candidateArea')
-        .attr('d', function(d) {
-          return convertAreaData(d);
-        })
+        .attr('d', d => convertAreaData(d))
         .style('fill', color)
         .style('stroke-width', 0);
 
@@ -331,9 +324,7 @@ async function drawChart(options, data) {
         const candidateArea = candidateAreaGroups.append('path')
           .datum(filteredFormattedData)
           .attr('class', 'candidateArea')
-          .attr('d', function(d) {
-            return convertAreaData(d);
-          })
+          .attr('d', d => convertAreaData(d))
           .style('fill', color)
           .style('stroke-width', 0);
       }
@@ -348,24 +339,19 @@ async function drawChart(options, data) {
     const candidateArea = candidateAreaGroups.append('path')
       .datum(filteredFormattedData)
       .attr('class', 'candidateArea')
-      .attr('d', function(d) {
-        return convertAreaData(d);
-      })
+      .attr('d', d => convertAreaData(d))
       .style('fill', color)
       .style('stroke-width', 0);
   }
 
   const annotationGroup = svg.append('g')
     .attr('class', 'annotations')
-    .attr('transform', function() {
-      return 'translate('+(margins.left)+','+(margins.top)+')'
-    });
-
+    .attr('transform', () => `translate(${margins.left},${margins.top})`);
 
   if (!options.notext) {
     annotationGroup.append('text')
       .text(function() {
-        const stateName = _.findWhere(stateIds, { 'state': options.state.toUpperCase() }).stateName;
+        const stateName = _.findWhere(stateIds, { state: options.state.toUpperCase() }).stateName;
         if (options.width < 450) {
           if (options.state === 'us') {
             return 'Latest polls';
@@ -414,7 +400,8 @@ async function drawChart(options, data) {
     background: options.background,
     fontless: options.fontless,
     logo: options.logo,
-    svgContent: window.d3.select('svg').html().toString().replace(/clippath/g, 'clipPath'),
+    svgContent: window.d3.select('svg').html().toString()
+                            .replace(/clippath/g, 'clipPath'),
   }; // return this back to the router
 
   return config;

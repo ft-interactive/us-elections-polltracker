@@ -10,7 +10,7 @@ class NationalPage extends Page {
     super();
     this.headline = 'US election poll tracker';
     this.streamUrl = 'https://www.ft.com/us-election-2016';
-    this.url = this.url + '/polls';
+    this.url = `${this.url}/polls`;
     this.code = 'us';
   }
 

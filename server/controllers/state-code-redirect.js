@@ -1,8 +1,7 @@
 import { codeToSlug } from '../pages/state-page';
 
 export default async (req, res) => {
-  const state = req.params.code;
-  const slug = codeToSlug(state);
+  const slug = codeToSlug(req.params.code);
 
   if (!slug) {
     return;
