@@ -1,0 +1,180 @@
+<style>
+#statelist {
+  width: 100%;
+}
+
+#statelist-table {
+  max-width: 478px;
+  margin: 0 auto;  
+}
+
+#statelist table {
+  border-collapse: collapse; 
+  border-spacing: 0;
+}
+
+#statelist tr th {
+  border-bottom: 1px solid #999999 !important;
+}
+
+#statelist th {
+  text-align: left;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 14px;
+  vertical-align: bottom;
+  padding-bottom: 0.3em;
+}
+
+#statelist th.statelist-state {
+  padding-left: 35px;
+  width: 200px;
+}
+
+#statelist td {
+  padding: 0.25em 10px;
+  position: relative;
+  font-size: 1.06rem;
+}
+
+#statelist .statelist-pollmargin {
+  text-align: right;
+  padding-right: 50px;
+  width: 120px;
+}
+
+#statelist th.statelist-ecvotes {
+  text-align: center;
+  width: 102px;
+  min-width: 102px;
+  padding-right: 0;
+}
+
+#statelist td.statelist-ecvotes {
+  padding-right: 40px;
+  text-align: right;
+}
+
+#statelist tr {
+  border-bottom: 1px solid #cec6b9;
+  height: 30px;
+}
+
+#statelist tr.statelist-staterow:hover {
+  background: #f6e9d8;
+}
+
+#statelist tr.statelist-staterow:hover .statelist-stateLabel {
+  text-decoration: underline;
+}
+
+.statelist-catLabel {
+  color: white;
+  width: 20px;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.statelist-stateLabel {
+  margin-left: 25px;
+  color: #333;
+}
+
+.statelist-dem .statelist-catLabel {
+  background: {{ color.dem }};
+}
+
+.statelist-leaningDem .statelist-catLabel {
+  background: {{ color.leaningDem }};
+}
+
+.statelist-swing .statelist-catLabel {
+  background: {{ color.swing }};
+}
+
+.statelist-rep .statelist-catLabel {
+  background: {{ color.rep }};
+}
+
+.statelist-leaningRep .statelist-catLabel {
+  background: {{ color.leaningRep }};
+}
+
+
+.statelist-nodata {
+  color: #666;
+}
+
+@media (max-width: 400px) {
+  #statelist th.statelist-ecvotes {
+    text-align: center;
+    min-width: 0px;
+  }
+
+  #statelist td.statelist-ecvotes {
+    padding-right: 32px;
+    text-align: right;
+  }
+
+  #statelist .statelist-pollmargin {
+    text-align: right;
+    padding-left: 0;
+    padding-right: 0;
+    width: 140px;
+    min-width: 80px;
+  }
+
+}
+
+</style>
+
+<div id="statelist">
+  <h2>State polls</h2>
+  <div id="statelist-table">
+    {% set row_num_collapse = 10 %}
+    <div data-o-component="o-expander" class="o-expander items"
+      data-o-expander-collapsed-toggle-text="Show more states"
+      data-o-expander-expanded-toggle-text="Show fewer states"
+      data-o-expander-toggle-selector=".table-toggle-btn"
+      data-o-expander-shrink-to="{{ row_num_collapse }}"
+      data-o-expander-count-selector="tbody tr">
+      <table>
+      <thead>
+        <tr>
+          <th class="statelist-state">State</th>
+          <th class="statelist-pollmargin">Poll margin</th>
+          <th class="statelist-ecvotes">Electoral college votes</th>
+        </tr>
+      </thead>
+      <tbody class="o-expander__content">
+        {% for stateRow in stateCounts | orderStatesByImportance %}
+        {% set state = stateRow[0] %}
+        {% set stateData = stateRow[1] %}
+        <tr class="statelist-staterow statelist-{{ stateData.margin | getClassificationFromMargin }} statelist-staterow-{{ state | lower }}">
+          <td class="statelist-state">
+            <div class="statelist-catLabel"></div>
+            <a href="./{{state | lower }}"><div class="statelist-stateLabel">{{ state | toStateName }}</div></a>
+          </td>
+          <td class="statelist-pollmargin">
+            {% if stateData.Clinton == null %}
+            <span class="statelist-nodata">No poll data</span>
+            {% else %}
+              {% if stateData.margin > 0 %}
+              Clinton
+              {% else %}
+              Trump
+              {% endif %}
+              +{{ stateData.margin | round1dp | replace('-', '') }}
+            {% endif %}
+          </td>
+          <td class="statelist-ecvotes">{{ stateData.ecVotes }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      </table>
+      <button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big">Show more states</button>
+    </div>
+  </div>
+</div>
