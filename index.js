@@ -5,7 +5,7 @@ import * as nunjucks from './server/nunjucks';
 import nationalController from './server/controllers/national';
 import stateController from './server/controllers/state';
 import stateCodeRedirectController from './server/controllers/state-code-redirect';
-import getBerthaData from './server/lib/getBerthaData.js';
+import getBerthaData from './server/lib/getBerthaData';
 
 process.on('unhandledRejection', error => {
   console.error('unhandledRejection', error.stack);

@@ -135,8 +135,7 @@
 }
 
 .rail__state-list__nationalLink a:hover {
-  color: #27757b;
-  border-bottom: 1px dotted #27757b;
+  border-bottom: 1px dotted #9e2f50;
 }
 
 table {

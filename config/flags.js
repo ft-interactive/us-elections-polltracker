@@ -11,7 +11,6 @@ export default () => ({
   nationalBar: true,
   forecastMap: 'choropleth', // Options: 'choropleth', 'dots'
   stateDemographics: true,
-  forecastMap: true,
   header: true,
   footer: true,
 });
