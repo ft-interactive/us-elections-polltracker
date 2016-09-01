@@ -13,4 +13,5 @@ export default () => ({
   stateDemographics: true,
   header: true,
   footer: true,
+  stateList: true,
 });

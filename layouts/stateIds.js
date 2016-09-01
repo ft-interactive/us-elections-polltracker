@@ -18,8 +18,8 @@ const states = [{ state: 'US', stateName: 'United States', raceId: 5491, ecVotes
 { state: 'KS', stateName: 'Kansas', raceId: 5904, ecVotes: 6 },
 { state: 'KY', stateName: 'Kentucky', raceId: 5523, ecVotes: 8 },
 { state: 'LA', stateName: 'Louisiana', raceId: 5696, ecVotes: 8 },
-{ state: 'ME', stateName: 'Maine', raceId: 5896, ecVotes: 1 }, // ///// don't forget to add two more for ME winner
-{ state: 'MECD', stateName: 'Maine', raceId: 5897, ecVotes: 1 }, // /////
+{ state: 'ME', stateName: 'Maine (1)', raceId: 5896, ecVotes: 1 }, // ///// don't forget to add two more for ME winner
+{ state: 'MECD', stateName: 'Maine (2)', raceId: 5897, ecVotes: 1 }, // /////
 { state: 'MD', stateName: 'Maryland', raceId: 5859, ecVotes: 10 },
 { state: 'MA', stateName: 'Massachusetts', raceId: 5863, ecVotes: 11 },
 { state: 'MI', stateName: 'Michigan', raceId: 5533, ecVotes: 16 },
@@ -27,9 +27,9 @@ const states = [{ state: 'US', stateName: 'United States', raceId: 5491, ecVotes
 { state: 'MS', stateName: 'Mississippi', raceId: 5857, ecVotes: 6 },
 { state: 'MO', stateName: 'Missouri', raceId: 5609, ecVotes: 10 },
 { state: 'MT', stateName: 'Montana', raceId: null, ecVotes: 3 },
-{ state: 'NE', stateName: 'Nebraska', raceId: null, ecVotes: 1 }, // ///// don't forget to add two more for NE winner
-{ state: 'NECD', stateName: 'Nebraska', raceId: null, ecVotes: 1 }, // /////
-{ state: 'NECD2', stateName: 'Nebraska', raceId: null, ecVotes: 1 }, // /////
+{ state: 'NE', stateName: 'Nebraska (1)', raceId: null, ecVotes: 1 }, // ///// don't forget to add two more for NE winner
+{ state: 'NECD', stateName: 'Nebraska (2)', raceId: null, ecVotes: 1 }, // /////
+{ state: 'NECD2', stateName: 'Nebraska (3)', raceId: null, ecVotes: 1 }, // /////
 { state: 'NV', stateName: 'Nevada', raceId: 5891, ecVotes: 6 },
 { state: 'NH', stateName: 'New Hampshire', raceId: 5596, ecVotes: 4 },
 { state: 'NJ', stateName: 'New Jersey', raceId: 5872, ecVotes: 14 },

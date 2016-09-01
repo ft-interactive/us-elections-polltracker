@@ -3,6 +3,7 @@
 {% from 'includes/forecast-map-macro.svg' import ForecastMap %}
 {% from 'latest-news.html' import Block as LatestNews %}
 {% from 'electoral-college-bar.html' import Render as ElectoralCollegeBar %}
+{% from 'state-list.html' import Render as StateList %}
 {% import 'polling-history.html' as PollingHistory %}
 {% import "g-ui/ads" as Ads -%}
 
@@ -49,6 +50,14 @@ The race for 270 electoral college votes is too close to call
 }}
 
 {{ Ads.MidContent(on=false) }}
+
+{{
+  StateList(
+    title="State polls",
+    stateCounts=stateCounts,
+    on=flags.stateList
+  )
+}}
 
 {{
   PollingHistory.Table(
