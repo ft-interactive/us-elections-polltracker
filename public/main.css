@@ -476,6 +476,7 @@ a {
 #statelist-table {
   max-width: 478px;
   margin: 0 auto;  
+  color: #333;
 }
 
 #statelist table {
@@ -599,6 +600,7 @@ a {
 }
 
 #individualpolls table {
+  color: #333;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
