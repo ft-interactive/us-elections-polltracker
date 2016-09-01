@@ -17,6 +17,7 @@ class NationalPage extends Page {
   async ready() {
     await this.pready();
     const stateCounts = await getStateCounts(await getBerthaData());
+    this.stateCounts = stateCounts;
     this.nationalBarCounts = await nationalCount(stateCounts);
     this.forecastMapLayout = layoutForecastMap(
       stateCounts,
