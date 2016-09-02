@@ -1,6 +1,10 @@
 import { getBySlug, codeToSlug } from '../pages/state-page';
 import { render } from '../nunjucks';
 
+const maxAge = 120;
+const sMaxAge = 10;
+const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
+
 export default async (req, res) => {
   const state = req.params.state;
 
@@ -21,5 +25,6 @@ export default async (req, res) => {
     return;
   }
 
+  res.setHeader('Cache-Control', cacheControl);
   res.send(render('state.html', page));
 };
