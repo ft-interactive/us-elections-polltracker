@@ -1,13 +1,15 @@
 {% import "page-elements.html" as PageElements -%}
 
 {% macro LineChart(title, subtitle, svgs) %}
-  {% call PageElements.Figure(title=title, subtitle=subtitle) %}
-    {% for gridsize, svg in svgs %}
-      {% if svg %}
-      <div class="pollchart pollchart--{{gridsize}}">{{ svg | safe }}</div>
-      {% endif %}
-    {% endfor %}
-  {% endcall %}
+  {% if svgs.default != false %}
+    {% call PageElements.Figure(title=title, subtitle=subtitle) %}
+      {% for gridsize, svg in svgs %}
+        {% if svg %}
+        <div class="pollchart pollchart--{{gridsize}}">{{ svg | safe }}</div>
+        {% endif %}
+      {% endfor %}
+    {% endcall %}
+  {% endif %}
 {% endmacro %}
 
 {% macro Table(title, list, startCollapse=20) %}

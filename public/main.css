@@ -97,7 +97,8 @@
 
 .rail__state-list h4 {
   font-family: "MetricWeb", sans-serif;
-  font-weight: 400;
+  font-weight: 500;
+  color: #333;
 }
 
 .rail__state-list ul {
