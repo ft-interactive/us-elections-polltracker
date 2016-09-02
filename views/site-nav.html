@@ -16,10 +16,13 @@
       <li><a href="wisconsin-polls">Wisconsin</a></li>
     </ul>
 
-    <h4>Pick a state</h4>
+    <h4>State by state</h4>
     <select id="rail__state-list__select">
+      <option value="./">Pick a state...</option>
       {% for state in stateList %}
+      {% if state.state != 'US' %}
       <option value="./{{ state.state | lower }}">{{ state.stateName }}</option>
+      {% endif %}
       {% endfor %}
     </select>
 
