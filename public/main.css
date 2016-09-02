@@ -1,3 +1,8 @@
+.o-typography-footer {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+}
 .o-typography-body-wrapper p {
   max-width: 666px;
 }
