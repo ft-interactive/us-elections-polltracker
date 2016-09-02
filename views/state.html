@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 
 {% import 'polling-history.html' as PollingHistory %}
+
 {% from 'state-demographics.html' import Render as StateDemographics %}
 
 {% block content %}
@@ -12,6 +13,8 @@
     svgs=pollHistory.lineCharts
   )
 }}
+
+{% include "includes/who-won-here.html" %}
 
 {% call PageElements.Figure(title="Key data about " + state.name,
                   subtitle="Economic and demographic indicators (%)") %}

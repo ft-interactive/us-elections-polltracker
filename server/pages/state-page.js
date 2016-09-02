@@ -3,6 +3,8 @@ import axios from 'axios';
 import Page from './page';
 import stateReference from '../../data/states';
 import { getDemographics } from '../lib/demographics';
+import referenceData from '../../layouts/stateDemographics';
+import historicalDataTable from '../../layouts/historicalDataTable';
 
 const states = stateReference.map(d => {
   const slug = _.kebabCase(d.name);
@@ -23,6 +25,7 @@ class StatePage extends Page {
     this.code = this.state.code;
     this.headline = `US election poll tracker: ${this.state.name}`;
     this.url = `${this.url}/${this.state.slug}-polls`;
+    this.historicalResults = historicalDataTable(referenceData, state.code);
   }
 
   async ready() {
