@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% import 'polling-history.html' as PollingHistory %}
-{% from 'state-demographics.html' import Render as StateDemographics %}
+{% import 'state-demographics.html' as StateDemographics %}
 
 {% block content %}
 
@@ -16,7 +16,16 @@
 {% call PageElements.Figure(title="Key data about " + state.name,
                   subtitle="Economic and demographic indicators (%)") %}
   {{
-    StateDemographics(
+    StateDemographics.BarCodeChart(
+      svgs=state.demoSVGs
+    )
+  }}
+{% endcall %}
+
+{% call PageElements.Figure(title="Key data about " + state.name,
+                  subtitle="Economic and demographic indicators (%)") %}
+  {{
+    StateDemographics.BarChart(
       data=state.demographics,
       stateName=state.name
     )

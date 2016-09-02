@@ -756,7 +756,7 @@ a {
 
 .demographic-container {
   width: 32%;
-  height: 120px;
+  /*height: 120px;*/
   /*border: 1px solid #333;*/
   display: inline-block;
   vertical-align: top;
@@ -765,13 +765,10 @@ a {
 }
 
 .demographic-container h3 {
-  /*text-transform: uppercase;*/
-  margin-bottom: 1em;
   font-family: MetricWeb, sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 1em;
-  height: 2.5em;
   padding: auto 5px;
 }
 
@@ -779,6 +776,10 @@ a {
   border-bottom: 1px solid #a7a59b;
   width: 100px;
   margin: 0 auto;
+}
+
+svg.demographics-barcode-chart {
+  width: 100%;
 }
 
 .demographic-rect {

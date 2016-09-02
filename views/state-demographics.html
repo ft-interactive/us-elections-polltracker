@@ -1,6 +1,19 @@
 {% import "page-elements.html" as PageElements -%}
 
-{% macro Render(data, stateName) %}
+{% macro BarCodeChart(svgs) %}
+<div id="statedemographics">
+  <div id="demographic-wrapper">
+  {% for indicator in svgs %}
+  <div class="demographic-container">
+    <h3>{{ indicator.label }}</h3>
+    {{ indicator.svg | safe }}
+  </div>
+  {% endfor %}
+  </div>
+</div>
+{% endmacro %}
+
+{% macro BarChart(data, stateName) %}
 <div id="statedemographics">
   <div id="demographic-legend">
     <div class="demographic-rect demographic-state-rect"></div>
