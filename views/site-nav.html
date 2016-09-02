@@ -19,7 +19,7 @@
     <h4>Pick a state</h4>
     <select id="rail__state-list__select">
       {% for state in stateList %}
-      <option value="{{ state.stateName | lower }}-polls">{{ state.stateName }}</option>
+      <option value="./{{ state.state | lower }}">{{ state.stateName }}</option>
       {% endfor %}
     </select>
 
