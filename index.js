@@ -120,8 +120,8 @@ app.get('/:state-polls', stateController);
 app.get('/:code', stateCodeRedirectController);
 
 async function makePollTimeSeries(chartOpts) {
-  const startDate = chartOpts.startDate ? chartOpts.startDate : 'June 1, 2016';
-  const endDate = chartOpts.endDate ? chartOpts.endDate : d3.timeFormat('%B %e, %Y')(new Date());
+  const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-06-01 00:00:00';
+  const endDate = chartOpts.endDate ? chartOpts.endDate : d3.isoFormat(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';
   const pollData = await pollAverages(startDate, endDate, state);
   return template.render('templated-polls.svg', layoutTimeSeries(pollData, chartOpts));
