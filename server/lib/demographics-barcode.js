@@ -39,8 +39,8 @@ function layoutDemographicBarcode(code, indicator) {
     width: 210,
     height: 160,
     margin: {
-      left: 25,
-      right: 25,
+      left: 15,
+      right: 15,
       top: 40,
       bottom: 60,
     },

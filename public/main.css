@@ -766,13 +766,14 @@ a {
 
 .demographic-container h3 {
   font-family: MetricWeb, sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
   line-height: 1em;
+  height: 2em;
   padding: auto 5px;
   text-align: left;
   text-transform: uppercase;
-  color: #666;
+  color: #333;
   margin-bottom: 0.5em;
 }
 
@@ -782,8 +783,13 @@ a {
   margin: 0 auto;
 }
 
-svg.demographics-barcode-chart {
+svg#demographics-barcode-chart {
   width: 100%;
+}
+
+svg#demographics-barcode-chart .highlight text {
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .demographic-rect {
