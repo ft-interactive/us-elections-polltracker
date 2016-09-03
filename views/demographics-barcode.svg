@@ -2,12 +2,21 @@
 
 <g class="stateTicks" transform="translate({{margin.left}},16)">
   {% for stateTickVal in stateTicks %}
-    <line stroke="#000" stroke-opacity="0.2" x1="{{ stateTickVal }}" x2="{{ stateTickVal }}" y1="0" y2="{{ height - margin.bottom - 20 }}"></line>
+    <line stroke="#000" stroke-width="1.5px" stroke-opacity="0.2" x1="{{ stateTickVal }}" x2="{{ stateTickVal }}" y1="{{ margin.top }}" y2="{{ height - margin.bottom - 20 }}"></line>
   {% endfor %}
 </g>
 
-<g class="highlightTick" transform="translate({{margin.left}},16)">
-  <line stroke="#FF21AA" stroke-opacity="1" x1="{{ highlightPos }}" x2="{{ highlightPos }}" y1="0" y2="{{ height - margin.bottom - 20 }}"></line>
+<g class="highlight" transform="translate({{margin.left}},16)">
+  {# highlight tick pink #}
+  <line stroke="#FF21AA" stroke-width="1.5px" stroke-opacity="1" x1="{{ highlight.position }}" x2="{{ highlight.position }}" y1="{{ margin.top }}" y2="{{ height - margin.bottom - 20 }}"></line>
+  
+  {# label the highlight with state name and val #}
+  <line stroke="#000" x1="{{ highlight.position }}" x2="{{ highlight.position }}" y1="{{ margin.top - 5}}" y2="{{ margin.top - 20 }}"></line>
+  <line stroke="#000" x1="{{ highlight.position }}" x2="{% if highlight.textDirection == 'start' %}{{ highlight.position + 10 }}{% else %}{{ highlight.position - 10 }}{% endif %}" y1="{{ margin.top - 20 }}" y2="{{ margin.top - 20 }}"></line>
+  <text text-anchor="{{ highlight.textDirection }}" transform="translate({% if highlight.textDirection == 'start' %}{{ highlight.position + 15 }}{% else %}{{ highlight.position - 15 }}{% endif %}, {{ margin.top - 35 }})">
+    <tspan x="0">{{ highlight.value }}</tspan>
+    <tspan x="0" dy="1.2em">{{ stateName }}</tspan>
+  </text>
 </g>
 
 <g class="xAxis" transform="translate({{margin.left}},{{ height - (margin.bottom) }})" fill="none" font-size="10" font-family="sans-serif" text-anchor="middle">
@@ -15,8 +24,8 @@
   <g class="xAxis">
   {% for xTick in xTicks %}
     <g class="tick us-min" transform="translate( {{ xTick.position }}, 0)">
-      <line stroke="#C3BCB0" y2="18" x1="0.5" x2="0.5"></line>
-      <text font-size="14px" fill="#6b6e68" y="2" x="0" dy="1em" text-anchor="middle" transform="translate(0, 18)">
+      <line stroke="#C3BCB0" y2="16" x1="0.5" x2="0.5"></line>
+      <text font-size="14px" fill="#6b6e68" y="2" x="0" dy="1em" text-anchor="middle" transform="translate(0, 16)">
         <tspan x="0">{{ xTick.value }}</tspan>
         <tspan x="0" dy="1.2em">{{ xTick.label }}</tspan>
       </text>

@@ -770,6 +770,10 @@ a {
   font-weight: 400;
   line-height: 1em;
   padding: auto 5px;
+  text-align: left;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 0.5em;
 }
 
 .demographic-rect-container {

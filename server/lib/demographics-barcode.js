@@ -3,7 +3,7 @@ import { render } from '../nunjucks';
 import referenceData from '../../layouts/stateDemographics';
 
 const d3 = require('d3');
-
+const stateByID = require('../../layouts/stateIds').byID;
 
 const labels = referenceData.label;
 
@@ -37,11 +37,11 @@ function layoutDemographicBarcode(code, indicator) {
 
   const chartConfig = {
     width: 210,
-    height: 120,
+    height: 160,
     margin: {
       left: 25,
       right: 25,
-      top: 5,
+      top: 40,
       bottom: 60,
     },
   };
@@ -56,12 +56,24 @@ function layoutDemographicBarcode(code, indicator) {
 
   const stateTicks = indicatorData.map(val => xScale(val));
 
+  const stateName = stateByID[code.toUpperCase()].stateName;
+
+  let stateLabelTextDirection = 'start';
+  if (stateData / xDomain[1] > 0.5) {
+    stateLabelTextDirection = 'end';
+  }
+
   return {
+    stateName,
     ...chartConfig,
     stateTicks,
-    highlightPos: xScale(stateData),
+    highlight: {
+      value: `${formatToPercent(stateData)}%`,
+      position: xScale(stateData),
+      textDirection: stateLabelTextDirection,
+    },
     xTicks: [{
-      label: 'US min',
+      label: 'min',
       value: `${formatToPercent(d3.min(indicatorData))}%`,
       position: xScale(d3.min(indicatorData)),
     },
@@ -71,7 +83,7 @@ function layoutDemographicBarcode(code, indicator) {
       position: xScale(d3.mean(indicatorData)),
     },
     {
-      label: 'US max',
+      label: 'max',
       value: `${formatToPercent(d3.max(indicatorData))}%`,
       position: xScale(d3.max(indicatorData)),
     }],
