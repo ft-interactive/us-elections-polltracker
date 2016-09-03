@@ -848,3 +848,9 @@ svg.demographics-barcode-chart {
     width: 49%;
   }
 }
+
+@media (max-width: 400px) {
+  .demographic-container {
+    width: 100%;
+  }
+}
