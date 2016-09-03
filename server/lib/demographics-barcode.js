@@ -46,8 +46,6 @@ function layoutDemographicBarcode(code, indicator) {
     },
   };
 
-  console.log(code, indicator, stateData, nationalData, indicatorData);
-
   const xDomain = d3.extent(indicatorData);
 
   const xScale = d3.scaleLinear()
@@ -59,7 +57,7 @@ function layoutDemographicBarcode(code, indicator) {
   const stateName = stateByID[code.toUpperCase()].stateName;
 
   let stateLabelTextDirection = 'start';
-  if (stateData / xDomain[1] > 0.5) {
+  if (xScale(stateData) / xScale(xDomain[1]) > 0.5) {
     stateLabelTextDirection = 'end';
   }
 
