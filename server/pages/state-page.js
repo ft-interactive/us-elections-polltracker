@@ -9,7 +9,7 @@ const states = stateReference.map(d => {
   const slug = _.kebabCase(d.name);
   const demographics = getDemographics(d.code);
 
-  const demoSVGs = getDemographicsSVGs(d.code);
+  const demoSVGs = getDemographicsSVGs(d.code, d.name);
 
   return { ...d, slug, demographics, demoSVGs };
 });

@@ -23,7 +23,7 @@ export function formatToPercent(n) {
 }
 
 // return svg object given indicator
-function layoutDemographicBarcode(code, indicator) {
+function layoutDemographicBarcode(code, indicator, stateName) {
   // deal with Maine, Nebraska
   if (code.toUpperCase().indexOf('CD') > -1) {
     code = code.split('CD')[0];
@@ -53,8 +53,6 @@ function layoutDemographicBarcode(code, indicator) {
     .range([0, chartConfig.width - (chartConfig.margin.left + chartConfig.margin.right)]);
 
   const stateTicks = indicatorData.map(val => xScale(val));
-
-  const stateName = stateByID[code.toUpperCase()].stateName;
 
   let stateLabelTextDirection = 'start';
   if (xScale(stateData) / xScale(xDomain[1]) > 0.5) {
@@ -88,11 +86,11 @@ function layoutDemographicBarcode(code, indicator) {
   };
 }
 
-export function getDemographicsSVGs(code) {
+export function getDemographicsSVGs(code, stateName) {
   return attributesToDisplay.map(indicator => {
     return {
       label: labels[indicator],
-      svg: render('demographics-barcode.svg', layoutDemographicBarcode(code, indicator)),
+      svg: render('demographics-barcode.svg', layoutDemographicBarcode(code, indicator, stateName)),
     };
   });
 }
