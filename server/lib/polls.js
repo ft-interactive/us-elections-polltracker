@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import { timeFormat } from 'd3-time-format';
+import { isoFormat, timeFormat } from 'd3-time-format';
 import getAllPolls from '../../layouts/getAllPolls';
 import getPollAverages from '../../layouts/getPollAverages';
 import layoutTimeSeries from '../../layouts/timeseries-layout';
@@ -21,7 +21,7 @@ async function getPollSVG(state, size = '600x300') {
   return makePollTimeSeries({
     fontless: true,
     notext: true,
-    startDate: 'June 1, 2016',
+    startDate: '2016-06-01T00:00:00',
     size,
     type: 'area',
     state,
@@ -31,8 +31,8 @@ async function getPollSVG(state, size = '600x300') {
 }
 
 async function makePollTimeSeries(chartOpts) {
-  const startDate = chartOpts.startDate ? chartOpts.startDate : 'June 1, 2016';
-  const endDate = chartOpts.endDate ? chartOpts.endDate : timeFormat('%B %e, %Y')(new Date());
+  const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-06-01 00:00:00';
+  const endDate = chartOpts.endDate ? chartOpts.endDate : isoFormat(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';
   const pollData = await pollAverages(startDate, endDate, state);
   if (pollData && pollData.length > 0) {
