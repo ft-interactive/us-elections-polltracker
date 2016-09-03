@@ -1,4 +1,4 @@
-<svg id="demographics-barcode-chart" width="{{ width }}" height="{{ height }}" viewBox="0 0 {{ width }} {{ height }}" preserveAspectRatio="xMinYMin" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+<svg id="demographics-barcode-chart" width="{{ width }}" height="{{ height }}" viewBox="0 0 {{ width }} {{ height }}" preserveAspectRatio="xMinYMin meet" font-family="MetricWeb, sans-serif" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
 
 <g class="stateTicks" transform="translate({{margin.left}},16)">
   {% for stateTickVal in stateTicks %}
@@ -19,7 +19,7 @@
   </text>
 </g>
 
-<g class="xAxis" transform="translate({{margin.left}},{{ height - (margin.bottom) }})" fill="none" font-family="sans-serif" text-anchor="middle">
+<g class="xAxis" transform="translate({{margin.left}},{{ height - (margin.bottom) }})" fill="none" font-family="MetricWeb, sans-serif" text-anchor="middle">
   <line class="domain" stroke="#55514A" x1="0" x2="{{ width - (margin.left+margin.right) }}" y1="0.5" y2="0.5"></line>
   {% for xTick in xTicks %}
     <g class="tick" transform="translate( {{ xTick.position }}, 0)">
