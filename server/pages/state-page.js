@@ -1,5 +1,6 @@
 import Page from './page';
 import { getBySlug } from '../lib/states';
+import historicalDataTable from '../../layouts/historicalDataTable';
 
 class StatePage extends Page {
   constructor(state) {
@@ -18,6 +19,8 @@ class StatePage extends Page {
         list: `thing/${this.state.conceptId}`,
       });
     }
+
+    this.historicalResults = historicalDataTable(referenceData, state.code);
   }
 
   async ready() {

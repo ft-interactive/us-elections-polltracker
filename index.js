@@ -16,6 +16,12 @@ const getPollAverages = require('./layouts/getPollAverages.js');
 const template = nunjucks.env;
 const layoutTimeSeries = require('./layouts/timeseries-layout.js');
 const layoutForecastMap = require('./layouts/forecast-map-layout');
+const filters = require('./filters');
+const berthaDefaults = require('./config/bertha-defaults.json');
+const validStates = berthaDefaults.streampages.map((d) => d.state.toLowerCase());
+
+import flags from './config/flags';
+
 
 const app = express();
 const maxAge = 120; // for user agent caching purposes
