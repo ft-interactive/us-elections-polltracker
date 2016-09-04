@@ -12,7 +12,7 @@
   {% endif %}
 {% endmacro %}
 
-{% macro Table(title, list, startCollapse=20) %}
+{% macro Table(title, subtitle, list, startCollapse=20) %}
 <div id="individualpolls">
   {% call PageElements.Figure(title=title, subtitle=subtitle) %}
     {% if list and list.length > 0 %}
