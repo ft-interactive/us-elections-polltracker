@@ -26,6 +26,7 @@ const layoutForecastMap = require('./layouts/forecast-map-layout');
 const filters = require('./filters');
 const berthaDefaults = require('./config/bertha-defaults.json');
 const validStates = berthaDefaults.streampages.map((d) => d.state.toLowerCase());
+const compileSass = require('express-compile-sass');
 
 import flags from './config/flags';
 
@@ -35,6 +36,14 @@ const maxAge = 120; // for user agent caching purposes
 const sMaxAge = 10;
 
 app.disable('x-powered-by');
+
+app.use(compileSass({
+  root: process.cwd(),
+  sourceMap: true, // Includes Base64 encoded source maps in output css
+  sourceComments: true, // Includes source comments in output css
+  watchFiles: true, // Watches sass files and updates mtime on main files for each change
+  logToConsole: false, // If true, will log to console.error on errors
+}));
 
 app.use(express.static('public'));
 
