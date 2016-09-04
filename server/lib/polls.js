@@ -4,17 +4,13 @@ import getAllPolls from '../../layouts/getAllPolls';
 import getPollAverages from '../../layouts/getPollAverages';
 import layoutTimeSeries from '../../layouts/timeseries-layout';
 import { render } from '../nunjucks';
-import { lru } from './cache';
+import cache from './cache';
 
-async function pollAverages(start, end, state) {
-  if (!state) state = 'us';
-  const dbCacheKey = 'dbAverages-' + [state, start, end].join('-');
-  let dbResponse = lru.get(dbCacheKey);
-  if (!dbResponse) {
-    dbResponse = await getPollAverages(state, start, end);
-    lru.set(dbCacheKey, dbResponse);
-  }
-  return dbResponse;
+async function pollAverages(start, end, state = 'us') {
+  return await cache(
+    `dbAverages-${state}-${start}-${end}`,
+    async() => await getPollAverages(state, start, end)
+  );
 }
 
 async function makePollTimeSeries(chartOpts) {
