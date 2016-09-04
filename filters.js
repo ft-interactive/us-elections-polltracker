@@ -1,49 +1,15 @@
-import nunjucks from 'nunjucks';
-const d3 = require('d3');
-const _ = require('underscore');
-const stateIds = require('./layouts/stateIds').states;
-
-const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
-                  'September', 'October', 'November', 'December'];
-const monthsAbbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
-                  'Sep', 'Oct', 'Nov', 'Dec'];
-
-export function ftdate(d) {
-  const day = days[d.getUTCDay()];
-  const month = months[d.getUTCMonth()];
-  return !d ? '' : `${day}, ${d.getUTCDate()} ${month}, ${d.getUTCFullYear()}`;
-}
+import { scaleThreshold } from 'd3-scale';
 
 export function commas(n) {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-export function encodedJSON(str) {
-  try {
-    return encodeURIComponent(JSON.stringify(JSON.parse(str || ''), null, ''));
-  } catch (e) {
-    return '';
-  }
-}
-
-export function spoorTrackingPixel(str) {
-  const json = encodedJSON(str.trim());
-  const img = `<img src="https://spoor-api.ft.com/px.gif?data=${json}" height="1" width="1" />`;
-
-  /* Add this conditional comment before the <noscript> once Core/Enhanced is
-     properley implemented:
-
-     <!--[if lt IE 9]>
-       ${img}
-    <![endif]-->
-  */
-  return new nunjucks.runtime.SafeString(`<noscript data-o-component="o-tracking">${img}</noscript>`);
-}
-
 export function round1dp(n) {
   return Math.round(n * 10) / 10;
 }
+
+const monthsAbbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
+                  'Sep', 'Oct', 'Nov', 'Dec'];
 
 // turn 8/26 - 8/29 to Aug 26 - 29
 export function formatDateForIndividualPollsTable(inputDate) {
@@ -68,50 +34,49 @@ export function formatSampleSizeForIndividualPollsTable(sampleSizeString) {
   return sampleSizeString.replace(/ (RV|LV|A)/, ' <span class="sampleType">$1</span>');
 }
 
+const marginCategory = scaleThreshold()
+                        .range([
+                          'rep',
+                          'leaningRep',
+                          'swing',
+                          'leaningDem',
+                          'dem',
+                        ])
+                        .domain([-10, -5, 5, 10]);
+
 export function getClassificationFromMargin(margin) {
-  const classification = d3.scaleThreshold()
-    .range(['rep', 'leaningRep', 'swing', 'leaningDem', 'dem'])
-    .domain([-10, -5, 5, 10]);
-
-  return classification(margin);
+  return marginCategory(margin);
 }
 
-export function toStateName(stateAbbreviation) {
-  const fullStateName = _.findWhere(stateIds, { state: stateAbbreviation.toUpperCase() }).stateName;
-  return fullStateName;
-}
+export function orderStatesByImportance(states) {
+  const statesWithPollDate = [];
+  const statesWithout = [];
 
-export function orderStatesByImportance(stateObj) {
-  // convert object into array
-  const orderedStatesPolls = [];
-  const orderedStatesNoPolls = [];
-  for (const key in stateObj) {
-    if (stateObj.hasOwnProperty(key)) {
-      if (stateObj[key].Clinton != null) {
-        orderedStatesPolls.push([key, stateObj[key]]); // each item is an array in format [key, value]
-      } else {
-        orderedStatesNoPolls.push([key, stateObj[key]]);
-      }
-    }
-  }
+  Object.keys(states).forEach(code => {
+    const state = states[code];
+    const array = state.Clinton != null
+                        ? statesWithPollDate
+                        : statesWithout;
+    array.push(state);
+  });
 
   // sort items with poll averages by value
-  orderedStatesPolls.sort((a, b) => {
-    if (Math.abs(0 - a[1].margin) !== Math.abs(0 - b[1].margin)) {
-      return Math.abs(0 - a[1].margin) - Math.abs(0 - b[1].margin); // compare how close numbers are to 0
+  statesWithPollDate.sort((a, b) => {
+    const aMargin = Math.abs(0 - a.margin);
+    const bMargin = Math.abs(0 - b.margin);
+    if (aMargin !== bMargin) {
+      return aMargin - bMargin; // compare how close numbers are to 0
     }
-    return Math.abs(0 - a[1].margin) - Math.abs(0 - b[1].margin) - ((a[1].ecVotes - b[1].ecVotes) / 1000); // if equal distance to 0, sort by ecVotes
+    return aMargin - bMargin - ((a.ecVotes - b.ecVotes) / 1000); // if equal distance to 0, sort by ecVotes
   });
-  orderedStatesNoPolls.sort((a, b) => {
-    if (toStateName(a[0]) < toStateName(b[0])) {
+  statesWithout.sort((a, b) => {
+    if (a.name < b.name) {
       return -1;
-    } else if (toStateName(a[0]) > toStateName(b[0])) {
+    } else if (a.name > b.name) {
       return 1;
     }
     return 0;
   }); // sort alphabetically
 
-  const sortedPolls = orderedStatesPolls.concat(orderedStatesNoPolls);
-
-  return sortedPolls;
+  return statesWithPollDate.concat(statesWithout);
 }

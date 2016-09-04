@@ -1,7 +1,6 @@
 import Page from './page';
 import { getEditorsConfig } from '../lib/editors-config';
-import getBerthaData from '../lib/getBerthaData';
-import getStateCounts from '../lib/getStateCounts';
+import getStateCounts from '../lib/state-counts';
 import layoutForecastMap from '../../layouts/forecast-map-layout';
 import nationalCount from '../lib/national-count';
 
@@ -16,7 +15,15 @@ class NationalPage extends Page {
 
   async ready() {
     await this.pready();
-    const stateCounts = await getStateCounts(await getBerthaData());
+    const stateCounts = await getStateCounts();
+    const editorsConfig = await getEditorsConfig();
+    this.latestNews = editorsConfig.get('text');
+    const copyUpdated = new Date(editorsConfig.get('updated') || 0);
+
+    if (copyUpdated > this.publishedDate) {
+      this.publishedDate = copyUpdated;
+    }
+
     this.stateCounts = stateCounts;
     this.nationalBarCounts = await nationalCount(stateCounts);
     this.forecastMapLayout = layoutForecastMap(
@@ -27,17 +34,8 @@ class NationalPage extends Page {
 }
 
 export async function createPage() {
-  const editorsConfig = await getEditorsConfig();
   const page = new NationalPage();
   await page.ready();
-  page.latestNews = editorsConfig.get('text');
-
-  const copyUpdated = new Date(editorsConfig.get('updated') || 0);
-
-  if (copyUpdated > page.publishedDate) {
-    page.publishedDate = copyUpdated;
-  }
-
   return page;
 }
 

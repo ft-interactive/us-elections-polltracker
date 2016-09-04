@@ -21,27 +21,25 @@
         </tr>
       </thead>
       <tbody class="o-expander__content">
-        {% for stateRow in stateCounts | orderStatesByImportance %}
-        {% set state = stateRow[0] %}
-        {% set stateData = stateRow[1] %}
-        <tr class="statelist-staterow statelist-{{ stateData.margin | getClassificationFromMargin }} statelist-staterow-{{ state | lower }}">
+        {% for state in stateCounts | orderStatesByImportance %}
+        <tr class="statelist-staterow statelist-{{ state.margin | getClassificationFromMargin }} statelist-staterow-{{ state.code | lower }}">
           <td class="statelist-state">
             <div class="statelist-catLabel"></div>
-            <a href="./{{state | lower }}"><div class="statelist-stateLabel">{{ state | toStateName }}</div></a>
+            <a href="{{ state.slug }}-polls"><div class="statelist-stateLabel">{{ state.name }}</div></a>
           </td>
           <td class="statelist-pollmargin">
-            {% if stateData.Clinton == null %}
+            {%- if state.Clinton == null -%}
             <span class="statelist-nodata">No poll data</span>
-            {% else %}
-              {% if stateData.margin > 0 %}
+            {%- else -%}
+              {%- if state.margin > 0 -%}
               Clinton
-              {% else %}
+              {%- else -%}
               Trump
-              {% endif %}
-              +{{ stateData.margin | round1dp | replace('-', '') }}
-            {% endif %}
+              {%- endif -%}
+              +{{ state.margin | round1dp | replace('-', '') }}
+            {%- endif -%}
           </td>
-          <td class="statelist-ecvotes">{{ stateData.ecVotes }}</td>
+          <td class="statelist-ecvotes">{{ state.ecVotes }}</td>
         </tr>
         {% endfor %}
       </tbody>
