@@ -1,4 +1,4 @@
-import { codeToSlug } from '../lib/states';
+import { getByCode, getBySlug, getByContentId } from '../lib/states';
 
 export default async (req, res) => {
   if (req.params.code === 'us') {
@@ -6,11 +6,14 @@ export default async (req, res) => {
     return;
   }
 
-  const slug = codeToSlug(req.params.code);
+  const state = getByCode(req.params.code) ||
+                getBySlug(req.params.code) ||
+                getByContentId(req.params.code);
 
-  if (!slug) {
+  if (!state) {
+    res.sendStatus(404);
     return;
   }
 
-  res.redirect(301, `/${slug}-polls`);
+  res.redirect(301, `/${state.slug}-polls`);
 };

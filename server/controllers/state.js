@@ -31,7 +31,7 @@ export default async (req, res) => {
       return;
     }
 
-    res.send(404);
+    res.sendStatus(404);
     return;
   }
 

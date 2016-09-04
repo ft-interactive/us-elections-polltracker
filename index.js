@@ -119,8 +119,10 @@ app.get('/polls', nationalController);
 app.get('/:state-polls', stateController);
 
 // support the old state poll format (redirect to new routes)
-app.get('/:code', stateCodeRedirectController);
 app.get('/polls/:code', stateCodeRedirectController);
+
+// This needs to be last as it captures lot of paths and only does redirects
+app.get('/:code', stateCodeRedirectController);
 
 async function makePollTimeSeries(chartOpts) {
   const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-06-01 00:00:00';

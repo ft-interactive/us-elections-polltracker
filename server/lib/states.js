@@ -27,6 +27,10 @@ export function getByCode(code) {
   return getBySlug(slug);
 }
 
+export function getByContentId(id) {
+  return states.find(state => state.id === id);
+}
+
 export function getAllCodes() {
   return codeIndex.keys();
 }
