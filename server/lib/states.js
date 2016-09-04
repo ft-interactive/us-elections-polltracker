@@ -21,6 +21,10 @@ export function getBySlug(slug) {
   return slugIndex.get(slug);
 }
 
+export function isState(slug) {
+  return slugIndex.has(slug);
+}
+
 export function getByCode(code) {
   const slug = codeToSlug(code);
   if (!slug) return null;

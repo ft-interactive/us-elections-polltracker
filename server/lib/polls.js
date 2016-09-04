@@ -1,20 +1,31 @@
 import _ from 'underscore';
-import { isoFormat, timeFormat } from 'd3-time-format';
+import { isoFormat } from 'd3-time-format';
 import getAllPolls from '../../layouts/getAllPolls';
 import getPollAverages from '../../layouts/getPollAverages';
 import layoutTimeSeries from '../../layouts/timeseries-layout';
 import { render } from '../nunjucks';
-import cache from './cache';
+import { lru } from './cache';
 
 async function pollAverages(start, end, state) {
   if (!state) state = 'us';
   const dbCacheKey = 'dbAverages-' + [state, start, end].join('-');
-  let dbResponse = cache.get(dbCacheKey);
+  let dbResponse = lru.get(dbCacheKey);
   if (!dbResponse) {
     dbResponse = await getPollAverages(state, start, end);
-    cache.set(dbCacheKey, dbResponse);
+    lru.set(dbCacheKey, dbResponse);
   }
   return dbResponse;
+}
+
+async function makePollTimeSeries(chartOpts) {
+  const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-06-01 00:00:00';
+  const endDate = chartOpts.endDate ? chartOpts.endDate : isoFormat(new Date());
+  const state = chartOpts.state ? chartOpts.state : 'us';
+  const pollData = await pollAverages(startDate, endDate, state);
+  if (pollData && pollData.length > 0) {
+    return render('templated-polls.svg', layoutTimeSeries(pollData, chartOpts));
+  }
+  return false;
 }
 
 async function getPollSVG(state, size = '600x300') {
@@ -28,17 +39,6 @@ async function getPollSVG(state, size = '600x300') {
     logo: false,
     margin: { top: 10, left: 35, bottom: 50, right: 90 },
   });
-}
-
-async function makePollTimeSeries(chartOpts) {
-  const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-06-01 00:00:00';
-  const endDate = chartOpts.endDate ? chartOpts.endDate : isoFormat(new Date());
-  const state = chartOpts.state ? chartOpts.state : 'us';
-  const pollData = await pollAverages(startDate, endDate, state);
-  if (pollData && pollData.length > 0) {
-    return render('templated-polls.svg', layoutTimeSeries(pollData, chartOpts));
-  }
-  return false;
 }
 
 export async function lineChart(code) {

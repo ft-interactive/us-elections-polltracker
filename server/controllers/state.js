@@ -1,6 +1,7 @@
 import { createPage } from '../pages/state-page';
-import { codeToSlug } from '../lib/states';
+import { codeToSlug, isState } from '../lib/states';
 import { render } from '../nunjucks';
+import cache from '../lib/cache';
 
 const maxAge = 120;
 const sMaxAge = 10;
@@ -17,12 +18,15 @@ export default async (req, res) => {
   if (slugfixes[state]) {
     res.redirect(301, `/${slugfixes[state]}-polls`);
     return;
+  } else if (state === 'us') {
+    res.redirect(301, '/polls');
+    return;
   }
 
   // TODO: generic middleware for to send 500 errors
   //       for when stuff like this results in an unhandled rejection
-  const page = await createPage(state);
-  if (!page) {
+
+  if (!isState(state)) {
     // see if we can redirect
     const slug = codeToSlug(state);
 
@@ -36,5 +40,11 @@ export default async (req, res) => {
   }
 
   res.setHeader('Cache-Control', cacheControl);
-  res.send(render('state.html', page));
+
+  const html = await cache(
+    `statePage-${state}`,
+    async () => render('state.html', await createPage(state))
+  );
+
+  res.send(html);
 };

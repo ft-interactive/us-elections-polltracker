@@ -1,25 +1,18 @@
 import { createPage } from '../pages/national-page';
 import { render } from '../nunjucks';
+import cache from '../lib/cache';
 
 const maxAge = 120;
 const sMaxAge = 10;
 const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
 
 export default async (req, res) => {
-  const page = await createPage();
   res.setHeader('Cache-Control', cacheControl);
-  res.send(render('national.html', page));
+
+  const html = await cache(
+    'nationalpolls',
+    async () => render('national.html', await createPage())
+  );
+
+  res.send(html);
 };
-
-/*
-
-let cachePage = true;
-const pageCacheKey = `statePage-${state}`;
-
-let renderedPage = cache.get(pageCacheKey); // check to see if we've cached this page recently
-
-if (!renderedPage) {
-   do everything
-}
-
-*/
