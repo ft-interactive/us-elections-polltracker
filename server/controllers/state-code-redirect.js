@@ -1,4 +1,4 @@
-import { codeToSlug } from '../pages/state-page';
+import { codeToSlug } from '../lib/states';
 
 export default async (req, res) => {
   if (req.params.code === 'us') {

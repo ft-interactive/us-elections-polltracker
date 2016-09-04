@@ -10,7 +10,7 @@ const attributesToDisplay = [
   'poverty',
   'graduates',
   'hispanic',
-  'africanAmerican'
+  'africanAmerican',
 ];
 
 const categories = attributesToDisplay.map(property => ({
@@ -21,7 +21,7 @@ const categories = attributesToDisplay.map(property => ({
   maxYVal: null,
 }));
 
-export function getDemographics(code) {
+export function getStateDemographics(code) {
   return categories.map(category => {
     const data = referenceData[code.toUpperCase()];
     if (!data) return null;
