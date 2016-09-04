@@ -4,25 +4,16 @@
   <nav>
     <h4>Which states are in play?</h4>
     <ul>
-      <li><a href="arizona-polls">Arizona</a></li>
-      <li><a href="florida-polls">Florida</a></li>
-      <li><a href="georgia-polls">Georgia</a></li>
-      <li><a href="iowa-polls">Iowa</a></li>
-      <li><a href="missouri-polls">Missouri</a></li>
-      <li><a href="nevada-polls">Nevada</a></li>
-      <li><a href="north-carolina-polls">North Carolina</a></li>
-      <li><a href="ohio-polls">Ohio</a></li>
-      <li><a href="pennsylvania-polls">Pennsylvania</a></li>
-      <li><a href="wisconsin-polls">Wisconsin</a></li>
+      {% for state in siteNav.keyBattlegroundStates %}
+      <li><a href="{{ state.slug }}-polls">{{ state.name }}</a></li>
+      {% endfor %}
     </ul>
 
     <h4>State by state</h4>
     <select id="rail__state-list__select">
       <option value="./">Pick a state...</option>
       {% for state in siteNav.allStates %}
-      {% if state.state != 'US' %}
       <option value="./{{ state.slug }}-polls">{{ state.name }}</option>
-      {% endif %}
       {% endfor %}
     </select>
 
