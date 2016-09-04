@@ -12,25 +12,3 @@
   </div>
 </div>
 {% endmacro %}
-
-{% macro BarChart(data, stateName) %}
-<div id="statedemographics">
-  <div id="demographic-legend">
-    <div class="demographic-rect demographic-state-rect"></div>
-    <div class="demographic-rect-label">{{ stateName }}</div>
-    <div class="demographic-rect demographic-us-rect"></div>
-    <div class="demographic-rect-label">US average</div>
-  </div>
-  <div id="demographic-wrapper">
-    {% for stateDemo in data %}
-    <div class="demographic-container">
-      <h3>{{ stateDemo.category }}</h3>
-      <div class="demographic-rect-container">
-        <div class="demographic-rect demographic-state-rect" style="height: {{stateDemo.stateValue * 50 / stateDemo.maxYVal}}px;"><span class="demographic-rect-label">{{ (stateDemo.stateValue * 100) | round1dp }}</span></div>
-        <div class="demographic-rect demographic-us-rect" style="height: {{stateDemo.nationalValue * 50 / stateDemo.maxYVal}}px;"><span class="demographic-rect-label">{{ (stateDemo.nationalValue * 100) | round1dp }}</span></div>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-</div>
-{% endmacro %}

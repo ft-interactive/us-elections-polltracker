@@ -1,8 +1,10 @@
+import _ from 'underscore';
+import { render } from '../nunjucks';
 import referenceData from '../../layouts/stateDemographics';
 
-const labels = referenceData.label;
+const d3 = require('d3');
 
-const national = referenceData.US;
+const labels = referenceData.label;
 
 const attributesToDisplay = [
   'wageGrowth2015',
@@ -10,28 +12,84 @@ const attributesToDisplay = [
   'poverty',
   'graduates',
   'hispanic',
-  'africanAmerican'
+  'africanAmerican',
 ];
 
-const categories = attributesToDisplay.map(property => ({
-  property,
-  category: labels[property],
-  nationalValue: national[property],
-  stateValue: null,
-  maxYVal: null,
-}));
+export function formatToPercent(n) {
+  return Math.round(n * 1000) / 10;
+}
 
-export function getDemographics(code) {
-  return categories.map(category => {
-    const data = referenceData[code.toUpperCase()];
-    if (!data) return null;
+// return svg object given indicator
+function layoutDemographicBarcode(code, indicator, stateName) {
+  // deal with Maine, Nebraska
+  if (code.toUpperCase().indexOf('CD') > -1) {
+    code = code.split('CD')[0];
+  }
 
-    const stateValue = data[category.property];
-    // Important: don't mutate the category, copy it instead.
+  const stateData = referenceData[code.toUpperCase()][indicator];
+  if (!stateData) return null;
+
+  const indicatorData = _.pluck(_.omit(referenceData, ['label', 'US']), indicator); // list of indicator data from all states (minus label and national)
+
+  const chartConfig = {
+    width: 325,
+    height: 136,
+    margin: {
+      left: 15,
+      right: 15,
+      top: 30,
+      bottom: 60,
+    },
+  };
+
+  const xDomain = d3.extent(indicatorData);
+
+  const xScale = d3.scaleLinear()
+    .domain(xDomain)
+    .range([0, chartConfig.width - (chartConfig.margin.left + chartConfig.margin.right)]);
+
+  const stateTicks = indicatorData.map(val => xScale(val));
+
+  let stateLabelTextDirection = 'start';
+  if (xScale(stateData) / xScale(xDomain[1]) > 0.5) {
+    stateLabelTextDirection = 'end';
+  }
+
+  return {
+    stateName,
+    ...chartConfig,
+    stateTicks,
+    highlight: {
+      value: `${formatToPercent(stateData)}%`,
+      position: xScale(stateData),
+      textDirection: stateLabelTextDirection,
+    },
+    xTicks: [{
+      label: 'min',
+      value: `${formatToPercent(d3.min(indicatorData))}%`,
+      position: xScale(d3.min(indicatorData)),
+      fontWeight: 400,
+    },
+    {
+      label: 'US avg',
+      value: `${formatToPercent(d3.mean(indicatorData))}%`,
+      position: xScale(d3.mean(indicatorData)),
+      fontWeight: 500,
+    },
+    {
+      label: 'max',
+      value: `${formatToPercent(d3.max(indicatorData))}%`,
+      position: xScale(d3.max(indicatorData)),
+      fontWeight: 400,
+    }],
+  };
+}
+
+export function getDemographics(code, stateName) {
+  return attributesToDisplay.map(indicator => {
     return {
-      ...category,
-      stateValue,
-      maxYVal: Math.max(stateValue, category.nationalValue),
+      label: labels[indicator],
+      svg: render('demographics-barcode.svg', layoutDemographicBarcode(code, indicator, stateName)),
     };
-  }).filter(Boolean);
+  });
 }

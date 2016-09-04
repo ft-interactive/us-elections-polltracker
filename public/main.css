@@ -767,77 +767,9 @@ a {
   margin-bottom: 0.5em;
 }
 
-.demographic-rect-container {
-  border-bottom: 1px solid #a7a59b;
-  width: 100px;
-  margin: 0 auto;
-}
-
 svg#demographics-barcode-chart {
   max-width: 100%;
   overflow: visible;
-}
-
-/*svg#demographics-barcode-chart .highlight text {
-  font-size: 14px;
-  font-weight: 500;
-}*/
-
-.demographic-rect {
-  width: 20px;
-  height: 14px;
-  display: inline-block;
-  vertical-align: bottom;
-  position: relative;
-}
-
-.demographic-state-rect {
-  background: #6D5E7F;
-  margin-right: 3.5px;
-}
-
-.demographic-us-rect {
-  background: #B2B2B2;
-  margin-left: 3.5px;
-}
-
-.demographic-rect-label {
-  position: absolute;
-  /*bottom: 3px;*/
-  top: -20px;
-  width: 200%;
-  left: -10px;
-  font-size: 14px;
-  letter-spacing: 0.05em;
-}
-
-.demographic-state-rect .demographic-rect-label {
-  /*text-align: right;*/
-  /*left: -46px;*/
-  font-weight: 500;
-}
-
-.demographic-us-rect .demographic-rect-label {
-  /*left: 27px;*/
-  /*text-align: left;*/
-}
-
-#demographic-legend .demographic-rect {
-  display: inline-block;
-  margin-right: 2px;
-  width: 14px;
-}
-
-#demographic-legend .demographic-rect-label {
-  width: 1000%;
-  text-align: left;
-  position: relative;
-  display: inline;
-  margin-right: 15px;
-  letter-spacing: initial;
-  font-weight: 400;
-  top: 0;
-  left: 0;
 }
 
 @media (max-width: 500px) {

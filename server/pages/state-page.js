@@ -3,15 +3,12 @@ import axios from 'axios';
 import Page from './page';
 import stateReference from '../../data/states';
 import { getDemographics } from '../lib/demographics';
-import { getDemographicsSVGs } from '../lib/demographics-barcode';
 
 const states = stateReference.map(d => {
   const slug = _.kebabCase(d.name);
-  const demographics = getDemographics(d.code);
+  const demographics = getDemographics(d.code, d.name);
 
-  const demoSVGs = getDemographicsSVGs(d.code, d.name);
-
-  return { ...d, slug, demographics, demoSVGs };
+  return { ...d, slug, demographics };
 });
 
 const slugIndex = states.reduce((map, state) =>
