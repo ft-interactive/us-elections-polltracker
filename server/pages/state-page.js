@@ -1,5 +1,6 @@
 import Page from './page';
 import { getBySlug } from '../lib/states';
+import referenceData from '../../layouts/stateDemographics';
 import historicalDataTable from '../../layouts/historicalDataTable';
 
 class StatePage extends Page {
