@@ -778,10 +778,10 @@ svg#demographics-barcode-chart {
   overflow: visible;
 }
 
-svg#demographics-barcode-chart .highlight text {
+/*svg#demographics-barcode-chart .highlight text {
   font-size: 14px;
   font-weight: 500;
-}
+}*/
 
 .demographic-rect {
   width: 20px;

@@ -72,16 +72,19 @@ function layoutDemographicBarcode(code, indicator, stateName) {
       label: 'min',
       value: `${formatToPercent(d3.min(indicatorData))}%`,
       position: xScale(d3.min(indicatorData)),
+      fontWeight: 400,
     },
     {
       label: 'US avg',
       value: `${formatToPercent(d3.mean(indicatorData))}%`,
       position: xScale(d3.mean(indicatorData)),
+      fontWeight: 500,
     },
     {
       label: 'max',
       value: `${formatToPercent(d3.max(indicatorData))}%`,
       position: xScale(d3.max(indicatorData)),
+      fontWeight: 400,
     }],
   };
 }
