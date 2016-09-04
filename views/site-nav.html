@@ -1,4 +1,4 @@
-{% macro StateList(stateList) %}
+{% macro StateList(siteNav) %}
 <h3>US election explained</h3>
   <div class="rail__state-list">
   <nav>
@@ -19,9 +19,9 @@
     <h4>State by state</h4>
     <select id="rail__state-list__select">
       <option value="./">Pick a state...</option>
-      {% for state in stateList %}
+      {% for state in siteNav.allStates %}
       {% if state.state != 'US' %}
-      <option value="./{{ state.state | lower }}">{{ state.stateName }}</option>
+      <option value="./{{ state.slug }}-polls">{{ state.name }}</option>
       {% endif %}
       {% endfor %}
     </select>

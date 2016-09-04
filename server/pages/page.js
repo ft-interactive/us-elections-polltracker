@@ -1,6 +1,7 @@
 import flags from '../../config/flags';
 import lastUpdated from '../../layouts/getLastUpdated';
 import * as polls from '../lib/polls.js';
+import siteNav from '../lib/site-nav';
 
 const onwardJourney = () => ({
   relatedContent: [
@@ -15,8 +16,6 @@ const ads = {
   zone: 'us.and.canada',
   aboveHeader: true,
 };
-
-const stateList = require('../../layouts/stateIds').states;
 
 export default class Page {
 
@@ -34,13 +33,13 @@ export default class Page {
 
   socialSummary = 'US election poll tracker: Here\'s who\'s ahead';
 
-  url = 'https://ig.ft.com/us-elections';
+  url = 'https://ig.ft.com/us-elections/polls';
 
   constructor() {
     this.canoniclUrl = 'https://ig.ft.com/us-elections/polls/';
     this.flags = flags();
     this.onwardJourney = onwardJourney();
-    this.stateList = stateList;
+    this.siteNav = siteNav();
   }
 
   async pready() {
