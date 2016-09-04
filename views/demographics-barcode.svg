@@ -7,15 +7,15 @@
 </g>
 
 <g class="highlight" transform="translate({{margin.left}},16)">
-  {# highlight tick pink #}
-  <line stroke="#FF21AA" stroke-width="2.5px" stroke-opacity="1" x1="{{ highlight.position }}" x2="{{ highlight.position }}" y1="{{ margin.top }}" y2="{{ height - margin.bottom - 20 }}"></line>
+  {# highlight tick purple #}
+  <line stroke="#F700FF" stroke-width="2.5px" stroke-opacity="1" x1="{{ highlight.position }}" x2="{{ highlight.position }}" y1="{{ margin.top }}" y2="{{ height - margin.bottom - 20 }}"></line>
   
   {# label the highlight with state name and val #}
   <line stroke="#000" x1="{{ highlight.position }}" x2="{{ highlight.position }}" y1="{{ margin.top - 5}}" y2="{{ margin.top - 20 }}"></line>
   <line stroke="#000" x1="{{ highlight.position }}" x2="{% if highlight.textDirection == 'start' %}{{ highlight.position + 10 }}{% else %}{{ highlight.position - 10 }}{% endif %}" y1="{{ margin.top - 20 }}" y2="{{ margin.top - 20 }}"></line>
-  <text text-anchor="{{ highlight.textDirection }}" transform="translate({% if highlight.textDirection == 'start' %}{{ highlight.position + 15 }}{% else %}{{ highlight.position - 15 }}{% endif %}, {{ margin.top - 32 }})">
-    <tspan x="0">{{ highlight.value }}</tspan>
-    <tspan x="0" dy="1em">{{ stateName }}</tspan>
+  <text text-anchor="{{ highlight.textDirection }}" transform="translate({% if highlight.textDirection == 'start' %}{{ highlight.position + 15 }}{% else %}{{ highlight.position - 15 }}{% endif %}, {{ margin.top - 34 }})">
+    <tspan x="0" font-size="18px" font-weight="500">{{ highlight.value }}</tspan>
+    <tspan x="0" dy="1em" font-size="18px" font-weight="500">{{ stateName }}</tspan>
   </text>
 </g>
 
@@ -24,8 +24,8 @@
   {% for xTick in xTicks %}
     <g class="tick" transform="translate( {{ xTick.position }}, 0)">
       <line stroke="#55514A" y2="16" x1="0.5" x2="0.5"></line>
-      <text fill="#6b6e68" y="2" x="0" dy="1em" text-anchor="middle" transform="translate(0, 16)">
-        <tspan x="0" text-anchor="middle" font-size="14px">{{ xTick.value }}</tspan><tspan x="0" dy="1.2em" text-anchor="middle" font-size="12px">{{ xTick.label }}</tspan>
+      <text fill="#4d4d4d" y="2" x="0" dy="1em" text-anchor="middle" transform="translate(0, 16)">
+        <tspan x="0" text-anchor="middle" font-size="16px">{{ xTick.value }}</tspan><tspan x="0" dy="1.2em" text-anchor="middle" font-size="14px">{{ xTick.label }}</tspan>
       </text>
     </g>
   {% endfor %}

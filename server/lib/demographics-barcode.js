@@ -36,12 +36,12 @@ function layoutDemographicBarcode(code, indicator, stateName) {
   const nationalData = national[indicator];
 
   const chartConfig = {
-    width: 210,
-    height: 160,
+    width: 325,
+    height: 136,
     margin: {
       left: 15,
       right: 15,
-      top: 40,
+      top: 30,
       bottom: 60,
     },
   };

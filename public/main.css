@@ -739,37 +739,27 @@ a {
   }
 }
 
-#statedemographics h2 {
-  margin-bottom: -0.2em;
-}
-
-#statedemographics p.subhead {
-  color: #555;
-  font-family: MetricWeb, sans-serif;
-  display: block;
-}
-
 #demographic-wrapper {
   width: 100%;
   margin-top: -1em;
 }
 
 .demographic-container {
-  width: 32%;
-  /*height: 120px;*/
-  /*border: 1px solid #333;*/
+  width: 48%;
   display: inline-block;
   vertical-align: top;
   text-align: center;
   margin-top: 2em;
 }
 
+.demographic-container:nth-child(even) {
+  float: right;
+}
+
 .demographic-container h3 {
   font-family: MetricWeb, sans-serif;
   font-size: 15px;
   font-weight: 400;
-  line-height: 1em;
-  height: 2em;
   padding: auto 5px;
   text-align: left;
   text-transform: uppercase;
@@ -784,7 +774,8 @@ a {
 }
 
 svg#demographics-barcode-chart {
-  width: 100%;
+  max-width: 100%;
+  overflow: visible;
 }
 
 svg#demographics-barcode-chart .highlight text {
@@ -851,12 +842,10 @@ svg#demographics-barcode-chart .highlight text {
 
 @media (max-width: 500px) {
   .demographic-container {
-    width: 49%;
-  }
-}
-
-@media (max-width: 400px) {
-  .demographic-container {
     width: 100%;
+  }
+
+  .demographic-container:nth-child(even) {
+    float: none;
   }
 }
