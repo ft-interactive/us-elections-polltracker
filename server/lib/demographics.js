@@ -31,6 +31,8 @@ function layoutDemographicBarcode(code, indicator, stateName) {
 
   const indicatorData = _.pluck(_.omit(referenceData, ['label', 'US']), indicator); // list of indicator data from all states (minus label and national)
 
+  const nationalData = referenceData.US[indicator];
+
   const chartConfig = {
     width: 325,
     height: 136,
@@ -71,9 +73,9 @@ function layoutDemographicBarcode(code, indicator, stateName) {
       fontWeight: 400,
     },
     {
-      label: 'US avg',
-      value: `${formatToPercent(d3.mean(indicatorData))}%`,
-      position: xScale(d3.mean(indicatorData)),
+      label: 'US',
+      value: `${formatToPercent(nationalData)}%`,
+      position: xScale(nationalData),
       fontWeight: 500,
     },
     {
