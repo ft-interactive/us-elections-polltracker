@@ -1,4 +1,4 @@
-import { scaleThreshold } from 'd3-scale';
+import { marginThreshold } from './server/lib/national-count';
 
 export function commas(n) {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -34,18 +34,8 @@ export function formatSampleSizeForIndividualPollsTable(sampleSizeString) {
   return sampleSizeString.replace(/ (RV|LV|A)/, ' <span class="sampleType">$1</span>');
 }
 
-const marginCategory = scaleThreshold()
-                        .range([
-                          'rep',
-                          'leaningRep',
-                          'swing',
-                          'leaningDem',
-                          'dem',
-                        ])
-                        .domain([-10, -5, 5, 10]);
-
 export function getClassificationFromMargin(margin) {
-  return marginCategory(margin);
+  return marginThreshold(margin);
 }
 
 export function orderStatesByImportance(states) {

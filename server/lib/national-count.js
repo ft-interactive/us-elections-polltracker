@@ -1,51 +1,47 @@
 import { scaleThreshold } from 'd3-scale';
 
-export default async function nationalCount(stateData) {
-  const classification = scaleThreshold()
-      .range(['rep', 'leaningRep', 'swing', 'leaningDem', 'dem'])
-      .domain([-10, -5, 5, 10]);
+export const marginThreshold = scaleThreshold()
+.range(['rep', 'leaningRep', 'swing', 'leaningDem', 'dem'])
+.domain([-10, -5, 5, 10]);
 
+export const meneThreshold = scaleThreshold()
+  .range(['leaningRep', 'swing', 'leaningDem'])
+  .domain([-5, 5]);
+
+export default async function nationalCount(stateData) {
   // for ME and NE classification
   // if one CD (congressional district) is rep and another is leaningRep (or dem and leaningDem), do another round of classification to categorize 2 remaining votes as leaningRep or leaningDem
-  const meneClassification = scaleThreshold()
-    .range(['leaningRep', 'swing', 'leaningDem'])
-    .domain([-5, 5]);
-
   const stateCounts = Object.keys(stateData).reduce((cumulative, stateCode) => {
     const state = stateData[stateCode];
 
     // deal with Nebraska and Maine. TODO get rid of redundancies here
     if (stateCode === 'ME') {
-      if (classification(stateData.ME.margin) === classification(stateData.MECD.margin)) {
-        cumulative[classification(stateData.ME.margin)] += 2;
-        // console.log(stateCode, 'added 2 to ', classification(state.margin));
+      if (marginThreshold(stateData.ME.margin) === marginThreshold(stateData.MECD.margin)) {
+        cumulative[marginThreshold(stateData.ME.margin)] += 2;
       } else {
-        if (meneClassification(stateData.ME.margin) === meneClassification(stateData.MECD.margin)) {
-          cumulative[meneClassification(stateData.ME.margin)] += 2;
-          // console.log(stateCode, 'added 2 to ', meneClassification(stateData.ME.margin));
+        if (meneThreshold(stateData.ME.margin) === meneThreshold(stateData.MECD.margin)) {
+          cumulative[meneThreshold(stateData.ME.margin)] += 2;
         } else {
           cumulative.swing += 2;
-          // console.log(stateCode, 'added 2 to swing else');
         }
       }
     }
 
     if (stateCode === 'NE') {
-      if (classification(stateData.NE.margin) === classification(stateData.NECD.margin) && classification(stateData.NECD.margin) === classification(stateData.NECD2.margin)) {
-        cumulative[classification(stateData.NE.margin)] += 2;
-        // console.log(stateCode, 'added 2 to ', classification(stateData.NE.margin));
+      if (marginThreshold(stateData.NE.margin) === marginThreshold(stateData.NECD.margin)
+                    && marginThreshold(stateData.NECD.margin) === marginThreshold(stateData.NECD2.margin)) {
+        cumulative[marginThreshold(stateData.NE.margin)] += 2;
       } else {
-        if (meneClassification(stateData.NE.margin) === meneClassification(stateData.NECD.margin) && meneClassification(stateData.NECD.margin) === meneClassification(stateData.NECD2.margin)) {
-          cumulative[meneClassification(stateData.NE.margin)] += 2;
-          // console.log(stateCode, 'added 2 to ', meneClassification(stateData.NE.margin));
+        if (meneThreshold(stateData.NE.margin) === meneThreshold(stateData.NECD.margin)
+                    && meneThreshold(stateData.NECD.margin) === meneThreshold(stateData.NECD2.margin)) {
+          cumulative[meneThreshold(stateData.NE.margin)] += 2;
         } else {
           cumulative.swing += 2;
-          // console.log(stateCode, 'added 2 to swing else');
         }
       }
     }
 
-    cumulative[classification(state.margin)] += state.ecVotes;
+    cumulative[marginThreshold(state.margin)] += state.ecVotes;
     return cumulative;
   }, {
     dem: 0,
