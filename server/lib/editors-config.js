@@ -4,6 +4,8 @@ const CONFIG_URL = (process.env.CONFIG_URL ||
                                 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options');
 let cachedRequest;
 
+const defaultConfig = new Map();
+
 // TODO: replace with a fail stale poller
 export async function getEditorsConfig() {
   if (cachedRequest) return cachedRequest;
@@ -15,7 +17,7 @@ export async function getEditorsConfig() {
           .catch(reason => {
             cachedRequest = null;
             if (reason && reason.code === 'ECONNABORTED') {
-              return;
+              return defaultConfig;
             }
             throw reason;
           });
