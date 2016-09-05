@@ -5,7 +5,7 @@ import * as nunjucks from './server/nunjucks';
 import nationalController from './server/controllers/national';
 import stateController from './server/controllers/state';
 import stateCodeRedirectController from './server/controllers/state-code-redirect';
-import getBerthaData from './server/lib/getBerthaData';
+import getBerthaData from './server/lib/getBerthaData.js';
 
 process.on('unhandledRejection', error => {
   console.error('unhandledRejection', error.stack);
@@ -16,12 +16,6 @@ const getPollAverages = require('./layouts/getPollAverages.js');
 const template = nunjucks.env;
 const layoutTimeSeries = require('./layouts/timeseries-layout.js');
 const layoutForecastMap = require('./layouts/forecast-map-layout');
-const filters = require('./filters');
-const berthaDefaults = require('./config/bertha-defaults.json');
-const validStates = berthaDefaults.streampages.map((d) => d.state.toLowerCase());
-
-import flags from './config/flags';
-
 
 const app = express();
 const maxAge = 120; // for user agent caching purposes
