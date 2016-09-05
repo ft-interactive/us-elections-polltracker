@@ -79,5 +79,8 @@
   "scripts": {
     "dev": "nodemon setup.js -e js,html,svg",
     "start": "node setup.js"
+  },
+  "engines": {
+    "node": "6.x.x"
   }
 }
