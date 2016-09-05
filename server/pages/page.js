@@ -33,7 +33,7 @@ export default class Page {
 
   socialSummary = 'US election poll tracker: Here\'s who\'s ahead';
 
-  url = 'https://ig.ft.com/us-elections/polls';
+  url = 'https://ig.ft.com/us-elections/';
 
   constructor() {
     this.canoniclUrl = 'https://ig.ft.com/us-elections/polls/';

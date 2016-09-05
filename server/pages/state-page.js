@@ -12,7 +12,7 @@ class StatePage extends Page {
     this.code = this.state.code;
     this.headline = `US election poll tracker: ${this.state.fullname}`;
 
-    this.url = `${this.url}/${this.state.slug}-polls`;
+    this.url = `https://ig.ft.com/us-elections/${this.state.slug}-polls`;
     this.streamUrl = this.state.url || (this.state.conceptId ? `https://www.ft.com/stream/regionsId/${this.conceptId}` : null);
 
     if (this.state.conceptId) {
