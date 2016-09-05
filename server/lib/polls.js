@@ -13,7 +13,7 @@ async function pollAverages(start, end, state = 'us') {
   );
 }
 
-async function makePollTimeSeries(chartOpts) {
+export async function makePollTimeSeries(chartOpts) {
   const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-06-01 00:00:00';
   const endDate = chartOpts.endDate ? chartOpts.endDate : isoFormat(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';

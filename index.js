@@ -5,6 +5,7 @@ import * as nunjucks from './server/nunjucks';
 import nationalController from './server/controllers/national';
 import stateController from './server/controllers/state';
 import stateCodeRedirectController from './server/controllers/state-code-redirect';
+import pollGraphicsController from './server/controllers/poll-graphics';
 import getBerthaData from './server/lib/getBerthaData.js';
 
 process.on('unhandledRejection', error => {
@@ -75,21 +76,7 @@ app.get('/polls/:state.json', async (req, res) => {
   return value;
 });
 
-app.get('/polls.svg', async (req, res) => {
-  const cacheKey = 'polls-svg-' + convertToCacheKeyName(req.query);
-  let value = cache.get(cacheKey);
-  if (!value) {
-    try {
-      value = await makePollTimeSeries(req.query);
-      if (value) cache.set(cacheKey, value);
-    } catch (err) { console.log('ERROR making pollchart ', req.url); }
-  }
-  if (value) {
-    setSVGHeaders(res).send(value);
-  } else {
-    res.status(500).send('something broke');
-  }
-});
+app.get('/polls.svg', pollGraphicsController);
 
 //Create map of current forecasts
 app.get('/forecast-map.svg', async (req, res) => {
