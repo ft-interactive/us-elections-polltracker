@@ -109,7 +109,6 @@
   margin-left: 0;
   padding-left: 0;
   font-family: "MetricWeb", sans-serif;
-  margin-bottom: 2em;
 }
 
 .rail__state-list li {
@@ -133,6 +132,10 @@
   margin-bottom: 2em;
 }
 
+.rail__state-list__nationalLink {
+  margin-bottom: 18px;
+}
+
 .rail__state-list__nationalLink a {
   color: #9e2f50;
   border-bottom: none;
@@ -141,6 +144,10 @@
 
 .rail__state-list__nationalLink a:hover {
   border-bottom: 1px dotted #9e2f50;
+}
+
+#rail__state-list__expander button {
+  font-size: .9em;
 }
 
 .o-typography-body-wrapper .source {
