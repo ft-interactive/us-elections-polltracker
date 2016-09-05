@@ -1,41 +1,72 @@
-import nunjucks from 'nunjucks';
-
-const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
-                  'September', 'October', 'November', 'December'];
-
-export function ftdate(d) {
-  const day = days[d.getUTCDay()];
-  const month = months[d.getUTCMonth()];
-  return !d ? '' : `${day}, ${d.getUTCDate()} ${month}, ${d.getUTCFullYear()}`;
-}
+import { marginThreshold } from './server/lib/national-count';
 
 export function commas(n) {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-export function encodedJSON(str) {
-  try {
-    return encodeURIComponent(JSON.stringify(JSON.parse(str || ''), null, ''));
-  } catch (e) {
-    return '';
-  }
-}
-
-export function spoorTrackingPixel(str) {
-  const json = encodedJSON(str.trim());
-  const img = `<img src="https://spoor-api.ft.com/px.gif?data=${json}" height="1" width="1" />`;
-
-  /* Add this conditional comment before the <noscript> once Core/Enhanced is
-     properley implemented:
-
-     <!--[if lt IE 9]>
-       ${img}
-    <![endif]-->
-  */
-  return new nunjucks.runtime.SafeString(`<noscript data-o-component="o-tracking">${img}</noscript>`);
-}
-
 export function round1dp(n) {
   return Math.round(n * 10) / 10;
+}
+
+const monthsAbbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
+                  'Sep', 'Oct', 'Nov', 'Dec'];
+
+// turn 8/26 - 8/29 to Aug 26 - 29
+export function formatDateForIndividualPollsTable(inputDate) {
+  if (inputDate.match(/\d+\/\d+ - \d+\/\d+/)) {
+    const dateMatch = /(\d+)\/(\d+) - (\d+)\/(\d+)/.exec(inputDate);
+    const startMonth = monthsAbbr[dateMatch[1] - 1];
+    const startDay = dateMatch[2];
+    const endMonth = monthsAbbr[dateMatch[3] - 1];
+    const endDay = dateMatch[4];
+
+    let formattedDate = `${startMonth} ${startDay} - ${endDay}`;
+    if (startMonth !== endMonth) {
+      formattedDate = `${startMonth} ${startDay} - ${endMonth} ${endDay}`;
+    }
+    return formattedDate;
+  }
+  return inputDate;
+}
+
+// takes '24,104 RV' and returns '24,104 <span class="sampleType">RV</span>'
+export function formatSampleSizeForIndividualPollsTable(sampleSizeString) {
+  return sampleSizeString.replace(/ (RV|LV|A)/, ' <span class="sampleType">$1</span>');
+}
+
+export function getClassificationFromMargin(margin) {
+  return marginThreshold(margin);
+}
+
+export function orderStatesByImportance(states) {
+  const statesWithPollDate = [];
+  const statesWithout = [];
+
+  Object.keys(states).forEach(code => {
+    const state = states[code];
+    const array = state.Clinton != null
+                        ? statesWithPollDate
+                        : statesWithout;
+    array.push(state);
+  });
+
+  // sort items with poll averages by value
+  statesWithPollDate.sort((a, b) => {
+    const aMargin = Math.abs(0 - a.margin);
+    const bMargin = Math.abs(0 - b.margin);
+    if (aMargin !== bMargin) {
+      return aMargin - bMargin; // compare how close numbers are to 0
+    }
+    return aMargin - bMargin - ((a.ecVotes - b.ecVotes) / 1000); // if equal distance to 0, sort by ecVotes
+  });
+  statesWithout.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1;
+    } else if (a.name > b.name) {
+      return 1;
+    }
+    return 0;
+  }); // sort alphabetically
+
+  return statesWithPollDate.concat(statesWithout);
 }

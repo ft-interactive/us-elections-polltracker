@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% import 'polling-history.html' as PollingHistory %}
+
+{% from 'state-demographics.html' import Render as StateDemographics %}
+
+{% block content %}
+
+{{
+  PollingHistory.LineChart(
+    title="Which candidate is leading in " + state.name + "?",
+    subtitle="State polling average (%)",
+    svgs=pollHistory.lineCharts
+  )
+}}
+
+{% include "includes/who-won-here.html" %}
+
+{% call PageElements.Figure(title="Key data about " + state.name,
+                  subtitle="Economic and demographic indicators (%)") %}
+  {{
+    StateDemographics(
+      indicators=demographicIndicators,
+      stateName=state.name
+    )
+  }}
+{% endcall %}
+
+{{ Ads.MidContent(on=false) }}
+
+{{
+  PollingHistory.Table(
+    title="Full list of individual polls",
+    list=pollHistory.list,
+    startCollapse=10
+  )
+}}
+
+{% endblock %}

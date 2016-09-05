@@ -1,0 +1,26 @@
+{% extends "g-ui/layout/article" %}
+
+{% import "page-elements.html" as PageElements -%}
+
+{% set layout = {name: 'left-body'} %}
+{% set stylesheets = ['https://origami-build.ft.com/v2/bundles/css?modules=o-expander@^4.0.2,o-buttons@^4.0.2'] %}
+{% set scripts = ['https://origami-build.ft.com/v2/bundles/js?modules=o-expander@^4.0.2,o-buttons@^4.0.2&export=bundle'] %}
+
+{% block article_body %}
+
+  <div class="o-grid-container">
+    <div class="o-grid-row">
+      <div data-o-grid-colspan="12 L8 XL7 XLoffset1">
+        <div class="o-typography-body-wrapper" itemprop="articleBody">
+        {% block content %}{% endblock %}
+        <p class="source"><small>Sources: Real Clear Politics, US Census, Bureau of Labor Statistics, Bureau of Economic Analysis</small></p>
+        </div>
+      </div>
+      <div class="article__aside o-grid-remove-gutters--XL" data-o-grid-colspan="hide L4 XL3 XLoffset1" role="complementary" aria-hidden="true">
+        {% include "rail.html" %}
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

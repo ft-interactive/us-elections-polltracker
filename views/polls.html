@@ -181,58 +181,6 @@ body {
   }
 }
 
-table {
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-    font-feature-settings: "tnum";
-}
-
-th {
-    border: 0px;
-    border-bottom: solid 1px #1d1d1d;
-    min-width:50px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-td{
-    font-size: 0.9rem;
-    text-align: left;
-    padding-right: 10px;
-    padding-left: 10px;
-}
-
-td.clinton.winner {
-  background: {{ color.leaningDem }};
-  font-weight: 600;
-}
-
-td.trump.winner {
-  background: {{ color.leaningRep }};
-  font-weight: 600;
-}
-
-td.winner.narrowonly {
-  font-weight: 400;
-}
-
-td.narrowonly {
-  height: 32px;
-}
-
-td.winner.narrowonly .winner {
-  font-weight: 600;
-}
-
-td.numeric{
-    text-align: right;
-}
-
-td.date{
-    min-width: 70px;
-}
-
 .o-typography-body-wrapper .source {
   line-height: 1.1;
   margin-top: 3em;
@@ -326,11 +274,6 @@ td.date{
   }
 }
 
-p.notavailable {
-  color: #666;
-  font-size: 1em;
-}
-
 p.off-link{
   font-size: 24px;
   text-align: right;
@@ -402,35 +345,8 @@ a {
   }
 }
 
-@media (min-width: 600px) {
-  .narrowonly {
-    display: none;
-  }
-}
-
-@media (max-width: 600px) {
-
-  td.numeric {
-    text-align: center;
-    white-space: nowrap;
-  }
-
-  .secondary {
-    display: none;
-  }
-
-  th {
-    padding: 0;
-  }
-
-  td {
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-}
-
 .table-toggle-btn {
-  margin: 1em auto;
+  margin: 2em auto;
   display: block;
   width: 80%;
   max-width: 300px;
@@ -607,6 +523,10 @@ a {
                   {% include "includes/stateDemographics.html" %}
                 {% endif %}
 
+                {% if flags.stateList and state == 'us' %}
+                  {% include "includes/stateList.html" %}
+                {% endif %}
+
                 {% if flags.ads %}
                   <div class="o-ads above-header-advert advert advert--reserve-250 o-ads--center"
                   data-o-ads-name="mid" data-o-ads-center="true"
@@ -616,50 +536,13 @@ a {
                   </div>
                 {% endif %}
 
-                <h2>Full list of individual polls</h2>
-
-                {% if pollList.length > 0 %}
-                {% set row_num_collapse = 20 %}
-                <div data-o-component="o-expander" class="o-expander items"
-                        data-o-expander-collapsed-toggle-text="Show more polls"
-                        data-o-expander-expanded-toggle-text="Show fewer polls"
-                        data-o-expander-toggle-selector=".table-toggle-btn"
-                        data-o-expander-shrink-to="{{ row_num_collapse }}"
-                        data-o-expander-count-selector="tbody tr">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th scope="col" class="narrowonly">Clinton / Trump&nbsp;(%)</th>
-                        <th scope="col" class="secondary">Clinton&nbsp;%</th>
-                        <th scope="col" class="secondary">Trump&nbsp;%</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Pollster</th>
-                        <th scope="col" class="secondary">Sample*</th>
-                      </tr>
-                    </thead>
-                    <tbody class="o-expander__content">
-                      {% for poll in pollList %}
-                      <tr>
-                        <td class="narrowonly numeric {% if poll.winner == 'Clinton' %}winner clinton{% endif %} {% if poll.winner == 'Trump' %}winner trump{% endif %}"><span class="{% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</span> / <span class="{% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</span></td>
-                        <td class="secondary numeric clinton {% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</td>
-                        <td class="secondary numeric trump {% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</td>
-                        <td class="numeric date">{{ poll.date }}</td>
-                        <td>{{ poll.pollster }}</td>
-                        <td class="numeric secondary">{{ poll.sampleSize | commas }}</td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                  <p class="note"><small>* RV indicates registered voters; LV indicates likely voters</small></p>
-                  {% if pollList.length > row_num_collapse %}
-                  <button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big">Show more polls</button>
-                  {% endif %}
-                </div>
-                {% else %}
-                <p class="notavailable">Polls for this state are not available yet.</p>
-                {% endif %}
+                {% include "includes/individualpolls.html" %}
 
                 <p class="source"><small>Sources: Real Clear Politics, US Census, Bureau of Labor Statistics, Bureau of Economic Analysis</small></p>
+
+                {% if state != 'us' and stateStreamURL %}
+                <p class="off-link"><a href="{{ stateStreamURL }}">All {{ stateName }} coverage</a></p>
+                {% endif %}
 
                 <footer class="o-typography-footer">
                   <small><a href="http://www.ft.com/servicestools/help/copyright" data-trackable="link-copyright">Copyright</a>

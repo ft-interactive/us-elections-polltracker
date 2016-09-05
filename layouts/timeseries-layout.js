@@ -65,7 +65,7 @@ function getSubtitle(date, width, state){
   if(width<350){
     console.log('state', state);
       if(state && state !== 'us')   return 'State polling average to ' + timeFormat(date) + ' (%)';
-      return 'National polling average to ' + timeFormat(date) + ' (%)';    
+      return 'National polling average to ' + timeFormat(date) + ' (%)';
   }
   if(state && state !== 'us')   return 'State polling average as of ' + timeFormatLong(date) + ' (%)';
   return 'National polling average as of ' + timeFormatLong(date) + ' (%)';

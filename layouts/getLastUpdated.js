@@ -1,13 +1,5 @@
-var	db = require('../models/index'),
-	lastupdates = require('../models/index').lastupdates;
+const lastupdates = require('../models/index').lastupdates;
 
 // runs a psql query to get data from db
-async function getLastUpdated() {
-	return lastupdates.findOne({
-		raw: true,
-	}).then(function(data) {
-		return data.lastupdate;
-	});
-}
-
-module.exports = getLastUpdated;
+export default () =>
+	lastupdates.findOne({ raw: true }).then(data => data.lastupdate);

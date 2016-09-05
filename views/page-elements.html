@@ -1,0 +1,19 @@
+{% macro Figure(title, subtitle, source, note) %}
+<div class="article-figure">
+  {% if title %}
+  <h2 class="article-figure__heading">{{ title | md(true) }}</h2>
+  {% endif %}
+  {% if subtitle %}
+  <p class="article-figure__subheading">{{ subtitle | md(true) }}</p>
+  {% endif %}
+  <div class="article-figure__content">
+  {{ caller() }}
+  </div>
+  {% if source %}
+  <p class="article-figure__source source">{{ source | md(true) }}</p>
+  {% endif %}
+  {% if source %}
+  <div class="article-figure__note note">{{ note | md }}</div>
+  {% endif %}
+</div>
+{% endmacro %}

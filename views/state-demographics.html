@@ -1,0 +1,64 @@
+{% import "page-elements.html" as PageElements -%}
+
+{% macro BarCodeChart(layout, stateName) %}
+<svg class="demographics-barcode-chart"
+      width="{{ layout.width }}" height="{{ layout.height }}"
+      viewBox="0 0 {{ layout.width }} {{ layout.height }}"
+      preserveAspectRatio="xMinYMin meet"
+      font-family="MetricWeb, sans-serif"
+      version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlns="http://www.w3.org/2000/svg">
+
+<g class="stateTicks" transform="translate({{layout.margin.left}},16)">
+  {% for stateTickVal in layout.stateTicks %}
+    <line stroke="#000" stroke-width="2.5px" stroke-opacity="0.2"
+      x1="{{ stateTickVal }}" x2="{{ stateTickVal }}"
+      y1="{{ layout.margin.top }}" y2="{{ layout.height - layout.margin.bottom - 20 }}"></line>
+  {% endfor %}
+</g>
+
+<g class="highlight" transform="translate({{layout.margin.left}},16)">
+  {# highlight tick purple #}
+  <line stroke="#F700FF" stroke-width="2.5px" stroke-opacity="1"
+          x1="{{ layout.highlight.position }}" x2="{{ layout.highlight.position }}"
+          y1="{{ layout.margin.top }}" y2="{{ layout.height - layout.margin.bottom - 20 }}"></line>
+
+  {# label the highlight with state name and val #}
+  <line stroke="#000" x1="{{ layout.highlight.position }}" x2="{{ layout.highlight.position }}"
+        y1="{{ layout.margin.top - 5}}" y2="{{ layout.margin.top - 20 }}"></line>
+  <line stroke="#000" x1="{{ layout.highlight.position }}" x2="{% if layout.highlight.textDirection == 'start' %}{{ layout.highlight.position + 10 }}{% else %}{{ layout.highlight.position - 10 }}{% endif %}"
+        y1="{{ layout.margin.top - 20 }}" y2="{{ layout.margin.top - 20 }}"></line>
+  <text fill="#000" text-anchor="{{ layout.highlight.textDirection }}"
+        transform="translate({% if layout.highlight.textDirection == 'start' %}{{ layout.highlight.position + 15 }}{% else %}{{ layout.highlight.position - 15 }}{% endif %}, {{ layout.margin.top - 34 }})">
+    <tspan x="0" font-size="17px" font-weight="500">{{ layout.highlight.value }}</tspan>
+    <tspan x="0" dy="1em" font-size="17px" font-weight="500">{{ stateName }}</tspan>
+  </text>
+</g>
+
+<g class="xAxis" transform="translate({{layout.margin.left}},{{ layout.height - (layout.margin.bottom) }})" fill="none" font-family="MetricWeb, sans-serif" text-anchor="middle">
+  <line class="domain" stroke="#55514A" x1="0" x2="{{ layout.width - (layout.margin.left+layout.margin.right) }}" y1="0.5" y2="0.5"></line>
+  {% for xTick in layout.xTicks %}
+    <g class="tick" transform="translate( {{ xTick.position }}, 0)">
+      <line stroke="#55514A" y2="16" x1="0.5" x2="0.5"></line>
+      <text {% if xTick.fontWeight == 500 %}fill="#000000"{%else %}fill="#4d4d4d"{% endif %} y="2" x="0" dy="1em" text-anchor="middle" transform="translate(0, 16)">
+        <tspan font-weight="{{ xTick.fontWeight }}" x="0" text-anchor="middle" font-size="16px">{{ xTick.value }}</tspan><tspan font-weight="{{ xTick.fontWeight }}" x="0" dy="1.2em" text-anchor="middle" font-size="14px">{{ xTick.label }}</tspan>
+      </text>
+    </g>
+  {% endfor %}
+</g>
+
+</svg>
+{% endmacro %}
+
+{% macro Render(indicators, stateName) %}
+<div id="statedemographics">
+  <div id="demographic-wrapper">
+  {% for indicator in indicators %}
+  <div class="demographic-container">
+    <h3>{{ indicator.indicator.label }}</h3>
+    {{ BarCodeChart(indicator, stateName) }}
+  </div>
+  {% endfor %}
+  </div>
+</div>
+{% endmacro %}

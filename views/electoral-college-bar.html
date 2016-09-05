@@ -1,0 +1,52 @@
+{% macro Render(data, showKey=true, on=true) %}
+{% if on %}
+<div id="national-bar">
+  <div id="national-bar-wrapper">
+    <div class="national-bar--head-icons" id="national-bar--head-icons-dem"><img src="images/clinton.png" /></div>
+    <div id="national-bar-container">
+      <div id="national-270-line"></div>
+      <span class="national-bar-container-keys" id="national-bar-container-keys--dem">Clinton<br /><span class="national-bar-container-keys--party">Democrat</span></span>
+      <div class="national-bar-container-group-sums" id="national-bar-container-group-sums--dem">{{data.dem + data.leaningDem if data.leaningDem else data.dem }}</div>
+      {% for key, value in data %}
+      <div class="national-bar-container--subbars" style="background-color:{{ color[key] }};width:{{ value * 100 / 538 }}%;">
+        <span class="national-bar-container-values">{{value}}</span>
+      </div>
+      {% endfor %}
+      <span class="national-bar-container-keys" id="national-bar-container-keys--rep">Trump<br /><span class="national-bar-container-keys--party">Republican</span></span>
+      <div class="national-bar-container-group-sums" id="national-bar-container-group-sums--rep">{{data.rep + data.leaningRep if data.leaningRep else data.rep}}</div>
+    </div>
+    <div class="national-bar--head-icons" id="national-bar--head-icons-rep"><img src="images/trump.png" /></div>
+  </div>
+  {% if showKey %}
+  <div id="national-bar-legend">
+    <div class="national-bar-legend-item--grouped">
+      <div class="national-bar-legend-item">
+        <span style="background-color:{{ color.dem }};" class="national-bar-legend-block"></span>
+        <span class="national-bar-legend-label">Solid</span>
+      </div>
+      <div class="national-bar-legend-item">
+        <span style="background-color:{{ color.leaningDem }};" class="national-bar-legend-block"></span>
+        <span class="national-bar-legend-label">Leaning</span>
+      </div>
+    </div>
+    <div class="national-bar-legend-item--grouped">
+      <div class="national-bar-legend-item">
+        <span style="background-color:{{ color.swing }};" class="national-bar-legend-block"></span>
+        <span class="national-bar-legend-label">Toss-up</span>
+      </div>
+    </div>
+    <div class="national-bar-legend-item--grouped">
+      <div class="national-bar-legend-item">
+        <span style="background-color:{{ color.leaningRep }};" class="national-bar-legend-block"></span>
+        <span class="national-bar-legend-label">Leaning</span>
+      </div>
+      <div class="national-bar-legend-item">
+        <span style="background-color:{{ color.rep }};" class="national-bar-legend-block"></span>
+        <span class="national-bar-legend-label">Solid</span>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endif %}
+{% endmacro %}

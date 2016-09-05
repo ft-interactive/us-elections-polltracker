@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% from 'includes/forecast-map-macro.svg' import ForecastMap %}
+{% from 'latest-news.html' import Block as LatestNews %}
+{% from 'electoral-college-bar.html' import Render as ElectoralCollegeBar %}
+{% from 'state-list.html' import Render as StateList %}
+{% import 'polling-history.html' as PollingHistory %}
+{% import "g-ui/ads" as Ads -%}
+
+{% block content %}
+
+{% markdown %}
+{%- if nationalBarCounts.dem + nationalBarCounts.leaningDem > 270 -%}
+Hillary Clinton leads the race for 270 electoral college votes
+{%- elif nationalBarCounts.rep + nationalBarCounts.leaningRep > 270 -%}
+Donald Trump leads the race for 270 electoral college votes
+{%- else -%}
+The race for 270 electoral college votes is too close to call
+{%- endif -%}. Both candidates will be paying attention to <span style="border-bottom:3px solid {{color.swing}}">toss-up states</span> in the run-up to November 8.
+{% endmarkdown %}
+
+{% call PageElements.Figure(subtitle="Projected electoral college votes") %}
+  {{
+    ElectoralCollegeBar(
+      data=nationalBarCounts,
+      showKey=true,
+      on=flags.nationalBar
+    )
+  }}
+{% endcall %}
+
+{% if flags.forecastMap == 'choropleth' %}
+  <div>{{ ForecastMap(forecastMapLayout) }}</div>
+{% elif flags.forecastMap == 'dots' %}
+  <div style="margin-bottom: -5rem;">
+    <img src="/forecast-map.svg?dots=true" width="100%" />
+  </div>
+{% endif %}
+
+{{
+  LatestNews(
+    body=latestNews | default('[Hillary Clinton](https://www.ft.com/stream/peopleId/TnN0ZWluX1BOX0FGVE1fUE5fMzgwODQ2-UE4=) will face [Donald Trump](https://www.ft.com/stream/peopleId/TnN0ZWluX1BOXzIwMDkwNjIzXzE2MTY=-UE4=) in the [2016 US election](https://www.ft.com/us-election-2016).', true),
+    linkText="All US Election 2016 coverage",
+    linkUrl=topic.url
+  )
+}}
+
+{{
+  PollingHistory.LineChart(
+    title="Which White House candidate is leading in the polls?",
+    subtitle="National polling average (%)",
+    svgs=pollHistory.lineCharts
+  )
+}}
+
+{{ Ads.MidContent(on=false) }}
+
+{{
+  StateList(
+    title="State polls",
+    stateCounts=stateCounts,
+    on=flags.stateList
+  )
+}}
+
+{{
+  PollingHistory.Table(
+    title="Full list of individual polls",
+    list=pollHistory.list
+  )
+}}
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% import "page-elements.html" as PageElements -%}
+
+{% macro Render(title, stateCounts, on=true) %}
+{% if on %}
+<div id="statelist">
+  {% call PageElements.Figure(title=title) %}
+  <div id="statelist-table">
+    {% set row_num_collapse = 10 %}
+    <div data-o-component="o-expander" class="o-expander items"
+      data-o-expander-collapsed-toggle-text="Show more states"
+      data-o-expander-expanded-toggle-text="Show fewer states"
+      data-o-expander-toggle-selector=".table-toggle-btn"
+      data-o-expander-shrink-to="{{ row_num_collapse }}"
+      data-o-expander-count-selector="tbody tr">
+      <table>
+      <thead>
+        <tr>
+          <th class="statelist-state">State</th>
+          <th class="statelist-pollmargin">Poll margin</th>
+          <th class="statelist-ecvotes">Electoral college votes</th>
+        </tr>
+      </thead>
+      <tbody class="o-expander__content">
+        {% for state in stateCounts | orderStatesByImportance %}
+        <tr class="statelist-staterow statelist-{{ state.margin | getClassificationFromMargin }} statelist-staterow-{{ state.code | lower }}">
+          <td class="statelist-state">
+            <div class="statelist-catLabel"></div>
+            <a href="{{ state.slug }}-polls"><div class="statelist-stateLabel">{{ state.name }}</div></a>
+          </td>
+          <td class="statelist-pollmargin">
+            {%- if state.Clinton == null -%}
+            <span class="statelist-nodata">No poll data</span>
+            {%- else -%}
+              {%- if state.margin > 0 -%}
+              Clinton
+              {%- else -%}
+              Trump
+              {%- endif -%}
+              +{{ state.margin | round1dp | replace('-', '') }}
+            {%- endif -%}
+          </td>
+          <td class="statelist-ecvotes">{{ state.ecVotes }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      </table>
+      <button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big">Show more states</button>
+    </div>
+  </div>
+  {% endcall %}
+</div>
+{% endif %}
+{% endmacro %}

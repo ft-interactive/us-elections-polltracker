@@ -1,0 +1,926 @@
+.o-typography-footer {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+}
+.o-typography-body-wrapper p {
+  max-width: 666px;
+}
+.o-typography-body-wrapper h2 {
+  font-weight: 400;
+  margin-top: 1em;
+  margin-bottom: 0.75em;
+}
+/* Responsive typography, copy values until we have Sass and o-typography */
+@media (max-width: 30.615em) {
+  .o-typography-heading1 {
+    font-size: 26px;
+    line-height: 1.1;
+  }
+  .o-typography-body-wrapper p {
+    font-size: 16px;
+  }
+  .o-typography-body-wrapper h2 {
+    font-size: 20px;
+    line-height: 1.1;
+  }
+}
+@media (max-width: 46.24em) and (min-width: 30.625em) {
+  .o-typography-heading1 {
+    font-size: 26px;
+    line-height: 1.1;
+  }
+  .o-typography-body-wrapper p {
+    font-size: 16px;
+  }
+  .o-typography-body-wrapper h2 {
+    font-size: 20px;
+    line-height: 1.1;
+  }
+}
+@media (max-width: 61.24em) and (min-width: 46.25em) {
+}
+@media (max-width: 76.24em) and (min-width: 61.25em) {
+}
+@media (min-width: 76.25em) {
+}
+
+.article-figure {
+  font-family: MetricWeb, sans-serif;
+}
+.article-figure .article-figure__heading {
+  margin-bottom: 0;
+  font-family: inherit;
+}
+.article-figure .article-figure__subheading {
+  color: #6b6e68;
+  font-size: 16px;
+  font-family: inherit;
+  margin: 0.3em 0 0 0;
+}
+
+.article-figure__heading + .article-figure__content {
+  margin-top: 0.8em;
+}
+
+.article-figure__subheading + .article-figure__content {
+  margin-top: 0.5em;
+}
+
+@media (max-width: 46.24em) {
+  .article-figure .article-figure__subheading {
+    font-size: 14px;
+  }
+}
+
+.article-head__dateline {
+  font-size: 12px;
+  margin-bottom: 0;
+}
+
+.section-head {
+  margin-bottom: 0;
+}
+
+.rail__content {
+  padding-bottom: 1em;
+  border-left: 1px solid #cec6b9;
+  font-family: "MetricWeb", sans-serif;
+}
+
+.rail__content h3 {
+  border-bottom: 1px solid #cec6b9;
+  padding-bottom: 5px;
+  font-family: "MetricWeb", sans-serif;
+  font-weight: 500;
+}
+
+.rail__state-list {
+  padding-left: 20px;
+}
+
+.rail__state-list h4 {
+  font-family: "MetricWeb", sans-serif;
+  font-weight: 500;
+  color: #333;
+}
+
+.rail__state-list ul {
+  margin-left: 0;
+  padding-left: 0;
+  font-family: "MetricWeb", sans-serif;
+  margin-bottom: 2em;
+}
+
+.rail__state-list li {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.rail__state-list li a {
+  color: #6b6e68;
+  border-bottom: none;
+}
+
+.rail__state-list li a:hover {
+  color: #27757b;
+  border-bottom: 1px dotted #27757b;
+}
+
+.rail__state-list select {
+  width: 100%;
+  margin-bottom: 2em;
+}
+
+.rail__state-list__nationalLink a {
+  color: #9e2f50;
+  border-bottom: none;
+  font-weight: 500;
+}
+
+.rail__state-list__nationalLink a:hover {
+  border-bottom: 1px dotted #9e2f50;
+}
+
+.o-typography-body-wrapper .source {
+  line-height: 1.1;
+  margin-top: 3em;
+  padding: 0.1em;
+  color: #333;
+  font-style: italic;
+  font-family: MetricWeb, sans-serif;
+  border-top: 1px solid #cec6b9;
+}
+.o-typography-body-wrapper .note {
+  line-height: 1.1;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+  color: #6b6e68;
+  font-family: MetricWeb, sans-serif;
+}
+.pollchart {
+  display: none;
+  margin: 0 auto;
+}
+.pollchart svg {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  height: auto;
+}
+#latestnews {
+  border-top: 1px solid #cec6b9;
+  border-bottom: 1px solid #cec6b9;
+  margin: 3em auto;
+}
+#latestnews h3 {
+  font-family: MetricWeb, sans-serif;
+  margin: 0.5em 0 1em 0;
+  font-weight: 500;
+}
+.forecast-map {
+  display: block;
+  margin: 0 auto;
+}
+.forecast-map__label > text {
+  fill: #222;
+}
+.forecast-map__label--external > rect {
+  stroke: none;
+}
+.forecast-map__state-shape {
+  stroke: #fff1e0;
+  stroke-width: 1.5;
+}
+.forecast-map__two-letter-name { display: none; }
+.forecast-map__state-shape--AK,
+.forecast-map__state-shape--HI {
+  stroke: none;
+}
+.o-typography-body-wrapper footer {
+  font-size: 21px;
+  line-height: 24px;
+  margin: 20px 0;
+}
+@media (max-width: 46.25em) {
+  .forecast-map {
+    width: 30.625em;
+    height: 18em;
+  }
+  .forecast-map__short-name { display: none; }
+  .forecast-map__two-letter-name {
+    display: inline;
+    font-size: 27px;
+  }
+}
+@media (max-width: 30.625em) {
+  .forecast-map {
+    width: 300px;
+    height: 11.3em;
+  }
+}
+p.notavailable {
+  color: #666;
+  font-size: 1em;
+}
+p.off-link{
+  font-size: 24px;
+  text-align: right;
+  font-family: MetricWeb, sans-serif;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  max-width: none;
+}
+p.off-link a{
+  border: none;
+}
+p.off-link a:after {
+    content: " ";
+    background: url('https://image.webservices.ft.com/v1/images/raw/fticon:arrow-right?height=36&tint=27757b,27757b&source=ig') no-repeat center center;
+    background-size: 18px 18px;
+    float: right;
+    width: 24px;
+    height: 35px;
+    margin: 0;
+}
+a {
+  text-decoration: none;
+}
+@media (max-width: 30.615em) {
+  .pollchart.pollchart--default {
+    display: block;
+  }
+  .pollchart.pollchart--default svg {
+    max-width: 380px;
+  }
+}
+@media (max-width: 46.24em) and (min-width: 30.625em) {
+  .pollchart.pollchart--S {
+    display: block;
+  }
+  .pollchart.pollchart--S svg {
+    max-width: 705px;
+  }
+}
+@media (max-width: 61.24em) and (min-width: 46.25em) {
+  .pollchart.pollchart--M {
+    display: block;
+  }
+  .pollchart.pollchart--M svg {
+    max-width: 657px;
+  }
+}
+@media (max-width: 76.24em) and (min-width: 61.25em) {
+  .pollchart.pollchart--L {
+    display: block;
+  }
+  .pollchart.pollchart--L svg {
+    max-width: 708px;
+  }
+}
+@media (min-width: 76.25em) {
+  .pollchart.pollchart--XL {
+    display: block;
+    max-width: 741px;
+  }
+}
+
+.o-expander .table-toggle-btn {
+  margin: 2em auto;
+  display: block;
+  width: 80%;
+  max-width: 300px;
+}
+
+.o-typography-body-wrapper .national-bar__header {
+  margin-top: 2em;
+  margin-bottom: -1em;
+  color: #6b6e68;
+  font-family: MetricWeb, sans-serif;
+  font-weight: 400;
+}
+
+#national-bar-wrapper {
+  margin: 3em 0;
+}
+
+#national-bar-wrapper * {
+  box-sizing: border-box;
+}
+
+.national-bar--head-icons {
+  width: 9%;
+  display: inline-block;
+  vertical-align: bottom;
+  margin-bottom: -16px;
+}
+
+.national-bar--head-icons img {
+  width: 100%;
+}
+
+#national-bar-container {
+  width: 80%;
+  height: 20px;
+  position: relative;
+  display: inline-block;
+}
+
+#national-270-line {
+  position: absolute;
+  width: 50%;
+  height: 250%;
+  border-right: 2px solid black;
+  bottom: 0;
+  z-index: 2;
+}
+
+#national-270-line:after {
+  content: "270 to win";
+  position: absolute;
+  right: -30px;
+  top: -20px;
+  font-weight: 600;
+}
+
+.national-bar-container--subbars {
+  display: inline-block;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  float: left;
+  text-align: center;
+  position: relative;
+}
+
+.national-bar-container-values {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  width: 100%;
+  font-size: 14px;
+}
+
+.national-bar-container-keys {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  white-space: nowrap;
+  width: 100%;
+  font-weight: 600;
+  line-height: 0.9em;
+  margin-top: 0.3em;
+}
+
+#national-bar-container-keys--dem {
+  color: #579dd5;
+}
+
+#national-bar-container-keys--rep {
+  color: #e03d46;
+  text-align: right;
+}
+
+.national-bar-container-keys--party {
+  font-size: 14px;
+  color: #666;
+  font-weight: 400;
+  margin-top: -2px;
+}
+
+.national-bar-container-group-sums {
+  font-size: 2em;
+  font-weight: 500;
+  position: absolute;
+  top: -63px;
+}
+
+#national-bar-container-group-sums--dem {
+  color: #579dd5;
+}
+
+#national-bar-container-group-sums--rep {
+  color: #e03d46;
+  right: 0;
+}
+
+#national-bar-legend {
+  text-align: center;
+}
+
+.national-bar-legend-item--grouped {
+  display: inline-block;
+}
+
+.national-bar-legend-item {
+  display: inline;
+  margin-right: 16px;
+}
+
+#national-bar-legend-item--rep-solid {
+  float: right;
+  margin-left: 8px;
+}
+
+.national-bar-legend-block {
+  width: 20px;
+  height: 10px;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+@media (max-width: 580px) {
+  #national-bar-wrapper {
+    margin: 5em 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .national-bar-legend-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+
+  .national-bar-legend-item--grouped {
+    display: inline-block;
+    width: 32%;
+    text-align: center;
+    vertical-align: top;
+  }
+
+  #national-bar-legend-item--rep-solid {
+    float: none;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  .national-bar--head-icons {
+    display: none;
+  }
+
+  #national-bar-container {
+    width: 100%;
+  }
+
+  .national-bar-container-group-sums {
+    top: 54px;
+  }
+
+  #national-bar-legend {
+    margin-top: 80px;
+  }
+}
+
+#statelist {
+  width: 100%;
+}
+
+#statelist-table {
+  max-width: 478px;
+  margin: 0 auto;
+  color: #333;
+}
+
+#statelist table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+#statelist tr th {
+  border-bottom: 1px solid #999999 !important;
+}
+
+#statelist th {
+  text-align: left;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 14px;
+  vertical-align: bottom;
+  padding-bottom: 0.3em;
+}
+
+#statelist th.statelist-state {
+  padding-left: 35px;
+  width: 200px;
+}
+
+#statelist td {
+  padding: 0.25em 10px;
+  position: relative;
+  font-size: 1.06rem;
+}
+
+#statelist .statelist-pollmargin {
+  text-align: right;
+  padding-right: 50px;
+  width: 120px;
+}
+
+#statelist th.statelist-ecvotes {
+  text-align: center;
+  width: 102px;
+  min-width: 102px;
+  padding-right: 0;
+}
+
+#statelist td.statelist-ecvotes {
+  padding-right: 40px;
+  text-align: right;
+}
+
+#statelist tr {
+  border-bottom: 1px solid #cec6b9;
+  height: 30px;
+}
+
+#statelist tr.statelist-staterow:hover {
+  background: #f6e9d8;
+}
+
+#statelist tr.statelist-staterow:hover .statelist-stateLabel {
+  text-decoration: underline;
+}
+
+.statelist-catLabel {
+  color: white;
+  width: 20px;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.statelist-stateLabel {
+  margin-left: 25px;
+  color: #333;
+}
+
+.statelist-dem .statelist-catLabel {
+  background: #579dd5;
+}
+
+.statelist-leaningDem .statelist-catLabel {
+  background: #a2c1e1;
+}
+
+.statelist-swing .statelist-catLabel {
+  background: #fcc83c;
+}
+
+.statelist-rep .statelist-catLabel {
+  background: #e03d46;
+}
+
+.statelist-leaningRep .statelist-catLabel {
+  background: #f4a098;
+}
+
+
+.statelist-nodata {
+  color: #666;
+}
+
+@media (max-width: 400px) {
+  #statelist th.statelist-ecvotes {
+    text-align: center;
+    min-width: 0px;
+  }
+
+  #statelist td.statelist-ecvotes {
+    padding-right: 32px;
+    text-align: right;
+  }
+
+  #statelist .statelist-pollmargin {
+    text-align: right;
+    padding-left: 0;
+    padding-right: 0;
+    width: 140px;
+    min-width: 80px;
+  }
+
+}
+
+#individualpolls table {
+  color: #333;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  font-feature-settings: "tnum";
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+#individualpolls tr th {
+  border-bottom: 1px solid #999999 !important;
+}
+
+#individualpolls th {
+  min-width:50px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  text-align: left;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 14px;
+  vertical-align: bottom;
+  padding-bottom: 0.3em;
+}
+
+#individualpolls th:first-child {
+  padding-left: 0;
+}
+
+#individualpolls th:last-child {
+  padding-right: 0;
+}
+
+#individualpolls td:first-child {
+  padding-left: 0;
+}
+
+#individualpolls td:last-child {
+  padding-right: 0;
+}
+
+
+#individualpolls th.numeric {
+  text-align: center;
+}
+
+#individualpolls th.samplesize {
+  text-align: right;
+}
+
+#individualpolls td{
+  font-size: 1.06rem;
+  text-align: left;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+#individualpolls tr {
+  border-bottom: 1px solid #cec6b9;
+  height: 30px;
+}
+
+#individualpolls td.clinton.winner {
+  background: #a2c1e1;
+}
+
+#individualpolls td.trump.winner {
+  background: #f4a098;
+}
+
+#individualpolls #individualpolls td.winner.narrowonly {
+  font-weight: 400;
+}
+
+#individualpolls td.narrowonly {
+  height: 32px;
+}
+
+#individualpolls td.winner.narrowonly .winner {
+  font-weight: 600;
+}
+
+#individualpolls td.numeric{
+  text-align: center;
+  border-left: 1px solid #cec6b9;
+}
+
+#individualpolls td.samplesize {
+  text-align: right;
+}
+
+#individualpolls td.samplesize .sampleType {
+  color: #777;
+}
+
+#individualpolls td.date{
+  min-width: 70px;
+  color: #777777;
+}
+
+#individualpolls p.notavailable {
+  color: #666;
+  font-size: 1em;
+}
+
+@media (min-width: 600px) {
+  #individualpolls .narrowonly {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+
+  #individualpolls td.numeric {
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  #individualpolls .secondary {
+    display: none;
+  }
+
+  #individualpolls th {
+    padding: 0;
+  }
+
+  #individualpolls td {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+#demographic-wrapper {
+  width: 100%;
+  margin-top: -1em;
+}
+
+.demographic-container {
+  width: 48%;
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  margin-top: 2em;
+}
+
+.demographic-container:nth-child(even) {
+  float: right;
+}
+
+.demographic-container h3 {
+  font-family: MetricWeb, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  padding: auto 5px;
+  text-align: left;
+  text-transform: uppercase;
+  color: #333;
+  margin-bottom: 0.5em;
+}
+
+.demographics-barcode-chart {
+  max-width: 100%;
+  overflow: visible;
+}
+
+@media (max-width: 500px) {
+  .demographic-container {
+    width: 100%;
+  }
+
+  .demographic-container:nth-child(even) {
+    float: none;
+  }
+}
+
+
+.article-figure__heading--state-winners-table {
+  margin-bottom: 0.75em; /* Needed due to lack of subhead */
+}
+
+.state-winners-table {
+  width: 100%;
+  border-spacing: 0;
+}
+
+.state-winners-table th {
+  font-size: 0.875em;
+  min-width: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+.state-winners-table td {
+  border-bottom: 1px solid #CEC6B9;
+  font-size: 1.06em;
+  -webkit-font-smoothing: antialiased;
+}
+
+.state-winners-table__empty {
+  border-bottom: 0;
+}
+
+.state-winners-table__primary-header th {
+  text-transform: uppercase;
+  text-align: left;
+  border-bottom: 0;
+  font-weight: 500;
+  color: black;
+  padding-left: 0.5em;
+}
+
+.state-winners-table__primary-header th:nth-child(2) {
+  border-right: 1px solid #777;
+}
+
+.state-winners-table__secondary-header th {
+  font-weight: normal;
+  text-transform: uppercase;
+  border-bottom: 1px solid #777;
+  padding-bottom: 0.4em;
+}
+
+.state-winners-table__secondary-header th:first-child {
+  text-align: left;
+  padding-left: 0;
+}
+
+.state-winners-table__secondary-header th:nth-child(2) {
+  border-right: 1px solid #777;
+}
+
+.state-winners-table__secondary-header th:nth-child(2),
+.state-winners-table__secondary-header th:nth-child(3) {
+  text-align: left;
+  padding-left: 0.5em;
+}
+
+.state-winners-table tbody tr td:first-child {
+  border-right: 1px solid #CEC6B9;
+}
+
+.state-winners-table tbody tr td:nth-child(4) {
+  border-bottom: 1px solid #CEC6B9;
+  border-right: 1px solid #777;
+}
+
+.state-winners-table__year {
+  width: auto;
+  text-align: left;
+  padding-left: 0;
+  font-weight: normal;
+}
+
+tbody .state-winners-table__year {
+  color: #777;
+}
+
+.state-winners-table__state-winner,
+.state-winners-table__federal-winner {
+  width: 20%;
+  text-align: right;
+  padding-right: .5em;
+}
+
+/*.state-winners-table__state-winner.dem,
+.state-winners-table__federal-winner.dem {
+  color: #a2c1e1;
+}
+
+.state-winners-table__state-winner.gop,
+.state-winners-table__federal-winner.gop {
+  color: #f4a098;
+}*/
+
+
+.state-winners-table__winning-pct-state,
+.state-winners-table__winning-pct-federal {
+  width: 25%;
+  padding: 0.3em 0;
+}
+
+
+.state-winners-table__winning-pct-bar {
+  height: 1em;
+  margin-right: 0.3em;
+  float: left;
+  background-color: #999;
+}
+
+.state-winners-table__winning-pct-bar.gop {
+  background-color: #e03d46;
+}
+
+.state-winners-table__winning-pct-bar.dem {
+  background-color: #579DD5;
+}
+
+.state-winners-table__republicans.gop-winner {
+  color: #e03d46;
+  font-weight: bold;
+}
+
+.state-winners-table__dems.dem-winner {
+  color: #579DD5;
+  font-weight: bold;
+}
+
+.state-winners-table__winning-pct-state-figure,
+.state-winners-table__winning-pct-federal-figure {
+  text-align: right;
+}
+
+.state-winners-table__winning-pct-state-figure {
+  padding-right: 0.5em;
+}
+
+.state-winners-table__winning-pct-federal-figure {
+  padding-right: 0;
+}

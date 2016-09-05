@@ -1,0 +1,23 @@
+{% macro StateList(siteNav) %}
+<div class="rail__state-list">
+  <h3>US election explained</h3>
+  <nav>
+    <h4>Which states are in play?</h4>
+    <ul>
+      {% for state in siteNav.keyBattlegroundStates %}
+      <li><a href="{{ state.slug }}-polls">{{ state.fullname }}</a></li>
+      {% endfor %}
+    </ul>
+
+    <h4>State by state</h4>
+    <select id="rail__state-list__select">
+      <option value="./">Pick a state...</option>
+      {% for state in siteNav.allStates %}
+      <option value="./{{ state.slug }}-polls">{{ state.fullname }}</option>
+      {% endfor %}
+    </select>
+
+    <div class="rail__state-list__nationalLink"><a href="polls">National overview</a></div>
+  </nav>
+</div>
+{% endmacro %}
