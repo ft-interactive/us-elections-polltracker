@@ -3,7 +3,8 @@ import { getStateDemographics } from './demographics';
 
 const states = stateReference.map(d => {
   const demographics = getStateDemographics(d.code);
-  return { ...d, demographics };
+  const fullname = d.subdivision ? `${d.name} (${d.subdivision})` : d.name;
+  return { ...d, fullname, demographics };
 });
 
 export const slugIndex = states.reduce((map, state) =>
@@ -43,6 +44,7 @@ export function getSimpleList() {
   return states.map(state => ({
     slug: state.slug,
     name: state.name,
+    fullname: state.fullname,
     ecVotes: state.ecVotes,
     code: state.code,
   }));
