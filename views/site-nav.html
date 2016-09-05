@@ -5,7 +5,7 @@
     <h4>Which states are in play?</h4>
     <ul>
       {% for state in siteNav.keyBattlegroundStates %}
-      <li><a href="{{ state.slug }}-polls">{{ state.name }}</a></li>
+      <li><a href="{{ state.slug }}-polls">{{ state.fullname }}</a></li>
       {% endfor %}
     </ul>
 
@@ -13,7 +13,7 @@
     <select id="rail__state-list__select">
       <option value="./">Pick a state...</option>
       {% for state in siteNav.allStates %}
-      <option value="./{{ state.slug }}-polls">{{ state.name }}</option>
+      <option value="./{{ state.slug }}-polls">{{ state.fullname }}</option>
       {% endfor %}
     </select>
 
