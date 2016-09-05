@@ -20,7 +20,6 @@ function forecastMapLayout(stateData, opts) {
   Object.keys(stateData).forEach(d => {
     const currentState = stateData[d];
     const stateClassification = Number.isFinite(currentState.margin) ? marginThreshold(currentState.margin) : 'nodata';
-    console.log(currentState, stateClassification, color[stateClassification]);
     layoutObject[d] = {
       classification: stateClassification,
       fill: color[stateClassification],

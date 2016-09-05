@@ -47,11 +47,11 @@ export function getFederalWinners(data) {
  * @returns {Array<String>}
  */
 export function getStateWinners(data, state, candidates) {
-  return Object.keys(data[state.toUpperCase()])
+  return Object.keys(data[state])
     .filter(label => !!~label.indexOf('outcome'))
     .sort()
     .reverse()
-    .map(outcome => (data[state.toUpperCase()][outcome] > 0 ?
+    .map(outcome => (data[state][outcome] > 0 ?
       candidates[outcome].dem :
       candidates[outcome].gop)
     );
@@ -84,10 +84,17 @@ export function getBarExtents(data) {
  * @return {Array}        Array of results split into years.
  */
 export default function getHistoricalResults(data, state) {
+  let cleanCode = state.toUpperCase();
+  // deal with Maine, Nebraska
+  if (cleanCode.indexOf('CD') !== -1) {
+    cleanCode = cleanCode.split('CD')[0];
+  }
+
   const candidates = getCandidatesList(data);
   const winnersFederal = getFederalWinners(data);
-  const winnersState = getStateWinners(data, state, candidates);
+  const winnersState = getStateWinners(data, cleanCode, candidates);
   const barExtents = getBarExtents(data);
+
 
   /**
    * This scale is used to draw the length of the bars.
@@ -103,15 +110,15 @@ export default function getHistoricalResults(data, state) {
    * Finally, iterate through each "outcome" and return an object munging
    * all the above together.
    */
-  return Object.keys(data[state.toUpperCase()])
+  return Object.keys(data[cleanCode])
     .filter(label => !!~label.indexOf('outcome'))
     .sort()
     .reverse()
     .map((key, i) => ({
       year: key.replace('outcome', ''),
-      winningPctScaledState: barScale(Math.abs(data[state.toUpperCase()][key])),
-      winningPctState: Math.abs(data[state.toUpperCase()][key]) * 100,
-      stateWinnerColor: data[state.toUpperCase()][key] > 0 ? 'dem' : 'gop',
+      winningPctScaledState: barScale(Math.abs(data[cleanCode][key])),
+      winningPctState: Math.abs(data[cleanCode][key]) * 100,
+      stateWinnerColor: data[cleanCode][key] > 0 ? 'dem' : 'gop',
       winnerState: winnersState[i].replace(/\((DEM|GOP)\)/, ''),
       winningPctScaledFederal: barScale(Math.abs(data.label[key.replace('outcome', 'margin')])),
       winningPctFederal: Math.abs(data.label[key.replace('outcome', 'margin')]) * 100,
