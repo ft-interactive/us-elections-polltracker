@@ -22,7 +22,7 @@ class StatePage extends Page {
       });
     }
 
-    this.historicalResults = historicalDataTable(referenceData, state.code);
+    this.historicalResults = historicalDataTable(referenceData, this.state.code);
     this.demographicIndicators = this.state.demographics.map(d => demographicBarcode(d));
   }
 
