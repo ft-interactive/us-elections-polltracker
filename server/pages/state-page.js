@@ -2,6 +2,7 @@ import Page from './page';
 import { getBySlug } from '../lib/states';
 import referenceData from '../../layouts/stateDemographics';
 import historicalDataTable from '../../layouts/historicalDataTable';
+import demographicBarcode from '../../layouts/demographicBarcode';
 
 class StatePage extends Page {
   constructor(state) {
@@ -22,6 +23,7 @@ class StatePage extends Page {
     }
 
     this.historicalResults = historicalDataTable(referenceData, state.code);
+    this.demographicIndicators = this.state.demographics.map(d => demographicBarcode(d));
   }
 
   async ready() {
