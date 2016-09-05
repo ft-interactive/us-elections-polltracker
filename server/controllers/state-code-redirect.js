@@ -2,7 +2,7 @@ import { getByCode, getBySlug, getByContentId } from '../lib/states';
 
 export default async (req, res) => {
   if (req.params.code === 'us') {
-    res.redirect(301, '/polls');
+    res.redirect(301, 'polls');
     return;
   }
 
@@ -15,5 +15,5 @@ export default async (req, res) => {
     return;
   }
 
-  res.redirect(301, `/${state.slug}-polls`);
+  res.redirect(301, `${state.slug}-polls`);
 };

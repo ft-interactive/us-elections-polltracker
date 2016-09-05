@@ -16,10 +16,10 @@ export default async (req, res) => {
   const state = req.params.state;
 
   if (slugfixes[state]) {
-    res.redirect(301, `/${slugfixes[state]}-polls`);
+    res.redirect(301, `${slugfixes[state]}-polls`);
     return;
   } else if (state === 'us') {
-    res.redirect(301, '/polls');
+    res.redirect(301, 'polls');
     return;
   }
 
@@ -31,7 +31,7 @@ export default async (req, res) => {
     const slug = codeToSlug(state);
 
     if (slug) {
-      res.redirect(301, `/${slug}-polls`);
+      res.redirect(301, `${slug}-polls`);
       return;
     }
 
