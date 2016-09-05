@@ -11,13 +11,12 @@
     </ul>
 
     <div
-      data-o-component="o-expander"
       class="o-expander items"
-      data-o-expander-shrink-to="10"
+      data-o-component="o-expander"
+      data-o-expander-shrink-to="5"
       data-o-expander-count-selector="li"
-      data-o-expander-collapsed-toggle-text="Show more states"
-      data-o-expander-expanded-toggle-text="Show fewer states"
-      data-o-expander-toggle-selector=".table-toggle-btn"
+      data-o-expander-collapsed-toggle-text="Show more polls..."
+      data-o-expander-expanded-toggle-text="Show fewer polls..."
       id="rail__state-list__expander">
 
       <h4>State by state</h4>
@@ -30,7 +29,7 @@
         </li>
         {% endfor %}
       </ul>
-      <button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big"></button>
+      <button class="o-expander__toggle o--if-js"></button>
     </div>
   </nav>
 </div>

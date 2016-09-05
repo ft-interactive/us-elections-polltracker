@@ -136,18 +136,29 @@
   margin-bottom: 18px;
 }
 
-.rail__state-list__nationalLink a {
+.rail__state-list__nationalLink a,
+#rail__state-list__expander .o-expander__toggle {
   color: #9e2f50;
   border-bottom: none;
   font-weight: 500;
 }
 
-.rail__state-list__nationalLink a:hover {
+.rail__state-list__nationalLink a:hover,
+#rail__state-list__expander .o-expander__toggle:hover {
   border-bottom: 1px dotted #9e2f50;
 }
 
-#rail__state-list__expander button {
-  font-size: .9em;
+#rail__state-list__expander .o-expander__toggle {
+  font: 18px/1.4 Georgia, serif;
+  font-family: "MetricWeb", sans-serif;
+}
+
+#rail__state-list__expander .o-expander__toggle i {
+  display: none;
+}
+
+#rail__state-list__expander ul {
+  margin-bottom: 0;
 }
 
 .o-typography-body-wrapper .source {
