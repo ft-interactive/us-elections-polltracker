@@ -56,7 +56,6 @@
   {% for indicator in indicators %}
   <div class="demographic-container">
     <h3>{{ indicator.indicator.label }}</h3>
-    {{ indicatoor | json }}
     {{ BarCodeChart(indicator, stateName) }}
   </div>
   {% endfor %}
