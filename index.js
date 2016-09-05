@@ -1,4 +1,4 @@
-import d3 from 'd3';
+import { isoFormat } from 'd3-time-format';
 import lru from 'lru-cache';
 import express from 'express';
 import * as nunjucks from './server/nunjucks';
@@ -82,7 +82,7 @@ app.get('/polls.svg', async (req, res) => {
     try {
       value = await makePollTimeSeries(req.query);
       if (value) cache.set(cacheKey, value);
-    } catch (err) { console.log('ERROR making pollchart ', req.url); }
+    } catch (err) { console.log('ERROR making pollchart ', req.url, err); }
   }
   if (value) {
     setSVGHeaders(res).send(value);
@@ -126,7 +126,7 @@ app.get('/:code', stateCodeRedirectController);
 
 async function makePollTimeSeries(chartOpts) {
   const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-06-01 00:00:00';
-  const endDate = chartOpts.endDate ? chartOpts.endDate : d3.isoFormat(new Date());
+  const endDate = chartOpts.endDate ? chartOpts.endDate : isoFormat(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';
   const pollData = await pollAverages(startDate, endDate, state);
   return template.render('templated-polls.svg', layoutTimeSeries(pollData, chartOpts));
