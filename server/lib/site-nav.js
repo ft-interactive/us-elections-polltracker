@@ -1,6 +1,11 @@
 import { getBySlug, getSimpleList } from './states';
 
 export default function siteNav() {
+  const allStates = getSimpleList();
+
+  // then exclude congressional districts
+  const allStatesMinusCD = allStates.filter((stateObj) => stateObj.code.indexOf('CD') <= -1);
+
   return {
     keyBattlegroundStates: [
       getBySlug('arizona'),
@@ -14,6 +19,6 @@ export default function siteNav() {
       getBySlug('pennsylvania'),
       getBySlug('wisconsin'),
     ],
-    allStates: getSimpleList(),
+    allStates: allStatesMinusCD,
   };
 }
