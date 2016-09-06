@@ -51,6 +51,7 @@ export default class Page {
 
   tracking = {
     micrositeName: 'us-elections',
+    googleAnalyticsPropertyID: 'UA-35229645-7',
   };
 
   topic = {
