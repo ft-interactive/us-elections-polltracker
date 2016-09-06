@@ -136,29 +136,37 @@
   margin-bottom: 18px;
 }
 
-.rail__state-list__nationalLink a,
-#rail__state-list__expander .o-expander__toggle {
+.rail__state-list__nationalLink a {
   color: #9e2f50;
   border-bottom: none;
   font-weight: 500;
 }
 
-.rail__state-list__nationalLink a:hover,
-#rail__state-list__expander .o-expander__toggle:hover {
+.rail__state-list__nationalLink a:hover{
   border-bottom: 1px dotted #9e2f50;
 }
 
 #rail__state-list__expander .o-expander__toggle {
   font: 18px/1.4 Georgia, serif;
   font-family: "MetricWeb", sans-serif;
+  color: #27757b;
+  text-decoration: none;
+  cursor: pointer;
+  border-bottom: 1px dotted transparent;
+}
+
+#rail__state-list__expander .o-expander__toggle:hover {
+  border-bottom-color: #27757b;
 }
 
 #rail__state-list__expander .o-expander__toggle i {
-  display: none;
+  vertical-align: middle;
+  width: 16px;
+  height: 16px;
 }
 
 #rail__state-list__expander ul {
-  margin-bottom: 0;
+  margin-bottom: 6px;
 }
 
 .o-typography-body-wrapper .source {
