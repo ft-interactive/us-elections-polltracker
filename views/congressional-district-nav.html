@@ -1,0 +1,5 @@
+{% macro Render(districtList) %}
+{% for district in districtList %}
+<a href="{{ district.url }}">{{ district.name }}</a>
+{% endfor %}
+{% endmacro %}
