@@ -11,6 +11,7 @@ class NationalPage extends Page {
     this.streamUrl = 'https://www.ft.com/us-election-2016';
     this.url = 'https://ig.ft.com/us-elections/polls';
     this.code = 'us';
+    id = 'e01abff0-5292-11e6-9664-e0bdc13c3bef';
   }
 
   async ready() {
