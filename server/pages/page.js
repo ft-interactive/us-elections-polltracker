@@ -6,7 +6,6 @@ import siteNav from '../lib/site-nav';
 const onwardJourney = () => ({
   relatedContent: [
     { rows: 1, list: 'thing/N2UxNTM3MzItNWNlZC00MDc5LWI3ODUtYWNmZDA2YjE0MWE2-U2VjdGlvbnM=' },
-    { rows: 1, list: 'list/graphics' },
     { rows: 1, list: 'list/highlights' },
   ],
 });
