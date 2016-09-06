@@ -39,6 +39,9 @@ export default class Page {
     this.mainImage = {
       url: 'https://ig.ft.com/us-elections/images/social.jpg',
     };
+    this.tracking = {
+      googleAnalyticsPropertyID: 'UA-35229645-7',
+    };
     this.flags = flags();
     this.onwardJourney = onwardJourney();
     this.siteNav = siteNav();
