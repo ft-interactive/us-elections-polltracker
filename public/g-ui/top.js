@@ -4,6 +4,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 exports.init = init;
 /* eslint-disable */
 
@@ -34,7 +37,7 @@ function add_script(src, async, defer, cb) {
 
 function exec(script) {
   if (!window.cutsTheMustard) return;
-  var s = typeof script;
+  var s = typeof script === 'undefined' ? 'undefined' : _typeof(script);
   if (s === 'string') {
     try {
       add_script.apply(window, arguments);
@@ -106,11 +109,18 @@ function clear_queue() {
 
 // Load the polyfill service with custom features. Exclude big unneeded polyfills.
 // and use ?callback= to clear the queue of scripts to load
-const defaultPolyfillFeatures = ['default', 'requestAnimationFrame', 'Promise', 'matchMedia', 'IntersectionObserver', 'HTMLPictureElement', 'fetch|always|gated'];
+var defaultPolyfillFeatures = ['default', 'requestAnimationFrame', 'Promise', 'matchMedia', 'IntersectionObserver', 'HTMLPictureElement', 'fetch|always|gated'];
 
-const createPolyfillURL = features => `https://cdn.polyfill.io/v2/polyfill.min.js?callback=clear_queue&features=${ features.join(',') }&excludes=Symbol,Symbol.iterator,Symbol.species,Map,Set`;
+var createPolyfillURL = function createPolyfillURL(features) {
+  return 'https://cdn.polyfill.io/v2/polyfill.min.js?callback=clear_queue&features=' + features.join(',') + '&excludes=Symbol,Symbol.iterator,Symbol.species,Map,Set';
+};
 
-function init({ polyfillFeatures = defaultPolyfillFeatures } = {}) {
+function init() {
+  var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+  var _ref$polyfillFeatures = _ref.polyfillFeatures;
+  var polyfillFeatures = _ref$polyfillFeatures === undefined ? defaultPolyfillFeatures : _ref$polyfillFeatures;
+
 
   if (!window.cutsTheMustard) {
     window.cutsTheMustard = typeof Function.prototype.bind !== 'undefined';
