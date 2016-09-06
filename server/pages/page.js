@@ -36,6 +36,9 @@ export default class Page {
 
   constructor() {
     this.canoniclUrl = 'https://ig.ft.com/us-elections/polls/';
+    this.mainImage = {
+      url: 'https://ig.ft.com/us-elections/images/social.jpg',
+    };
     this.flags = flags();
     this.onwardJourney = onwardJourney();
     this.siteNav = siteNav();
