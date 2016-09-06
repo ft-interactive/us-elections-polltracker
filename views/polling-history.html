@@ -16,12 +16,16 @@
 <div id="individualpolls">
   {% call PageElements.Figure(title=title, subtitle=subtitle) %}
     {% if list and list.length > 0 %}
-    <div data-o-component="o-expander" class="o-expander items"
-          data-o-expander-collapsed-toggle-text="Show more polls"
-          data-o-expander-expanded-toggle-text="Show fewer polls"
-          data-o-expander-toggle-selector=".table-toggle-btn"
-          data-o-expander-shrink-to="{{ startCollapse }}"
-          data-o-expander-count-selector="tbody tr">
+      {% if list.length > startCollapse %}
+      <div data-o-component="o-expander" class="o-expander items"
+            data-o-expander-collapsed-toggle-text="Show more polls"
+            data-o-expander-expanded-toggle-text="Show fewer polls"
+            data-o-expander-toggle-selector=".table-toggle-btn"
+            data-o-expander-shrink-to="{{ startCollapse }}"
+            data-o-expander-count-selector="tbody tr">
+      {% else %}
+      <div class="items">
+      {% endif %}
     <table>
       <thead>
         <tr>

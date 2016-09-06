@@ -2,6 +2,7 @@
 <div class="rail__state-list">
   <h3>US election explained</h3>
   <nav>
+    <div class="rail__state-list__nationalLink"><a href="polls">National overview</a></div>
     <h4>Which states are in play?</h4>
     <ul>
       {% for state in siteNav.keyBattlegroundStates %}
@@ -9,16 +10,27 @@
       {% endfor %}
     </ul>
 
-    <h4>State by state</h4>
-    <select id="rail__state-list__select">
-      <option value="./">Pick a state...</option>
-      {% for state in siteNav.allStates %}
-      <option value="./{{ state.slug }}-polls"
-          {% if state.slug == selectedState.slug %}selected{% endif %}>{{ state.fullname }}</option>
-      {% endfor %}
-    </select>
+    <div
+      class="o-expander items"
+      data-o-component="o-expander"
+      data-o-expander-shrink-to="7"
+      data-o-expander-count-selector="li"
+      data-o-expander-collapsed-toggle-text="All states"
+      data-o-expander-expanded-toggle-text="Show fewer states"
+      id="rail__state-list__expander">
 
-    <div class="rail__state-list__nationalLink"><a href="polls">National overview</a></div>
+      <h4>State by state</h4>
+      <ul class="o-expander__content">
+        {% for state in siteNav.allStates %}
+        <li>
+            <a href="./{{ state.slug }}-polls">
+              {{ state.fullname }}
+            </a>
+        </li>
+        {% endfor %}
+      </ul>
+      <button class="o-expander__toggle o--if-js"></button>
+    </div>
   </nav>
 </div>
 {% endmacro %}
