@@ -5,6 +5,7 @@ import * as nunjucks from './server/nunjucks';
 import nationalController from './server/controllers/national';
 import stateController from './server/controllers/state';
 import stateCodeRedirectController from './server/controllers/state-code-redirect';
+import ecForecastComponentController from './server/controllers/ec-forecast-component';
 import pollGraphicsController from './server/controllers/poll-graphics';
 import getBerthaData from './server/lib/getBerthaData.js';
 
@@ -107,6 +108,9 @@ app.get('/:state-polls', stateController);
 
 // support the old state poll format (redirect to new routes)
 app.get('/polls/:code', stateCodeRedirectController);
+
+//Create homepage(etc.) widget of current forecasts
+app.get('/ec-forecast-component.html', ecForecastComponentController);
 
 // This needs to be last as it captures lot of paths and only does redirects
 app.get('/:code', stateCodeRedirectController);
