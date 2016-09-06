@@ -1,4 +1,11 @@
+/* 
+returns a summary of electoral college predictions in the form ... 
+{ dem: 202, leaningDem: 71, swing: 101, leaningRep: 80, rep: 84 }
+you can stateData (from eg. state-counts.js) but if you don't it'll go and get it for you
+*/
+
 import { scaleThreshold } from 'd3-scale';
+import stateCount from '../lib/state-counts';
 
 export const marginThreshold = scaleThreshold()
 .range(['rep', 'leaningRep', 'swing', 'leaningDem', 'dem'])
@@ -9,6 +16,8 @@ export const meneThreshold = scaleThreshold()
   .domain([-5, 5]);
 
 export default async function nationalCount(stateData) {
+  // if state data is not supplied go get it
+  if(!stateData) stateData = await stateCount();
   // for ME and NE classification
   // if one CD (congressional district) is rep and another is leaningRep (or dem and leaningDem), do another round of classification to categorize 2 remaining votes as leaningRep or leaningDem
   const stateCounts = Object.keys(stateData).reduce((cumulative, stateCode) => {
