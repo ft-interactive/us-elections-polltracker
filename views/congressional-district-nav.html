@@ -1,7 +1,7 @@
 {% macro Render(stateName, districtList) %}
 {% if districtList.length > 0 %}
 <div class="congressional-district-nav">
-<p>{{ stateName }} votes by the congressional district method.</p>
+<p>{{ stateName }} uses the congressional district method to allocate electoral votes.</p>
 {% for district in districtList %}
 <span class="congressional-district-nav__item"><a href="{{ district.slug }}-polls">District {{ district.subdivision }}</a></span>
 {% endfor %}
