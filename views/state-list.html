@@ -31,11 +31,11 @@
             {%- if state.Clinton == null -%}
             <span class="statelist-nodata">No poll data</span>
             {%- else -%}
-              {%- if state.margin > 0 -%}
+              {% if state.margin > 0 %}
               Clinton
-              {%- else -%}
+              {% else %}
               Trump
-              {%- endif -%}
+              {% endif %}
               +{{ state.margin | round1dp | replace('-', '') }}
             {%- endif -%}
           </td>
