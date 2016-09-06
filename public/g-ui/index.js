@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = init;
 function init() {
-  return new Promise((resolve, reject) => {
-    queue('https://origami-build.ft.com/v2/bundles/js?export=oAds&modules=o-ads@^4.3.2', () => {
+  return new Promise(function (resolve, reject) {
+    queue('https://origami-build.ft.com/v2/bundles/js?export=oAds&modules=o-ads@^4.3.2', function () {
       resolve();
     }, true);
   });
@@ -66,12 +66,21 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = init;
 /* eslint-disable */
 
-const oCommentsUrl = 'https://origami-build.ft.com/v2/bundles/js?export=oComments&modules=o-comments@^3.3.0&autoinit=0';
+var oCommentsUrl = 'https://origami-build.ft.com/v2/bundles/js?export=oComments&modules=o-comments@^3.3.0&autoinit=0';
 
-function init({ elementId = 'comments', delay = 1000, initialNumVisible = 10 } = {}) {
+function init() {
+  var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-  const container = document.getElementById(elementId);
-  const articleId = document.documentElement.getAttribute('data-content-id');
+  var _ref$elementId = _ref.elementId;
+  var elementId = _ref$elementId === undefined ? 'comments' : _ref$elementId;
+  var _ref$delay = _ref.delay;
+  var delay = _ref$delay === undefined ? 1000 : _ref$delay;
+  var _ref$initialNumVisibl = _ref.initialNumVisible;
+  var initialNumVisible = _ref$initialNumVisibl === undefined ? 10 : _ref$initialNumVisibl;
+
+
+  var container = document.getElementById(elementId);
+  var articleId = document.documentElement.getAttribute('data-content-id');
 
   if (!container) {
     return Promise.reject('No comments container element present');
@@ -82,8 +91,8 @@ function init({ elementId = 'comments', delay = 1000, initialNumVisible = 10 } =
   }
 
   return new Promise(function (resolve, reject) {
-    setTimeout(() => {
-      queue(oCommentsUrl, () => {
+    setTimeout(function () {
+      queue(oCommentsUrl, function () {
         if (!oComments) {
           Promise.reject('Couldn\'t get oComments');
           return;
@@ -134,7 +143,7 @@ var _ads2 = _interopRequireDefault(_ads);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-let initialized = false;
+var initialized = false;
 
 function init() {
   if (initialized) return;
@@ -154,36 +163,48 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.renderIntoElement = renderIntoElement;
 exports.default = init;
-const elementSelector = exports.elementSelector = '[data-g-component="onward-journey"]';
 
-const serviceBaseUrl = exports.serviceBaseUrl = 'https://ft-ig-onwardjourney-pr-15.herokuapp.com/v1/';
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-const fetchList = exports.fetchList = (list, layout, limit) => fetch(`${ serviceBaseUrl }${ list }/html/${ layout }?limit=${ limit }`).then(res => {
-  if (res.status >= 200 && res.status < 300) {
-    return res;
-  } else {
-    const error = new Error(res.statusText);
-    error.res = response;
-    throw error;
-  }
-}).then(res => res.text());
+var elementSelector = exports.elementSelector = '[data-g-component="onward-journey"]';
+
+var serviceBaseUrl = exports.serviceBaseUrl = 'https://ft-ig-onwardjourney-pr-15.herokuapp.com/v1/';
+
+var fetchList = exports.fetchList = function fetchList(list, layout, limit) {
+  return fetch('' + serviceBaseUrl + list + '/html/' + layout + '?limit=' + limit).then(function (res) {
+    if (res.status >= 200 && res.status < 300) {
+      return res;
+    } else {
+      var error = new Error(res.statusText);
+      error.res = response;
+      throw error;
+    }
+  }).then(function (res) {
+    return res.text();
+  });
+};
 
 function renderIntoElement(element) {
   if (element.classList.contains('is-rendered')) return;
-  const list = element.getAttribute('data-list') || 'list/graphics';
-  const layout = element.getAttribute('data-layout') || '';
-  const limit = parseInt(element.getAttribute('data-rows') || '1') * 4;
-  fetchList(list, layout, limit).then(html => {
+  var list = element.getAttribute('data-list') || 'list/graphics';
+  var layout = element.getAttribute('data-layout') || '';
+  var limit = parseInt(element.getAttribute('data-rows') || '1') * 4;
+  fetchList(list, layout, limit).then(function (html) {
     element.innerHTML = html;
     element.classList.add('is-rendered');
-  }).catch(() => {
+  }).catch(function () {
     element.remove();
   });
 }
 
-function init({ delay = 800 } = {}) {
-  setTimeout(() => {
-    [...document.querySelectorAll(elementSelector)].forEach(renderIntoElement);
+function init() {
+  var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+  var _ref$delay = _ref.delay;
+  var delay = _ref$delay === undefined ? 800 : _ref$delay;
+
+  setTimeout(function () {
+    [].concat(_toConsumableArray(document.querySelectorAll(elementSelector))).forEach(renderIntoElement);
   }, delay);
 }
 
