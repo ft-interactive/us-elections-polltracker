@@ -25,7 +25,7 @@
         <tr class="statelist-staterow statelist-{{ state.margin | getClassificationFromMargin }} statelist-staterow-{{ state.code | lower }}">
           <td class="statelist-state">
             <div class="statelist-catLabel"></div>
-            <a href="{{ state.slug }}-polls"><div class="statelist-stateLabel">{{ state.name }}</div></a>
+            <a href="{{ state.slug }}-polls"><div class="statelist-stateLabel">{{ state.fullname }}</div></a>
           </td>
           <td class="statelist-pollmargin">
             {%- if state.Clinton == null -%}

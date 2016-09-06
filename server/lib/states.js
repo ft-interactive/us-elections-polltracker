@@ -3,7 +3,7 @@ import { getStateDemographics } from './demographics';
 
 const states = stateReference.map(d => {
   const demographics = getStateDemographics(d.code);
-  const fullname = d.subdivision ? `${d.name} (${d.subdivision})` : d.name;
+  const fullname = d.subdivision ? `${d.name} (District ${d.subdivision})` : d.name;
   return { ...d, fullname, demographics };
 });
 

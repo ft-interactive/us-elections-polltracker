@@ -3,6 +3,10 @@
   "scripts": {
   },
   "env": {
+    "NODE_ENV": {
+      "description": "Set to production environment",
+      "value": "production"
+    }
   },
   "formation": {
     "scraper": {
