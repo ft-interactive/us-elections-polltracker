@@ -169,6 +169,19 @@
   margin-bottom: 6px;
 }
 
+.congressional-district-nav {
+  margin: 1em 0;
+}
+
+.congressional-district-nav p {
+  margin-bottom: 0.5em;
+}
+
+.congressional-district-nav__item {
+  display: inline-block;
+  margin-right: 10px;
+}
+
 .o-typography-body-wrapper .source {
   line-height: 1.1;
   margin-top: 3em;

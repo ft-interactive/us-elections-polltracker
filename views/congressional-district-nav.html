@@ -1,5 +1,10 @@
-{% macro Render(districtList) %}
+{% macro Render(stateName, districtList) %}
+{% if districtList.length > 0 %}
+<div class="congressional-district-nav">
+<p>{{ stateName }} votes by the congressional district method.</p>
 {% for district in districtList %}
-<a href="{{ district.url }}">{{ district.name }}</a>
+<span class="congressional-district-nav__item"><a href="{{ district.slug }}-polls">District {{ district.subdivision }}</a></span>
 {% endfor %}
+</div>
+{% endif %}
 {% endmacro %}
