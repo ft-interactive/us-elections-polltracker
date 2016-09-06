@@ -1,3 +1,17 @@
+/* 
+returns an object of objects keyed by state abbreviation
+  { WY: 
+   { slug: 'wyoming',
+     name: 'Wyoming',
+     fullname: 'Wyoming',
+     ecVotes: 3,
+     code: 'WY',
+     Trump: null,
+     Clinton: null,
+     margin: -12 } }
+  ... }
+*/
+
 import _ from 'underscore';
 import axios from 'axios';
 
