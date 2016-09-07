@@ -109,8 +109,9 @@ app.get('/:state-polls', stateController);
 // support the old state poll format (redirect to new routes)
 app.get('/polls/:code', stateCodeRedirectController);
 
-//Create homepage(etc.) widget of current forecasts
+// Create homepage(etc.) widget of current forecasts
 app.get('/ec-forecast-component.html', ecForecastComponentController);
+app.get('/ec-forecast-component.json', async (res,req) => { ecForecastComponentController(res, req, 'json') });
 
 // This needs to be last as it captures lot of paths and only does redirects
 app.get('/:code', stateCodeRedirectController);
