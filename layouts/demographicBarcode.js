@@ -6,7 +6,7 @@ export function formatToPercent(n) {
 }
 
 export default function layout(indicator) {
-  if (!indicator.stateValue) return null;
+  if (indicator.stateValue === null) return null;
 
   const chartConfig = {
     width: 325,
@@ -27,8 +27,6 @@ export default function layout(indicator) {
   const scale = scaleLinear().domain(indicator.domain).range(range);
   const flipLabelDirection = scale(indicator.stateValue) / scale(max) > 0.5;
   const stateLabelTextDirection = flipLabelDirection ? 'end' : 'start';
-
-  console.log('Range', range);
 
   return {
     indicator,
