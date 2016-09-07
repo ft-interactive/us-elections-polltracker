@@ -10,4 +10,7 @@ module.exports = {
   leaningDem: '#a2c1e1',
   swing: '#fcc83c',
   nodata: '#b0b0b0',
+  darkRep: '#934247',
+  darkSwing: '#ac8845',
+  darkDem: '#50708f',
 };
