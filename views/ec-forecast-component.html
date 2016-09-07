@@ -1,17 +1,17 @@
 <style>
-	.ecforecastbars{
+	{{ ancestorSelector }} .ecforecastbars{
 		font-family: MetricWeb, sans-serif;
 		margin:0;
 		padding:0;
 		height:100px;
 	}
 
-	.ecforecastbars__chart {
+	{{ ancestorSelector }} .ecforecastbars__chart {
 		width: 100%;
 		height: 30px;
 	}
 
-	ecforecastbars__row{
+	{{ ancestorSelector }} .ecforecastbars__row{
 		height: 30px;
 		margin: 0;
 		padding: 0;
@@ -20,7 +20,7 @@
 		box-sizing: border-box;
 	}
 
-	.ecforecastbars__bar {
+	{{ ancestorSelector }} .ecforecastbars__bar {
 		display: inline-block;
 		height: 30px;
 		margin: 0;
@@ -30,22 +30,22 @@
 		box-sizing: border-box;
 	}
 
-	.ecforecastbars__bar--dem {
+	{{ ancestorSelector }} .ecforecastbars__bar--dem {
 		background-color: {{ color.dem }};
 		width: {{ proportion.totalDem }}%;
 	}
 
-	.ecforecastbars__bar--swing {
+	{{ ancestorSelector }} .ecforecastbars__bar--swing {
 		background-color: {{ color.swing }};
 		width: {{ proportion.swing }}%;
 	}
 
-	.ecforecastbars__bar--rep {
+	{{ ancestorSelector }} .ecforecastbars__bar--rep {
 		background-color: {{ color.rep }};
 		width: {{ proportion.totalRep }}%;
 	}
 
-	.ecforecastbars__label {
+	{{ ancestorSelector }} .ecforecastbars__label {
 		display: inline-block;
 		margin: 0;
 		padding: 0;
@@ -55,26 +55,26 @@
 		text-align: center;
 	}
 
-	.ecforecastbars__label--dem {
+	{{ ancestorSelector }} .ecforecastbars__label--dem {
 		color: {{ color.darkDem }};
 		width: {{ proportion.totalDem }}%;
 		text-align: left;
 	}
 
-	.ecforecastbars__label--swing {
+	{{ ancestorSelector }} .ecforecastbars__label--swing {
 		color: {{ color.darkSwing }};
 		width: {{ proportion.swing }}%;
 		font-weight: 800;
 		overflow: visible;
 	}
 
-	.ecforecastbars__label--rep {
+	{{ ancestorSelector }} .ecforecastbars__label--rep {
 		color: {{ color.darkRep }};
 		width: {{ proportion.totalRep }}%;
 		text-align: right;
 	}
 
-	.ecforecastbars__marker {
+	{{ ancestorSelector }} .ecforecastbars__marker {
 		position: relative;
 		width: 50%;
 		height: 100%;
@@ -82,7 +82,7 @@
 		z-index: 2;
 	}
 
-	.ecforecastbars__subtitle{
+	{{ ancestorSelector }} .ecforecastbars__subtitle{
 		font-weight:600;
 	}
 

@@ -10,9 +10,14 @@ const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
 export default async (req, res, type) => {
   res.setHeader('Cache-Control', cacheControl);
   const count = await nationalCount();
+  const layout = ecForecastBarsLayout(count);
+  if(type === 'json'){
+    layout.ancestorSelector = '.us-election-midriff-graphic';
+    console.log(layout)
+  }
   const html = await cache(
     'ec-forecast-component',
-    async () => render('ec-forecast-component.html', ecForecastBarsLayout(count))
+    async () => render('ec-forecast-component.html', layout)
   );
   if(type === 'json'){
     res.send( { __html: html } );
