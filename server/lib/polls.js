@@ -14,7 +14,7 @@ async function pollAverages(start, end, state = 'us') {
 }
 
 export async function makePollTimeSeries(chartOpts) {
-  const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-06-01 00:00:00';
+  const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-07-01 00:00:00';
   const endDate = chartOpts.endDate ? chartOpts.endDate : isoFormat(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';
   const pollData = await pollAverages(startDate, endDate, state);
@@ -28,7 +28,7 @@ async function getPollSVG(state, size = '600x300') {
   return makePollTimeSeries({
     fontless: true,
     notext: true,
-    startDate: '2016-06-01T00:00:00',
+    startDate: '2016-07-01T00:00:00',
     size,
     type: 'area',
     state,
