@@ -9,6 +9,8 @@ import ecForecastComponentController from './server/controllers/ec-forecast-comp
 import pollGraphicsController from './server/controllers/poll-graphics';
 import getBerthaData from './server/lib/getBerthaData.js';
 
+import stateCount from './server/lib/state-counts';
+
 process.on('unhandledRejection', error => {
   console.error('unhandledRejection', error.stack);
   process.exit(1);
@@ -125,7 +127,7 @@ async function makePollTimeSeries(chartOpts) {
 }
 
 async function makeForecastMap(chartOpts) {
-  const statePollingData = await getStateCounts(await getBerthaData());
+  const statePollingData = await stateCount();
   const layout = layoutForecastMap(statePollingData, chartOpts);
   if(chartOpts.dots === 'true') return template.render('dot-map.svg', layout);
   return template.render('map.svg', layout);
