@@ -1,5 +1,5 @@
 import stateReference from '../data/states';
-const _ = require('lodash');
+import _ from 'lodash';
 
 // if the state has a parent, return sibling state (congressional district) information
 export default function layout(state) {
