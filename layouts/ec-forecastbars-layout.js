@@ -5,6 +5,7 @@ export default function (data) {
   return {
     title: 'Electoral college forecast',
     subtitle: '270 to win, ' + data.swing + ' votes up for grabs',
+    fontless: false,
     proportion: {
       swing: data.swing / total * 100,
       rep: data.rep / total * 100,

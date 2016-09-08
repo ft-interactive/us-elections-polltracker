@@ -11,16 +11,17 @@ export default async (req, res, type) => {
   res.setHeader('Cache-Control', cacheControl);
   const count = await nationalCount();
   const layout = ecForecastBarsLayout(count);
-  if(type === 'json'){
+  if (type === 'json'){
     layout.ancestorSelector = '.us-election-midriff-graphic';
+    layout.fontless = true;
   }
   const html = await cache(
-    'ec-forecast-component',
+    'ec-forecast-component-fontless:' + layout.fontless + layout.ancestorSelector,
     async () => render('ec-forecast-component.html', layout)
   );
-  if(type === 'json'){
+  if (type === 'json'){
     res.json( { __html: html } );
-  }else{
+  } else {
     res.send( html );
   }
 };
