@@ -16,7 +16,7 @@ export default async (req, res, type) => {
     layout.fontless = true;
   }
   const html = await cache(
-    'ec-forecast-component',
+    'ec-forecast-component-fontless:'+req.query.fontless,
     async () => render('ec-forecast-component.html', layout)
   );
   if (type === 'json'){
