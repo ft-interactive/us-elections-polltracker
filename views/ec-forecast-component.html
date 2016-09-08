@@ -1,4 +1,8 @@
 <style>
+
+	{% if not fontless %}
+	{% include "includes/fonts.css" %}
+	{% endif %}
 	{{ ancestorSelector }} .ecforecastbars{
 		font-family: MetricWeb, sans-serif;
 		margin:0;
