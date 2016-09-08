@@ -9,6 +9,8 @@ import ecForecastComponentController from './server/controllers/ec-forecast-comp
 import pollGraphicsController from './server/controllers/poll-graphics';
 import getBerthaData from './server/lib/getBerthaData.js';
 
+import stateCount from './server/lib/state-counts';
+
 process.on('unhandledRejection', error => {
   console.error('unhandledRejection', error.stack);
   process.exit(1);
@@ -109,8 +111,9 @@ app.get('/:state-polls', stateController);
 // support the old state poll format (redirect to new routes)
 app.get('/polls/:code', stateCodeRedirectController);
 
-//Create homepage(etc.) widget of current forecasts
+// Create homepage(etc.) widget of current forecasts
 app.get('/ec-forecast-component.html', ecForecastComponentController);
+app.get('/ec-forecast-component.json', async (res,req) => { ecForecastComponentController(res, req, 'json') });
 
 // This needs to be last as it captures lot of paths and only does redirects
 app.get('/:code', stateCodeRedirectController);
@@ -124,7 +127,7 @@ async function makePollTimeSeries(chartOpts) {
 }
 
 async function makeForecastMap(chartOpts) {
-  const statePollingData = await getStateCounts(await getBerthaData());
+  const statePollingData = await stateCount();
   const layout = layoutForecastMap(statePollingData, chartOpts);
   if(chartOpts.dots === 'true') return template.render('dot-map.svg', layout);
   return template.render('map.svg', layout);

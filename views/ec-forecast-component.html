@@ -1,7 +1,100 @@
-<div>
-	{{ title }}
+<style>
 
-	<br>¯\_(ツ)_/¯: {{ data.swing }}
-	<br>probably dem: {{ data.dem + data.leaningDem }}
-	<br>probably rep: {{ data.rep + data.leaningRep }}	
+	{% if not fontless %}
+	{% include "includes/fonts.css" %}
+	{% endif %}
+	{{ ancestorSelector }} .ecforecastbars{
+		font-family: MetricWeb, sans-serif;
+		margin:0;
+		padding:0;
+		height:100px;
+	}
+
+	{{ ancestorSelector }} .ecforecastbars__chart {
+		width: 100%;
+		height: 30px;
+	}
+
+	{{ ancestorSelector }} .ecforecastbars__bar {
+		display: inline-block;
+		height: 30px;
+		margin: 0;
+		padding: 0;
+		float: left;
+		position: relative;
+		box-sizing: border-box;
+	}
+
+	{{ ancestorSelector }} .ecforecastbars__bar--dem {
+		background-color: {{ color.dem }};
+		width: {{ proportion.totalDem }}%;
+	}
+
+	{{ ancestorSelector }} .ecforecastbars__bar--swing {
+		background-color: {{ color.swing }};
+		width: {{ proportion.swing }}%;
+	}
+
+	{{ ancestorSelector }} .ecforecastbars__bar--rep {
+		background-color: {{ color.rep }};
+		width: {{ proportion.totalRep }}%;
+	}
+
+	{{ ancestorSelector }} .ecforecastbars__label {
+		display: inline-block;
+		margin: 0;
+		padding: 0;
+		float: left;
+		position: relative;
+		box-sizing: border-box;
+		text-align: center;
+	}
+
+	{{ ancestorSelector }} .ecforecastbars__label--dem {
+		color: {{ color.darkDem }};
+		width: {{ proportion.totalDem }}%;
+		text-align: left;
+	}
+
+	{{ ancestorSelector }} .ecforecastbars__label--swing {
+		color: {{ color.darkSwing }};
+		width: {{ proportion.swing }}%;
+		font-weight: 800;
+		overflow: visible;
+	}
+
+	{{ ancestorSelector }} .ecforecastbars__label--rep {
+		color: {{ color.darkRep }};
+		width: {{ proportion.totalRep }}%;
+		text-align: right;
+	}
+
+	{{ ancestorSelector }} .ecforecastbars__marker {
+		position: relative;
+		width: 50%;
+		height: 100%;
+		border-right: 2px solid black;
+		z-index: 2;
+	}
+
+	{{ ancestorSelector }} .ecforecastbars__subtitle{
+		font-weight:600;
+	}
+
+</style>
+
+<div class="ecforecastbars">
+	<h2 class="ecforecastbars__title">{{ title }}</h2>
+	<h3 class="ecforecastbars__subtitle">{{ subtitle }}</h3>
+	<div class="ecforecastbars__row">
+		<div class="ecforecastbars__label ecforecastbars__label--dem">Clinton ({{ data.dem + data.leaningDem }})</div>
+		<div class="ecforecastbars__label ecforecastbars__label--swing">Toss-up&nbsp;({{ data.swing }})</div>
+		<div class="ecforecastbars__label ecforecastbars__label--rep">Trump ({{ data.rep + data.leaningRep }})</div>
+	</div>
+	<div class="ecforecastbars__row">
+		<div class="ecforecastbars__bar ecforecastbars__bar--dem"></div>
+		<div class="ecforecastbars__bar ecforecastbars__bar--swing"></div>
+		<div class="ecforecastbars__bar ecforecastbars__bar--rep"></div>
+	</div>
+	<div class="ecforecastbars__marker"></div>
 </div>
