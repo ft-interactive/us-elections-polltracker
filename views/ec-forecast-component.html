@@ -16,7 +16,7 @@
 
 	{{ ancestorSelector }} .ecforecastbars__bar {
 		display: inline-block;
-		height: 30px;
+		height: 20px;
 		margin: 0;
 		padding: 0;
 		float: left;
@@ -60,7 +60,6 @@
 	{{ ancestorSelector }} .ecforecastbars__label--swing {
 		color: {{ color.darkSwing }};
 		width: {{ proportion.swing }}%;
-		font-weight: 800;
 		overflow: visible;
 	}
 
@@ -78,8 +77,22 @@
 		z-index: 2;
 	}
 
+	{{ ancestorSelector }} .ecforecastbars__title{
+		color: #6b6e68;
+    	font-size: 24px;
+		font-weight: normal;
+		margin: 0;
+		padding: 0;
+		padding-bottom: 5px;
+	}
+
 	{{ ancestorSelector }} .ecforecastbars__subtitle{
-		font-weight:600;
+		color: #6b6e68;
+    	font-size: 16px;
+		font-weight: normal;
+		margin: 0;
+		padding: 0;
+		padding-bottom: 15px;
 	}
 
 </style>
