@@ -1,10 +1,16 @@
 {% extends "layout.html" %}
 
+{% from 'congressional-district-nav.html' import Render as CongressionalDistrictNav %}
+
 {% import 'polling-history.html' as PollingHistory %}
 
 {% from 'state-demographics.html' import Render as StateDemographics %}
 
 {% block content %}
+
+{{
+  CongressionalDistrictNav(state.name, districtList)
+}}
 
 {{
   PollingHistory.LineChart(
