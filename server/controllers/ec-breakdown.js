@@ -11,10 +11,10 @@ export default async (req, res, type) => {
   res.setHeader('Cache-Control', cacheControl);
   const count = await nationalCount();
   const layout = { title: 'breakdown', fontless:false, };
-  const svg = await cache(
+  const html = await cache(
     'ec-breakdown-fontless:' + layout.fontless,
-    async () => render('ec-breakdown.svg', layout)
+    async () => render('ec-breakdown.html', layout)
   );
 
-  res.send(svg);
+  res.send(html);
 };
