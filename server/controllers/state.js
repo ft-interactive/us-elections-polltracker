@@ -8,8 +8,11 @@ const sMaxAge = 10;
 const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
 
 const slugfixes = {
-  // nebraska: 'nebraska1',
-  // maine: 'maine1',
+  nebraska1: 'nebraska',
+  nebraska2: 'nebraska',
+  nebraska3: 'nebraska',
+  maine1: 'maine',
+  maine2: 'maine',
 };
 
 export default async (req, res) => {
