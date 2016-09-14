@@ -38,25 +38,34 @@ async function getPollSVG(state, size = '600x300') {
   });
 }
 
-export async function lineChart(code) {
-  return {
-    default: await getPollSVG(code, '355x200'),
-    S: await getPollSVG(code, '630x270'),
-    M: await getPollSVG(code, '603x270'),
-    L: await getPollSVG(code, '650x288'),
-    XL: await getPollSVG(code, '680x310'),
-  };
+export async function lineChart(codes, childrenObj) {
+  const lineChartArray = [];
+  for (let i = 0; i < codes.length; i++) {
+    const code = codes[i];
+
+    let regionState = 'this state';
+    const regionObj = _.findWhere(childrenObj, { code });
+    if (regionObj) {
+      regionState = regionObj.fullname;
+    }
+
+    const lineChartConfig = {
+      default: await getPollSVG(code.toLowerCase(), '355x200'),
+      S: await getPollSVG(code.toLowerCase(), '630x270'),
+      M: await getPollSVG(code.toLowerCase(), '603x270'),
+      L: await getPollSVG(code.toLowerCase(), '650x288'),
+      XL: await getPollSVG(code.toLowerCase(), '680x310'),
+    };
+    lineChartArray.push({ code: regionState, lineChart: lineChartConfig });
+  }
+  return lineChartArray;
 }
 
-export async function list(code) {
+export async function list(codes, childrenObj) {
   const listArray = [];
-  const childrenObj = getChildren(code);
-  const children = childrenObj.map((stateObj) => stateObj.code);
-  const codes = [code].concat(children);
-
   for (let i = 0; i < codes.length; i++) {
-    code = codes[i];
-    let regionState = 'state';
+    const code = codes[i];
+    let regionState = 'this state';
     const regionObj = _.findWhere(childrenObj, { code });
     if (regionObj) {
       regionState = regionObj.fullname;
@@ -97,8 +106,12 @@ export async function list(code) {
 }
 
 export async function pollHistory(code) {
+  const childrenObj = getChildren(code.toLowerCase());
+  const children = childrenObj.map((stateObj) => stateObj.code);
+  const codes = [code].concat(children);
+
   return {
-    lineCharts: await lineChart(code.toLowerCase()),
-    list: await list(code.toLowerCase()),
+    lineCharts: await lineChart(codes, childrenObj),
+    list: await list(codes, childrenObj),
   };
 }
