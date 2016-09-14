@@ -5,9 +5,10 @@ import _ from 'lodash';
 export default function layout(state) {
   let districtList = [];
 
-  if ('parent' in state) {
-    districtList = districtList.concat(_.filter(stateReference, { code: state.parent })); // add state page
-    districtList = districtList.concat(_.filter(stateReference, { parent: state.parent })); // add districts
+  if ('parent' in state || 'children' in state) {
+    const parentCode = state.parent || state.code;
+    districtList = districtList.concat(_.filter(stateReference, { code: parentCode })); // add state page
+    districtList = districtList.concat(_.filter(stateReference, { parent: parentCode })); // add districts
   }
 
   return districtList;
