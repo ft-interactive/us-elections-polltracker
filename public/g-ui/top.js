@@ -114,7 +114,7 @@ function clear_queue() {
 
 // Load the polyfill service with custom features. Exclude big unneeded polyfills.
 // and use ?callback= to clear the queue of scripts to load
-var defaultPolyfillFeatures = ['default-3.6', 'matchMedia', 'fetch|always|gated', 'IntersectionObserver', 'HTMLPictureElement'];
+var defaultPolyfillFeatures = ['default-3.6', 'matchMedia', 'fetch', 'IntersectionObserver', 'HTMLPictureElement'];
 
 var createPolyfillURL = function createPolyfillURL(features) {
   return 'https://cdn.polyfill.io/v2/polyfill.min.js?callback=clear_queue&features=' + features.join(',') + '&excludes=Symbol,Symbol.iterator,Symbol.species';
