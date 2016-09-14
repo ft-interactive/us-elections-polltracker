@@ -12,8 +12,16 @@
   {% endif %}
 {% endmacro %}
 
-{% macro Table(title, subtitle, list, startCollapse=20) %}
+{% macro Table(title, subtitle, listArray, startCollapse=20) %}
 <div id="individualpolls">
+{% for list in listArray %}
+  {% set code = list.code %}
+  {% set list = list.list %}
+  
+  {% if listArray.length > 1  %}
+    {% set title = "Full list of individual polls for " + code %}
+  {% endif %}
+  
   {% call PageElements.Figure(title=title, subtitle=subtitle) %}
     {% if list and list.length > 0 %}
       {% if list.length > startCollapse %}
@@ -59,5 +67,6 @@
     <p class="notavailable">Polls for this state are not available yet.</p>
     {% endif %}
   {% endcall %}
+{% endfor %}
 </div>
 {% endmacro %}

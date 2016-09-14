@@ -1,5 +1,6 @@
 import _ from 'underscore';
 import { isoFormat } from 'd3-time-format';
+import { getChildren } from '../lib/states';
 import getAllPolls from '../../layouts/getAllPolls';
 import getPollAverages from '../../layouts/getPollAverages';
 import layoutTimeSeries from '../../layouts/timeseries-layout';
@@ -48,36 +49,51 @@ export async function lineChart(code) {
 }
 
 export async function list(code) {
-  let allIndividualPolls = await getAllPolls(code.toLowerCase());
-  allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
-  allIndividualPolls = _.values(allIndividualPolls);
-  const formattedIndividualPolls = [];
-  _.each(allIndividualPolls, poll => {
-    let winner = '';
-    const clintonVal = _.findWhere(poll, { candidatename: 'Clinton' }).pollvalue;
-    const trumpVal = _.findWhere(poll, { candidatename: 'Trump' }).pollvalue;
+  const listArray = [];
+  const childrenObj = getChildren(code);
+  const children = childrenObj.map((stateObj) => stateObj.code);
+  const codes = [code].concat(children);
 
-    if (clintonVal > trumpVal) {
-      winner = 'Clinton';
+  for (let i = 0; i < codes.length; i++) {
+    code = codes[i];
+    let regionState = 'state';
+    const regionObj = _.findWhere(childrenObj, { code });
+    if (regionObj) {
+      regionState = regionObj.fullname;
     }
 
-    if (trumpVal > clintonVal) {
-      winner = 'Trump';
-    }
+    let allIndividualPolls = await getAllPolls(code.toLowerCase());
+    allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
+    allIndividualPolls = _.values(allIndividualPolls);
+    const formattedIndividualPolls = [];
+    _.each(allIndividualPolls, poll => {
+      let winner = '';
+      const clintonVal = _.findWhere(poll, { candidatename: 'Clinton' }).pollvalue;
+      const trumpVal = _.findWhere(poll, { candidatename: 'Trump' }).pollvalue;
 
-    // unshift instead of push because dates keep being in chron instead of reverse chron
-    // even when I change the pg query to order by endDate DESC
-    formattedIndividualPolls.unshift({
-      Clinton: _.findWhere(poll, { candidatename: 'Clinton' }).pollvalue,
-      Trump: _.findWhere(poll, { candidatename: 'Trump' }).pollvalue,
-      date: poll[0].date,
-      pollster: poll[0].pollster.replace(/\*$/, '').replace(/\//g, ', '), // get rid of asterisk b/c RCP doesn't track what it means
-      sampleSize: poll[0].sampleSize,
-      winner,
+      if (clintonVal > trumpVal) {
+        winner = 'Clinton';
+      }
+
+      if (trumpVal > clintonVal) {
+        winner = 'Trump';
+      }
+
+      // unshift instead of push because dates keep being in chron instead of reverse chron
+      // even when I change the pg query to order by endDate DESC
+      formattedIndividualPolls.unshift({
+        Clinton: _.findWhere(poll, { candidatename: 'Clinton' }).pollvalue,
+        Trump: _.findWhere(poll, { candidatename: 'Trump' }).pollvalue,
+        date: poll[0].date,
+        pollster: poll[0].pollster.replace(/\*$/, '').replace(/\//g, ', '), // get rid of asterisk b/c RCP doesn't track what it means
+        sampleSize: poll[0].sampleSize,
+        winner,
+      });
     });
-  });
 
-  return formattedIndividualPolls;
+    listArray.push({ code: regionState, list: formattedIndividualPolls });
+  }
+  return listArray;
 }
 
 export async function pollHistory(code) {
