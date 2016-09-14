@@ -263,6 +263,10 @@ p.notavailable {
   color: #666;
   font-size: 1em;
 }
+p.correction {
+  font-style: italic;
+  margin-top: 2em;
+}
 p.off-link{
   font-size: 24px;
   text-align: right;

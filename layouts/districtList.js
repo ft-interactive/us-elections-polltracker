@@ -6,7 +6,8 @@ export default function layout(state) {
   let districtList = [];
 
   if ('parent' in state) {
-    districtList = _.filter(stateReference, { parent: state.parent });
+    districtList = districtList.concat(_.filter(stateReference, { code: state.parent })); // add state page
+    districtList = districtList.concat(_.filter(stateReference, { parent: state.parent })); // add districts
   }
 
   return districtList;
