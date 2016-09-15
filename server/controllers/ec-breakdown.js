@@ -11,8 +11,8 @@ const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
 export default async (req, res) => {
   res.setHeader('Cache-Control', cacheControl);
   const stateLookup = await stateCount();
-  // classify the data
 
+  // classify the data and sort by electoral college votes
   const states = Object.keys(stateLookup)
     .map(function (key) {
       const state = stateLookup[key];
@@ -23,7 +23,9 @@ export default async (req, res) => {
     })
     .sort((a, b) => b.ecVotes - a.ecVotes);
 
-  console.log(states);
+  const groups = splitArray(states, function(d){ return d.forecast; });
+
+  console.log(groups);
   const layout = { title: 'breakdown', fontless: false };
   const html = await cache(
     'ec-breakdown-fontless:' + layout.fontless,
@@ -32,3 +34,14 @@ export default async (req, res) => {
 
   res.send(html);
 };
+
+function splitArray(a, keyFunction){
+  const o = {};
+  if(!keyFunction) keyFunction = function(d){ return String(d); };
+  a.forEach(function(d){
+    const key = keyFunction(d);
+    if(!o[key]) o[key] = [];
+    o[key].push(d);
+  })
+  return o;
+}
