@@ -5,6 +5,8 @@ const svgIntersections = require('svg-intersections');
 const intersect = svgIntersections.intersect;
 const shape = svgIntersections.shape;
 
+import { codeToName } from '../server/lib/states';
+
 // little utility functions
 const timeFormat = d3.timeFormat('%b %e, %Y');
 const timeFormatLong = d3.timeFormat('%B %e, %Y');
@@ -12,7 +14,6 @@ const timeFormatShort = d3.timeFormat('%b %e');
 const timeFormatMonth = d3.timeFormat('%b');
 const roundExtent = (ext, divisor) => [(ext[0] - ext[0] % divisor), (ext[1] + (divisor - ext[1] % divisor))];
 const round1dp = (x) => Math.round(x * 10) / 10;
-const stateByID = require('./stateIds').byID;
 
 // configuration
 const candidates = ['Trump', 'Clinton'];
@@ -54,7 +55,7 @@ function mergePolls(a, b, xScale, yScale) {
 function getTitle(state, width) {
   if (width < 450 && (state === 'us' || !state)) return 'Latest polls';
   if (state && state !== 'us') {
-    const stateName = stateByID[state.toUpperCase()].stateName;
+    const stateName = codeToName(state.toUpperCase());
     if (width < 450) return 'Latest polls: ' + stateName;
     return 'Which candidate is leading in ' + stateName + '?';
   }
