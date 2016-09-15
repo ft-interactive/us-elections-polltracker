@@ -5,7 +5,8 @@ const db = require('./models/index');
 const Pollaverages = require('./models/index').Pollaverages;
 const Polldata = require('./models/index').Polldata;
 const lastupdates = require('./models/index').lastupdates;
-const stateIds = require('./layouts/stateIds').states;
+const stateIds = require('./data/states');
+const nationalId = require('./data/national');
 
 // Pollaverages.sync({force: true}) // use this to drop table and recreate
 db.sequelize.sync();
@@ -141,9 +142,11 @@ function updateLastUpdatedDate() {
 }
 
 
-for (let i = 0; i < stateIds.length; i++) {
-  const state = stateIds[i].state.toLowerCase();
-  const raceId = stateIds[i].raceId;
+const allIds = stateIds.concat(nationalId);
+
+for (let i = 0; i < allIds.length; i++) {
+  const state = allIds[i].code.toLowerCase();
+  const raceId = allIds[i].raceId;
 
   if (raceId) {
     getPollAverageData(`http://www.realclearpolitics.com/poll/race/${raceId}/historical_data.json`, state, 2);
