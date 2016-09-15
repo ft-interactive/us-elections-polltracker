@@ -1,12 +1,40 @@
+{% if standalone %}<link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-grid@^4.2.1" />{% endif %}
+<style>
+.ec-breakdown-bar{
+     display:inline-block; 
+     background-color:#000;
+     height:100%;
+}
+
+.ec-breakdown-row{
+    height:20px;
+    overflow:hidden;
+}
+</style>
 <div>
     {{title}}
     <hr>
-    {% for group in order %}
-    <p>    {{ group }}
-        <ul>
-        {% for state in stateGroups[group] %}
-        <li>{{state.name}} {{state.ecVotes}}</li>
+<div class="o-grid-container">
+    <div class="o-grid-row">
+        {% for group in order %}
+        <div data-o-grid-colspan="2" class="ec-breakdown-column">
+            {% for state in stateGroups[group] %}
+            <div class="o-grid-row ec-breakdown-row">
+                <div data-o-grid-colspan="2">
+                    {{state.code}}
+                </div>
+                <div data-o-grid-colspan="8">
+                    <div style="width:{{ state.barPct }}%;" class="ec-breakdown-bar"></div>
+                </div>
+                <div data-o-grid-colspan="2">
+                    {{state.ecVotes}}
+                </div> 
+            </div>
+            {% endfor %}
+        </div>
         {% endfor %}
-        </ul>
-    {% endfor %}
+    </div>
+</div>
+
+    
 </div>
