@@ -292,6 +292,9 @@ function timeseriesLayout(data, opts) {
     };
   });
 
+  // pass in # of data points
+  layout.numPoints = data.length / candidates.length;
+
   return layout;
 }
 
