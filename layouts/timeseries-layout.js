@@ -84,6 +84,9 @@ function getSubtitle(date, width, state){
 function timeseriesLayout(data, opts) {
   if (!data || data.length < 1) return;
 
+  if (!opts.pollnumcandidates) {
+    opts.pollnumcandidates = 2;
+  }
   const candidates = candidateList.slice(0, opts.pollnumcandidates);
 
   const [svgWidth, svgHeight] = (opts.size || '600x300').split(/\D/); // split on non digit characters
