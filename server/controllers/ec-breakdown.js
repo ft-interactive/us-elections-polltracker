@@ -16,11 +16,12 @@ export default async (req, res) => {
   const states = Object.keys(stateLookup)
     .map(function (key) {
       const state = stateLookup[key];
-      const forecast = (state.code === 'ME' || state.code === 'ME') 
+      const forecast = (state.code === 'ME' || state.code === 'ME')
         ? classifyState.forecastMENE(state.margin) : classifyState.forecast(state.margin);
 
       return Object.assign({ forecast }, stateLookup[key]);
-    });
+    })
+    .sort((a, b) => b.ecVotes - a.ecVotes);
 
   console.log(states);
   const layout = { title: 'breakdown', fontless: false };
