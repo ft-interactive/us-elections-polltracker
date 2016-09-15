@@ -16,7 +16,7 @@ const roundExtent = (ext, divisor) => [(ext[0] - ext[0] % divisor), (ext[1] + (d
 const round1dp = (x) => Math.round(x * 10) / 10;
 
 // configuration
-const candidates = ['Trump', 'Clinton'];
+const candidateList = ['Trump', 'Clinton', 'Johnson', 'Stein'];
 const candidateColor = {
   Trump: {
     line: color.Trump,
@@ -25,6 +25,14 @@ const candidateColor = {
   Clinton: {
     line: color.Clinton,
     area: color.Clinton,
+  },
+  Johnson: {
+    line: color.Johnson,
+    area: color.Johnson,
+  },
+  Stein: {
+    line: color.Stein,
+    area: color.Stein,
   },
 };
 
@@ -75,6 +83,9 @@ function getSubtitle(date, width, state){
 // the actual layout function
 function timeseriesLayout(data, opts) {
   if (!data || data.length < 1) return;
+
+  const candidates = candidateList.slice(0, opts.pollnumcandidates);
+
   const [svgWidth, svgHeight] = (opts.size || '600x300').split(/\D/); // split on non digit characters
   const layout = {};
   const timeDomain = d3.extent(data, (d) => new Date(d.date));
