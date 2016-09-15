@@ -43,10 +43,12 @@ text{
 <g class="xAxis" transform="translate({{margin.left}},{{ height - (margin.bottom) }})" fill="none" font-size="10" font-family="sans-serif" text-anchor="middle">
     <line class="domain" stroke="#C3BCB0" x1="0" x2="{{ width - (margin.left+margin.right) }}" y1="0.5" y2="0.5"></line>
     {% for xTick in xTicks %}
+    {% if numPoints > 1 or loop.index == 1 %}
     <g class="tick" transform="translate( {{ xTick.position }} ,0)">
         <line stroke="#C3BCB0" {% if xTick.extent %}y2="18"{% else %}y2="6"{% endif %} x1="0.5" x2="0.5"></line>
         {% if xTick.important %}<text font-size="14px" fill="#6b6e68" y="2" x="0.5" {% if xTick.extent %}dy="18"{% else %}dy="1"{% endif %} {% if xTick.textanchor %} text-anchor="{{ xTick.textanchor }}" {% endif %} transform="translate(-2, 18)">{{ xTick.label }}</text>{% endif %}
     </g>
+    {% endif %}
     {% endfor %}
 </g>
 <g class="plot" transform="translate({{margin.left}},{{margin.top}})">
