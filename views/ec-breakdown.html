@@ -1,3 +1,12 @@
 <div>
     {{title}}
+    <hr>
+    {% for group in order %}
+    <p>    {{ group }}
+        <ul>
+        {% for state in stateGroups[group] %}
+        <li>{{state.name}} {{state.ecVotes}}</li>
+        {% endfor %}
+        </ul>
+    {% endfor %}
 </div>

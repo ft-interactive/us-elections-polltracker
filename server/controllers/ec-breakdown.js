@@ -23,10 +23,14 @@ export default async (req, res) => {
     })
     .sort((a, b) => b.ecVotes - a.ecVotes);
 
-  const groups = splitArray(states, function(d){ return d.forecast; });
+  const stateGroups = splitArray(states, function(d){ return d.forecast; });
+  const layout = { 
+    title: 'Electoral college breakdown', 
+    fontless: false, 
+    order: classifyState.forecast.range(),
+    stateGroups,  
+  };
 
-  console.log(groups);
-  const layout = { title: 'breakdown', fontless: false };
   const html = await cache(
     'ec-breakdown-fontless:' + layout.fontless,
     async () => render('ec-breakdown.html', layout)
