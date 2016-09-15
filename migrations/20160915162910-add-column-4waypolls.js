@@ -13,18 +13,16 @@ module.exports = {
     return [
       queryInterface.addColumn(
         'Pollaverages',
-        'pollNumCandidates',
+        'pollnumcandidates',
         {
           type: Sequelize.INTEGER,
-          defaultValue: null,
         }
       ),
       queryInterface.addColumn(
         'Polldata',
-        'pollNumCandidates',
+        'pollnumcandidates',
         {
           type: Sequelize.INTEGER,
-          defaultValue: null,
         }
       ),
     ];
@@ -39,8 +37,8 @@ module.exports = {
       return queryInterface.dropTable('users');
     */
     return [
-      queryInterface.removeColumn('Pollaverages', 'pollNumCandidates'),
-      queryInterface.removeColumn('Polldata', 'pollNumCandidates'),
+      queryInterface.removeColumn('Pollaverages', 'pollnumcandidates'),
+      queryInterface.removeColumn('Polldata', 'pollnumcandidates'),
     ];
   },
 };

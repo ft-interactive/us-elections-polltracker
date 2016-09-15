@@ -6,10 +6,10 @@ import layoutTimeSeries from '../../layouts/timeseries-layout';
 import { render } from '../nunjucks';
 import cache from './cache';
 
-async function pollAverages(start, end, state = 'us') {
+async function pollAverages(start, end, state = 'us', pollnumcandidates) {
   return await cache(
-    `dbAverages-${state}-${start}-${end}`,
-    async() => await getPollAverages(state, start, end)
+    `dbAverages-${state}-${start}-${end}-candidateNum${pollnumcandidates}`,
+    async() => await getPollAverages(state, start, end, pollnumcandidates)
   );
 }
 
@@ -17,14 +17,15 @@ export async function makePollTimeSeries(chartOpts) {
   const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-07-01 00:00:00';
   const endDate = chartOpts.endDate ? chartOpts.endDate : isoFormat(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';
-  const pollData = await pollAverages(startDate, endDate, state);
+  const pollnumcandidates = chartOpts.pollnumcandidates ? chartOpts.pollnumcandidates : 2;
+  const pollData = await pollAverages(startDate, endDate, state, pollnumcandidates);
   if (pollData && pollData.length > 0) {
     return render('templated-polls.svg', layoutTimeSeries(pollData, chartOpts));
   }
   return false;
 }
 
-async function getPollSVG(state, size = '600x300') {
+async function getPollSVG(state, size = '600x300', pollnumcandidates) {
   return makePollTimeSeries({
     fontless: true,
     notext: true,
@@ -34,21 +35,22 @@ async function getPollSVG(state, size = '600x300') {
     state,
     logo: false,
     margin: { top: 10, left: 35, bottom: 50, right: 90 },
+    pollnumcandidates,
   });
 }
 
-export async function lineChart(code) {
+export async function lineChart(code, pollnumcandidates) {
   return {
-    default: await getPollSVG(code, '355x200'),
-    S: await getPollSVG(code, '630x270'),
-    M: await getPollSVG(code, '603x270'),
-    L: await getPollSVG(code, '650x288'),
-    XL: await getPollSVG(code, '680x310'),
+    default: await getPollSVG(code, '355x200', pollnumcandidates),
+    S: await getPollSVG(code, '630x270', pollnumcandidates),
+    M: await getPollSVG(code, '603x270', pollnumcandidates),
+    L: await getPollSVG(code, '650x288', pollnumcandidates),
+    XL: await getPollSVG(code, '680x310', pollnumcandidates),
   };
 }
 
-export async function list(code) {
-  let allIndividualPolls = await getAllPolls(code.toLowerCase());
+export async function list(code, pollnumcandidates) {
+  let allIndividualPolls = await getAllPolls(code.toLowerCase(), pollnumcandidates);
   allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
   allIndividualPolls = _.values(allIndividualPolls);
   const formattedIndividualPolls = [];
@@ -81,8 +83,13 @@ export async function list(code) {
 }
 
 export async function pollHistory(code) {
+  let pollnumcandidates = 2;
+  if (code.toLowerCase() === 'us') {
+    pollnumcandidates = 4;
+  }
+
   return {
-    lineCharts: await lineChart(code.toLowerCase()),
-    list: await list(code.toLowerCase()),
+    lineCharts: await lineChart(code.toLowerCase(), pollnumcandidates),
+    list: await list(code.toLowerCase(), pollnumcandidates),
   };
 }
