@@ -11,8 +11,8 @@ module.exports = {
     */
 
     return [
-      queryInterface.sequelize.query('UPDATE "Pollaverages" SET pollNumCandidates = 2 WHERE pollNumCandidates = null;'),
-      queryInterface.sequelize.query('UPDATE "Polldata" SET pollNumCandidates = 2 WHERE pollNumCandidates = null;'),
+      queryInterface.sequelize.query('UPDATE "Pollaverages" SET "pollNumCandidates" = 2 WHERE "pollNumCandidates" IS NULL;'),
+      queryInterface.sequelize.query('UPDATE "Polldata" SET "pollNumCandidates" = 2 WHERE "pollNumCandidates" IS NULL;'),
     ];
   },
 
@@ -25,8 +25,8 @@ module.exports = {
       return queryInterface.dropTable('users');
     */
     return [
-      queryInterface.sequelize.query('UPDATE "Pollaverages" SET pollNumCandidates = null;'),
-      queryInterface.sequelize.query('UPDATE "Polldata" SET pollNumCandidates = null;'),
+      queryInterface.sequelize.query('UPDATE "Pollaverages" SET "pollNumCandidates" = null;'),
+      queryInterface.sequelize.query('UPDATE "Polldata" SET "pollNumCandidates" = null;'),
     ];
   },
 };

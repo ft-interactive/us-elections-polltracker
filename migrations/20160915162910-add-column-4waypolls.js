@@ -14,12 +14,18 @@ module.exports = {
       queryInterface.addColumn(
         'Pollaverages',
         'pollNumCandidates',
-        Sequelize.INTEGER
+        {
+          type: Sequelize.INTEGER,
+          defaultValue: null,
+        }
       ),
       queryInterface.addColumn(
         'Polldata',
         'pollNumCandidates',
-        Sequelize.INTEGER
+        {
+          type: Sequelize.INTEGER,
+          defaultValue: null,
+        }
       ),
     ];
   },
