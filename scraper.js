@@ -11,14 +11,14 @@ const nationalId = require('./data/national');
 // Pollaverages.sync({force: true}) // use this to drop table and recreate
 db.sequelize.sync();
 
-function addPollAveragesToDatabase(polldate, candidate, value, state, pollNumCandidates) {
+function addPollAveragesToDatabase(polldate, candidate, value, state, pollnumcandidates) {
   db.sequelize.transaction(function (t1) {
     return Pollaverages.findAll({
       where: {
         date: polldate,
         candidatename: candidate,
         state,
-        pollNumCandidates,
+        pollnumcandidates,
       },
     }).then(function(res) {
       if (res.length > 0) { // already in the db
@@ -31,18 +31,18 @@ function addPollAveragesToDatabase(polldate, candidate, value, state, pollNumCan
               id: res[0].dataValues.id,
             },
           });
-          winston.log('warn', `RCP value for ${candidate} on ${polldate} changed from ${res[0].dataValues.pollaverage} to ${value} in state ${state} (${pollNumCandidates}-way)`);
+          winston.log('warn', `RCP value for ${candidate} on ${polldate} changed from ${res[0].dataValues.pollaverage} to ${value} in state ${state} (${pollnumcandidates}-way)`);
         }
       } else {
-        Pollaverages.create({ date: polldate, candidatename: candidate, pollaverage: value, state }).then(function(poll) {
-          winston.log('info', `New poll average added for ${candidate} on ${polldate} with value ${value} in state ${state} (${pollNumCandidates}-way)`);
+        Pollaverages.create({ date: polldate, candidatename: candidate, pollaverage: value, state, pollnumcandidates }).then(function(poll) {
+          winston.log('info', `New poll average added for ${candidate} on ${polldate} with value ${value} in state ${state} (${pollnumcandidates}-way)`);
         });
       }
     });
   });
 }
 
-function getPollAverageData(rcpURL, state, pollNumCandidates) {
+function getPollAverageData(rcpURL, state, pollnumcandidates) {
   fetch(rcpURL).then(function(response) {
     response.json().then(function(rcpData) {
       const datapoints = rcpData.rcp_avg;
@@ -53,45 +53,45 @@ function getPollAverageData(rcpURL, state, pollNumCandidates) {
           const candidate = datapoint.candidate[j].name;
           const value = datapoint.candidate[j].value;
 
-          addPollAveragesToDatabase(polldate, candidate, value, state, pollNumCandidates);
+          addPollAveragesToDatabase(polldate, candidate, value, state, pollnumcandidates);
         }
       }
     });
   });
 }
 
-function addIndividualPollsToDatabase(rcpid, type, pollster, rcpUpdated, link, date, startDate, endDate, confidenceInterval, sampleSize, marginError, partisan, pollsterType, candidate, value, state, pollNumCandidates) {
+function addIndividualPollsToDatabase(rcpid, type, pollster, rcpUpdated, link, date, startDate, endDate, confidenceInterval, sampleSize, marginError, partisan, pollsterType, candidate, value, state, pollnumcandidates) {
   db.sequelize.transaction(function (t2) {
     return Polldata.findAll({
       where: {
         rcpid,
         candidatename: candidate,
         state,
-        pollNumCandidates,
+        pollnumcandidates,
       },
     }).then(function(res) {
       if (res.length > 0) { // already in the db
         // check to make sure value hasn't changed
         if (res[0].dataValues.pollvalue !== parseFloat(value)) {
           Polldata.update({
-            pollvalue: value
+            pollvalue: value,
           }, {
             where: {
               id: res[0].dataValues.id,
             },
           });
-          winston.log('warn', `RCP value for ${candidate} with id ${rcpid} changed from ${res[0].dataValues.pollvalue} to ${value} in state ${state} (${pollNumCandidates}-way)`);
+          winston.log('warn', `RCP value for ${candidate} with id ${rcpid} changed from ${res[0].dataValues.pollvalue} to ${value} in state ${state} (${pollnumcandidates}-way)`);
         }
       } else {
-        Polldata.create({ rcpid, pollster, rcpUpdated, link, date, startDate, endDate, confidenceInterval, sampleSize, marginError, partisan, pollsterType, candidatename: candidate, pollvalue: value, state, pollNumCandidates }).then(function(poll) {
-          winston.log('info', `New individual poll added for ${candidate} with id ${rcpid} and pollster ${pollster} with value ${value} in state ${state} (${pollNumCandidates}-way)`);
+        Polldata.create({ rcpid, pollster, rcpUpdated, link, date, startDate, endDate, confidenceInterval, sampleSize, marginError, partisan, pollsterType, candidatename: candidate, pollvalue: value, state, pollnumcandidates }).then(function(poll) {
+          winston.log('info', `New individual poll added for ${candidate} with id ${rcpid} and pollster ${pollster} with value ${value} in state ${state} (${pollnumcandidates}-way)`);
         });
       }
     });
   });
 }
 
-function getIndividualPollData(rcpURL, state, pollNumCandidates) {
+function getIndividualPollData(rcpURL, state, pollnumcandidates) {
   fetch(rcpURL).then((response) => {
     response.json().then((rcpData) => {
       const polls = rcpData.poll;
@@ -114,7 +114,7 @@ function getIndividualPollData(rcpURL, state, pollNumCandidates) {
           for (let j = 0; j < poll.candidate.length; j ++) {
             const candidate = poll.candidate[j].name;
             const value = poll.candidate[j].value;
-            addIndividualPollsToDatabase(rcpid, type, pollster, rcpUpdated, link, date, startDate, endDate, confidenceInterval, sampleSize, marginError, partisan, pollsterType, candidate, value, state, pollNumCandidates);
+            addIndividualPollsToDatabase(rcpid, type, pollster, rcpUpdated, link, date, startDate, endDate, confidenceInterval, sampleSize, marginError, partisan, pollsterType, candidate, value, state, pollnumcandidates);
           }
         }
       }
