@@ -31,11 +31,11 @@ function addPollAveragesToDatabase(polldate, candidate, value, state, pollNumCan
               id: res[0].dataValues.id,
             },
           });
-          winston.log('warn', 'RCP value for '+candidate+' on '+polldate+' changed from '+res[0].dataValues.pollaverage+' to '+value + ' in state ' + state + '(' + pollNumCandidates + '-way)');
+          winston.log('warn', `RCP value for ${candidate} on ${polldate} changed from ${res[0].dataValues.pollaverage} to ${value} in state ${state} (${pollNumCandidates}-way)`);
         }
       } else {
-        Pollaverages.create({ date: polldate, candidatename: candidate, pollaverage: value, state: state }).then(function(poll) {
-          winston.log('info', 'New poll average added for '+candidate+' on '+polldate+' with value '+value + ' in state ' + state + '(' + pollNumCandidates + '-way)');
+        Pollaverages.create({ date: polldate, candidatename: candidate, pollaverage: value, state }).then(function(poll) {
+          winston.log('info', `New poll average added for ${candidate} on ${polldate} with value ${value} in state ${state} (${pollNumCandidates}-way)`);
         });
       }
     });
@@ -80,11 +80,11 @@ function addIndividualPollsToDatabase(rcpid, type, pollster, rcpUpdated, link, d
               id: res[0].dataValues.id,
             },
           });
-          winston.log('warn', 'RCP value for '+candidate+' with id '+rcpid+' changed from '+res[0].dataValues.pollvalue+' to '+value + ' in state ' + state + '(' + pollNumCandidates + '-way)');
+          winston.log('warn', `RCP value for ${candidate} with id ${rcpid} changed from ${res[0].dataValues.pollvalue} to ${value} in state ${state} (${pollNumCandidates}-way)`);
         }
       } else {
         Polldata.create({ rcpid, pollster, rcpUpdated, link, date, startDate, endDate, confidenceInterval, sampleSize, marginError, partisan, pollsterType, candidatename: candidate, pollvalue: value, state, pollNumCandidates }).then(function(poll) {
-          winston.log('info', 'New individual poll added for '+candidate+' with id '+rcpid+' and pollster '+pollster+' with value '+value + ' in state ' + state + '(' + pollNumCandidates + '-way)');
+          winston.log('info', `New individual poll added for ${candidate} with id ${rcpid} and pollster ${pollster} with value ${value} in state ${state} (${pollNumCandidates}-way)`);
         });
       }
     });
@@ -147,10 +147,16 @@ const allIds = stateIds.concat(nationalId);
 for (let i = 0; i < allIds.length; i++) {
   const state = allIds[i].code.toLowerCase();
   const raceId = allIds[i].raceId;
+  const raceId4Way = allIds[i].raceId4Way;
 
   if (raceId) {
     getPollAverageData(`http://www.realclearpolitics.com/poll/race/${raceId}/historical_data.json`, state, 2);
     getIndividualPollData(`http://www.realclearpolitics.com/poll/race/${raceId}/polling_data.json`, state, 2);
+  }
+
+  if (raceId4Way) {
+    getPollAverageData(`http://www.realclearpolitics.com/poll/race/${raceId4Way}/historical_data.json`, state, 4);
+    getIndividualPollData(`http://www.realclearpolitics.com/poll/race/${raceId4Way}/polling_data.json`, state, 4);
   }
 }
 
