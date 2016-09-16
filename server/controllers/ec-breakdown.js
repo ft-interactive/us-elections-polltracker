@@ -14,7 +14,7 @@ export default async (req, res) => {
 
   const html = await cache(
     'ec-breakdown-fontless:' + layout.fontless,
-    async () => render('ec-breakdown.html', layout)
+    async () => render('ec-breakdown.html', { layout })
   );
 
   res.send(html);

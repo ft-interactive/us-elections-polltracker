@@ -53,7 +53,7 @@ export default function (stateLookup) {
     title: 'Electoral college breakdown',
     standalone: true,
     fontless: true,
-    order: classifyState.forecast.range(),
+    order: classifyState.forecast.range().reverse(),
     stateGroups,
     groupNames,
     color,
