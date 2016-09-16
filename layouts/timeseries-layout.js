@@ -116,6 +116,7 @@ function timeseriesLayout(data, opts) {
       bottom: 70,
     },
     color,
+    pollnumcandidates: opts.pollnumcandidates,
   });
 
   // make the scales
