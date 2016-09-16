@@ -791,7 +791,7 @@ a {
 .demographic-container {
   width: 48%;
   display: inline-block;
-  vertical-align: top;
+  /*vertical-align: top;*/
   text-align: center;
   margin-top: 2em;
 }
