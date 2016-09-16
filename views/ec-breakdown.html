@@ -4,12 +4,19 @@
      display:inline-block; 
      background-color:#000;
      height:100%;
+     color:#FFF;
 }
 
 .ec-breakdown-row{
     height:20px;
     overflow:hidden;
 }
+
+.ec-breakdown-header{
+    align-items: center;
+    justify-content: center;
+}
+
 </style>
 <div>
     {{title}}
@@ -17,19 +24,17 @@
 <div class="o-grid-container">
     <div class="o-grid-row">
         {% for group in order %}
-        <div data-o-grid-colspan="2" class="ec-breakdown-column">
+        <div data-o-grid-colspan="12 S2" class="ec-breakdown-column">
+            <div class="o-grid-row ec-breakdown-row ec-breakdown-header">{{ groupNames[group] }}</div>
             {% for state in stateGroups[group] %}
             <div class="o-grid-row ec-breakdown-row">
                 <div data-o-grid-colspan="2">
                     {{state.code}}
                 </div>
-                <div data-o-grid-colspan="8">
-                    <div style="width:{{ state.barPct }}%;" class="ec-breakdown-bar"></div>
+                <div data-o-grid-colspan="10">
+                    <div style="width:{{ state.barPct }}%;" class="ec-breakdown-bar">{{state.ecVotes}}</div>
                 </div>
-                <div data-o-grid-colspan="2">
-                    {{state.ecVotes}}
-                </div> 
-            </div>
+                </div>
             {% endfor %}
         </div>
         {% endfor %}

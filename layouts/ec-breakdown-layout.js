@@ -1,23 +1,31 @@
 import classifyState from './state-classifications';
 
+const groupNames = {
+  swing: 'Toss-up',
+  leaningRep: 'Leaning R',
+  rep: 'Republican',
+  dem: 'Democrat',
+  leaningDem: 'Leaning D',
+};
+
 function splitArray(a, keyFunction) {
-    const o = {};
-    if (!keyFunction) keyFunction = function (d) { return String(d); };
-    a.forEach(function (d) {
-        const key = keyFunction(d);
-        if (!o[key]) o[key] = [];
-        o[key].push(d);
+  const o = {};
+  if (!keyFunction) keyFunction = function (d) { return String(d); };
+  a.forEach(function (d) {
+      const key = keyFunction(d);
+      if (!o[key]) o[key] = [];
+      o[key].push(d);
     });
-    return o;
+  return o;
 }
 
-function combineMENE(lookup){
-    //get a list a 
-    return lookup;
+function combineMENE(lookup) {
+    // get a list a
+  return lookup;
 }
 
-function percentOfCA(votes){ // electoral votes as a proportion of california i.e. california bar is 100% of available width  
-    return votes/55 * 100;
+function percentOfCA(votes) { // electoral votes as a proportion of california i.e. california bar is 100% of available width
+  return votes / 55 * 100;
 }
 
 export default function (stateLookup) {
@@ -28,13 +36,13 @@ export default function (stateLookup) {
           const forecast = (state.code === 'ME' || state.code === 'ME')
             ? classifyState.forecastMENE(state.margin) : classifyState.forecast(state.margin);
 
-          return { 
-                forecast,
-                name:stateLookup[key].name,
-                code:stateLookup[key].code,
-                ecVotes:stateLookup[key].ecVotes,
-                barPct:percentOfCA(stateLookup[key].ecVotes),
-            };
+          return {
+            forecast,
+            name: stateLookup[key].name,
+            code: stateLookup[key].code,
+            ecVotes: stateLookup[key].ecVotes,
+            barPct: percentOfCA(stateLookup[key].ecVotes),
+          };
         })
         .sort((a, b) => b.ecVotes - a.ecVotes);
 
@@ -46,5 +54,6 @@ export default function (stateLookup) {
     fontless: true,
     order: classifyState.forecast.range(),
     stateGroups,
+    groupNames,
   };
 }
