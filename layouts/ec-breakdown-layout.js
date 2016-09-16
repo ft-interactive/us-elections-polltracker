@@ -50,7 +50,7 @@ export default function (stateLookup) {
   const stateGroups = splitArray(states, function (d) { return d.forecast; });
 
   return {
-    title: 'Electoral college breakdown',
+    title: 'How the states stack up',
     standalone: true,
     fontless: true,
     order: classifyState.forecast.range().reverse(),

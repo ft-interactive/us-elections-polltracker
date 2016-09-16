@@ -1,37 +1,20 @@
 {% macro ECBreakdown(layout) %}
-<style>
-.ec-breakdown-bar{
-     display:inline-block; 
-     background-color:#000;
-     height:100%;
-     color:#FFF;
-}
-
-.ec-breakdown-row{
-    height:20px;
-    overflow:hidden;
-}
-
-.ec-breakdown-header{
-    align-items: center;
-    justify-content: center;
-}
-
-</style>
 <div>
-    {{ layout.title }}
-    <hr>
+    <div class="o-grid-container">
+        <div class="o-grid-row"><h2 class="article-figure__heading">{{ layout.title }}</h2ß></div>
+    </div>
+
     <div class="o-grid-container">
         <div class="o-grid-row">
             {% for group in layout.order %}
-            <div data-o-grid-colspan="12 S2" class="ec-breakdown-column">
+            <div data-o-grid-colspan="12 S2 Spush1" class="ec-breakdown-column">
                 <div class="o-grid-row ec-breakdown-row ec-breakdown-header">{{ layout.groupNames[group] }}</div>
                 {% for state in layout.stateGroups[group] %}
                 <div class="o-grid-row ec-breakdown-row">
-                    <div data-o-grid-colspan="2">
+                    <div data-o-grid-colspan="2" class="ec-breakdown-statelabel">
                         {{state.code}}
                     </div>
-                    <div data-o-grid-colspan="10">
+                    <div data-o-grid-colspan="9">
                         <div style="width:{{ state.barPct }}%; background-color:{{ color[group] }};" class="ec-breakdown-bar">{{state.ecVotes}}</div>
                     </div>
                     </div>
@@ -42,3 +25,21 @@
     </div>
 </div>
 {% endmacro %}
+
+{# test layout #}
+<html>
+    <head>
+        <tite> {{ title }} </tite>
+        
+<link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-grid@^4.2.1">
+<link rel="stylesheet" href="g-ui/main.css">
+<link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+        <main role="main">
+        <article class="article" itemscope itemtype="http://schema.org/Article">
+        <div>
+        {{ECBreakdown(layout)}}
+        </div>    
+    </body>
+</html>

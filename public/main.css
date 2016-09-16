@@ -969,3 +969,26 @@ tbody .state-winners-table__year {
 .state-winners-table__winning-pct-federal-figure {
   padding-right: 0;
 }
+
+/* electoral college breakdown*/
+
+.ec-breakdown-bar{
+     display:inline-block; 
+     background-color:#000;
+     height:100%;
+     color:#FFF;
+}
+
+.ec-breakdown-row{
+    height:20px;
+    overflow:hidden;
+}
+
+.ec-breakdown-header{
+    align-items: center;
+    justify-content: center;
+}
+
+.ec-breakdown-statelabel{
+    overflow:visible;
+}
