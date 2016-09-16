@@ -83,7 +83,7 @@ export async function list(code, pollnumcandidates) {
 }
 
 export async function pollHistory(code) {
-  let pollnumcandidates = 2;
+  let pollnumcandidates = 4;
   if (code.toLowerCase() === 'us') {
     pollnumcandidates = 4;
   }
