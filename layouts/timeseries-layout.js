@@ -247,7 +247,7 @@ function timeseriesLayout(data, opts) {
       const currentSection = sections[sections.length - 1];
       const previousLead = currentSection[currentSection.length - 1].lead;
       // if it's a different leader from the poll currently being considered then make a new array and push it that as a new section
-      if (previousLead !== current.lead && current.lead !== 'tie') {
+      if (previousLead !== current.lead) {
         sections.push([current]);
       } else {
         currentSection.push(current);
