@@ -294,7 +294,7 @@ function timeseriesLayout(data, opts) {
   layout.candidateEndPoints = pollsByCandidate.map(function (d) {
     const lastPoll = d.polls[d.polls.length - 1];
     let labelOffset = 10;
-    if (d.name === currentLeader) labelOffset = 0;
+    if (d.name === currentLeader || d.name === 'Johnson') labelOffset = 0;
 
     return {
       cx: round1dp(xScale(lastPoll.date)),
