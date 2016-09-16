@@ -499,7 +499,8 @@ a {
   }
 }
 
-@media (max-width: 400px) {
+/** Mobile fixes for national bar **/
+@media (max-width: 490px) {
   .national-bar--head-icons {
     display: none;
   }
@@ -514,6 +515,7 @@ a {
 
   #national-bar-legend {
     margin-top: 80px;
+    margin-bottom: 20px;
   }
 }
 
