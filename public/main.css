@@ -1084,7 +1084,7 @@ tbody .state-winners-table__year {
   display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 979px) {
   .button__show-nav {
     display: block;
     position: fixed;
