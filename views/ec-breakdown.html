@@ -32,7 +32,7 @@
                     {{state.code}}
                 </div>
                 <div data-o-grid-colspan="10">
-                    <div style="width:{{ state.barPct }}%;" class="ec-breakdown-bar">{{state.ecVotes}}</div>
+                    <div style="width:{{ state.barPct }}%; background-color:{{ color[group] }};" class="ec-breakdown-bar">{{state.ecVotes}}</div>
                 </div>
                 </div>
             {% endfor %}

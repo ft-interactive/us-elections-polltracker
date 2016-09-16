@@ -1,4 +1,5 @@
 import classifyState from './state-classifications';
+import color from './color';
 
 const groupNames = {
   swing: 'Toss-up',
@@ -55,5 +56,6 @@ export default function (stateLookup) {
     order: classifyState.forecast.range(),
     stateGroups,
     groupNames,
+    color,
   };
 }
