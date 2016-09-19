@@ -53,6 +53,11 @@ async function latestAveragesByState() {
 
 export default async () => {
   const overrides = await getOverrides();
+  // temp overrides for current demo
+  overrides.set('IN', -8); 
+  overrides.set('NJ', 12);
+  overrides.set('CT', 8);
+  overrides.set('MD', 12);
   const latestAverages = await latestAveragesByState();
 
   return getSimpleList().map(state => {
