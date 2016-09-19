@@ -18,7 +18,7 @@ export async function makePollTimeSeries(chartOpts) {
   const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-07-01 00:00:00';
   const endDate = chartOpts.endDate ? chartOpts.endDate : isoFormat(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';
-  const pollnumcandidates = chartOpts.pollnumcandidates ? chartOpts.pollnumcandidates : 2;
+  const pollnumcandidates = chartOpts.pollnumcandidates ? chartOpts.pollnumcandidates : getPollNumCandidatesByCode(state.toUpperCase()) || 4;
   const pollData = await pollAverages(startDate, endDate, state, pollnumcandidates);
   if (pollData && pollData.length > 0) {
     return render('templated-polls.svg', layoutTimeSeries(pollData, chartOpts));
