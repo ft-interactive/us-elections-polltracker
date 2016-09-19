@@ -92,12 +92,15 @@ export async function pollHistory(code) {
   const endDate = isoFormat(new Date());
   const pollData = await pollAverages(startDate, endDate, code.toLowerCase(), pollnumcandidates);
   const latestAveragesData = pollData.reverse().slice(0, pollnumcandidates);
-  const latestAverages = {
-    Clinton: _.findWhere(latestAveragesData, { candidatename: 'Clinton' }).pollaverage,
-    Trump: _.findWhere(latestAveragesData, { candidatename: 'Trump' }).pollaverage,
-    Johnson: _.findWhere(latestAveragesData, { candidatename: 'Johnson' }).pollaverage,
-    Stein: _.findWhere(latestAveragesData, { candidatename: 'Stein' }).pollaverage,
-  };
+  let latestAverages = {};
+  if (latestAveragesData.length > 0) {
+    latestAverages = {
+      Clinton: _.findWhere(latestAveragesData, { candidatename: 'Clinton' }).pollaverage,
+      Trump: _.findWhere(latestAveragesData, { candidatename: 'Trump' }).pollaverage,
+      Johnson: _.findWhere(latestAveragesData, { candidatename: 'Johnson' }).pollaverage,
+      Stein: _.findWhere(latestAveragesData, { candidatename: 'Stein' }).pollaverage,
+    };
+  }
 
   return {
     lineCharts: await lineChart(code.toLowerCase(), pollnumcandidates),
