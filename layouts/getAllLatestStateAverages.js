@@ -1,8 +1,8 @@
 const db = require('../models/index');
 
-// runs a psql query to get the latest 2-candidate polling averages for all states
-export default () =>
+// runs a psql query to get the latest polling averages for all states (choose 3 or 4-way based on getPollNumCandidatesByCode)
+export default (pollnumcandidates) =>
   db.sequelize.query(
-    'SELECT * FROM (SELECT ROW_NUMBER() OVER (PARTITION BY state ORDER BY date DESC) AS r, t.* FROM (SELECT * FROM "Pollaverages" WHERE pollnumcandidates = 4) t) x WHERE x.r <= 4;',
+    `SELECT * FROM (SELECT ROW_NUMBER() OVER (PARTITION BY state ORDER BY date DESC) AS r, t.* FROM (SELECT * FROM "Pollaverages" WHERE pollnumcandidates = ${pollnumcandidates}) t) x WHERE x.r <= ${pollnumcandidates};`,
     { type: db.sequelize.QueryTypes.SELECT }
   );

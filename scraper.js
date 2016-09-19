@@ -147,11 +147,17 @@ const allIds = stateIds.concat(nationalId);
 for (let i = 0; i < allIds.length; i++) {
   const state = allIds[i].code.toLowerCase();
   const raceId = allIds[i].raceId;
+  const raceId3Way = allIds[i].raceId3Way;
   const raceId4Way = allIds[i].raceId4Way;
 
   if (raceId) {
     getPollAverageData(`http://www.realclearpolitics.com/poll/race/${raceId}/historical_data.json`, state, 2);
     getIndividualPollData(`http://www.realclearpolitics.com/poll/race/${raceId}/polling_data.json`, state, 2);
+  }
+
+  if (raceId3Way) {
+    getPollAverageData(`http://www.realclearpolitics.com/poll/race/${raceId3Way}/historical_data.json`, state, 3);
+    getIndividualPollData(`http://www.realclearpolitics.com/poll/race/${raceId3Way}/polling_data.json`, state, 3);
   }
 
   if (raceId4Way) {
