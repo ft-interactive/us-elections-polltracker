@@ -84,11 +84,7 @@ function getSubtitle(date, width, state){
 function timeseriesLayout(data, opts) {
   if (!data || data.length < 1) return;
 
-  if (!opts.pollnumcandidates) {
-    opts.pollnumcandidates = 4;
-  }
-
-  opts.pollnumcandidates = 2; // override change this later
+  opts.pollnumcandidates = 2; // always only display Clinton/Trump lines
 
   const candidates = candidateList.slice(0, opts.pollnumcandidates);
 
