@@ -1,5 +1,6 @@
 import Page from './page';
 import { getBySlug } from '../lib/states';
+import getStateSummary from '../lib/getStateSummary';
 import referenceData from '../../layouts/stateDemographics';
 import historicalDataTable from '../../layouts/historicalDataTable';
 import demographicBarcode from '../../layouts/demographicBarcode';
@@ -31,6 +32,7 @@ class StatePage extends Page {
 
   async ready() {
     await this.pready();
+    this.summaryData = await getStateSummary(this.state);
   }
 }
 

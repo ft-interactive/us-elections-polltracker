@@ -823,6 +823,202 @@ a {
   }
 }
 
+.state-page__summary .o-buttons.o-buttons--standout {
+  border: none;
+  color: white;
+}
+
+.state-page__summary .o-buttons.button__state-ec-votes {
+  background: #FFFFFF !important;
+  color: #AAA89E;
+}
+
+.state-page__summary .o-buttons.button__state-ec-votes figure {
+  display: inline;
+}
+
+.state-page__summary .o-icons-icon {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 0 3px;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+}
+
+.state-page__summary .o-buttons--standout[aria-selected=true].button__state-status__dem {
+  background-color: #579dd5 !important;
+}
+
+.state-page__summary .o-buttons.button__state-ec-votes.dem {
+  border-color: #579dd5;
+}
+
+.state-page__summary .o-buttons.button__state-ec-votes.dem figure {
+  co579dd5;
+}
+
+.state-page__summary .o-icons-icon.o-icons-icon--arrow-up__dem {
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-up?source=o-icons&tint=%23579dd5,%23579dd5&format=svg);
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-up?source=o-icons&tint=%23579dd5,%23579dd5&format=png&width=14)\9;
+}
+
+.state-page__summary .o-icons-icon.o-icons-icon--arrow-down__dem {
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-down?source=o-icons&tint=%23579dd5,%23579dd5&format=svg);
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-down?source=o-icons&tint=%23579dd5,%23579dd5&format=png&width=14)\9;
+}
+
+.state-page__summary .o-buttons--standout[aria-selected=true].button__state-status__leaningDem {
+  background-color: #a2c1e1 !important;
+}
+
+.state-page__summary .o-buttons.button__state-ec-votes.leaningDem {
+  border-color: #a2c1e1;
+}
+.state-page__summary .o-buttons.button__state-ec-votes.leaningDem figure {
+  color: #a2c1e1a2c1e1;
+}
+
+.state-page__summary .o-icons-icon.o-icons-icon--arrow-up__leaningDem {
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-up?source=o-icons&tint=%23a2c1e1,%23a2c1e1&format=svg);
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-up?source=o-icons&tint=%23a2c1e1,%23a2c1e1&format=png&width=14)\9;
+}
+
+.state-page__summary .o-icons-icon.o-icons-icon--arrow-down__leaningDem {
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-down?source=o-icons&tint=%23a2c1e1,%23a2c1e1&format=svg);
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-down?source=o-icons&tint=%23a2c1e1,%23a2c1e1&format=png&width=14)\9;
+}
+
+.state-page__summary .o-buttons--standout[aria-selected=true].button__state-status__rep {
+  background-color: #e03d46 !important;
+}
+
+.state-page__summary .o-buttons.button__state-ec-votes.rep {
+  border-color: #e03d46;
+}
+
+.state-page__summary .o-buttons.button__state-ec-votes.rep figure {
+  color: #e03d46;
+}
+
+.state-page__summary .o-icons-icon.o-icons-icon--arrow-up__rep {
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-up?source=o-icons&tint=%23e03d46,%23e03d46&format=svg);
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-up?source=o-icons&tint=%23e03d46,%23e03d46&format=png&width=14)\9;
+}
+
+.state-page__summary .o-icons-icon.o-icons-icon--arrow-down__rep {
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-down?source=o-icons&tint=%23e03d46,%23e03d46&format=svg);
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-down?source=o-icons&tint=%23e03d46,%23e03d46&format=png&width=14)\9;
+}
+
+.state-page__summary .o-buttons--standout[aria-selected=true].button__state-status__leaningRep {
+  background-color: #f4a098 !important;
+}
+
+.state-page__summary .o-buttons.button__state-ec-votes.leaningRep {
+  border-color: #f4a098;
+}
+
+.state-page__summary .o-buttons.button__state-ec-votes.leaningRep figure {
+  color: #f4a098;
+}
+
+.state-page__summary .o-icons-icon.o-icons-icon--arrow-up__leaningRep {
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-up?source=o-icons&tint=%23f4a098,%23f4a098&format=svg);
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-up?source=o-icons&tint=%23f4a098,%23f4a098&format=png&width=14)\9;
+}
+
+.state-page__summary .o-icons-icon.o-icons-icon--arrow-down__leaningRep {
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-down?source=o-icons&tint=%23f4a098,%23f4a098&format=svg);
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-down?source=o-icons&tint=%23f4a098,%23f4a098&format=png&width=14)\9;
+}
+
+.state-page__summary .o-buttons--standout[aria-selected=true].button__state-status__swing {
+  background-color: #fcc83c !important;
+}
+
+.state-page__summary .o-buttons.button__state-ec-votes.swing {
+  border-color: #fcc83c;
+}
+
+.state-page__summary .o-buttons.button__state-ec-votes.swing figure {
+  color: #fcc83c;
+}
+
+.state-page__summary .o-icons-icon.o-icons-icon--arrow-up__swing {
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-up?source=o-icons&tint=%23fcc83c,%23fcc83c&format=svg);
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-up?source=o-icons&tint=%23fcc83c,%23fcc83c&format=png&width=14)\9;
+}
+
+.state-page__summary .o-icons-icon.o-icons-icon--arrow-down__swing {
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-down?source=o-icons&tint=%23fcc83c,%23fcc83c&format=svg);
+  background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-down?source=o-icons&tint=%23fcc83c,%23fcc83c&format=png&width=14)\9;
+}
+
+.state-page__summary .graphic__ecvotes--circles {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-top: 1em;
+}
+
+.state-page__summary .graphic__ecvotes--circles .circle--group {
+  display: block;
+  margin-right: .75em;
+  /*margin-bottom: 1em;*/
+  margin-bottom: 0em;
+}
+
+.state-page__summary .graphic__ecvotes--circles .circle--group .circle {
+  border-radius: 50%;
+  border: 1px solid #CAC6C1;
+  width: .75em;
+  height: .75em;
+  display: inline-block;
+  background-color: #D9CDBE;
+}
+
+@media (max-width: 500px) {
+  .state-page__summary .o-buttons {
+    font-size: 1em;
+  }
+
+  .state-page__summary .graphic__ecvotes--circles .circle--group {
+    margin-right: 0.5em;
+  }
+
+  .state-page__summary .graphic__ecvotes--circles .circle--group .circle {
+    width: 0.5em;
+    height: 0.5em;
+  }
+}
+
+.state-page__summary .graphic__ecvotes--circles.dem .circle.highlighted {
+  background-color: hsl(207, 60%, 59%);
+  border-color: hsl(207, 60%, 39%);
+}
+
+.state-page__summary .graphic__ecvotes--circles.leaningDem .circle.highlighted {
+  background-color: hsl(210, 51%, 76%);
+  border-color: hsl(210, 51%, 56%);
+}
+
+.state-page__summary .graphic__ecvotes--circles.rep .circle.highlighted {
+  background-color: hsl(357, 72%, 56%);
+  border-color: hsl(357, 72%, 36%);
+}
+
+.state-page__summary .graphic__ecvotes--circles.leaningRep .circle.highlighted {
+  background-color: hsl(5, 81%, 78%);
+  border-color: hsl(5, 81%, 58%);
+}
+
+.state-page__summary .graphic__ecvotes--circles.swing .circle.highlighted {
+  background-color: hsl(44, 97%, 61%);
+  border-color: hsl(44, 97%, 41%);
+}
+
+
 #demographic-wrapper {
   width: 100%;
   margin-top: -1em;
