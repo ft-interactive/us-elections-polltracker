@@ -4,6 +4,7 @@ const d3 = require('d3');
 const svgIntersections = require('svg-intersections');
 const intersect = svgIntersections.intersect;
 const shape = svgIntersections.shape;
+const _ = require('underscore');
 
 import { codeToName } from '../server/lib/states';
 
@@ -240,62 +241,164 @@ function timeseriesLayout(data, opts) {
     shape('path', { d: layout.candidateLines[1].d })
   );
 
-// produce the array of areas
-  const areas = mergePolls(pollsByCandidate[0], pollsByCandidate[1], xScale, yScale)
-    .reduce(function (sections, current) {
-      // if there are no sections make the first
-      if (sections.length === 0) {
-        sections.push([current]);
-        return sections;
-      }
-      // otherwise, get the leader in last poll in the last available section
-      const currentSection = sections[sections.length - 1];
-      const previousLead = currentSection[currentSection.length - 1].lead;
-      // if it's a different leader from the poll currently being considered then make a new array and push it that as a new section
-      if (previousLead !== current.lead) {
-        sections.push([current]);
-      } else {
-        currentSection.push(current);
-      }
-      // insert the current poll into the last array in the array of sections
-      return sections;
-    }, []);
+  const formattedData = mergePolls(pollsByCandidate[0], pollsByCandidate[1], xScale, yScale);
 
-  const areaPath = d3.area()
-    .x(d => round1dp(d.x))
-    .y0(d => round1dp(d[candidates[0] + '_y']))
-    .y1(d => round1dp(d[candidates[1] + '_y']));
+  let filteredFormattedData = [];
+  layout.candidateAreas = [];
+  let areaColor = 'grey';
 
-  layout.candidateAreas = areas.map(function (d, i, a) {
-    const leader = d[0].lead;
-    const section = d;
-    const startIntersection = intersections.points[i - 1];
-    const endIntersection = intersections.points[i];
-    if (startIntersection) {
-      section.unshift({
-        x: startIntersection.x,
-        [candidates[0] + '_y']: startIntersection.y,
-        [candidates[1] + '_y']: startIntersection.y,
+  const convertAreaData = d3.area()
+    .x(d => round1dp(xScale(new Date(d.date))))
+    .y0(d => round1dp(yScale(d.Clinton)))
+    .y1(d => round1dp(yScale(d.Trump)));
+
+  if (intersections.points.length > 0) {
+    let firstDataPointDate = new Date(formattedData[0].date);
+    let lastDataPointDate;
+    let point = intersections.points[0];
+    let pointDate = new Date(xScale.invert(point.x));
+    let pointValue = yScale.invert(point.y);
+    filteredFormattedData = _.filter(
+      formattedData,
+      row => new Date(row.date) >= firstDataPointDate && new Date(row.date) < pointDate
+    );
+    filteredFormattedData.push({
+      date: pointDate,
+      Clinton: pointValue,
+      Trump: pointValue,
+    });
+    if (formattedData[0].Clinton > formattedData[0].Trump) {
+      areaColor = candidateColor.Clinton.area;
+    } else {
+      areaColor = candidateColor.Trump.area;
+    }
+
+    layout.candidateAreas.push({
+      d: convertAreaData(filteredFormattedData),
+      fill: areaColor,
+    });
+
+    for (let i = 0; i < intersections.points.length; i++) {
+      point = intersections.points[i];
+      pointDate = new Date(xScale.invert(point.x));
+      pointValue = yScale.invert(point.y);
+
+      filteredFormattedData = [];
+      areaColor = 'grey';
+
+      if (i === intersections.points.length - 1) { // if last breakpoint
+        lastDataPointDate = new Date(formattedData[formattedData.length - 1].date);
+        filteredFormattedData = _.filter(formattedData, function(row) {
+          return new Date(row.date) <= lastDataPointDate && new Date(row.date) > pointDate;
+        });
+        filteredFormattedData.unshift({
+          date: pointDate,
+          Clinton: pointValue,
+          Trump: pointValue,
+        });
+        if (formattedData[formattedData.length - 1].Clinton > formattedData[formattedData.length - 1].Trump) {
+          areaColor = candidateColor.Clinton.area;
+        } else {
+          areaColor = candidateColor.Trump.area;
+        }
+      } else { // for everything else
+        firstDataPointDate = pointDate;
+        lastDataPointDate = new Date(xScale.invert(intersections.points[i + 1].x));
+        filteredFormattedData = _.filter(formattedData, function(row) {
+          return new Date(row.date) <= lastDataPointDate && new Date(row.date) >= firstDataPointDate;
+        });
+        if (filteredFormattedData.length > 0 && (filteredFormattedData[0].Clinton > filteredFormattedData[0].Trump)) {
+          areaColor = candidateColor.Clinton.area;
+        } else {
+          areaColor = candidateColor.Trump.area;
+        }
+        filteredFormattedData.unshift({
+          date: firstDataPointDate,
+          Clinton: pointValue,
+          Trump: pointValue,
+        });
+        filteredFormattedData.push({
+          date: lastDataPointDate,
+          Clinton: yScale.invert(intersections.points[i + 1].y),
+          Trump: yScale.invert(intersections.points[i + 1].y),
+        });
+      }
+
+      layout.candidateAreas.push({
+        d: convertAreaData(filteredFormattedData),
+        fill: areaColor,
       });
     }
-    if (endIntersection) {
-      section.push({
-        x: endIntersection.x,
-        [candidates[0] + '_y']: endIntersection.y,
-        [candidates[1] + '_y']: endIntersection.y,
-      });
+  } else {
+    filteredFormattedData = formattedData;
+    if (filteredFormattedData[0].Clinton > filteredFormattedData[0].Trump) {
+      areaColor = candidateColor.Clinton.area;
+    } else {
+      areaColor = candidateColor.Trump.area;
     }
 
-    let fillColor = 'none';
-    if (leader !== 'tie') {
-      fillColor = candidateColor[leader].area;
-    }
+    layout.candidateAreas.push({
+      d: convertAreaData(filteredFormattedData),
+      fill: areaColor,
+    });
+  }
 
-    return {
-      d: areaPath(section),
-      fill: fillColor,
-    };
-  });
+// // produce the array of areas
+//   const areas = mergePolls(pollsByCandidate[0], pollsByCandidate[1], xScale, yScale)
+//     .reduce(function (sections, current) {
+//       // if there are no sections make the first
+//       if (sections.length === 0) {
+//         sections.push([current]);
+//         return sections;
+//       }
+//       // otherwise, get the leader in last poll in the last available section
+//       const currentSection = sections[sections.length - 1];
+//       const previousLead = currentSection[currentSection.length - 1].lead;
+//       // if it's a different leader from the poll currently being considered then make a new array and push it that as a new section
+//       if (previousLead !== current.lead) {
+//         sections.push([current]);
+//       } else {
+//         currentSection.push(current);
+//       }
+//       // insert the current poll into the last array in the array of sections
+//       return sections;
+//     }, []);
+
+//   const areaPath = d3.area()
+//     .x(d => round1dp(d.x))
+//     .y0(d => round1dp(d[candidates[0] + '_y']))
+//     .y1(d => round1dp(d[candidates[1] + '_y']));
+
+//   layout.candidateAreas = areas.map(function (d, i, a) {
+//     const leader = d[0].lead;
+//     const section = d;
+//     const startIntersection = intersections.points[i - 1];
+//     const endIntersection = intersections.points[i];
+//     if (startIntersection) {
+//       section.unshift({
+//         x: startIntersection.x,
+//         [candidates[0] + '_y']: startIntersection.y,
+//         [candidates[1] + '_y']: startIntersection.y,
+//       });
+//     }
+//     if (endIntersection) {
+//       section.push({
+//         x: endIntersection.x,
+//         [candidates[0] + '_y']: endIntersection.y,
+//         [candidates[1] + '_y']: endIntersection.y,
+//       });
+//     }
+
+//     let fillColor = 'none';
+//     if (leader !== 'tie') {
+//       fillColor = candidateColor[leader].area;
+//     }
+
+//     return {
+//       d: areaPath(section),
+//       fill: fillColor,
+//     };
+//   });
 
   layout.candidateEndPoints = pollsByCandidate.map(function (d) {
     const lastPoll = d.polls[d.polls.length - 1];
