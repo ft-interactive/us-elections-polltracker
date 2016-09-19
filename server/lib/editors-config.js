@@ -1,29 +1,29 @@
 import axios from 'axios';
+import DataRefresher from './data-refresh';
 
 const CONFIG_URL = (process.env.CONFIG_URL ||
                                 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options');
-let cachedRequest;
 
-const defaultConfig = new Map();
+function fetchData() {
+  return axios.get(CONFIG_URL, {timeout: 5000}).then(response => {
+    if (!Array.isArray(response.data) || !response.data.length) {
+      throw new Error('Cannot get content');
+    }
 
-// TODO: replace with a fail stale poller
-export async function getEditorsConfig() {
-  if (cachedRequest) return cachedRequest;
-
-  cachedRequest = axios.get(CONFIG_URL, { timeout: 3000 })
-          .then(response =>
-            response.data.reduce((map, d) => map.set(d.name, d.value), new Map())
-          )
-          .catch(reason => {
-            cachedRequest = null;
-            if (reason && reason.code === 'ECONNABORTED') {
-              return defaultConfig;
-            }
-            throw reason;
-          });
-  return cachedRequest;
+    return response.data.reduce((map, row) =>
+                map.set(row.name, row.value), new Map());
+  });
 }
 
-export async function getEditorsConfigProperty(property) {
+const refresher = new DataRefresher('*/30 * * * * *', fetchData);
+
+export function getEditorsConfig() {
+  if (refresher.data instanceof Map)
+    return Promise.resolve(refresher.data);
+  else
+    return refresher.tick();
+}
+
+export function getEditorsConfigProperty(property) {
   return getEditorsConfig().then(config => config.get(property));
 }

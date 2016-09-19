@@ -1,6 +1,6 @@
-/* 
+/*
 returns an object of objects keyed by state abbreviation
-  { WY: 
+  { WY:
    { slug: 'wyoming',
      name: 'Wyoming',
      fullname: 'Wyoming',
@@ -14,31 +14,25 @@ returns an object of objects keyed by state abbreviation
 
 import _ from 'underscore';
 import axios from 'axios';
-
+import DataRefresher from './data-refresh';
 import getAllLatestStateAverages from '../../layouts/getAllLatestStateAverages';
 import { getSimpleList } from './states';
 
 const STATE_OVERRIDES_URL = (process.env.STATE_OVERRIDES_URL ||
                                 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/overrideCategories');
-let cachedRequest;
 
-// TODO: replace with a fail stale poller
-async function getOverrides() {
-  if (cachedRequest) return cachedRequest;
+function fetchData() {
+  return axios.get(STATE_OVERRIDES_URL, {timeout: 5000}).then(response => {
+    if (!Array.isArray(response.data)) {
+      throw new Error('Cannot get State override data');
+    }
 
-  cachedRequest = axios.get(STATE_OVERRIDES_URL, { timeout: 3000 })
-          .then(response =>
-            response.data.reduce((map, d) => map.set(d.state, d.overridevalue), new Map())
-          )
-          .catch(reason => {
-            cachedRequest = null;
-            if (reason && reason.code === 'ECONNABORTED') {
-              return new Map();
-            }
-            throw reason;
-          });
-  return cachedRequest;
+    return response.data.reduce((map, d) =>
+                map.set(d.state, d.overridevalue), new Map())
+  });
 }
+
+const refresher = new DataRefresher('*/50 * * * * *', fetchData);
 
 function getPollAvg(data, candidateName) {
   if (!data || !data.length) return null;
@@ -52,7 +46,15 @@ async function latestAveragesByState() {
 }
 
 export default async () => {
-  const overrides = await getOverrides();
+  let overrides;
+
+  try {
+    overrides = refresher.data || await refresher.tick();
+  } catch(err) {
+    console.log('Error getting State override data');
+    overrides = new Map();
+  }
+
   const latestAverages = await latestAveragesByState();
 
   return getSimpleList().map(state => {
