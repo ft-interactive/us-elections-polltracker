@@ -87,6 +87,7 @@ function timeseriesLayout(data, opts) {
   if (!opts.pollnumcandidates) {
     opts.pollnumcandidates = 4;
   }
+
   opts.pollnumcandidates = 2; // override change this later
 
   const candidates = candidateList.slice(0, opts.pollnumcandidates);
@@ -122,7 +123,11 @@ function timeseriesLayout(data, opts) {
   });
 
   // make the scales
-  let rawExtent = d3.extent(data, (d) => d.pollaverage);
+  let rawExtent = d3.extent(data, (d) => {
+    if (d.candidatename === 'Clinton' || d.candidatename === 'Trump') {
+      return d.pollaverage;
+    }
+  });
   let tickInterval = 5;
   if (rawExtent[1] - rawExtent[0] < 5) {
     tickInterval = 1;
