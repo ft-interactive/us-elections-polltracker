@@ -127,6 +127,7 @@ function timeseriesLayout(data, opts) {
     if (d.candidatename === 'Clinton' || d.candidatename === 'Trump') {
       return d.pollaverage;
     }
+    return null;
   });
   let tickInterval = 5;
   if (rawExtent[1] - rawExtent[0] < 5) {
@@ -169,6 +170,7 @@ function timeseriesLayout(data, opts) {
   // add month ticks
   const currentDate = xScale.domain()[0];
   currentDate.setMonth(currentDate.getMonth() + 1);
+  currentDate.setDate(1);
   const monthSpacing = xScale(new Date(2016, 1, 1)) - xScale(new Date(2016, 0, 1));
   const tickBuffer = [5, 35];
 
