@@ -8,7 +8,7 @@
         <div class="pollchart pollchart--{{gridsize}}">{{ svg | safe }}</div>
         {% endif %}
       {% endfor %}
-      <p>Johnson is currently polling at {{ latestPollAverages.Johnson }} and Stein is polling at {{ latestPollAverages.Stein }}.</p>
+      <p>Johnson is currently polling at {{ latestPollAverages.Johnson }}{% if latestPollAverages.Stein %} and Stein is polling at {{ latestPollAverages.Stein }}{% endif %}.</p>
     {% endcall %}
   {% endif %}
 {% endmacro %}
