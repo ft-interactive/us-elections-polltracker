@@ -17,7 +17,18 @@ class NationalPage extends Page {
   async ready() {
     await this.pready();
     const stateCounts = await getStateCounts();
-    const editorsConfig = await getEditorsConfig();
+    let editorsConfig;
+
+    try {
+      editorsConfig = await getEditorsConfig();
+    } catch(e) {
+      // Fail gracefully if we have trouble getting data from the Bertha sheet
+      // Ideally let the template provide default values for things.
+      // If we need some default calculations do them here...
+      console.log('Error getting editors config');
+      editorsConfig = new Map();
+    }
+
     this.latestNews = editorsConfig.get('text');
     const copyUpdated = new Date(editorsConfig.get('updated') || 0);
 
