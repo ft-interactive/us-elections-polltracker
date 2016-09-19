@@ -1,3 +1,6 @@
+// NOTE THIS FILE IS NOT BEING USED. NOT DELETING IN CASE WE NEED IT ONE DAY...
+// BUT NO NEED TO CODE REVIEW THIS FILE. NOT INCLUDED ANYWHERE
+
 var db = require('../models/index'),
   _ = require('underscore'),
   d3 = require('d3'),
