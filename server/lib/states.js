@@ -63,3 +63,11 @@ export function codeToName(code) {
   if (!code) return null;
   return codeNameIndex.get(code.toUpperCase());
 }
+
+const codeToPollNumCandidatesIndex = states.reduce((map, state) =>
+        map.set(state.code, state.displayRace), new Map());
+
+export function getPollNumCandidatesByCode(code) {
+  if (!code) return null;
+  return codeToPollNumCandidatesIndex.get(code);
+}

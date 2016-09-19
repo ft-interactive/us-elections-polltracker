@@ -1,5 +1,6 @@
 import _ from 'underscore';
 import { isoFormat } from 'd3-time-format';
+import { getPollNumCandidatesByCode } from '../lib/states';
 import getAllPolls from '../../layouts/getAllPolls';
 import getPollAverages from '../../layouts/getPollAverages';
 import layoutTimeSeries from '../../layouts/timeseries-layout';
@@ -83,10 +84,7 @@ export async function list(code, pollnumcandidates) {
 }
 
 export async function pollHistory(code) {
-  let pollnumcandidates = 4;
-  if (code.toLowerCase() === 'us') {
-    pollnumcandidates = 4;
-  }
+  const pollnumcandidates = getPollNumCandidatesByCode(code) || 4;
 
   const startDate = '2016-07-01 00:00:00';
   const endDate = isoFormat(new Date());
