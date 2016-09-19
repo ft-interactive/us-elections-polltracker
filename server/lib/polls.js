@@ -2,6 +2,7 @@ import _ from 'underscore';
 import { isoFormat } from 'd3-time-format';
 import getAllPolls from '../../layouts/getAllPolls';
 import getPollAverages from '../../layouts/getPollAverages';
+import getLatestPollAverage from '../../layouts/getLatestPollAverage';
 import layoutTimeSeries from '../../layouts/timeseries-layout';
 import { render } from '../nunjucks';
 import cache from './cache';
@@ -91,5 +92,6 @@ export async function pollHistory(code) {
   return {
     lineCharts: await lineChart(code.toLowerCase(), pollnumcandidates),
     list: await list(code.toLowerCase(), pollnumcandidates),
+    latestAverages: await getLatestPollAverage(code.toLowerCase(), pollnumcandidates),
   };
 }

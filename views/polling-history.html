@@ -1,6 +1,6 @@
 {% import "page-elements.html" as PageElements -%}
 
-{% macro LineChart(title, subtitle, svgs) %}
+{% macro LineChart(title, subtitle, svgs, latestPollAverages) %}
   {% if svgs.default != false %}
     {% call PageElements.Figure(title=title, subtitle=subtitle) %}
       {% for gridsize, svg in svgs %}
@@ -8,6 +8,7 @@
         <div class="pollchart pollchart--{{gridsize}}">{{ svg | safe }}</div>
         {% endif %}
       {% endfor %}
+      <p>Johnson is currently polling at {{ latestPollAverages.Johnson }} and Stein is polling at {{ latestPollAverages.Stein }}.</p>
     {% endcall %}
   {% endif %}
 {% endmacro %}
