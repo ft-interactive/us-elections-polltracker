@@ -11,6 +11,7 @@ async function getLatestPollAverage(state) {
 		where: {
 			state: state,
 			candidatename: 'Clinton',
+			pollnumcandidates: 2,
 		},
 		order: [
 			['date', 'DESC']
@@ -22,6 +23,7 @@ async function getLatestPollAverage(state) {
 		where: {
 			state: state,
 			candidatename: 'Trump',
+			pollnumcandidates: 2,
 		},
 		order: [
 			['date', 'DESC']

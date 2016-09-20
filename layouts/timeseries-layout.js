@@ -5,6 +5,8 @@ const svgIntersections = require('svg-intersections');
 const intersect = svgIntersections.intersect;
 const shape = svgIntersections.shape;
 
+import { codeToName } from '../server/lib/states';
+
 // little utility functions
 const timeFormat = d3.timeFormat('%b %e, %Y');
 const timeFormatLong = d3.timeFormat('%B %e, %Y');
@@ -12,10 +14,9 @@ const timeFormatShort = d3.timeFormat('%b %e');
 const timeFormatMonth = d3.timeFormat('%b');
 const roundExtent = (ext, divisor) => [(ext[0] - ext[0] % divisor), (ext[1] + (divisor - ext[1] % divisor))];
 const round1dp = (x) => Math.round(x * 10) / 10;
-const stateByID = require('./stateIds').byID;
 
 // configuration
-const candidates = ['Trump', 'Clinton'];
+const candidateList = ['Trump', 'Clinton', 'Johnson', 'Stein'];
 const candidateColor = {
   Trump: {
     line: color.Trump,
@@ -24,6 +25,14 @@ const candidateColor = {
   Clinton: {
     line: color.Clinton,
     area: color.Clinton,
+  },
+  Johnson: {
+    line: color.Johnson,
+    area: color.Johnson,
+  },
+  Stein: {
+    line: color.Stein,
+    area: color.Stein,
   },
 };
 
@@ -54,7 +63,7 @@ function mergePolls(a, b, xScale, yScale) {
 function getTitle(state, width) {
   if (width < 450 && (state === 'us' || !state)) return 'Latest polls';
   if (state && state !== 'us') {
-    const stateName = stateByID[state.toUpperCase()].stateName;
+    const stateName = codeToName(state.toUpperCase());
     if (width < 450) return 'Latest polls: ' + stateName;
     return 'Which candidate is leading in ' + stateName + '?';
   }
@@ -74,6 +83,12 @@ function getSubtitle(date, width, state){
 // the actual layout function
 function timeseriesLayout(data, opts) {
   if (!data || data.length < 1) return;
+
+  if (!opts.pollnumcandidates) {
+    opts.pollnumcandidates = 2;
+  }
+  const candidates = candidateList.slice(0, opts.pollnumcandidates);
+
   const [svgWidth, svgHeight] = (opts.size || '600x300').split(/\D/); // split on non digit characters
   const layout = {};
   const timeDomain = d3.extent(data, (d) => new Date(d.date));
@@ -101,6 +116,7 @@ function timeseriesLayout(data, opts) {
       bottom: 70,
     },
     color,
+    pollnumcandidates: opts.pollnumcandidates,
   });
 
   // make the scales
@@ -279,7 +295,7 @@ function timeseriesLayout(data, opts) {
   layout.candidateEndPoints = pollsByCandidate.map(function (d) {
     const lastPoll = d.polls[d.polls.length - 1];
     let labelOffset = 10;
-    if (d.name === currentLeader) labelOffset = 0;
+    if (d.name === currentLeader || d.name === 'Johnson') labelOffset = 0;
 
     return {
       cx: round1dp(xScale(lastPoll.date)),
