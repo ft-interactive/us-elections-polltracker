@@ -1,5 +1,6 @@
 import _ from 'underscore';
 import { isoFormat } from 'd3-time-format';
+import { getChildren } from '../lib/states';
 import getAllPolls from '../../layouts/getAllPolls';
 import getPollAverages from '../../layouts/getPollAverages';
 import layoutTimeSeries from '../../layouts/timeseries-layout';
@@ -37,52 +38,80 @@ async function getPollSVG(state, size = '600x300') {
   });
 }
 
-export async function lineChart(code) {
-  return {
-    default: await getPollSVG(code, '355x200'),
-    S: await getPollSVG(code, '630x270'),
-    M: await getPollSVG(code, '603x270'),
-    L: await getPollSVG(code, '650x288'),
-    XL: await getPollSVG(code, '680x310'),
-  };
+export async function lineChart(codes, childrenObj) {
+  const lineChartArray = [];
+  for (let i = 0; i < codes.length; i++) {
+    const code = codes[i];
+
+    let regionState = 'this state';
+    const regionObj = _.findWhere(childrenObj, { code });
+    if (regionObj) {
+      regionState = regionObj.fullname;
+    }
+
+    const lineChartConfig = {
+      default: await getPollSVG(code.toLowerCase(), '355x200'),
+      S: await getPollSVG(code.toLowerCase(), '630x270'),
+      M: await getPollSVG(code.toLowerCase(), '603x270'),
+      L: await getPollSVG(code.toLowerCase(), '650x288'),
+      XL: await getPollSVG(code.toLowerCase(), '680x310'),
+    };
+    lineChartArray.push({ code: regionState, lineChart: lineChartConfig });
+  }
+  return lineChartArray;
 }
 
-export async function list(code) {
-  let allIndividualPolls = await getAllPolls(code.toLowerCase());
-  allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
-  allIndividualPolls = _.values(allIndividualPolls);
-  const formattedIndividualPolls = [];
-  _.each(allIndividualPolls, poll => {
-    let winner = '';
-    const clintonVal = _.findWhere(poll, { candidatename: 'Clinton' }).pollvalue;
-    const trumpVal = _.findWhere(poll, { candidatename: 'Trump' }).pollvalue;
-
-    if (clintonVal > trumpVal) {
-      winner = 'Clinton';
+export async function list(codes, childrenObj) {
+  const listArray = [];
+  for (let i = 0; i < codes.length; i++) {
+    const code = codes[i];
+    let regionState = 'this state';
+    const regionObj = _.findWhere(childrenObj, { code });
+    if (regionObj) {
+      regionState = regionObj.fullname;
     }
 
-    if (trumpVal > clintonVal) {
-      winner = 'Trump';
-    }
+    let allIndividualPolls = await getAllPolls(code.toLowerCase());
+    allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
+    allIndividualPolls = _.values(allIndividualPolls);
+    const formattedIndividualPolls = [];
+    _.each(allIndividualPolls, poll => {
+      let winner = '';
+      const clintonVal = _.findWhere(poll, { candidatename: 'Clinton' }).pollvalue;
+      const trumpVal = _.findWhere(poll, { candidatename: 'Trump' }).pollvalue;
 
-    // unshift instead of push because dates keep being in chron instead of reverse chron
-    // even when I change the pg query to order by endDate DESC
-    formattedIndividualPolls.unshift({
-      Clinton: _.findWhere(poll, { candidatename: 'Clinton' }).pollvalue,
-      Trump: _.findWhere(poll, { candidatename: 'Trump' }).pollvalue,
-      date: poll[0].date,
-      pollster: poll[0].pollster.replace(/\*$/, '').replace(/\//g, ', '), // get rid of asterisk b/c RCP doesn't track what it means
-      sampleSize: poll[0].sampleSize,
-      winner,
+      if (clintonVal > trumpVal) {
+        winner = 'Clinton';
+      }
+
+      if (trumpVal > clintonVal) {
+        winner = 'Trump';
+      }
+
+      // unshift instead of push because dates keep being in chron instead of reverse chron
+      // even when I change the pg query to order by endDate DESC
+      formattedIndividualPolls.unshift({
+        Clinton: _.findWhere(poll, { candidatename: 'Clinton' }).pollvalue,
+        Trump: _.findWhere(poll, { candidatename: 'Trump' }).pollvalue,
+        date: poll[0].date,
+        pollster: poll[0].pollster.replace(/\*$/, '').replace(/\//g, ', '), // get rid of asterisk b/c RCP doesn't track what it means
+        sampleSize: poll[0].sampleSize,
+        winner,
+      });
     });
-  });
 
-  return formattedIndividualPolls;
+    listArray.push({ code: regionState, list: formattedIndividualPolls });
+  }
+  return listArray;
 }
 
 export async function pollHistory(code) {
+  const childrenObj = getChildren(code.toLowerCase());
+  const children = childrenObj.map((stateObj) => stateObj.code);
+  const codes = [code].concat(children);
+
   return {
-    lineCharts: await lineChart(code.toLowerCase()),
-    list: await list(code.toLowerCase()),
+    lineCharts: await lineChart(codes, childrenObj),
+    list: await list(codes, childrenObj),
   };
 }

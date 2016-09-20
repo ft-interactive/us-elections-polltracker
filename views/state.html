@@ -16,7 +16,7 @@
   PollingHistory.LineChart(
     title="Which candidate is leading in " + state.fullname + "?",
     subtitle="State polling average (%)",
-    svgs=pollHistory.lineCharts
+    svgsArray=pollHistory.lineCharts
   )
 }}
 
@@ -37,12 +37,12 @@
 {{
   PollingHistory.Table(
     title="Full list of individual polls",
-    list=pollHistory.list,
+    listArray=pollHistory.list,
     startCollapse=10
   )
 }}
 
-{% if state.fullname == "Maine (District 1)" %}
+{% if state.name == "Maine" %}
   <p class="correction">Correction: This page previously attributed Maine's statewide polls to its first congressional district. The page has been updated to correct the error.</p>
 {% endif %}
 

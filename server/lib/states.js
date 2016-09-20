@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import stateReference from '../../data/states';
 import { getStateDemographics } from './demographics';
 
@@ -54,4 +55,16 @@ export function getSimpleList() {
     ecVotes: state.ecVotes,
     code: state.code,
   }));
+}
+
+// given ME or NE, get array of congressional district codes
+// e.g. NE => ['NECD1', 'NECD2', 'NECD3']
+export function getChildren(code) {
+  let children = [];
+
+  const parentCode = code.toUpperCase();
+  if (parentCode === 'ME' || parentCode === 'NE') {
+    children = _.filter(states, { parent: parentCode }); // add districts
+  }
+  return children;
 }

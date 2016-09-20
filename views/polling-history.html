@@ -1,19 +1,36 @@
 {% import "page-elements.html" as PageElements -%}
 
-{% macro LineChart(title, subtitle, svgs) %}
-  {% if svgs.default != false %}
-    {% call PageElements.Figure(title=title, subtitle=subtitle) %}
-      {% for gridsize, svg in svgs %}
-        {% if svg %}
-        <div class="pollchart pollchart--{{gridsize}}">{{ svg | safe }}</div>
-        {% endif %}
-      {% endfor %}
-    {% endcall %}
-  {% endif %}
+{% macro LineChart(title, subtitle, svgsArray) %}
+  {% for svgs in svgsArray %}
+    {% set name = svgs.code %}
+    {% set svgs = svgs.lineChart %}
+
+    {% if svgsArray.length > 1  %}
+      {% set title = "Which candidate is leading in " + name + "?" %}
+    {% endif %}
+
+    {% if svgs.default != false %}
+      {% call PageElements.Figure(title=title, subtitle=subtitle) %}
+        {% for gridsize, svg in svgs %}
+          {% if svg %}
+          <div class="pollchart pollchart--{{gridsize}}">{{ svg | safe }}</div>
+          {% endif %}
+        {% endfor %}
+      {% endcall %}
+    {% endif %}
+  {% endfor %}
 {% endmacro %}
 
-{% macro Table(title, subtitle, list, startCollapse=20) %}
+{% macro Table(title, subtitle, listArray, startCollapse=20) %}
 <div id="individualpolls">
+{% for list in listArray %}
+  {% set name = list.code %}
+  {% set list = list.list %}
+  
+  {% if listArray.length > 1  %}
+    {% set title = "Full list of individual polls for " + name %}
+  {% endif %}
+  
   {% call PageElements.Figure(title=title, subtitle=subtitle) %}
     {% if list and list.length > 0 %}
       {% if list.length > startCollapse %}
@@ -59,5 +76,6 @@
     <p class="notavailable">Polls for this state are not available yet.</p>
     {% endif %}
   {% endcall %}
+{% endfor %}
 </div>
 {% endmacro %}
