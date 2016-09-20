@@ -6,6 +6,7 @@ import nationalController from './server/controllers/national';
 import stateController from './server/controllers/state';
 import stateCodeRedirectController from './server/controllers/state-code-redirect';
 import ecForecastComponentController from './server/controllers/ec-forecast-component';
+import ecBreakdownController from './server/controllers/ec-breakdown';
 import pollGraphicsController from './server/controllers/poll-graphics';
 
 import stateCount from './server/lib/state-counts';
@@ -113,6 +114,9 @@ app.get('/polls/:code', stateCodeRedirectController);
 // Create homepage(etc.) widget of current forecasts
 app.get('/ec-forecast-component.html', ecForecastComponentController);
 app.get('/ec-forecast-component.json', async (res,req) => { ecForecastComponentController(res, req, 'json') });
+
+// Create electoral collecge breakdown
+app.get('/ec-breakdown.html', ecBreakdownController);
 
 // This needs to be last as it captures lot of paths and only does redirects
 app.get('/:code', stateCodeRedirectController);

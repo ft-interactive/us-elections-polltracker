@@ -1,5 +1,4 @@
 <style>
-
 	{% if not fontless %}
 	{% include "includes/fonts.css" %}
 	{% endif %}
@@ -7,17 +6,17 @@
 		font-family: MetricWeb, sans-serif;
 		margin:0;
 		padding:0;
-		height:100px;
 	}
 
 	{{ ancestorSelector }} .ecforecastbars__chart {
 		width: 100%;
-		height: 30px;
+		height: 60px;
+		overflow: hidden;
 	}
 
 	{{ ancestorSelector }} .ecforecastbars__bar {
 		display: inline-block;
-		height: 30px;
+		height: 50%;
 		margin: 0;
 		padding: 0;
 		float: left;
@@ -28,73 +27,93 @@
 	{{ ancestorSelector }} .ecforecastbars__bar--dem {
 		background-color: {{ color.dem }};
 		width: {{ proportion.totalDem }}%;
+		color: {{ color.darkDem }};
+		width: {{ proportion.totalDem }}%;
+		text-align: left;
 	}
 
 	{{ ancestorSelector }} .ecforecastbars__bar--swing {
 		background-color: {{ color.swing }};
 		width: {{ proportion.swing }}%;
+		color: {{ color.darkSwing }};
+		width: {{ proportion.swing }}%;
+		overflow: visible;
 	}
 
 	{{ ancestorSelector }} .ecforecastbars__bar--rep {
 		background-color: {{ color.rep }};
 		width: {{ proportion.totalRep }}%;
+		color: {{ color.darkRep }};
+		width: {{ proportion.totalRep }}%;
+		text-align: right;
 	}
 
 	{{ ancestorSelector }} .ecforecastbars__label {
 		display: inline-block;
 		margin: 0;
 		padding: 0;
+		overflow-x: visible;
+		white-space: nowrap;
 		float: left;
 		position: relative;
 		box-sizing: border-box;
+		width:100%;
+		top: -20px;
+	}
+
+	{{ ancestorSelector }} .ecforecastbars__label--rep {
+		text-align: right;
+	}
+
+	{{ ancestorSelector }} .ecforecastbars__label--swing {
 		text-align: center;
 	}
 
 	{{ ancestorSelector }} .ecforecastbars__label--dem {
-		color: {{ color.darkDem }};
-		width: {{ proportion.totalDem }}%;
 		text-align: left;
 	}
 
-	{{ ancestorSelector }} .ecforecastbars__label--swing {
-		color: {{ color.darkSwing }};
-		width: {{ proportion.swing }}%;
-		font-weight: 800;
-		overflow: visible;
-	}
-
-	{{ ancestorSelector }} .ecforecastbars__label--rep {
-		color: {{ color.darkRep }};
-		width: {{ proportion.totalRep }}%;
-		text-align: right;
+	{{ ancestorSelector }} .ecforecastbars__title{
+		color: #6b6e68;
+    	font-size: 24px;
+		font-weight: normal;
+		margin: 0;
+		padding: 0;
+		padding-bottom: 5px;
 	}
 
 	{{ ancestorSelector }} .ecforecastbars__marker {
 		position: relative;
 		width: 50%;
-		height: 100%;
+		height: 50%;
 		border-right: 2px solid black;
 		z-index: 2;
+		text-align: center;
+		color: #6b6e68;
+		font-size: 16px;
 	}
 
-	{{ ancestorSelector }} .ecforecastbars__subtitle{
-		font-weight:600;
+	{{ ancestorSelector }} .ecforecastbars__row--subtitle {
+		text-align: center;
 	}
-
+}
 </style>
 
 <div class="ecforecastbars">
 	<h2 class="ecforecastbars__title">{{ title }}</h2>
-	<h3 class="ecforecastbars__subtitle">{{ subtitle }}</h3>
-	<div class="ecforecastbars__row">
-		<div class="ecforecastbars__label ecforecastbars__label--dem">Clinton ({{ data.dem + data.leaningDem }})</div>
-		<div class="ecforecastbars__label ecforecastbars__label--swing">Toss-up&nbsp;({{ data.swing }})</div>
-		<div class="ecforecastbars__label ecforecastbars__label--rep">Trump ({{ data.rep + data.leaningRep }})</div>
+	<div class="ecforecastbars__row--subtitle">{{ subtitle }}</div>
+	<div class="ecforecastbars__chart">
+		<div class="ecforecastbars__marker"></div>
+		<div class="ecforecastbars__row">
+			<div class="ecforecastbars__bar ecforecastbars__bar--dem">
+				<span class="ecforecastbars__label ecforecastbars__label--dem">Clinton ({{ data.dem + data.leaningDem }})</span>
+			</div>
+			<div class="ecforecastbars__bar ecforecastbars__bar--swing">
+				<span class="ecforecastbars__label ecforecastbars__label--swing">Toss-up&nbsp;({{ data.swing }})</span>
+			</div>
+			<div class="ecforecastbars__bar ecforecastbars__bar--rep">
+				<span class="ecforecastbars__label ecforecastbars__label--rep">Trump ({{ data.rep + data.leaningRep }})</span>
+			</div>
+		</div>
 	</div>
-	<div class="ecforecastbars__row">
-		<div class="ecforecastbars__bar ecforecastbars__bar--dem"></div>
-		<div class="ecforecastbars__bar ecforecastbars__bar--swing"></div>
-		<div class="ecforecastbars__bar ecforecastbars__bar--rep"></div>
-	</div>
-	<div class="ecforecastbars__marker"></div>
 </div>
