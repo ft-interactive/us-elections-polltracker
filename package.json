@@ -8,27 +8,6 @@
       "transform-runtime"
     ]
   },
-  "main": "setup.js",
-  "scripts": {
-    "start": "node setup.js",
-    "dev": "nodemon setup.js -e js,html,svg",
-    "test": "mocha --compilers js:babel-core/register layouts/*.spec.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/ft-interactive/us-elections-polltracker.git"
-  },
-  "keywords": [
-    "us",
-    "elections",
-    "polltracker"
-  ],
-  "author": "FT",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ft-interactive/us-elections-polltracker/issues"
-  },
-  "homepage": "https://github.com/ft-interactive/us-elections-polltracker#readme",
   "dependencies": {
     "axios": "^0.13.1",
     "babel-core": "^6.10.4",
@@ -76,9 +55,13 @@
     "mocha": "^3.0.2",
     "nodemon": "^1.9.2"
   },
-  "main": "setup.js",
-  "private": true,
   "engines": {
     "node": "6.x.x"
+  },
+  "private": true,
+  "scripts": {
+    "dev": "nodemon setup.js -e js,html,svg",
+    "start": "node setup.js",
+    "test": "mocha --compilers js:babel-core/register layouts/*.spec.js"
   }
 }
