@@ -8,7 +8,15 @@
         <div class="pollchart pollchart--{{gridsize}}">{{ svg | safe }}</div>
         {% endif %}
       {% endfor %}
-      <p>Libertarian candidate <span style="border-bottom:3px solid #6e4794">Gary Johnson</span> is polling at <span style="font-weight: 600;">{{ latestPollAverages.Johnson }}</span> percentage points. Green Party candidate <span style="border-bottom:3px solid #55c72c">Jill Stein</span> is{% if latestPollAverages.Stein %} polling at <span style="font-weight: 600;">{{ latestPollAverages.Stein }}</span> percentage points{% else %} not on the ballot in {{ statename }}{% endif %}.</p>
+
+      <p>Libertarian candidate <span style="border-bottom:3px solid #6e4794">Gary Johnson</span> is polling at <span style="font-weight: 600;">{{ latestPollAverages.Johnson }}</span> percentage points. 
+
+      {% if statename == 'Indiana' or statename == 'North Carolina' or statename == 'Georgia' %}
+      Green Party candidate <span style="border-bottom:3px solid #55c72c">Jill Stein</span>, who is not on the ballot in {{ statename }} but can be written in, is polling at <span style="font-weight: 600;">{{ latestPollAverages.Stein }}</span> percentage points.</p>
+      {% else %}
+      Green Party candidate <span style="border-bottom:3px solid #55c72c">Jill Stein</span> is{% if latestPollAverages.Stein %} polling at <span style="font-weight: 600;">{{ latestPollAverages.Stein }}</span> percentage points{% else %} not on the ballot in {{ statename }}{% endif %}.</p>
+      {% endif %}
+
     {% endcall %}
   {% endif %}
 {% endmacro %}
