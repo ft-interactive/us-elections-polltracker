@@ -39,11 +39,6 @@
     startX = touchobj.pageX;
     startY = touchobj.pageY;
     startTime = new Date().getTime();
-    e.preventDefault();
-  }
-
-  function menuSwipeMove(e) {
-    e.preventDefault();
   }
 
   function menuSwipeEnd(e) {
@@ -54,7 +49,6 @@
     // check that elapsed time is within specified, horizontal dist traveled >= threshold, and vertical dist traveled <= 100
     var swiperightBol = (elapsedTime <= allowedTime && dist >= threshold && Math.abs(touchobj.pageY - startY) <= 100);
     handleswipe(swiperightBol);
-    e.preventDefault();
   }
 
   overlay.classList.add('rail__mobile-overlay');
@@ -62,7 +56,6 @@
   document.body.appendChild(overlay);
 
   aside.addEventListener('touchstart', menuSwipeStart, false);
-  aside.addEventListener('touchmove', menuSwipeMove, false);
   aside.addEventListener('touchend', menuSwipeEnd, false);
 
   document.querySelector('.state-page__mobile-nav--back-to-overview')
