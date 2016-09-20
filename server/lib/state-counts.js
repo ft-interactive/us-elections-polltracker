@@ -23,7 +23,7 @@ const STATE_OVERRIDES_URL = (process.env.STATE_OVERRIDES_URL ||
                                 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/overrideCategories');
 
 function fetchData() {
-  return axios.get(STATE_OVERRIDES_URL, {timeout: 5000}).then(response => {
+  return axios.get(STATE_OVERRIDES_URL, {timeout: 10000}).then(response => {
     if (!Array.isArray(response.data)) {
       throw new Error('Cannot get State override data');
     }
@@ -33,7 +33,18 @@ function fetchData() {
   });
 }
 
-const refresher = new DataRefresher('*/50 * * * * *', fetchData);
+function fetchError(error) {
+  if (error instanceof Error) {
+    const url = error.config && error.config.url;
+    console.log(error.message, error.code, url)
+  } else {
+    console.error(error);
+  }
+}
+
+const overrideData = new DataRefresher('*/50 * * * * *', fetchData, { fallbackData: new Map(), logErrors: false });
+
+overrideData.on('error', fetchError);
 
 function getPollAvg(data, candidateName) {
   if (!data || !data.length) return null;
@@ -47,15 +58,7 @@ async function latestAveragesByState(pollnumcandidates) {
 }
 
 export default async () => {
-  let overrides;
-
-  try {
-    overrides = refresher.data || await refresher.tick();
-  } catch (err) {
-    console.log('Error getting State override data');
-    overrides = new Map();
-  }
-
+  const overrides = await overrideData.promise();
   // temp overrides for current demo
   overrides.set('IN', -8);
   overrides.set('NJ', 12);
