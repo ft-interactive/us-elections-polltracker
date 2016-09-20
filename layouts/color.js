@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   ftpink: '#fff1e0',
   border: '#dadada',
   land: '#fff',

@@ -1,10 +1,11 @@
-const color = require('./color');
+import color from './color';
 
 export default function (data) {
   const total = data.rep + data.leaningRep + data.dem + data.leaningDem + data.swing;
+
   return {
     title: 'Electoral college forecast',
-    subtitle: '270 to win, ' + data.swing + ' votes up for grabs',
+    subtitle: `270 to win, ${data.swing} votes up for grabs`,
     fontless: false,
     proportion: {
       swing: data.swing / total * 100,
