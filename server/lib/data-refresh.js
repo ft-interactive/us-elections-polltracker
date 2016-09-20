@@ -91,7 +91,6 @@ export default class DataRefresher extends EventEmitter {
       process.nextTick(() => {
         this.emit('result', this.data);
       });
-      return data;
     }).catch(err => {
       if (!this.data && typeof this.fallbackData !== 'undefined') {
         this.data = Promise.resolve(this.fallbackData);
