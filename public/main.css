@@ -47,6 +47,10 @@
 
 .article-figure {
   font-family: MetricWeb, sans-serif;
+  margin-bottom: 3em;
+}
+.article-figure p {
+  line-height: 27.5px
 }
 .article-figure .article-figure__heading {
   margin-bottom: 0;
