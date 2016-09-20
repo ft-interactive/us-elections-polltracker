@@ -8,6 +8,20 @@
 
 {% block article_body %}
 
+  <nav class="state-page__mobile-nav">
+    <button
+      type="button"
+      name="button"
+      class="state-page__mobile-nav--back-to-overview">
+      <i class="o-icons-icon o-icons-icon--arrow-left"></i>
+      National polling overview
+    </button>
+
+    <button type="button" name="button" class="state-page__mobile-nav--choose-state">
+      Choose state
+    </button>
+  </nav>
+
   <div class="o-grid-container">
     <div class="o-grid-row">
       <div data-o-grid-colspan="12 L8 XL7 XLoffset1">
@@ -33,12 +47,5 @@
       </div>
     </div>
   </div>
-
-  <button
-    type="button"
-    name="button"
-    class="button__show-nav">
-    Polling by state <i class="o-icons-icon o-icons-icon--arrow-up"></i>
-  </button>
 
 {% endblock %}

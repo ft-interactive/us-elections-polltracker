@@ -1084,43 +1084,59 @@ tbody .state-winners-table__year {
 }
 /** Mobile nav **/
 
-.button__show-nav {
+.state-page__mobile-nav,
+.rail__mobile-overlay,
+.rail__close-button {
   display: none;
 }
 
 @media (max-width: 979px) {
-  .button__show-nav {
-    display: block;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 7vh;
-    border: 0;
-    background: #318085;
-    color: white;
-    z-index: 99;
+  .state-page__mobile-nav {
+    display: flex;
+    background-color: #FFF8EF;
+    border: 1px solid #E4DFCB;
+    border-width: 1px 0px;
+    margin-top: 1em;
+    padding: .5em 0;
   }
 
-  .button__show-nav .o-icons-icon {
+  .state-page__mobile-nav--back-to-overview,
+  .state-page__mobile-nav--choose-state {
+    color: #27757B;
+    height: 2em;
+  }
+
+  .state-page__mobile-nav--back-to-overview {
+    background: transparent;
+    border: 0;
+    display: flex;
+    align-items: center;
+    width: 75%;
+  }
+
+  .state-page__mobile-nav--choose-state {
+    background: transparent;
+    border: 0;
+    border-left: 2px solid #E4DFCB;
+    display: block;
+    text-align: center;
+    width: 25%;
+  }
+
+  .state-page__mobile-nav--back-to-overview .o-icons-icon {
     height: 1em;
     width: 2em;
     display: inline-block;
     background-repeat: no-repeat;
     background-size: contain;
-    background-position: 50% .25em;
+    background-position: 50% 0;
     background-color: transparent;
     vertical-align: baseline;
   }
 
-  .button__show-nav .o-icons-icon.o-icons-icon--arrow-up {
-    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-up?source=o-icons&tint=%23FFFFFF,%23FFFFFF&format=svg);
-    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-up?source=o-icons&tint=%23FFFFFF,%23FFFFFF&format=png&width=14)\9;
-  }
-
-  .button__show-nav .o-icons-icon.o-icons-icon--arrow-down {
-    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-down?source=o-icons&tint=%23FFFFFF,%23FFFFFF&format=svg);
-    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-down?source=o-icons&tint=%23FFFFFF,%23FFFFFF&format=png&width=14)\9;
+  .state-page__mobile-nav--back-to-overview .o-icons-icon.o-icons-icon--arrow-left {
+    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?source=o-icons&tint=%2327757B,%2327757B&format=svg);
+    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?source=o-icons&tint=%2327757B,%2327757B&format=png&width=14)\9;
   }
 
   .article__aside {
@@ -1128,16 +1144,45 @@ tbody .state-winners-table__year {
     position: fixed;
     width: 100%;
     height: 100%;
-    top: 100%; /* start off screen */
-    left: 0;
-    transition: top 1000ms cubic-bezier(0.215, 0.61, 0.355, 1); /* EaseOutCubic */
+    left: 105%; /* start off screen */
+    top: 0;
+    transition: left 1000ms cubic-bezier(0.215, 0.61, 0.355, 1); /* EaseOutCubic */
     background: #FFF3E5;
     overflow-y: auto;
     z-index: 98;
+    box-shadow: -4px 6px 26px -4px rgba(0,0,0,0.75);
   }
 
   .article__aside.opened {
-    top: 0%;
+    left: 10%;
+  }
+
+  .rail__mobile-overlay {
+    display: block;
+    position: fixed;
+    left: 105%;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0);
+    transition: background-color 750ms cubic-bezier(0.55, 0.055, 0.675, 0.19); /* easeInCubic */
+    width: 100%;
+    height: 100%;
+    z-index: 97;
+  }
+
+  .rail__mobile-overlay.opened {
+    left: 0%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .rail__close-button {
+    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:cross?source=o-icons&tint=%23E9DECF,%23E9DECF&format=svg);
+    background-size: contain;
+    display: block;
+    height: 1.5em;
+    width: 1.5em;
+    position: absolute;
+    right: 1em;
+    top: 1em;
   }
 
   .rail__content {
