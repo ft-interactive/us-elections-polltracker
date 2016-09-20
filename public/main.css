@@ -979,6 +979,10 @@ tbody .state-winners-table__year {
      color:#FFF;
 }
 
+.ec-breakdown-bar-container{
+    padding-left: 3px;
+}
+
 .ec-breakdown-row{
     height:20px;
     overflow:hidden;
@@ -991,4 +995,6 @@ tbody .state-winners-table__year {
 
 .ec-breakdown-statelabel{
     overflow:visible;
+    text-align: right;
+    padding: 0px;
 }
