@@ -828,6 +828,10 @@ a {
   color: white;
 }
 
+.state-page__summary .o-buttons--standout[aria-selected=true] {
+  border-radius: 0;
+}
+
 .state-page__summary .o-buttons.button__state-ec-votes {
   background: #FFFFFF !important;
   color: #AAA89E;

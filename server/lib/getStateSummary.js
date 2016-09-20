@@ -27,7 +27,7 @@ export default async function getStateSummary(state) {
       break;
     case 'swing':
     default:
-      text = 'Toss-up';
+      text = 'Toss-up state';
       break;
   }
   return {
