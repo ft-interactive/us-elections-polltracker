@@ -1,6 +1,6 @@
 {% import "page-elements.html" as PageElements -%}
 
-{% macro LineChart(title, subtitle, svgs, latestPollAverages) %}
+{% macro LineChart(statename, title, subtitle, svgs, latestPollAverages) %}
   {% if svgs.default != false %}
     {% call PageElements.Figure(title=title, subtitle=subtitle) %}
       {% for gridsize, svg in svgs %}
@@ -8,7 +8,7 @@
         <div class="pollchart pollchart--{{gridsize}}">{{ svg | safe }}</div>
         {% endif %}
       {% endfor %}
-      <p>Johnson is currently polling at <span style="border-bottom:3px solid #6e4794">{{ latestPollAverages.Johnson }}</span> per cent{% if latestPollAverages.Stein %}, and Stein is polling at <span style="border-bottom:3px solid #55c72c">{{ latestPollAverages.Stein }}</span>{% else %}. Stein is not on the ballot{% endif %}.</p>
+      <p>Libertarian candidate <span style="border-bottom:3px solid #6e4794">Gary Johnson</span> is polling at <span style="font-weight: 600;">{{ latestPollAverages.Johnson }}</span> percentage points. Green Party candidate <span style="border-bottom:3px solid #55c72c">Jill Stein</span> is{% if latestPollAverages.Stein %} polling at <span style="font-weight: 600;">{{ latestPollAverages.Stein }}</span> percentage points{% else %} not on the ballot in {{ statename }}{% endif %}.</p>
     {% endcall %}
   {% endif %}
 {% endmacro %}
