@@ -1226,7 +1226,7 @@ tbody .state-winners-table__year {
   .rail__state-list ul li {
     padding: 0.25em 0.5em;
     width: calc(50% - 2 * .5em);
-    font-weight: lighter;
+    font-weight: normal;
     color: #545752;
   }
 
