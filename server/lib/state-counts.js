@@ -59,11 +59,6 @@ async function latestAveragesByState(pollnumcandidates) {
 
 export default async () => {
   const overrides = await overrideData.promise();
-  // temp overrides for current demo
-  overrides.set('IN', -8);
-  overrides.set('NJ', 12);
-  overrides.set('CT', 8);
-  overrides.set('MD', 12);
 
   const latestAverages = await latestAveragesByState(4);
   const latestAverages3Way = await latestAveragesByState(3);
