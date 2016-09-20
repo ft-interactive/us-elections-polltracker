@@ -1123,6 +1123,18 @@ tbody .state-winners-table__year {
     width: 30%;
   }
 
+  @media (max-width: 320px) {
+    .state-page__mobile-nav--back-to-overview {
+      font-size: 90%;
+      width: 65%;
+    }
+
+    .state-page__mobile-nav--choose-state {
+      font-size: 90%;
+      width: 35%;
+    }
+  }
+
   .state-page__mobile-nav--back-to-overview .o-icons-icon {
     height: 1em;
     width: 2em;
@@ -1146,15 +1158,17 @@ tbody .state-winners-table__year {
     height: 100%;
     left: 105%; /* start off screen */
     top: 0;
-    transition: left 1000ms cubic-bezier(0.215, 0.61, 0.355, 1); /* EaseOutCubic */
+    transition: left 500ms cubic-bezier(0.215, 0.61, 0.355, 1); /* easeOutCubic */
     background: #FFF3E5;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     z-index: 98;
     box-shadow: -4px 6px 26px -4px rgba(0,0,0,0.75);
   }
 
   .article__aside.opened {
     left: 10%;
+    transition: left 500ms cubic-bezier(0.55, 0.055, 0.675, 0.19); /* easeInCubic */
   }
 
   .rail__mobile-overlay {
@@ -1181,7 +1195,7 @@ tbody .state-winners-table__year {
     height: 1.5em;
     width: 1.5em;
     position: absolute;
-    right: 3em;
+    left: 80%;
     top: 1em;
   }
 
@@ -1213,6 +1227,7 @@ tbody .state-winners-table__year {
     padding: 0.25em 0.5em;
     width: calc(50% - 2 * .5em);
     font-weight: lighter;
+    color: #545752;
   }
 
   .rail__state-list__nationalLink {
