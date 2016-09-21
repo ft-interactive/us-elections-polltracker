@@ -33,6 +33,8 @@
             {%- else -%}
               {% if state.margin > 0 %}
               Clinton
+              {% elif state.margin == 0 %}
+              Tie
               {% else %}
               Trump
               {% endif %}
