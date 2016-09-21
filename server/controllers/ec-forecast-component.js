@@ -1,5 +1,6 @@
 import cache from '../lib/cache';
 import { render } from '../nunjucks';
+import { minify } from 'html-minifier';
 import nationalCount from '../lib/national-count';
 import ecForecastBarsLayout from '../../layouts/ec-forecast-bars-layout';
 
@@ -21,7 +22,19 @@ export default async (req, res) => {
 
     return cache(
       `ec-forecast-component:${data.ancestorSelector}:styles:${data.includeStyles}`,
-      async () => render('ec-forecast-component.html', data)
+      async () => {
+        const html = await render('ec-forecast-component.html', data);
+        return minify(html, {
+          minifyCSS: true,
+          collapseBooleanAttributes: true,
+          collapseWhitespace: true,
+          decodeEntities: true,
+          removeAttributeQuotes: true,
+          removeComments: true,
+          removeEmptyAttributes: true,
+          removeRedundantAttributes: true,
+        });
+      }
     );
   };
 
