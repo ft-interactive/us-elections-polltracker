@@ -4,7 +4,7 @@ const intersect = svgIntersections.intersect;
 const shape = svgIntersections.shape;
 const getJSDomWindow = require('./getJSDomWindow');
 const _ = require('underscore');
-const stateIds = require('./stateIds').states;
+const stateIds = require('../data/states');
 
 
 function round_1dp(x) {
@@ -351,7 +351,7 @@ async function drawChart(options, data) {
   if (!options.notext) {
     annotationGroup.append('text')
       .text(function() {
-        const stateName = _.findWhere(stateIds, { state: options.state.toUpperCase() }).stateName;
+        const stateName = _.findWhere(stateIds, { code: options.state.toUpperCase() }).name;
         if (options.width < 450) {
           if (options.state === 'us') {
             return 'Latest polls';

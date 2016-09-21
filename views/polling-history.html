@@ -1,6 +1,6 @@
 {% import "page-elements.html" as PageElements -%}
 
-{% macro LineChart(title, subtitle, svgs) %}
+{% macro LineChart(statename, title, subtitle, svgs, latestPollAverages) %}
   {% if svgs.default != false %}
     {% call PageElements.Figure(title=title, subtitle=subtitle) %}
       {% for gridsize, svg in svgs %}
@@ -8,6 +8,19 @@
         <div class="pollchart pollchart--{{gridsize}}">{{ svg | safe }}</div>
         {% endif %}
       {% endfor %}
+
+      <p>The chart above displays the two leading presidential candidates, Hillary Clinton and Donald Trump. Two other candidates with significant support are Libertarian candidate Gary Johnson, who is polling at <span style="font-weight: 600;">{{ latestPollAverages.Johnson }}</span> per cent
+
+      {%- if statename == 'Indiana' or statename == 'North Carolina' or statename == 'Georgia' -%}
+      , and Green Party candidate Jill Stein, who is not on the ballot in {{ statename }} but can be written in, polling at <span style="font-weight: 600;">{{ latestPollAverages.Stein }}</span> per cent.</p>
+      {%- else -%}
+      , and Green Party candidate Jill Stein, who is{% if latestPollAverages.Stein %} polling at <span style="font-weight: 600;">{{ latestPollAverages.Stein }}</span> per cent{% else %} not on the ballot in {{ statename }}
+      {%- endif -%}
+
+      . Read about our <a href="#methodology">methodology</a>.
+      </p>
+      {% endif %}
+
     {% endcall %}
   {% endif %}
 {% endmacro %}
