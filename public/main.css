@@ -1158,17 +1158,17 @@ tbody .state-winners-table__year {
     height: 100%;
     left: 105%; /* start off screen */
     top: 0;
-    transition: left 500ms cubic-bezier(0.215, 0.61, 0.355, 1); /* easeOutCubic */
+    transition: left 195ms cubic-bezier(0.645, 0.045, 0.355, 1); /* exiting: easeInOutCubic */
     background: #FFF3E5;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     z-index: 98;
-    box-shadow: -4px 6px 26px -4px rgba(0,0,0,0.75);
   }
 
   .article__aside.opened {
     left: 10%;
-    transition: left 500ms cubic-bezier(0.55, 0.055, 0.675, 0.19); /* easeInCubic */
+    transition: left 225ms cubic-bezier(0.23, 1, 0.32, 1); /* entering: easeOutQuint */
+    box-shadow: -4px 6px 60px -4px rgba(0,0,0,0.5);
   }
 
   .rail__mobile-overlay {
@@ -1177,7 +1177,7 @@ tbody .state-winners-table__year {
     left: 105%;
     top: 0;
     background-color: rgba(0, 0, 0, 0);
-    transition: background-color 750ms cubic-bezier(0.55, 0.055, 0.675, 0.19); /* easeInCubic */
+    transition: background-color 195ms linear;
     width: 100%;
     height: 100%;
     z-index: 97;
@@ -1185,7 +1185,7 @@ tbody .state-winners-table__year {
 
   .rail__mobile-overlay.opened {
     left: 0%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.25);
   }
 
   .rail__close-button {
