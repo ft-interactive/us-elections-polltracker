@@ -11,17 +11,17 @@
                 <div class="o-grid-row ec-breakdown-row ec-breakdown-header">{{ layout.groupNames[group] }}</div>
                 {% for state in layout.stateGroups[group] %}
                 <div class="o-grid-row ec-breakdown-row">
-                    <div data-o-grid-colspan="4" class="ec-breakdown-statelabel">
+                    <div data-o-grid-colspan="2 S4" class="ec-breakdown-statelabel">
                     {% if (layout.groupNames[group] == 'Toss-up') %} 
                         {{ state.code | stateShortname }}
                     {% else %}
                     {{state.code}}
                     {% endif %}
                     </div>
-                    <div data-o-grid-colspan="6" class="ec-breakdown-bar-container">
+                    <div data-o-grid-colspan="9 S6" class="ec-breakdown-bar-container">
                         <div style="width:{{ state.barPct }}%; background-color:{{ color[group] }};" class="ec-breakdown-bar"></div>
                     </div>
-                    <div data-o-grid-colspan="2" class="ec-breakdown-bar-container">
+                    <div data-o-grid-colspan="1 S2" class="ec-breakdown-bar-container">
                         <div class="ec-breakdown-bar-label">{{state.ecVotes}}</div>
                     </div>
                     </div>

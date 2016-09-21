@@ -1000,20 +1000,32 @@ tbody .state-winners-table__year {
     overflow:visible;
     text-align: right;
     padding: 0px;
-    font-size: 14px;
+    font-size: 13px;
     color: #333333;
 }
 
 .ec-breakdown-bar-label {
   text-align: right;
   font-feature-settings: "tnum";
-  font-size: 15px;
+  font-size: 13px;
 }
 
 .Toss-up {
-  margin: 0 8.33333%;
+  margin: 0 6%;
+  font-size: 15px;
 }
 
-.Toss-up .ec-breakdown-header {
+.Toss-up .ec-breakdown-header,
+.Toss-up .ec-breakdown-statelabel,
+.Toss-up .ec-breakdown-bar-label {
     font-weight: 600;
+    font-size: 14px;
+    overflow: visible;
+
   }
+
+@media (max-width: 500px) {
+  .Toss-up {
+    margin: 0;
+}
+}
