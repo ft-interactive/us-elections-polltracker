@@ -1,7 +1,7 @@
 // provides a dictionary of state colours based on defined thresholds for how safe a bet a given state is for a given candidate
 
 const d3 = require('d3');
-const color = require('./color.js');
+import color from './color.js';
 
 import { marginThreshold } from '../server/lib/national-count';
 
