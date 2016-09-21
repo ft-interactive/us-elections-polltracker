@@ -9,6 +9,12 @@
 	{{ ancestorSelector }} .ec-forecast-component__link {
 		display: block;
 		color: #333;
+		border-bottom: 0;
+	}
+
+	{{ ancestorSelector }} .ec-forecast-component__title {
+		font: 400 18px MetricWeb, sans-serif;
+		margin: 0;
 	}
 
 	{{ ancestorSelector }} .ec-forecast-component__chart {
@@ -67,6 +73,7 @@
 		overflow: visible;
 		font-size: 14px;
 		font-weight: 300;
+		color: #777;
 	}
 
 	{{ ancestorSelector }} .ec-forecast-component__label--clinton {
@@ -107,6 +114,7 @@
 		left: -40px;
 		font-size: 14px;
 		line-height: 14px;
+		color: #777;
 	}
 
 	{{ ancestorSelector }} .ec-forecast-component__marker-label:after {
@@ -126,10 +134,28 @@
 
 	{{ ancestorSelector }} .ec-forecast-component__footer {
 		clear: both;
+		/*padding-top: 10px;*/
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	{{ ancestorSelector }} .ec-forecast-component__source {
+		font-size: 14px;
+		line-height: 28px;
+		color: #999;
+		min-width: 80px;
 	}
 
 	{{ ancestorSelector }} .ec-forecast-component__faux-link {
+		font-size: 14px;
+		line-height: 28px;
 		color: #27757b;
+		font-weight: bold;
+		text-align: right;
+		white-space: nowrap;
+		flex: 1 1 auto;
+		position: relative;
+		top: -2px;
 	}
 
 	{{ ancestorSelector }} .ec-forecast-component__link:hover .ec-forecast-component__faux-link {
@@ -139,8 +165,8 @@
 	{{ ancestorSelector }} .ec-forecast-component__faux-link:after {
 		content: '';
 		display: inline-block;
-		width: 16px;
-		height: 16px;
+		width: 14px;
+		height: 14px;
 		position: relative;
 		top: 3px;
 
