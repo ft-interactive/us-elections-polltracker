@@ -189,6 +189,10 @@ function timeseriesLayout(data, opts) {
     label: d,
     position: yScale(d),
   }));
+  //thin out the ticks if there is more than one every 13px
+  if(yScale.range()[0]/layout.yTicks.length < 13){
+    layout.yTicks = layout.yTicks.filter(function(d,i){ return (i%2 === 0); }); //only include the even indexed ticks (these can represent even or odd values...)
+  }
 
   // make the path generators etc.
   const path = d3.line()
