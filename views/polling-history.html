@@ -9,7 +9,7 @@
         {% endif %}
       {% endfor %}
 
-      <p>The chart above displays the two leading presidential candidates, Hillary Clinton and Donald Trump. The two other candidates are Libertarian candidate Gary Johnson, who is polling at <span style="font-weight: 600;">{{ latestPollAverages.Johnson }}</span> per cent
+      <p>The chart above displays the two leading presidential candidates, Hillary Clinton and Donald Trump. Two other candidates with significant support are Libertarian candidate Gary Johnson, who is polling at <span style="font-weight: 600;">{{ latestPollAverages.Johnson }}</span> per cent
 
       {%- if statename == 'Indiana' or statename == 'North Carolina' or statename == 'Georgia' -%}
       , and Green Party candidate Jill Stein, who is not on the ballot in {{ statename }} but can be written in, polling at <span style="font-weight: 600;">{{ latestPollAverages.Stein }}</span> per cent.</p>
