@@ -1,11 +1,12 @@
-const color = require('./color');
+import color from './color';
 
 export default function (data) {
   const total = data.rep + data.leaningRep + data.dem + data.leaningDem + data.swing;
+
   return {
     title: 'Electoral college forecast',
-    subtitle: '270 to win, ' + data.swing + ' votes up for grabs',
-    fontless: false,
+    includeStyles: true,
+    ancestorSelector: '.us-election-midriff-graphic',
     proportion: {
       swing: data.swing / total * 100,
       rep: data.rep / total * 100,
