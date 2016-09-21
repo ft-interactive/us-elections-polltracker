@@ -989,14 +989,23 @@ tbody .state-winners-table__year {
     margin-bottom: 1px;
 }
 
-.ec-breakdown-header{
+.ec-breakdown-header {
     align-items: center;
     justify-content: center;
     text-transform: uppercase;
     color: #555555;
     font-size: 14px;
+    padding: 4px 0;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #555555;
+    border-top: 1px solid #999999;
 }
-.ec-breakdown-statelabel{
+.ec-breakdown-column:first-child .ec-breakdown-header,
+.ec-breakdown-column:nth-child(4) .ec-breakdown-header {
+  border-right: 1px solid #999999;
+
+}
+.ec-breakdown-statelabel {
     overflow:visible;
     text-align: right;
     padding: 0px;
@@ -1019,7 +1028,7 @@ tbody .state-winners-table__year {
 .Toss-up .ec-breakdown-statelabel,
 .Toss-up .ec-breakdown-bar-label {
     font-weight: 600;
-    font-size: 13px;
+    font-size: 14px;
     overflow: visible;
 
   }
@@ -1027,5 +1036,13 @@ tbody .state-winners-table__year {
 @media (max-width: 490px) {
   .Toss-up {
     margin: 0;
-}
+  }
+  .ec-breakdown-column:first-child .ec-breakdown-header,
+  .ec-breakdown-column:nth-child(4) .ec-breakdown-header {
+    border-right: 0;
+
+  }
+  .ec-breakdown-column {
+    margin-bottom: 20px;
+  }
 }
