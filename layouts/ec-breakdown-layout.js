@@ -77,7 +77,7 @@ export default function (stateLookup) {
   const stateGroups = splitArray(states, function (d) { return d.forecast; });
 
   return {
-    title: 'How the states stack up',
+    title: 'Current battleground states',
     standalone: true,
     fontless: true,
     order: classifyState.forecast.range().reverse(),

@@ -13,9 +13,9 @@
                 <div class="o-grid-row ec-breakdown-row">
                     <div data-o-grid-colspan="2 S4" class="ec-breakdown-statelabel">
                     {% if (layout.groupNames[group] == 'Toss-up') %} 
-                        {{ state.code | stateShortname }}
+                        <a href="{{ state.code | statePollPageURL}}">{{ state.code | stateShortname }}</a>
                     {% else %}
-                    {{state.code}}
+                        <a href="{{ state.code | statePollPageURL}}">{{state.code}}</a>
                     {% endif %}
                     </div>
                     <div data-o-grid-colspan="9 S6" class="ec-breakdown-bar-container">
