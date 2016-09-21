@@ -310,7 +310,8 @@ function timeseriesLayout(data, opts) {
         filteredFormattedData = _.filter(formattedData, function(row) {
           return new Date(row.date) <= lastDataPointDate && new Date(row.date) >= firstDataPointDate;
         });
-        if (filteredFormattedData.length > 0 && (filteredFormattedData[0].Clinton > filteredFormattedData[0].Trump)) {
+        const checkIndex = Math.max(0, Math.ceil((filteredFormattedData.length / 2) - 1));
+        if (filteredFormattedData.length > 0 && (filteredFormattedData[checkIndex].Clinton > filteredFormattedData[checkIndex].Trump)) {
           areaColor = candidateColor.Clinton.area;
         } else {
           areaColor = candidateColor.Trump.area;
