@@ -189,6 +189,10 @@ function timeseriesLayout(data, opts) {
     label: d,
     position: yScale(d),
   }));
+  //thin out the ticks if the height of the plot is less than 100px
+  if(yScale.range()[0]<100){
+    layout.yTicks = layout.yTicks.filter(function(d,i){ return (i%2 === 0); }); //only include the even indexed ticks (these can represent even or odd values...)
+  }
 
   // make the path generators etc.
   const path = d3.line()
