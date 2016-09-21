@@ -179,7 +179,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var elementSelector = exports.elementSelector = '[data-g-component="onward-journey"]';
 
-var serviceBaseUrl = exports.serviceBaseUrl = 'https://ft-ig-onwardjourney.herokuapp.com/v1/';
+var serviceBaseUrl = exports.serviceBaseUrl = 'https://ig.ft.com/onwardjourney/v1/';
 
 var fetchList = exports.fetchList = function fetchList(list, layout, limit) {
   return fetch('' + serviceBaseUrl + list + '/html/' + layout + '?limit=' + limit).then(function (res) {
