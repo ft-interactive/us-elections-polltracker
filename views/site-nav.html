@@ -26,7 +26,7 @@
       <ul class="o-expander__content">
         {% for state in siteNav.allStates %}
         <li>
-            <a href="./{{ state.slug }}-polls">
+            <a href="./{{ state.slug }}-polls" class="nav__link--{{ state.slug }}">
               {{ state.name }}
             </a>
         </li>

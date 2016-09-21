@@ -1121,13 +1121,17 @@ tbody .state-winners-table__year {
   .nav___mobile-nav--back-to-overview:focus,
   .nav___mobile-nav--back-to-overview:active {
     border: none !important;
-    outline: none !important;
     box-shadow: none !important;
     background: none !important;
   }
 
   .nav___mobile-nav--back-to-overview.national {
     color: #333;
+    cursor: default;
+  }
+
+  .nav___mobile-nav--back-to-overview.national:focus {
+    outline: none !important;
   }
 
   .nav___mobile-nav--back-to-overview.national i.o-icons-icon {
@@ -1141,13 +1145,6 @@ tbody .state-winners-table__year {
     display: block;
     text-align: center;
     text-transform: none !important;
-  }
-
-  @media (max-width: 320px) {
-    .nav___mobile-nav--back-to-overview,
-    .nav___mobile-nav--choose-state {
-      font-size: 90% !important;
-    }
   }
 
   .nav___mobile-nav--back-to-overview .o-icons-icon {
@@ -1217,12 +1214,16 @@ tbody .state-winners-table__year {
   }
 
   .rail__close-button--button {
-    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:cross?source=o-icons&tint=%23E9DECF,%23E9DECF&format=svg);
+    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:cross?source=o-icons&tint=%23555555,%23555555&format=svg);
     background-size: contain;
     display: block;
     height: 1.5em;
     width: 1.5em;
     margin-right: 1em;
+  }
+
+  .rail__close-button--button:hover {
+    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:cross?source=o-icons&tint=%23333333,%23333333&format=svg);
   }
 
   .rail__content {
@@ -1258,11 +1259,11 @@ tbody .state-winners-table__year {
   }
 
   .rail__state-list__nationalLink {
-    padding: 0 0 0 1.5em;
+    padding: 0 0 0 1.25em;
     background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?source=o-icons&tint=%2327757B,%2327757B&format=svg);
     background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?source=o-icons&tint=%2327757B,%2327757B&format=png&width=14)\9;
     background-repeat: no-repeat;
-    background-position: 0 50%;
+    background-position: -5px 50%;
     background-size: contain;
   }
 
@@ -1280,5 +1281,33 @@ tbody .state-winners-table__year {
 
   .rail__ad {
     display: none;
+  }
+
+  /** hacky text overrides **/
+  .nav__link--district-of-columbia:before {
+    content: 'D.C.';
+    font-size: 1.125rem;
+  }
+  .nav__link--district-of-columbia {
+    font-size: 0;
+  }
+
+  @media (max-width: 320px) {
+    .nav___mobile-nav--back-to-overview,
+    .nav___mobile-nav--choose-state {
+      font-size: 90% !important;
+    }
+
+    .rail__content {
+      padding: 1em;
+    }
+
+    .rail__state-list ul li {
+      font-size: 90% !important;
+    }
+
+    .nav__link--district-of-columbia:before {
+      font-size: 1rem;
+    }
   }
 }
