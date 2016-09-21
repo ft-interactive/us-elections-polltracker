@@ -7,7 +7,7 @@ const maxAge = 120;
 const sMaxAge = 10;
 const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
 
-export default async (req, res, type) => {
+export default async (req, res) => {
   const { ext } = req.params;
 
   res.setHeader('Cache-Control', cacheControl);
@@ -16,22 +16,23 @@ export default async (req, res, type) => {
 
   const layout = ecForecastBarsLayout(count);
 
-  const html = await cache(
-    `ec-forecast-component:${layout.ancestorSelector}:styles:${layout.includeStyles}`,
-    async () => render('ec-forecast-component.html', layout)
-  );
+  const getHTML = async (override) => {
+    const data = { ...layout, override };
+
+    return cache(
+      `ec-forecast-component:${data.ancestorSelector}:styles:${data.includeStyles}`,
+      async () => render('ec-forecast-component.html', data)
+    );
+  };
 
   switch (ext) {
     case 'json':
-      res.json({ __html: html });
+      res.json({ __html: await getHTML() });
       break;
 
     case 'html': {
-      layout.includeStyles = false;
-      const htmlWithoutStyles = await cache(
-        `ec-forecast-component:${layout.ancestorSelector}:styles:${layout.includeStyles}`,
-        async () => render('ec-forecast-component.html', layout)
-      );
+      const htmlWithStyles = await getHTML();
+      const htmlWithoutStyles = await getHTML({ includeStyles: false });
 
       res.send(`
         <!doctype html>
@@ -45,7 +46,7 @@ export default async (req, res, type) => {
             background: #fdf8f2;
           }
         </style>
-        <div class="us-election-midriff-graphic card" style="width: 160px">${html}</div>
+        <div class="us-election-midriff-graphic card" style="width: 160px">${htmlWithStyles}</div>
         <div class="us-election-midriff-graphic card" style="width: 300px">${htmlWithoutStyles}</div>
         <div class="us-election-midriff-graphic card" style="width: 500px">${htmlWithoutStyles}</div>
       `);
