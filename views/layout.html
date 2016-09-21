@@ -8,16 +8,21 @@
 
 {% block article_body %}
 
-  <nav class="state-page__mobile-nav">
+  <nav class="nav___mobile-nav">
     <button
       type="button"
       name="button"
-      class="state-page__mobile-nav--back-to-overview">
+      class="nav___mobile-nav--back-to-overview{{ ' national' if code == 'us' }} o-buttons o-buttons--uncolored o-buttons--big">
       <i class="o-icons-icon o-icons-icon--arrow-left"></i>
-      National polling overview
+      <span class="dotted-underline">
+        National polling overview
+      </span>
     </button>
 
-    <button type="button" name="button" class="state-page__mobile-nav--choose-state">
+    <button
+      type="button"
+      name="button"
+      class="o-buttons o-buttons--standout o-buttons--big nav___mobile-nav--choose-state">
       Choose state
     </button>
   </nav>

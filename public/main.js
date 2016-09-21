@@ -7,6 +7,7 @@
 (function main() {
   var overlay = document.createElement('div');
   var aside = document.querySelector('.article__aside');
+  var backButton = document.querySelector('.nav___mobile-nav--back-to-overview:not(.national)');
   var startX;
   var startY;
   var dist;
@@ -58,12 +59,13 @@
   aside.addEventListener('touchstart', menuSwipeStart, false);
   aside.addEventListener('touchend', menuSwipeEnd, false);
 
-  document.querySelector('.state-page__mobile-nav--back-to-overview')
-    .addEventListener('click', goHome);
+  if (backButton)
+    backButton
+      .addEventListener('click', goHome);
 
-  document.querySelector('.state-page__mobile-nav--choose-state')
+  document.querySelector('.nav___mobile-nav--choose-state')
     .addEventListener('click', toggleMenu);
 
-  document.querySelector('.rail__close-button')
+  document.querySelector('.rail__close-button--button')
     .addEventListener('click', closeMenu);
 }());
