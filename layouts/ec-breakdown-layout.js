@@ -37,9 +37,19 @@ function splitArray(a, keyFunction) {
   return o;
 }
 
+
 function combineMENE(lookup) {
-    // get a list a
-  return lookup;
+  const newLookup = {};
+
+  Object.keys(lookup).forEach(function(d){
+    const code = lookup[d].code.substring(0,2); 
+    if( newLookup[code] ){ 
+      newLookup[code].ecVotes += lookup[d].ecVotes;
+    }else{
+      newLookup[code] = lookup[d];
+    }    
+  })
+  return newLookup;
 }
 
 function percentOfCA(votes) { // electoral votes as a proportion of california i.e. california bar is 100% of available width
@@ -53,7 +63,6 @@ export default function (stateLookup) {
           const state = stateLookup[key];
           const forecast = (state.code === 'ME' || state.code === 'ME')
             ? classifyState.forecastMENE(state.margin) : classifyState.forecast(state.margin);
-
           return {
             forecast,
             name: stateLookup[key].name,
