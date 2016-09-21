@@ -13,8 +13,14 @@
 	}
 
 	{{ ancestorSelector }} .ec-forecast-component__title {
-		font: 400 18px MetricWeb, sans-serif;
+		font: 400 21px MetricWeb, sans-serif;
 		margin: 0;
+	}
+
+	{{ ancestorSelector }} .ec-forecast-component__subtitle {
+		font: 400 16px MetricWeb, sans-serif;
+		margin: 5px 0 0 0;
+		color: #555;
 	}
 
 	{{ ancestorSelector }} .ec-forecast-component__chart {
@@ -39,7 +45,6 @@
 		font-size: 18px;
 		line-height: 32px;
 		margin: 0;
-		padding: 0 5px;
 		float: left;
 		position: relative;
 		box-sizing: border-box;
@@ -50,6 +55,7 @@
 	{{ ancestorSelector }} .ec-forecast-component__bar--clinton {
 		background-color: {{ color.dem }};
 		width: {{ proportion.totalDem }}%;
+		padding-left: 5px;
 	}
 
 	{{ ancestorSelector }} .ec-forecast-component__bar--tossup {
@@ -61,6 +67,7 @@
 		background-color: {{ color.rep }};
 		width: {{ proportion.totalRep }}%;
 		text-align: right;
+		padding-right: 5px;
 	}
 
 	{{ ancestorSelector }} .ec-forecast-component__label {
@@ -100,7 +107,7 @@
 		left: 50%;
 		height: 32px;
 		width: 1px;
-		background: black;
+		background: #666;
 		z-index: 2;
 		margin-left: -1.5px;
 	}
@@ -125,16 +132,17 @@
 		height: 0;
 		border-style: solid;
 		border-width: 6px 6px 0 6px;
-		border-color: #000000 transparent transparent transparent;
+		border-color: #333 transparent transparent transparent;
 		position: absolute;
 		left: 50%;
-		margin-left: -5.5px;
-		bottom: 0;
+		margin-left: -5px;
+		transform: translateX(-0.5px);
+		bottom: -1px;
 	}
 
 	{{ ancestorSelector }} .ec-forecast-component__footer {
 		clear: both;
-		/*padding-top: 10px;*/
+		padding-top: 7px;
 		display: flex;
 		flex-wrap: wrap;
 	}
@@ -144,6 +152,12 @@
 		line-height: 28px;
 		color: #999;
 		min-width: 80px;
+		margin-right: 10px;
+	}
+
+	{{ ancestorSelector }} .ec-forecast-component__source > span {
+		line-height: 16px;
+		display: inline-block;
 	}
 
 	{{ ancestorSelector }} .ec-forecast-component__faux-link {
@@ -155,7 +169,6 @@
 		white-space: nowrap;
 		flex: 1 1 auto;
 		position: relative;
-		top: -2px;
 	}
 
 	{{ ancestorSelector }} .ec-forecast-component__link:hover .ec-forecast-component__faux-link {
@@ -186,7 +199,8 @@
 <article class="ec-forecast-component">
 	<a class="ec-forecast-component__link" href="https://ig.ft.com/us-elections/polls">
 
-		<h2 class="ec-forecast-component__title">{{ title }}</h2>
+		<h2 class="ec-forecast-component__title">Who would win today?</h2>
+		<h3 class="ec-forecast-component__subtitle">Electoral college votes</h3>
 
 		<div class="ec-forecast-component__chart">
 
@@ -209,7 +223,9 @@
 		</div>
 
 		<footer class="ec-forecast-component__footer">
-			<div class="ec-forecast-component__source">Source: Real Clear Politics</div>
+			<div class="ec-forecast-component__source">
+				<span>Based on RCP polling averages</span>
+			</div>
 
 			<div class="ec-forecast-component__faux-link">Poll tracker</div>
 		</footer>
