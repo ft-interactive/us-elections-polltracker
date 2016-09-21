@@ -16,6 +16,7 @@ module.exports = function(sequelize, DataTypes) {
     candidatename: DataTypes.STRING,
     pollvalue: DataTypes.FLOAT,
     state: DataTypes.STRING,
+    pollnumcandidates: DataTypes.INTEGER,
   }, {
     classMethods: {
       associate: function(models) {

@@ -4,6 +4,8 @@ module.exports = {
   land: '#fff',
   Trump: '#e03d46',
   Clinton: '#579dd5',
+  Johnson: '#6e4794',
+  Stein: '#55c72c',
   rep: '#e03d46',
   dem: '#579dd5',
   leaningRep: '#f4a098',

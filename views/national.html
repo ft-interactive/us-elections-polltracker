@@ -10,13 +10,17 @@
 {% block content %}
 
 {% markdown %}
+{% set tossups = stateCounts | orderStatesByImportance %}
+
+With only {{ daysToElection }} day{% if daysToElection != 1 %}s{% endif %} left until election day,&nbsp;
 {%- if nationalBarCounts.dem + nationalBarCounts.leaningDem > 270 -%}
 Hillary Clinton leads the race for 270 electoral college votes
 {%- elif nationalBarCounts.rep + nationalBarCounts.leaningRep > 270 -%}
 Donald Trump leads the race for 270 electoral college votes
 {%- else -%}
-The race for 270 electoral college votes is too close to call
-{%- endif -%}. Both candidates will be paying attention to <span style="border-bottom:3px solid {{color.swing}}">toss-up states</span> in the run-up to November 8.
+the race for 270 electoral college votes is too close to call
+{%- endif -%}. Democratic candidate Hillary Clinton and Republican candidate Donald Trump need 270 electoral college votes to win the presidency. Both candidates will be paying attention to toss-up states such as <a href="{{ tossups[0].slug }}-polls">{{ tossups[0].fullname }}</a>, <a href="{{ tossups[1].slug }}-polls">{{ tossups[1].fullname }}</a> and <a href="{{ tossups[2].slug }}-polls">{{ tossups[2].fullname }}</a>.
+
 {% endmarkdown %}
 
 {% call PageElements.Figure(subtitle="Projected electoral college votes") %}
@@ -27,15 +31,15 @@ The race for 270 electoral college votes is too close to call
       on=flags.nationalBar
     )
   }}
+  {% if flags.forecastMap == 'choropleth' %}
+    <div>{{ ForecastMap(forecastMapLayout) }}</div>
+  {% elif flags.forecastMap == 'dots' %}
+    <div style="margin-bottom: -5rem;">
+      <img src="/forecast-map.svg?dots=true" width="100%" />
+    </div>
+  {% endif %}
 {% endcall %}
 
-{% if flags.forecastMap == 'choropleth' %}
-  <div>{{ ForecastMap(forecastMapLayout) }}</div>
-{% elif flags.forecastMap == 'dots' %}
-  <div style="margin-bottom: -5rem;">
-    <img src="/forecast-map.svg?dots=true" width="100%" />
-  </div>
-{% endif %}
 
 {{
   LatestNews(
@@ -45,11 +49,15 @@ The race for 270 electoral college votes is too close to call
   )
 }}
 
+{% set racestring = 'four' %}
+{% if racestring == 3 %}{% set racestring = 'three' %}{% endif %}
 {{
   PollingHistory.LineChart(
+    statename="US",
     title="Which White House candidate is leading in the polls?",
-    subtitle="National polling average (%)",
-    svgs=pollHistory.lineCharts
+    subtitle="National polling average based on " + racestring + "-way race* (%)",
+    svgs=pollHistory.lineCharts,
+    latestPollAverages=pollHistory.latestAverages
   )
 }}
 
@@ -57,7 +65,7 @@ The race for 270 electoral college votes is too close to call
 
 {{
   StateList(
-    title="State polls",
+    title="Where are the closest races?",
     stateCounts=stateCounts,
     on=flags.stateList
   )
@@ -65,7 +73,7 @@ The race for 270 electoral college votes is too close to call
 
 {{
   PollingHistory.Table(
-    title="Full list of individual polls",
+    title="All individual polls",
     list=pollHistory.list
   )
 }}
