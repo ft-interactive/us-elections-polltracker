@@ -2,12 +2,28 @@ import classifyState from './state-classifications';
 import color from './color';
 import states from '../data/states';
 
+
+function makeLookup(arr,key,value){
+  const o = {};
+  arr.forEach(function(d){
+    o[ d[key] ] = value(d);
+  })
+  return o;
+}
+
+const shortname = makeLookup(states,'code',function(d){ 
+  if(d.shortName){
+    return d.shortName;
+  }
+  return d.name;
+});
+
 const groupNames = {
   swing: 'Toss-up',
-  leaningRep: 'Leaning',
-  rep: 'Solid',
-  dem: 'Solid',
-  leaningDem: 'Leaning',
+  leaningRep: 'Leaning R',
+  rep: 'Republican',
+  dem: 'Democrat',
+  leaningDem: 'Leaning D',
 };
 
 function splitArray(a, keyFunction) {
@@ -41,6 +57,7 @@ export default function (stateLookup) {
           return {
             forecast,
             name: stateLookup[key].name,
+            shortname: shortname[stateLookup[key].code],
             code: stateLookup[key].code,
             ecVotes: stateLookup[key].ecVotes,
             barPct: percentOfCA(stateLookup[key].ecVotes),

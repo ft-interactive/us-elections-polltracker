@@ -986,16 +986,34 @@ tbody .state-winners-table__year {
 .ec-breakdown-row{
     height:20px;
     overflow:hidden;
+    margin-bottom: 1px;
 }
 
 .ec-breakdown-header{
     align-items: center;
     justify-content: center;
     text-transform: uppercase;
+    color: #555555;
+    font-size: 14px;
 }
-
 .ec-breakdown-statelabel{
     overflow:visible;
     text-align: right;
     padding: 0px;
+    font-size: 14px;
+    color: #333333;
 }
+
+.ec-breakdown-bar-label {
+  text-align: right;
+  font-feature-settings: "tnum";
+  font-size: 15px;
+}
+
+.Toss-up {
+  margin: 0 8.33333%;
+}
+
+.Toss-up .ec-breakdown-header {
+    font-weight: 600;
+  }
