@@ -12,7 +12,7 @@
                 {% for state in layout.stateGroups[group] %}
                 <div class="o-grid-row ec-breakdown-row">
                     <div data-o-grid-colspan="4" class="ec-breakdown-statelabel">
-                        {{ state.shortname }}
+                        {{ state.code | stateShortname }}
                     </div>
                     <div data-o-grid-colspan="8" class="ec-breakdown-bar-container">
                         <div style="width:{{ state.barPct }}%; background-color:{{ color[group] }};" class="ec-breakdown-bar">{{state.ecVotes}}</div>

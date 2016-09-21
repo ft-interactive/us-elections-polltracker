@@ -1,4 +1,6 @@
 import { marginThreshold } from './server/lib/national-count';
+const stateData = require('./data/states.json');
+
 
 export function commas(n) {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -10,6 +12,26 @@ export function round1dp(n) {
 
 const monthsAbbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
                   'Sep', 'Oct', 'Nov', 'Dec'];
+
+function makeLookup(arr,key){
+  const o = {};
+  arr.forEach(function(d){
+    o[ d[key] ] = d;
+  })
+  return o;
+}
+const stateLookup = makeLookup(stateData,'code');
+
+
+export function statePollPageURL(code){
+  //eg. iowa-polls
+  return stateLookup[code].name + "-polls";
+}
+
+export function stateShortname(code){
+  if(stateLookup[code].shortName) return stateLookup[code].shortName;
+  return stateLookup[code].name;
+}
 
 // turn 8/26 - 8/29 to Aug 26 - 29
 export function formatDateForIndividualPollsTable(inputDate) {
