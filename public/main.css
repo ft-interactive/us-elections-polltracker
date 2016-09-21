@@ -47,16 +47,21 @@
 
 .article-figure {
   font-family: MetricWeb, sans-serif;
+  margin-bottom: 3em;
+}
+.article-figure p {
+  line-height: 27.5px
 }
 .article-figure .article-figure__heading {
-  margin-bottom: 0;
+  margin-bottom: 0.5em;
   font-family: inherit;
 }
 .article-figure .article-figure__subheading {
   color: #6b6e68;
   font-size: 16px;
   font-family: inherit;
-  margin: 0.3em 0 0 0;
+  margin: 0.3em 0 0.8em 0;
+  line-height: 1.2em;
 }
 
 .article-figure__heading + .article-figure__content {
@@ -190,10 +195,12 @@
   line-height: 1.1;
   margin-top: 3em;
   padding: 0.1em;
-  color: #333;
-  font-style: italic;
-  font-family: MetricWeb, sans-serif;
   border-top: 1px solid #cec6b9;
+}
+.o-typography-body-wrapper .source p {
+  color: #333;
+  font-family: MetricWeb, sans-serif;
+  font-size: 0.9em;
 }
 .o-typography-body-wrapper .note {
   line-height: 1.1;
@@ -850,6 +857,7 @@ a {
   border-bottom: 1px solid #CEC6B9;
   font-size: 1.06em;
   -webkit-font-smoothing: antialiased;
+  font-feature-settings: "tnum";
 }
 
 .state-winners-table__empty {

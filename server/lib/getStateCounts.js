@@ -1,6 +1,6 @@
 import _ from 'underscore';
 import getAllLatestStateAverages from '../../layouts/getAllLatestStateAverages';
-import { states as stateIds } from '../../layouts/stateIds';
+import stateIds from '../../data/states';
 
 export default async overrideData => {
   const latestStateAverages = await getAllLatestStateAverages();
@@ -9,7 +9,7 @@ export default async overrideData => {
   const stateCounts = {};
 
   for (let i = 0; i < stateIds.length; i++) {
-    const stateKey = stateIds[i].state;
+    const stateKey = stateIds[i].code;
     let clintonAvg = null;
     let trumpAvg = null;
     let margin = null;
@@ -28,7 +28,7 @@ export default async overrideData => {
         Clinton: clintonAvg,
         Trump: trumpAvg,
         margin: margin || _.findWhere(overrideCategories, { state: stateKey.toUpperCase() }).overridevalue,
-        ecVotes: _.findWhere(stateIds, { state: stateKey.toUpperCase() }).ecVotes,
+        ecVotes: _.findWhere(stateIds, { code: stateKey.toUpperCase() }).ecVotes,
       };
     }
   }
