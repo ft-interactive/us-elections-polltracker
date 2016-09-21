@@ -985,7 +985,7 @@ tbody .state-winners-table__year {
 
 .ec-breakdown-row{
     height:15px;
-    overflow:hidden;
+    // overflow:hidden;
     margin-bottom: 1px;
 }
 
@@ -1011,7 +1011,7 @@ tbody .state-winners-table__year {
 }
 
 .Toss-up {
-  margin: 0 6%;
+  margin: 0 8.3333%;
   font-size: 15px;
 }
 
@@ -1019,12 +1019,12 @@ tbody .state-winners-table__year {
 .Toss-up .ec-breakdown-statelabel,
 .Toss-up .ec-breakdown-bar-label {
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13px;
     overflow: visible;
 
   }
 
-@media (max-width: 500px) {
+@media (max-width: 490px) {
   .Toss-up {
     margin: 0;
 }
