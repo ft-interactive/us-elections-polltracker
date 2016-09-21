@@ -1,100 +1,191 @@
+{% if includeStyles %}
 <style>
-
-	{% if not fontless %}
-	{% include "includes/fonts.css" %}
-	{% endif %}
-	{{ ancestorSelector }} .ecforecastbars {
+	{{ ancestorSelector }} .ec-forecast-component {
 		font-family: MetricWeb, sans-serif;
-		margin:0;
-		padding:0;
-		height:100px;
+		font-size: 16px;
+		position: relative;
 	}
 
-	{{ ancestorSelector }} .ecforecastbars__chart {
+	{{ ancestorSelector }} .ec-forecast-component__link {
+		display: block;
+		color: #333;
+	}
+
+	{{ ancestorSelector }} .ec-forecast-component__chart {
 		width: 100%;
-		height: 30px;
+		height: 32px;
+		margin-top: 30px;
 	}
 
-	{{ ancestorSelector }} .ecforecastbars__bar {
+	{{ ancestorSelector }} .ec-forecast-component__chart:before,
+	{{ ancestorSelector }} .ec-forecast-component__chart:after {
+    content: '';
+    display: table;
+	}
+
+	{{ ancestorSelector }} .ec-forecast-component__chart:after {
+    clear: both;
+	}
+
+	{{ ancestorSelector }} .ec-forecast-component__bar {
 		display: inline-block;
-		height: 30px;
+		height: 32px;
+		font-size: 18px;
+		line-height: 32px;
 		margin: 0;
-		padding: 0;
+		padding: 0 5px;
 		float: left;
 		position: relative;
 		box-sizing: border-box;
+		color: #fff;
+		font-weight: bold;
 	}
 
-	{{ ancestorSelector }} .ecforecastbars__bar--dem {
+	{{ ancestorSelector }} .ec-forecast-component__bar--clinton {
 		background-color: {{ color.dem }};
 		width: {{ proportion.totalDem }}%;
 	}
 
-	{{ ancestorSelector }} .ecforecastbars__bar--swing {
+	{{ ancestorSelector }} .ec-forecast-component__bar--tossup {
 		background-color: {{ color.swing }};
 		width: {{ proportion.swing }}%;
 	}
 
-	{{ ancestorSelector }} .ecforecastbars__bar--rep {
+	{{ ancestorSelector }} .ec-forecast-component__bar--trump {
 		background-color: {{ color.rep }};
 		width: {{ proportion.totalRep }}%;
+		text-align: right;
 	}
 
-	{{ ancestorSelector }} .ecforecastbars__label {
+	{{ ancestorSelector }} .ec-forecast-component__label {
 		display: inline-block;
 		margin: 0;
 		padding: 0;
 		float: left;
 		position: relative;
 		box-sizing: border-box;
+		overflow: visible;
+		font-size: 14px;
+		font-weight: 300;
+	}
+
+	{{ ancestorSelector }} .ec-forecast-component__label--clinton {
+		/*color: {{ color.darkDem }};*/
+		width: {{ proportion.totalDem }}%;
+		text-transform: uppercase;
+	}
+
+	{{ ancestorSelector }} .ec-forecast-component__label--tossup {
+		/*color: {{ color.darkSwing }};*/
+		width: {{ proportion.swing }}%;
 		text-align: center;
 	}
 
-	{{ ancestorSelector }} .ecforecastbars__label--dem {
-		color: {{ color.darkDem }};
-		width: {{ proportion.totalDem }}%;
-		text-align: left;
-	}
-
-	{{ ancestorSelector }} .ecforecastbars__label--swing {
-		color: {{ color.darkSwing }};
-		width: {{ proportion.swing }}%;
-		font-weight: 800;
-		overflow: visible;
-	}
-
-	{{ ancestorSelector }} .ecforecastbars__label--rep {
-		color: {{ color.darkRep }};
+	{{ ancestorSelector }} .ec-forecast-component__label--trump {
+		/*color: {{ color.darkRep }};*/
 		width: {{ proportion.totalRep }}%;
 		text-align: right;
+		text-transform: uppercase;
 	}
 
-	{{ ancestorSelector }} .ecforecastbars__marker {
-		position: relative;
-		width: 50%;
-		height: 100%;
-		border-right: 2px solid black;
+	{{ ancestorSelector }} .ec-forecast-component__marker {
+		position: absolute;
+		left: 50%;
+		height: 32px;
+		width: 1px;
+		background: black;
 		z-index: 2;
+		margin-left: -1.5px;
 	}
 
-	{{ ancestorSelector }} .ecforecastbars__subtitle{
-		font-weight:600;
+	{{ ancestorSelector }} .ec-forecast-component__marker-label {
+		width: 80px;
+		text-align: center;
+		position: relative;
+		height: 23px;
+		top: -23px;
+		left: -40px;
+		font-size: 14px;
+		line-height: 14px;
 	}
 
+	{{ ancestorSelector }} .ec-forecast-component__marker-label:after {
+		/* triangle */
+		content: '';
+		display: block;
+		width: 0;
+		height: 0;
+		border-style: solid;
+		border-width: 6px 6px 0 6px;
+		border-color: #000000 transparent transparent transparent;
+		position: absolute;
+		left: 50%;
+		margin-left: -5.5px;
+		bottom: 0;
+	}
+
+	{{ ancestorSelector }} .ec-forecast-component__footer {
+		clear: both;
+	}
+
+	{{ ancestorSelector }} .ec-forecast-component__faux-link {
+		color: #27757b;
+	}
+
+	{{ ancestorSelector }} .ec-forecast-component__link:hover .ec-forecast-component__faux-link {
+		color: #333;
+	}
+
+	{{ ancestorSelector }} .ec-forecast-component__faux-link:after {
+		content: '';
+		display: inline-block;
+		width: 16px;
+		height: 16px;
+		position: relative;
+		top: 3px;
+
+		background-image: url('//image.webservices.ft.com/v1/images/raw/fticon:arrow-right?width=100&format=png&source=ig&tint=%2327757b,%2327757b');
+
+		background-image: url('//image.webservices.ft.com/v1/images/raw/fticon:arrow-right?format=svg&source=ig&tint=%2327757b,%2327757b'), none;
+		background-size: cover;
+	}
+
+	{{ ancestorSelector }} .ec-forecast-component__link:hover .ec-forecast-component__faux-link:after {
+		background-image: url('//image.webservices.ft.com/v1/images/raw/fticon:arrow-right?width=100&format=png&source=ig&tint=%23333333,%23333333');
+		background-image: url('//image.webservices.ft.com/v1/images/raw/fticon:arrow-right?format=svg&source=ig&tint=%23333333,%23333333'), none;
+	}
 </style>
+{% endif %}
 
-<div class="ecforecastbars">
-	<h2 class="ecforecastbars__title">{{ title }}</h2>
-	<h3 class="ecforecastbars__subtitle">{{ subtitle }}</h3>
-	<div class="ecforecastbars__row">
-		<div class="ecforecastbars__label ecforecastbars__label--dem">Clinton ({{ data.dem + data.leaningDem }})</div>
-		<div class="ecforecastbars__label ecforecastbars__label--swing">Toss-up&nbsp;({{ data.swing }})</div>
-		<div class="ecforecastbars__label ecforecastbars__label--rep">Trump ({{ data.rep + data.leaningRep }})</div>
-	</div>
-	<div class="ecforecastbars__row">
-		<div class="ecforecastbars__bar ecforecastbars__bar--dem"></div>
-		<div class="ecforecastbars__bar ecforecastbars__bar--swing"></div>
-		<div class="ecforecastbars__bar ecforecastbars__bar--rep"></div>
-	</div>
-	<div class="ecforecastbars__marker"></div>
-</div>
+<article class="ec-forecast-component">
+	<a class="ec-forecast-component__link" href="https://ig.ft.com/us-elections/polls">
+
+		<h2 class="ec-forecast-component__title">{{ title }}</h2>
+
+		<div class="ec-forecast-component__chart">
+
+			<div class="ec-forecast-component__row">
+				<div class="ec-forecast-component__bar ec-forecast-component__bar--clinton">{{ data.dem + data.leaningDem }}</div>
+				<div class="ec-forecast-component__bar ec-forecast-component__bar--tossup"></div>
+				<div class="ec-forecast-component__bar ec-forecast-component__bar--trump">{{ data.rep + data.leaningRep }}</div>
+
+				<div class="ec-forecast-component__marker">
+					<div class="ec-forecast-component__marker-label">270 to win</div>
+				</div>
+			</div>
+
+
+			<div class="ec-forecast-component__row">
+				<div class="ec-forecast-component__label ec-forecast-component__label--clinton">Clinton</div>
+				<div class="ec-forecast-component__label ec-forecast-component__label--tossup">Toss-up</div>
+				<div class="ec-forecast-component__label ec-forecast-component__label--trump">Trump</div>
+			</div>
+		</div>
+
+		<footer class="ec-forecast-component__footer">
+			<div class="ec-forecast-component__source">Source: Real Clear Politics</div>
+
+			<div class="ec-forecast-component__faux-link">Poll tracker</div>
+		</footer>
+	</a>
+</article>
