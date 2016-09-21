@@ -1020,12 +1020,17 @@ tbody .state-winners-table__year {
     text-align: right;
     padding: 0px;
     font-size: 13px;
-    color: #333333;
+}
+.ec-breakdown-statelabel span{
+  text-decoration: none;
+  cursor: pointer;
+  border-bottom: 1px dotted #27757b;
 }
 
 .ec-breakdown-bar-label {
   text-align: right;
   font-feature-settings: "tnum";
+  color: #333333;
   font-size: 13px;
 }
 
@@ -1037,11 +1042,14 @@ tbody .state-winners-table__year {
 .Toss-up .ec-breakdown-header,
 .Toss-up .ec-breakdown-statelabel,
 .Toss-up .ec-breakdown-bar-label {
-    font-weight: 600;
-    font-size: 14px;
-    overflow: visible;
+  font-weight: 600;
+  font-size: 14px;
+  overflow: visible;
+}
 
-  }
+.ec-breakdown-row:not(.ec-breakdown-header):hover {
+  background-color: #e9decf;
+}
 
 @media (max-width: 490px) {
   .Toss-up {

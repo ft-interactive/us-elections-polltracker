@@ -4,27 +4,29 @@
         <div class="o-grid-row"><h2 class="article-figure__heading">{{ layout.title }}</h2ß></div>
     </div>
 
-    <div class="o-grid-container">
+    <div class="o-grid-container ec-breakdown-container">
         <div class="o-grid-row">
             {% for group in layout.order %}
             <div data-o-grid-colspan="12 S2" class="ec-breakdown-column {{ layout.groupNames[group] }}">
                 <div class="o-grid-row ec-breakdown-row ec-breakdown-header">{{ layout.groupNames[group] }}</div>
                 {% for state in layout.stateGroups[group] %}
-                <div class="o-grid-row ec-breakdown-row">
-                    <div data-o-grid-colspan="2 S4" class="ec-breakdown-statelabel">
-                    {% if (layout.groupNames[group] == 'Toss-up') %} 
-                        <a href="{{ state.code | statePollPageURL}}">{{ state.code | stateShortname }}</a>
-                    {% else %}
-                        <a href="{{ state.code | statePollPageURL}}">{{state.code}}</a>
-                    {% endif %}
-                    </div>
-                    <div data-o-grid-colspan="9 S6" class="ec-breakdown-bar-container">
-                        <div style="width:{{ state.barPct }}%; background-color:{{ color[group] }};" class="ec-breakdown-bar"></div>
-                    </div>
-                    <div data-o-grid-colspan="1 S2" class="ec-breakdown-bar-container">
-                        <div class="ec-breakdown-bar-label">{{state.ecVotes}}</div>
-                    </div>
-                    </div>
+                <a href="{{ state.code | statePollPageURL}}">
+                    <div class="o-grid-row ec-breakdown-row">
+                        <div data-o-grid-colspan="2 S4" class="ec-breakdown-statelabel">
+                        {% if (layout.groupNames[group] == 'Toss-up') %}
+                            <span>{{ state.code | stateShortname }}</span>
+                        {% else %}
+                            <span>{{state.code}}</span>
+                        {% endif %}
+                        </div>
+                        <div data-o-grid-colspan="9 S6" class="ec-breakdown-bar-container">
+                            <div style="width:{{ state.barPct }}%; background-color:{{ color[group] }};" class="ec-breakdown-bar"></div>
+                        </div>
+                        <div data-o-grid-colspan="1 S2" class="ec-breakdown-bar-container">
+                            <div class="ec-breakdown-bar-label">{{state.ecVotes}}</div>
+                        </div>
+                        </div>
+                    </a>
                 {% endfor %}
             </div>
             {% endfor %}
