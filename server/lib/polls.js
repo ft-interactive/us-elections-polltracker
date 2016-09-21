@@ -1,15 +1,16 @@
 import _ from 'underscore';
 import { isoFormat } from 'd3-time-format';
+import { getPollNumCandidatesByCode } from '../lib/states';
 import getAllPolls from '../../layouts/getAllPolls';
 import getPollAverages from '../../layouts/getPollAverages';
 import layoutTimeSeries from '../../layouts/timeseries-layout';
 import { render } from '../nunjucks';
 import cache from './cache';
 
-async function pollAverages(start, end, state = 'us') {
+async function pollAverages(start, end, state = 'us', pollnumcandidates) {
   return await cache(
-    `dbAverages-${state}-${start}-${end}`,
-    async() => await getPollAverages(state, start, end)
+    `dbAverages-${state}-${start}-${end}-candidateNum${pollnumcandidates}`,
+    async() => await getPollAverages(state, start, end, pollnumcandidates)
   );
 }
 
@@ -17,14 +18,15 @@ export async function makePollTimeSeries(chartOpts) {
   const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-07-01 00:00:00';
   const endDate = chartOpts.endDate ? chartOpts.endDate : isoFormat(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';
-  const pollData = await pollAverages(startDate, endDate, state);
+  const pollnumcandidates = chartOpts.pollnumcandidates ? chartOpts.pollnumcandidates : getPollNumCandidatesByCode(state.toUpperCase()) || 4;
+  const pollData = await pollAverages(startDate, endDate, state, pollnumcandidates);
   if (pollData && pollData.length > 0) {
     return render('templated-polls.svg', layoutTimeSeries(pollData, chartOpts));
   }
   return false;
 }
 
-async function getPollSVG(state, size = '600x300') {
+async function getPollSVG(state, size = '600x300', pollnumcandidates) {
   return makePollTimeSeries({
     fontless: true,
     notext: true,
@@ -34,21 +36,22 @@ async function getPollSVG(state, size = '600x300') {
     state,
     logo: false,
     margin: { top: 10, left: 35, bottom: 50, right: 90 },
+    pollnumcandidates,
   });
 }
 
-export async function lineChart(code) {
+export async function lineChart(code, pollnumcandidates) {
   return {
-    default: await getPollSVG(code, '355x200'),
-    S: await getPollSVG(code, '630x270'),
-    M: await getPollSVG(code, '603x270'),
-    L: await getPollSVG(code, '650x288'),
-    XL: await getPollSVG(code, '680x310'),
+    default: await getPollSVG(code, '355x200', pollnumcandidates),
+    S: await getPollSVG(code, '630x270', pollnumcandidates),
+    M: await getPollSVG(code, '603x270', pollnumcandidates),
+    L: await getPollSVG(code, '650x288', pollnumcandidates),
+    XL: await getPollSVG(code, '680x310', pollnumcandidates),
   };
 }
 
-export async function list(code) {
-  let allIndividualPolls = await getAllPolls(code.toLowerCase());
+export async function list(code, pollnumcandidates) {
+  let allIndividualPolls = await getAllPolls(code.toLowerCase(), pollnumcandidates);
   allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
   allIndividualPolls = _.values(allIndividualPolls);
   const formattedIndividualPolls = [];
@@ -81,8 +84,31 @@ export async function list(code) {
 }
 
 export async function pollHistory(code) {
+  const pollnumcandidates = getPollNumCandidatesByCode(code) || 4;
+
+  const startDate = '2016-07-01 00:00:00';
+  const endDate = isoFormat(new Date());
+  const pollData = await pollAverages(startDate, endDate, code.toLowerCase(), pollnumcandidates);
+  const latestAveragesData = pollData.reverse().slice(0, pollnumcandidates);
+  let latestAverages = {};
+  if (latestAveragesData.length > 0) {
+    let steinPollAverage = null;
+    if (_.findWhere(latestAveragesData, { candidatename: 'Stein' })) {
+      steinPollAverage = _.findWhere(latestAveragesData, { candidatename: 'Stein' }).pollaverage;
+    }
+
+    latestAverages = {
+      Clinton: _.findWhere(latestAveragesData, { candidatename: 'Clinton' }).pollaverage,
+      Trump: _.findWhere(latestAveragesData, { candidatename: 'Trump' }).pollaverage,
+      Johnson: _.findWhere(latestAveragesData, { candidatename: 'Johnson' }).pollaverage,
+      Stein: steinPollAverage,
+    };
+  }
+
   return {
-    lineCharts: await lineChart(code.toLowerCase()),
-    list: await list(code.toLowerCase()),
+    lineCharts: await lineChart(code.toLowerCase(), pollnumcandidates),
+    list: await list(code.toLowerCase(), pollnumcandidates),
+    pollnumcandidates,
+    latestAverages,
   };
 }

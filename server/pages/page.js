@@ -2,6 +2,7 @@ import flags from '../../config/flags';
 import lastUpdated from '../../layouts/getLastUpdated';
 import * as polls from '../lib/polls.js';
 import siteNav from '../lib/site-nav';
+const moment = require('moment');
 
 const onwardJourney = () => ({
   relatedContent: [
@@ -43,6 +44,10 @@ export default class Page {
     this.flags = flags();
     this.onwardJourney = onwardJourney();
     this.siteNav = siteNav();
+
+    const electionDay = moment('November 8, 2016');
+    const todayDay = moment();
+    this.daysToElection = electionDay.diff(todayDay, 'days');
   }
 
   async pready() {

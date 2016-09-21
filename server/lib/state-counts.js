@@ -17,6 +17,7 @@ import axios from 'axios';
 import DataRefresher from './data-refresh';
 import getAllLatestStateAverages from '../../layouts/getAllLatestStateAverages';
 import { getSimpleList } from './states';
+import stateReference from '../../data/states';
 
 const STATE_OVERRIDES_URL = (process.env.STATE_OVERRIDES_URL ||
                                 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/overrideCategories');
@@ -52,13 +53,26 @@ function getPollAvg(data, candidateName) {
   return o.pollaverage;
 }
 
-async function latestAveragesByState() {
-  return _.groupBy(await getAllLatestStateAverages(), 'state');
+async function latestAveragesByState(pollnumcandidates) {
+  return _.groupBy(await getAllLatestStateAverages(pollnumcandidates), 'state');
 }
 
 export default async () => {
   const overrides = await overrideData.promise();
-  const latestAverages = await latestAveragesByState();
+
+  const latestAverages = await latestAveragesByState(4);
+  const latestAverages3Way = await latestAveragesByState(3);
+
+  // use 4 way races but override some states (those with displayRace: 3 in data/states.json) with 3-way data
+  const threeWayStates = _.where(stateReference, { displayRace: 3 });
+  for (let i = 0; i < threeWayStates.length; i++) {
+    const code = threeWayStates[i].code.toLowerCase();
+    if (latestAverages3Way[code]) {
+      latestAverages[code] = latestAverages3Way[code];
+    } else {
+      delete latestAverages[code];
+    }
+  }
 
   return getSimpleList().map(state => {
     const pollAvg = latestAverages[state.code.toLowerCase()];
