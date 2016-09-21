@@ -220,14 +220,15 @@
   height: auto;
 }
 #latestnews {
-  border-top: 1px solid #cec6b9;
-  border-bottom: 1px solid #cec6b9;
   margin: 3em auto;
+  padding: 20px;
+  background-color: #f6e9d8;
 }
 #latestnews h3 {
-  font-family: MetricWeb, sans-serif;
-  margin: 0.5em 0 1em 0;
-  font-weight: 500;
+  font-family: "FinancierDisplayWeb", Georgia, serif;
+  margin: 0 0 0.6em 0;
+  font-weight: 400;
+  font-size: 28px;
 }
 .forecast-map {
   display: block;
@@ -984,6 +985,12 @@ tbody .state-winners-table__year {
 
 /* electoral college breakdown*/
 
+.ec-breakdown-container {
+  margin-top: 0.5em;
+  padding-bottom: 1em;
+  border-bottom: 1px solid #cec6b9;
+}
+
 .ec-breakdown-bar{
      display:inline-block; 
      background-color:#000;
@@ -1049,6 +1056,12 @@ tbody .state-winners-table__year {
 
 .ec-breakdown-row:not(.ec-breakdown-header):hover {
   background-color: #e9decf;
+}
+
+.ec-breakdown-footnote {
+  font-size: 14px;
+  color: #555555;
+  padding-top: 3px;
 }
 
 @media (max-width: 490px) {
