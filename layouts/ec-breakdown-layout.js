@@ -4,10 +4,10 @@ import states from '../data/states';
 
 const groupNames = {
   swing: 'Toss-up',
-  leaningRep: 'Leaning R',
-  rep: 'Republican',
-  dem: 'Democrat',
-  leaningDem: 'Leaning D',
+  leaningRep: 'Leaning',
+  rep: 'Solid',
+  dem: 'Solid',
+  leaningDem: 'Leaning',
 };
 
 function splitArray(a, keyFunction) {

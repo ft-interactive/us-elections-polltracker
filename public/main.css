@@ -991,6 +991,7 @@ tbody .state-winners-table__year {
 .ec-breakdown-header{
     align-items: center;
     justify-content: center;
+    text-transform: uppercase;
 }
 
 .ec-breakdown-statelabel{
