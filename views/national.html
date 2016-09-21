@@ -49,11 +49,13 @@ the race for 270 electoral college votes is too close to call
   )
 }}
 
+{% set racestring = 'four' %}
+{% if racestring == 3 %}{% set racestring = 'four' %}{% endif %}
 {{
   PollingHistory.LineChart(
     statename="US",
     title="Which White House candidate is leading in the polls?",
-    subtitle="National polling average (%)",
+    subtitle="National polling average based on " + racestring + "-way race* (%)",
     svgs=pollHistory.lineCharts,
     latestPollAverages=pollHistory.latestAverages
   )

@@ -108,6 +108,7 @@ export async function pollHistory(code) {
   return {
     lineCharts: await lineChart(code.toLowerCase(), pollnumcandidates),
     list: await list(code.toLowerCase(), pollnumcandidates),
+    pollnumcandidates,
     latestAverages,
   };
 }
