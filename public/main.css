@@ -1010,13 +1010,11 @@ tbody .state-winners-table__year {
     padding: 4px 0;
     margin-bottom: 8px;
     border-bottom: 1px solid #555555;
+}
+.ec-breakdown-column:nth-child(3) .ec-breakdown-header {
     border-top: 1px solid #999999;
 }
-.ec-breakdown-column:first-child .ec-breakdown-header,
-.ec-breakdown-column:nth-child(4) .ec-breakdown-header {
-  border-right: 1px solid #999999;
 
-}
 .ec-breakdown-statelabel {
     overflow:visible;
     text-align: right;
