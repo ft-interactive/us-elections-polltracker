@@ -7,7 +7,6 @@ import stateController from './server/controllers/state';
 import stateCodeRedirectController from './server/controllers/state-code-redirect';
 import ecForecastComponentController from './server/controllers/ec-forecast-component';
 import pollGraphicsController from './server/controllers/poll-graphics';
-import getBerthaData from './server/lib/getBerthaData.js';
 
 import stateCount from './server/lib/state-counts';
 

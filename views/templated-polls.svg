@@ -52,9 +52,11 @@ text{
     {% endfor %}
 </g>
 <g class="plot" transform="translate({{margin.left}},{{margin.top}})">
+{% if type == 'area' and pollnumcandidates == 2 %}
 {% for area in candidateAreas %}
     <path d="{{ area.d }}" fill="{{ area.fill }}" fill-opacity="0.3"></path>
 {% endfor %}
+{% endif %}
 
 {% for line in candidateLines %}
     <path class="candidateLine" d="{{ line.d }}" stroke-width="2px" stroke-linejoin="round"  stroke-linecap="round" fill="none" stroke="{{ line.stroke }}"></path>

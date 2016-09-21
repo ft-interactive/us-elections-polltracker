@@ -4,7 +4,6 @@ export default function (data) {
   const total = data.rep + data.leaningRep + data.dem + data.leaningDem + data.swing;
 
   return {
-    title: 'Electoral college forecast',
     includeStyles: true,
     ancestorSelector: '.us-election-midriff-graphic',
     proportion: {

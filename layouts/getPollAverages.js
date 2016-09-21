@@ -7,17 +7,19 @@ var	db = require('../models/index'),
 const deleteTimezoneOffset = d3.timeFormat('%B %e, %Y');
 
 // runs a psql query to get data from db
-async function getPollAverages(state, startDate, endDate) {
+async function getPollAverages(state, startDate, endDate, pollnumcandidates) {
 	// to capture data from anytime during the day (and timezone offsets), set endDate
 	// to the start of the next day
 	endDate = moment(endDate).add(1, 'day').format();
+
 	return Pollaverages.findAll({
 		where: {
 			state: state,
 			date: {
 				$gte: startDate,
-				$lte: endDate
-			}
+				$lte: endDate,
+			},
+			pollnumcandidates,
 		},
 		order: [
 			['date', 'ASC']

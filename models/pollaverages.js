@@ -4,7 +4,8 @@ module.exports = function(sequelize, DataTypes) {
     date: DataTypes.DATE,
     candidatename: DataTypes.STRING,
     pollaverage: DataTypes.FLOAT,
-    state: DataTypes.STRING
+    state: DataTypes.STRING,
+    pollnumcandidates: DataTypes.INTEGER,
   }, {
     classMethods: {
       associate: function(models) {

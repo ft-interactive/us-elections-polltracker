@@ -9,7 +9,7 @@ const sMaxAge = 10;
 const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
 
 function qsCacheKey(queryRequest) {
-  const paramOrder = ['background', 'startDate', 'endDate', 'size', 'type', 'state', 'logo', 'dots', 'key'];
+  const paramOrder = ['background', 'startDate', 'endDate', 'size', 'type', 'state', 'logo', 'dots', 'key', 'pollnumcandidates'];
 
   const cacheKey = paramOrder.reduce(
     (a, b) => a + queryRequest[b],

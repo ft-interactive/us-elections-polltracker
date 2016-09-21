@@ -4,6 +4,7 @@
 {% if on %}
 <div id="statelist">
   {% call PageElements.Figure(title=title) %}
+  <p>The candidates are focusing their attention on states where the races are too close to call. These <span style="border-bottom:3px solid {{color.swing}}">toss-up states</span> are shown in the table below, which ranks all 50 states and the District of Columbia by polling average, showing the closest races first.</p>
   <div id="statelist-table">
     {% set row_num_collapse = 10 %}
     <div data-o-component="o-expander" class="o-expander items"
@@ -33,6 +34,8 @@
             {%- else -%}
               {% if state.margin > 0 %}
               Clinton
+              {% elif state.margin == 0 %}
+              Tie
               {% else %}
               Trump
               {% endif %}
