@@ -5,3 +5,5 @@ log.txt
 .env
 *.log
 .vscode/settings.json
+
+views/old-map.svg

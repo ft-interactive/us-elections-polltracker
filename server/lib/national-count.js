@@ -11,7 +11,6 @@ import classifyState from '../../layouts/state-classifications';
 
 export const marginThreshold = classifyState.forecast;
 
-
 export default async function nationalCount(stateData) {
   // if state data is not supplied go get it
   if(!stateData) stateData = await stateCount();

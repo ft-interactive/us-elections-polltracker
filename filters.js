@@ -30,6 +30,7 @@ function makeLookup(arr,key){
 const stateLookup = makeLookup(stateData,'code');
 
 export function statePollPageURL(code) {
+  if (!code) return '';
   return stateLookup[code].slug + "-polls";
 }
 
