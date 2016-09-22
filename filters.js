@@ -1,4 +1,6 @@
 import { marginThreshold } from './server/lib/national-count';
+const stateData = require('./data/states.json');
+
 
 export function commas(n) {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -10,6 +12,35 @@ export function round1dp(n) {
 
 const monthsAbbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
                   'Sep', 'Oct', 'Nov', 'Dec'];
+
+/* some functions for accesing stuff from the state data objects { "code":"NM",   
+"shortName":"NM","name":"New Mexico","raceId":5894,"ecVotes":5,
+"conceptId":"TnN0ZWluX0dMX1VTX05ld01leGljbw==-R0w=","url":null,
+"id":"36580a28-5b01-11e6-9f70-badea1b336d4",
+"slug":"new-mexico"
+}, */
+
+function makeLookup(arr,key){
+  const o = {};
+  arr.forEach(function(d){
+    o[ d[key] ] = d;
+  })
+  return o;
+}
+const stateLookup = makeLookup(stateData,'code');
+
+export function statePollPageURL(code) {
+  return stateLookup[code].slug + "-polls";
+}
+
+export function stateShortname(code) {
+  if(stateLookup[code].shortName) return stateLookup[code].shortName;
+  return stateLookup[code].name;
+}
+
+export function stateName(code) {
+  return stateLookup[code].name;
+}
 
 // turn 8/26 - 8/29 to Aug 26 - 29
 export function formatDateForIndividualPollsTable(inputDate) {
