@@ -7,9 +7,10 @@ you can stateData (from eg. state-counts.js) but if you don't it'll go and get i
 import { scaleThreshold } from 'd3-scale';
 import stateCount from '../lib/state-counts';
 
-export const marginThreshold = scaleThreshold()
-.range(['rep', 'leaningRep', 'swing', 'leaningDem', 'dem'])
-.domain([-10, -5, 5, 10]);
+import classifyState from '../../layouts/state-classifications';
+
+export const marginThreshold = classifyState.forecast;
+
 
 export default async function nationalCount(stateData) {
   // if state data is not supplied go get it
@@ -17,8 +18,10 @@ export default async function nationalCount(stateData) {
 
   const stateCounts = Object.keys(stateData).reduce((cumulative, stateCode) => {
     const state = stateData[stateCode];
+    const forecast = (state.code.substring(0,2) === 'ME' || state.code.substring(0,2) === 'NE')
+      ? classifyState.forecastMENE(state.margin) : classifyState.forecast(state.margin);
 
-    cumulative[marginThreshold(state.margin)] += state.ecVotes;
+    cumulative[forecast] += state.ecVotes;
     return cumulative;
   }, {
     dem: 0,

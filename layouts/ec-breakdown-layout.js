@@ -45,7 +45,7 @@ function combineMENE(lookup) {
     const code = lookup[d].code.substring(0,2);
     const state = lookup[d];
     state.code = state.code .substring(0,2);
-    const forecast = (state.code === 'ME' || state.code === 'ME')
+    const forecast = (state.code === 'ME' || state.code === 'NE')
             ? classifyState.forecastMENE(state.margin) : classifyState.forecast(state.margin);
     state.forecast = forecast;
     if ( newLookup[code + '-' + forecast]){ 
