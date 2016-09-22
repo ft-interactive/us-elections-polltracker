@@ -16,7 +16,7 @@ async function pollAverages(start, end, state = 'us', pollnumcandidates) {
 
 export const makePollTimeSeries = async chartOpts => {
   const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-07-01 00:00:00';
-  const endDate = chartOpts.endDate ? chartOpts.endDate : d3.timeFormat.isoFormat(new Date());
+  const endDate = chartOpts.endDate ? chartOpts.endDate : d3.isoFormat(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';
 
   const pollnumcandidates = (chartOpts.pollnumcandidates ?
@@ -93,7 +93,7 @@ export async function pollHistory(code) {
   const pollnumcandidates = getPollNumCandidatesByCode(code) || 4;
 
   const startDate = '2016-07-01 00:00:00';
-  const endDate = d3.timeFormat.isoFormat(new Date());
+  const endDate = d3.isoFormat(new Date());
   const pollData = await pollAverages(startDate, endDate, code.toLowerCase(), pollnumcandidates);
   const latestAveragesData = pollData.reverse().slice(0, pollnumcandidates);
   let latestAverages = {};
