@@ -1094,8 +1094,9 @@ tbody .state-winners-table__year {
   .nav___mobile-nav {
     display: flex;
     margin-top: 1em;
-    padding: .5em 0;
+    padding: 1em 0;
     justify-content: space-around;
+    border-top: 2px solid #E4DFCB;
   }
 
   .nav___mobile-nav--back-to-overview,
@@ -1209,16 +1210,15 @@ tbody .state-winners-table__year {
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
-    padding-right: 1em;
-    height: 3em;
+    height: 2.5em;
   }
 
   .rail__close-button--button {
     background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:cross?source=o-icons&tint=%23555555,%23555555&format=svg);
     background-size: contain;
     display: block;
-    height: 1.5em;
-    width: 1.5em;
+    height: 1.25em;
+    width: 1.25em;
     margin-right: 1em;
   }
 
