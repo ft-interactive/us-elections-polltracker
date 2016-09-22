@@ -63,8 +63,8 @@ export async function list(code, pollnumcandidates) {
   const formattedIndividualPolls = [];
   _.each(allIndividualPolls, poll => {
     let winner = '';
-    const clintonVal = _.findWhere(poll, { candidatename: 'Clinton' }).pollvalue;
-    const trumpVal = _.findWhere(poll, { candidatename: 'Trump' }).pollvalue;
+    const clintonVal = _.find(poll, _.iteratee({ candidatename: 'Clinton' })).pollvalue;
+    const trumpVal = _.find(poll, _.iteratee({ candidatename: 'Trump' })).pollvalue;
 
     if (clintonVal > trumpVal) {
       winner = 'Clinton';
@@ -77,8 +77,8 @@ export async function list(code, pollnumcandidates) {
     // unshift instead of push because dates keep being in chron instead of reverse chron
     // even when I change the pg query to order by endDate DESC
     formattedIndividualPolls.unshift({
-      Clinton: _.findWhere(poll, { candidatename: 'Clinton' }).pollvalue,
-      Trump: _.findWhere(poll, { candidatename: 'Trump' }).pollvalue,
+      Clinton: _.find(poll, _.iteratee({ candidatename: 'Clinton' })).pollvalue,
+      Trump: _.find(poll, _.iteratee({ candidatename: 'Trump' })).pollvalue,
       date: poll[0].date,
       pollster: poll[0].pollster.replace(/\*$/, '').replace(/\//g, ', '), // get rid of asterisk b/c RCP doesn't track what it means
       sampleSize: poll[0].sampleSize,
@@ -99,14 +99,14 @@ export async function pollHistory(code) {
   let latestAverages = {};
   if (latestAveragesData.length > 0) {
     let steinPollAverage = null;
-    if (_.findWhere(latestAveragesData, { candidatename: 'Stein' })) {
-      steinPollAverage = _.findWhere(latestAveragesData, { candidatename: 'Stein' }).pollaverage;
+    if (_.find(latestAveragesData, _.iteratee({ candidatename: 'Stein' }))) {
+      steinPollAverage = _.find(latestAveragesData, _.iteratee({ candidatename: 'Stein' })).pollaverage;
     }
 
     latestAverages = {
-      Clinton: _.findWhere(latestAveragesData, { candidatename: 'Clinton' }).pollaverage,
-      Trump: _.findWhere(latestAveragesData, { candidatename: 'Trump' }).pollaverage,
-      Johnson: _.findWhere(latestAveragesData, { candidatename: 'Johnson' }).pollaverage,
+      Clinton: _.find(latestAveragesData, _.iteratee({ candidatename: 'Clinton' })).pollaverage,
+      Trump: _.find(latestAveragesData, _.iteratee({ candidatename: 'Trump' })).pollaverage,
+      Johnson: _.find(latestAveragesData, _.iteratee({ candidatename: 'Johnson' })).pollaverage,
       Stein: steinPollAverage,
     };
   }

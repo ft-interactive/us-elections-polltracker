@@ -65,7 +65,7 @@ export default async () => {
   const latestAverages3Way = await latestAveragesByState(3);
 
   // use 4 way races but override some states (those with displayRace: 3 in data/states.json) with 3-way data
-  const threeWayStates = _.where(stateReference, { displayRace: 3 });
+  const threeWayStates = _.filter(stateReference, _.iteratee({ displayRace: 3 }));
   for (let i = 0; i < threeWayStates.length; i += 1) {
     const code = threeWayStates[i].code.toLowerCase();
     if (latestAverages3Way[code]) {
