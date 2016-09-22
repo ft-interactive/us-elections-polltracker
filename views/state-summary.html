@@ -1,21 +1,15 @@
 {% macro StateSummary(summary, state) %}
 <div class="state-page__summary">
-  <button class="button__state-status__{{ summary.marginClass }} o-buttons o-buttons--standout o-buttons--big" aria-selected="true">
-    {{ summary.buttonText }}
-  </button>
-  <button class="button__state-ec-votes {{ summary.marginClass }} o-buttons o-buttons--big">
+  <div class="bar__state-status {{ summary.marginClass }}">
+    ★ {{ summary.buttonText }} ★
+  </div>
+  <div class="bar__state-ec-votes {{ summary.marginClass }}">
     <figure>{{ state.ecVotes }}</figure> of 538 electoral votes
-  </button>
+  </div>
 
-  <div class="graphic__ecvotes--circles {{ summary.marginClass }}">
+  <div class="graphic__ecvotes--circles">
     {% for i in range(0, 538) %}
-    {% if loop.index0 % 5 == 0 %}
-    <div class="circle--group">
-    {% endif %}
-    <div class="circle {{ 'highlighted' if loop.index0 < state.ecVotes }}"></div>
-    {% if loop.index0 % 5 == 4 %}
-    </div>
-    {% endif %}
+    <div class="circle {{ state.getVoteClass(loop.index0, state.ecVotes, state.nationalCounts, summary) }}"></div>
     {% endfor %}
     </div>
   </div>

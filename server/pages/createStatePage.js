@@ -1,10 +1,11 @@
 import Page from './page';
 import { getBySlug } from '../lib/states';
-import getStateSummary from '../lib/getStateSummary';
+import getStateSummary, { getVoteClass } from '../lib/getStateSummary';
 import referenceData from '../../layouts/stateDemographics';
 import historicalDataTable from '../../layouts/historicalDataTable';
 import demographicBarcode from '../../layouts/demographicBarcode';
 import districtList from '../../layouts/districtList';
+import nationalCount from '../lib/national-count';
 
 class StatePage extends Page {
   constructor(state) {
@@ -28,10 +29,12 @@ class StatePage extends Page {
     this.historicalResults = historicalDataTable(referenceData, this.state.code);
     this.demographicIndicators = this.state.demographics.map(d => demographicBarcode(d));
     this.districtList = districtList(this.state);
+    this.state.getVoteClass = getVoteClass;
   }
 
   async ready() {
     await this.pready();
+    this.state.nationalCounts = await nationalCount();
     this.summaryData = await getStateSummary(this.state);
   }
 }
