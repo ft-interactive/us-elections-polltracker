@@ -324,7 +324,7 @@ a {
   }
   .pollchart.pollchart--M svg {
     max-width: 657px;
-  }
+  } 
 }
 @media (max-width: 76.24em) and (min-width: 61.25em) {
   .pollchart.pollchart--L {
@@ -357,7 +357,7 @@ a {
 }
 
 #national-bar-wrapper {
-  margin: 3em 0;
+  margin: 2em 0 1em;
 }
 
 #national-bar-wrapper * {
@@ -368,7 +368,6 @@ a {
   width: 80px;
   display: inline-block;
   vertical-align: bottom;
-  // margin-bottom: -66px;
 }
 
 .national-bar--head-icons img {
@@ -508,7 +507,7 @@ a {
 
 @media (max-width: 580px) {
   #national-bar-wrapper {
-    margin: 5em 0;
+    margin: 3em 0 1em;
   }
 }
 
@@ -1025,7 +1024,6 @@ tbody .state-winners-table__year {
 
 .ec-breakdown-row{
     height:15px;
-    // overflow:hidden;
     margin-bottom: 1px;
 }
 
