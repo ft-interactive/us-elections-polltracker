@@ -174,6 +174,10 @@
   margin-bottom: 6px;
 }
 
+.navmap{
+  margin-top: 10px;
+}
+
 .congressional-district-nav {
   margin: 1em 0;
 }
@@ -216,14 +220,15 @@
   height: auto;
 }
 #latestnews {
-  border-top: 1px solid #cec6b9;
-  border-bottom: 1px solid #cec6b9;
   margin: 3em auto;
+  padding: 20px;
+  background-color: #f6e9d8;
 }
 #latestnews h3 {
-  font-family: MetricWeb, sans-serif;
-  margin: 0.5em 0 1em 0;
-  font-weight: 500;
+  font-family: "FinancierDisplayWeb", Georgia, serif;
+  margin: 0 0 0.6em 0;
+  font-weight: 400;
+  font-size: 28px;
 }
 .forecast-map {
   display: block;
@@ -976,4 +981,100 @@ tbody .state-winners-table__year {
 
 .state-winners-table__winning-pct-federal-figure {
   padding-right: 0;
+}
+
+/* electoral college breakdown*/
+
+.ec-breakdown-container {
+  margin-top: 0.5em;
+  padding-bottom: 1em;
+  border-bottom: 1px solid #cec6b9;
+}
+
+.ec-breakdown-bar{
+     display:inline-block; 
+     background-color:#000;
+     height:100%;
+     color:#FFF;
+}
+
+.ec-breakdown-bar-container{
+    padding-left: 3px;
+}
+
+.ec-breakdown-row{
+    height:15px;
+    // overflow:hidden;
+    margin-bottom: 1px;
+}
+
+.ec-breakdown-header {
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    color: #555555;
+    font-size: 14px;
+    padding: 4px 0;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #555555;
+}
+.ec-breakdown-column:nth-child(3) .ec-breakdown-header {
+    border-top: 1px solid #999999;
+}
+
+.ec-breakdown-statelabel {
+    overflow:visible;
+    text-align: right;
+    padding: 0px;
+    font-size: 13px;
+    color: #333333;
+}
+.ec-breakdown-row:not(.ec-breakdown-header):hover .ec-breakdown-statelabel span{
+  text-decoration: none;
+  cursor: pointer;
+  border-bottom: 1px solid #333333;
+}
+
+.ec-breakdown-bar-label {
+  text-align: right;
+  font-feature-settings: "tnum";
+  color: #333333;
+  font-size: 13px;
+}
+
+.Toss-up {
+  margin: 0 8.3333%;
+  font-size: 15px;
+}
+
+.Toss-up .ec-breakdown-header,
+.Toss-up .ec-breakdown-statelabel,
+.Toss-up .ec-breakdown-bar-label {
+  font-weight: 600;
+  font-size: 14px;
+  overflow: visible;
+}
+
+.ec-breakdown-row:not(.ec-breakdown-header):hover {
+  background-color: #e9decf;
+}
+
+.ec-breakdown-footnote {
+  font-size: 14px;
+  color: #555555;
+  padding-top: 3px;
+}
+
+@media (max-width: 490px) {
+  .Toss-up {
+    margin: 0;
+  }
+  .ec-breakdown-column:first-child .ec-breakdown-header,
+  .ec-breakdown-column:nth-child(4) .ec-breakdown-header {
+    border-right: 0;
+
+  }
+  .ec-breakdown-column {
+    margin-bottom: 20px;
+  }
 }
