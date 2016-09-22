@@ -22,7 +22,7 @@
   }
 
   function goHome() {
-    window.location.href = '/polls';
+    window.location.href = 'polls';
   }
 
   function closeMenu() {
