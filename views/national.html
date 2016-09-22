@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 
 {% from 'includes/forecast-map-macro.svg' import ForecastMap %}
+{% from 'ec-breakdown.html' import ECBreakdown %}
 {% from 'latest-news.html' import Block as LatestNews %}
 {% from 'electoral-college-bar.html' import Render as ElectoralCollegeBar %}
 {% from 'state-list.html' import Render as StateList %}
@@ -31,15 +32,8 @@ the race for 270 electoral college votes is still too close to call
       on=flags.nationalBar
     )
   }}
-  {% if flags.forecastMap == 'choropleth' %}
-    <div>{{ ForecastMap(forecastMapLayout) }}</div>
-  {% elif flags.forecastMap == 'dots' %}
-    <div style="margin-bottom: -5rem;">
-      <img src="/forecast-map.svg?dots=true" width="100%" />
-    </div>
-  {% endif %}
+  {{ ECBreakdown(ecBreakdownLayout) }}
 {% endcall %}
-
 
 {{
   LatestNews(
