@@ -8,7 +8,7 @@
         <div class="o-grid-row">
             {% for group in layout.order %}
             <div data-o-grid-colspan="12 S2" class="ec-breakdown-column {{ layout.groupNames[group] }}">
-                <div class="o-grid-row ec-breakdown-row ec-breakdown-header">{{ layout.groupNames[group] }}</div>
+                <div class="o-grid-row ec-breakdown-row ec-breakdown-header">{{ layout.groupNames[group] }} ({{layout.groupTotals[group]}})</div>
                 {% for state in layout.stateGroups[group] %}
                 <a href="{{ state.code | statePollPageURL}}">
                     <div class="o-grid-row ec-breakdown-row">

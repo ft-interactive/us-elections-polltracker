@@ -1,7 +1,7 @@
 import classifyState from './state-classifications';
 import color from './color';
 import states from '../data/states';
-
+const sum =require('d3-array').sum;
 
 function makeLookup(arr,key,value){
   const o = {};
@@ -75,6 +75,13 @@ export default function (stateLookup) {
         .sort((a, b) => b.ecVotes - a.ecVotes);
 
   const stateGroups = splitArray(states, function (d) { return d.forecast; });
+  const groupTotals = Object.keys(stateGroups).reduce(function(lookup, groupName){
+    //console.log(lookup);
+    lookup[groupName] = sum( stateGroups[groupName], d => d.ecVotes );
+    return lookup;
+  },{});
+
+  console.log(groupTotals);
 
   return {
     title: 'Current battleground states',
@@ -82,6 +89,7 @@ export default function (stateLookup) {
     fontless: true,
     order: classifyState.forecast.range().reverse(),
     stateGroups,
+    groupTotals,
     groupNames,
     color,
   };
