@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "axios": "^0.14.0",
+    "babel-cli": "^6.14.0",
     "babel-core": "^6.14.0",
     "babel-plugin-transform-runtime": "^6.15.0",
     "babel-preset-es2015": "^6.14.0",
@@ -48,7 +49,6 @@
     "xmldom": "^0.1.22"
   },
   "devDependencies": {
-    "babel-cli": "^6.14.0",
     "babel-eslint": "^6.1.2",
     "chai": "^3.5.0",
     "eslint": "^3.5.0",
@@ -65,12 +65,12 @@
   },
   "private": true,
   "scripts": {
+    "db:create": "psql --command 'CREATE DATABASE us2016'",
+    "db:drop": "psql --command 'DROP DATABASE us2016'",
+    "db:migrate": "sequelize db:migrate",
     "dev": "nodemon setup.js -e js,html,svg",
     "scraper": "babel-node scraper.js",
     "start": "node setup.js",
-    "test": "mocha --compilers js:babel-core/register layouts/*.spec.js",
-    "db:drop": "psql --command 'DROP DATABASE us2016'",
-    "db:create": "psql --command 'CREATE DATABASE us2016'",
-    "db:migrate": "sequelize db:migrate"
+    "test": "mocha --compilers js:babel-core/register layouts/*.spec.js"
   }
 }
