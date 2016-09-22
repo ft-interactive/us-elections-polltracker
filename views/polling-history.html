@@ -23,9 +23,9 @@
 {% endmacro %}
 
 {% macro Table(title, subtitle, list, startCollapse=20) %}
+{% if list and list.length > 0 %}
 <div id="individualpolls">
   {% call PageElements.Figure(title=title, subtitle=subtitle) %}
-    {% if list and list.length > 0 %}
       {% if list.length > startCollapse %}
       <div data-o-component="o-expander" class="o-expander items"
             data-o-expander-collapsed-toggle-text="Show more polls"
@@ -65,9 +65,7 @@
     <button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big">Show more polls</button>
     {% endif %}
     </div>
-    {% else %}
-    <p class="notavailable">Polls for this state are not available yet.</p>
-    {% endif %}
   {% endcall %}
 </div>
+{% endif %}
 {% endmacro %}
