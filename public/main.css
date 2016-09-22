@@ -329,7 +329,7 @@ a {
   }
   .pollchart.pollchart--M svg {
     max-width: 657px;
-  }
+  } 
 }
 @media (max-width: 76.24em) and (min-width: 61.25em) {
   .pollchart.pollchart--L {
@@ -362,7 +362,7 @@ a {
 }
 
 #national-bar-wrapper {
-  margin: 3em 0;
+  margin: 2em 0 1em;
 }
 
 #national-bar-wrapper * {
@@ -370,10 +370,9 @@ a {
 }
 
 .national-bar--head-icons {
-  width: 9%;
+  width: 80px;
   display: inline-block;
   vertical-align: bottom;
-  margin-bottom: -16px;
 }
 
 .national-bar--head-icons img {
@@ -381,8 +380,8 @@ a {
 }
 
 #national-bar-container {
-  width: 80%;
-  height: 20px;
+  width: 100%;
+  height: 23px;
   position: relative;
   display: inline-block;
 }
@@ -390,8 +389,8 @@ a {
 #national-270-line {
   position: absolute;
   width: 50%;
-  height: 250%;
-  border-right: 2px solid black;
+  height: 100%;
+  border-right: 1px solid #555555;
   bottom: 0;
   z-index: 2;
 }
@@ -401,7 +400,8 @@ a {
   position: absolute;
   right: -30px;
   top: -20px;
-  font-weight: 600;
+  font-weight: 400;
+  color: #555555;
 }
 
 .national-bar-container--subbars {
@@ -416,29 +416,26 @@ a {
 
 .national-bar-container-values {
   position: absolute;
-  top: -20px;
+  top: 2px;
   left: 0;
   width: 100%;
-  font-size: 14px;
+  font-size: 17px;
+  color: #ffffff;
 }
 
 .national-bar-container-keys {
-  position: absolute;
-  top: 20px;
-  left: 0;
   white-space: nowrap;
   width: 100%;
-  font-weight: 600;
+  font-weight: 400;
+  font-size: 15px;
   line-height: 0.9em;
   margin-top: 0.3em;
-}
+  color: #666666;
+  text-transform: uppercase;
 
-#national-bar-container-keys--dem {
-  color: #579dd5;
 }
 
 #national-bar-container-keys--rep {
-  color: #e03d46;
   text-align: right;
 }
 
@@ -452,8 +449,32 @@ a {
 .national-bar-container-group-sums {
   font-size: 2em;
   font-weight: 500;
-  position: absolute;
-  top: -63px;
+}
+
+.heads-container {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.clinton-container,
+.trump-container {
+  display: inline-block;
+  width: 49%;
+}
+
+.trump-container {
+  text-align: right;
+}
+
+.votes-container {
+  display: inline-block;
+  margin-bottom: 16px;
+}
+.votes-container--dem {
+  margin-left: 10px;
+}
+.votes-container--rep {
+  margin-right: 10px;
 }
 
 #national-bar-container-group-sums--dem {
@@ -462,7 +483,6 @@ a {
 
 #national-bar-container-group-sums--rep {
   color: #e03d46;
-  right: 0;
 }
 
 #national-bar-legend {
@@ -492,7 +512,7 @@ a {
 
 @media (max-width: 580px) {
   #national-bar-wrapper {
-    margin: 5em 0;
+    margin: 3em 0 1em;
   }
 }
 
@@ -531,8 +551,11 @@ a {
   }
 
   #national-bar-legend {
-    margin-top: 80px;
+    margin-top: 20px;
     margin-bottom: 20px;
+  }
+  .votes-container {
+    margin-bottom: 0;
   }
 }
 
