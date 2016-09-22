@@ -86,7 +86,7 @@ export default function (stateLookup) {
   console.log(groupTotals);
 
   return {
-    title: 'Current battleground states',
+    title: 'Where are the battleground states?',
     standalone: true,
     fontless: true,
     order: classifyState.forecast.range().reverse(),
