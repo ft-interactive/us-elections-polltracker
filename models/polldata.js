@@ -1,6 +1,7 @@
-'use strict';
-module.exports = function(sequelize, DataTypes) {
-  var Polldata = sequelize.define('Polldata', {
+import { DataTypes } from 'sequelize';
+
+export default sequelize =>
+  sequelize.define('Polldata', {
     rcpid: DataTypes.INTEGER,
     pollster: DataTypes.STRING,
     rcpUpdated: DataTypes.DATE,
@@ -17,12 +18,5 @@ module.exports = function(sequelize, DataTypes) {
     pollvalue: DataTypes.FLOAT,
     state: DataTypes.STRING,
     pollnumcandidates: DataTypes.INTEGER,
-  }, {
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
-      }
-    }
-  });
-  return Polldata;
-};
+  })
+;

@@ -1,5 +1,5 @@
 import stateReference from '../../data/states';
-import { getStateDemographics } from './demographics';
+import getStateDemographics from './getStateDemographics';
 
 const states = stateReference.map(d => {
   const demographics = getStateDemographics(d.code);

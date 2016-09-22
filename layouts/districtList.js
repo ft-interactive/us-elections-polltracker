@@ -1,5 +1,5 @@
-import stateReference from '../data/states';
 import _ from 'lodash';
+import stateReference from '../data/states';
 
 // if the state has a parent, return sibling state (congressional district) information
 export default function layout(state) {

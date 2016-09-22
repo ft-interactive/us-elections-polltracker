@@ -1,8 +1,8 @@
+import moment from 'moment';
 import flags from '../../config/flags';
 import lastUpdated from '../../layouts/getLastUpdated';
 import * as polls from '../lib/polls.js';
 import siteNav from '../lib/site-nav';
-const moment = require('moment');
 
 const onwardJourney = () => ({
   relatedContent: [

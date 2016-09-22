@@ -1,6 +1,6 @@
-import referenceData from '../../layouts/stateDemographics';
 import { extent } from 'd3-array';
-import _ from 'underscore';
+import _ from 'lodash';
+import referenceData from '../../layouts/stateDemographics';
 
 const labels = referenceData.label;
 
@@ -35,7 +35,7 @@ const categories = attributesToDisplay.map(property => {
   };
 });
 
-export function getStateDemographics(code) {
+export default code => {
   let cleanCode = code.toUpperCase();
   // deal with Maine, Nebraska
   if (cleanCode.indexOf('CD') !== -1) {
@@ -55,4 +55,4 @@ export function getStateDemographics(code) {
       maxYVal: Math.max(stateValue, category.nationalValue),
     };
   }).filter(Boolean);
-}
+};

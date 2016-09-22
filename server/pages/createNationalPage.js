@@ -21,7 +21,7 @@ class NationalPage extends Page {
 
     try {
       editorsConfig = await getEditorsConfig();
-    } catch(e) {
+    } catch (e) {
       // Fail gracefully if we have trouble getting data from the Bertha sheet
       // Ideally let the template provide default values for things.
       // If we need some default calculations do them here...
@@ -45,11 +45,11 @@ class NationalPage extends Page {
   }
 }
 
-export async function createPage() {
+export default async () => {
   const page = new NationalPage();
   await page.ready();
   return page;
-}
+};
 
 // TODO: with polls `US presidential election polls: It's Clinton ${latestPollAverages.Clinton}%, Trump ${latestPollAverages.Trump}%`
 // TODO: no polls `US presidential election polls: Here’s where ${stateName} stands now`

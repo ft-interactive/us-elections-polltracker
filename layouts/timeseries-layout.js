@@ -1,19 +1,20 @@
+import _ from 'lodash';
+import * as d3 from 'd3';
+import { intersect, shape } from 'svg-intersections';
 import color from './color.js';
-const d3 = require('d3');
-const svgIntersections = require('svg-intersections');
-const intersect = svgIntersections.intersect;
-const shape = svgIntersections.shape;
-const _ = require('underscore');
-
 import { codeToName } from '../server/lib/states';
 
 // little utility functions
 const timeFormat = d3.timeFormat('%b %e, %Y');
-const timeFormatLong = d3.timeFormat('%B %e, %Y');
 const timeFormatShort = d3.timeFormat('%b %e');
 const timeFormatMonth = d3.timeFormat('%b');
-const roundExtent = (ext, divisor) => [(ext[0] - ext[0] % divisor), (ext[1] + (divisor - ext[1] % divisor))];
-const round1dp = (x) => Math.round(x * 10) / 10;
+
+const roundExtent = (ext, divisor) => [
+  (ext[0] - (ext[0] % divisor)),
+  (ext[1] + (divisor - (ext[1] % divisor))),
+];
+
+const round1dp = x => Math.round(x * 10) / 10;
 
 // configuration
 const candidateList = ['Trump', 'Clinton', 'Johnson', 'Stein'];
@@ -37,11 +38,13 @@ const candidateColor = {
 };
 
 function mergePolls(a, b, xScale, yScale) {
-  return a.polls.map(function (d, i) {
+  return a.polls.map((d, i) => {
     const mergedRow = {};
+
     if (b.polls[i].date.getTime() !== d.date.getTime()) {
       return false;
     }
+
     let leader = b.name;
     if (d.pollaverage > b.polls[i].pollaverage) {
       leader = a.name;
@@ -49,13 +52,15 @@ function mergePolls(a, b, xScale, yScale) {
     if (d.pollaverage === b.polls[i].pollaverage) {
       leader = 'tie';
     }
+
     mergedRow.date = d.date;
     mergedRow[a.name] = d.pollaverage;
     mergedRow[b.name] = b.polls[i].pollaverage;
     mergedRow.x = xScale(d.date);
-    mergedRow[a.name + '_y'] = yScale(mergedRow[a.name]);
-    mergedRow[b.name + '_y'] = yScale(mergedRow[b.name]);
+    mergedRow[`${a.name}_y`] = yScale(mergedRow[a.name]);
+    mergedRow[`${b.name}_y`] = yScale(mergedRow[b.name]);
     mergedRow.lead = leader;
+
     return mergedRow;
   });
 }
@@ -64,37 +69,48 @@ function getTitle(state, width) {
   if (width < 450 && (state === 'us' || !state)) return 'Latest polls';
   if (state && state !== 'us') {
     const stateName = codeToName(state.toUpperCase());
-    if (width < 450) return 'Latest polls: ' + stateName;
-    return 'Which candidate is leading in ' + stateName + '?';
+
+    if (width < 450) return `Latest polls: ${stateName}`;
+    return `Which candidate is leading in ${stateName}?`;
   }
+
   return 'Which White House candidate is leading in the polls?';
 }
 
-function getSubtitle(date, width, state){
-  if(width<350){
+function getSubtitle(date, width, state) {
+  if (width < 350) {
     console.log('state', state);
-      if(state && state !== 'us')   return 'State polling average to ' + timeFormat(date) + ' (%)';
-      return 'National polling average to ' + timeFormat(date) + ' (%)';
+
+    if (state && state !== 'us') {
+      return `State polling average to ${timeFormat(date)} (%)`;
+    }
+
+    return `National polling average to ${timeFormat(date)} (%)`;
   }
-  if(state && state !== 'us')   return 'State polling average as of ' + timeFormatLong(date) + ' (%)';
-  return 'National polling average as of ' + timeFormatLong(date) + ' (%)';
+
+  if (state && state !== 'us') {
+    return `State polling average as of ${timeFormat(date)} (%)`;
+  }
+
+  return `National polling average as of ${timeFormat(date)} (%)`;
 }
 
 // the actual layout function
-function timeseriesLayout(data, opts) {
-  if (!data || data.length < 1) return;
+function timeseriesLayout(data, _opts) {
+  if (!data || data.length < 1) return undefined;
 
+  const opts = { ..._opts };
   opts.pollnumcandidates = 2; // always only display Clinton/Trump lines
 
   const candidates = candidateList.slice(0, opts.pollnumcandidates);
 
   const [svgWidth, svgHeight] = (opts.size || '600x300').split(/\D/); // split on non digit characters
   const layout = {};
-  const timeDomain = d3.extent(data, (d) => new Date(d.date));
+  const timeDomain = d3.extent(data, d => new Date(d.date));
 
   // set the default options if they're not specified in 'opts'
   Object.assign(layout, {
-    fontless: (typeof opts.fontless === 'boolean' ? opts.fontless : (opts.fontless ? opts.fontless === 'true' : true)),
+    fontless: (opts.fontless === 'true' ? true : opts.fontless),
     notext: typeof opts.notext === 'boolean' ? opts.notext : false,
     background: opts.background || null,
     startDate: new Date(timeDomain[0]),
@@ -119,7 +135,7 @@ function timeseriesLayout(data, opts) {
   });
 
   // make the scales
-  let rawExtent = d3.extent(data, (d) => {
+  let rawExtent = d3.extent(data, d => {
     if (d.candidatename === 'Clinton' || d.candidatename === 'Trump') {
       return d.pollaverage;
     }
@@ -149,13 +165,12 @@ function timeseriesLayout(data, opts) {
   layout.xTicks = [];
 
   // add domain extent ticks
-  xScale.domain().forEach(function (d, i) {
+  xScale.domain().forEach((d, i) => {
     layout.xTicks.push({
       date: d,
-      label: function (date, index) {
-        if (index > 0) return timeFormatShort(date);
-        return timeFormat(date);
-      }(d, i),
+      label: ((date, index) =>
+        (index > 0 ? timeFormatShort(date) : timeFormat(date))
+      )(d, i),
       position: xScale(d),
       extent: true, // the ticks at the end of the axis may be posiotined differently
       important: true,  // extent ticks should always be labeled
@@ -164,37 +179,38 @@ function timeseriesLayout(data, opts) {
   });
 
   // add month ticks
-  const currentDate = xScale.domain()[0];
-  currentDate.setMonth(currentDate.getMonth() + 1);
-  currentDate.setDate(1);
-  const monthSpacing = xScale(new Date(2016, 1, 1)) - xScale(new Date(2016, 0, 1));
-  const tickBuffer = [5, 35];
+  {
+    const currentDate = xScale.domain()[0];
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    currentDate.setDate(1);
+    const monthSpacing = xScale(new Date(2016, 1, 1)) - xScale(new Date(2016, 0, 1));
+    const tickBuffer = [5, 35];
 
-  do {
-    if (currentDate.getMonth() !== 0) { // dona't add a tick for jan as that'll be given a new year tick
-      layout.xTicks.push({
-        date: currentDate,
-        label: timeFormatMonth(currentDate),
-        position: xScale(currentDate),
-        important: function (d) { // make this true under certain circumstances i.e. if there are few enough ticks and the tick in question is distant enough from the end of the axis
-          return (
+    do {
+      if (currentDate.getMonth() !== 0) { // dona't add a tick for jan as that'll be given a new year tick
+        layout.xTicks.push({
+          date: currentDate,
+          label: timeFormatMonth(currentDate),
+          position: xScale(currentDate),
+          important: (() =>
+            // make this true under certain circumstances i.e. if there are few enough ticks and the tick in question is distant enough from the end of the axis
             monthSpacing > 50
             && (xScale(currentDate) < xScale.range()[1] - tickBuffer[1])
             && (xScale(currentDate) > xScale.range()[0] + tickBuffer[0])
-          );
-        }(currentDate),
-        textanchor: 'start',
-      });
-    }
-    currentDate.setDate(1);
-    currentDate.setMonth(currentDate.getMonth() + 1);
-  } while (currentDate.getTime() < xScale.domain()[1].getTime());
+          )(currentDate),
+          textanchor: 'start',
+        });
+      }
+      currentDate.setDate(1);
+      currentDate.setMonth(currentDate.getMonth() + 1);
+    } while (currentDate.getTime() < xScale.domain()[1].getTime());
+  }
 
   // if a year boundaries are crossed add year ticks
   if (xScale.domain()[0].getFullYear() !== xScale.domain()[1].getFullYear()) {
     let currentYear = xScale.domain()[0].getFullYear();
     do {
-      currentYear ++;
+      currentYear += 1;
       const currentDate = new Date(currentYear, 0, 1);
       layout.xTicks.push({
         date: currentDate,
@@ -210,9 +226,10 @@ function timeseriesLayout(data, opts) {
     label: d,
     position: yScale(d),
   }));
-  //thin out the ticks if there is more than one every 13px
-  if(yScale.range()[0]/layout.yTicks.length < 13){
-    layout.yTicks = layout.yTicks.filter(function(d,i){ return (i%2 === 0); }); //only include the even indexed ticks (these can represent even or odd values...)
+
+  // thin out the ticks if there is more than one every 13px
+  if (yScale.range()[0] / layout.yTicks.length < 13) {
+    layout.yTicks = layout.yTicks.filter((d, i) => (i % 2 === 0)); // only include the even indexed ticks (these can represent even or odd values...)
   }
 
   // make the path generators etc.
@@ -220,10 +237,9 @@ function timeseriesLayout(data, opts) {
       .x(d => round1dp(xScale(d.date)))
       .y(d => round1dp(yScale(d.pollaverage)));
 
-
-  const pollsByCandidate = candidates.map((d) => ({
+  const pollsByCandidate = candidates.map(d => ({
     name: d,
-    polls: data.filter((row) => (row.candidatename === d)),
+    polls: data.filter(row => (row.candidatename === d)),
   }));
 
   let currentLeader = '';
@@ -234,7 +250,7 @@ function timeseriesLayout(data, opts) {
     currentLeader = pollsByCandidate[1].name;
   }
 
-  layout.candidateLines = pollsByCandidate.map((d) => ({
+  layout.candidateLines = pollsByCandidate.map(d => ({
     stroke: candidateColor[d.name].line,
     d: path(d.polls),
   }));
@@ -246,9 +262,7 @@ function timeseriesLayout(data, opts) {
 
   const formattedData = mergePolls(pollsByCandidate[0], pollsByCandidate[1], xScale, yScale);
 
-  let filteredFormattedData = [];
   layout.candidateAreas = [];
-  let areaColor = 'grey';
 
   const convertAreaData = d3.area()
     .x(d => round1dp(xScale(new Date(d.date))))
@@ -258,47 +272,58 @@ function timeseriesLayout(data, opts) {
   if (intersections.points.length > 0) {
     let firstDataPointDate = new Date(formattedData[0].date);
     let lastDataPointDate;
-    let point = intersections.points[0];
-    let pointDate = new Date(xScale.invert(point.x));
-    let pointValue = yScale.invert(point.y);
-    filteredFormattedData = _.filter(
-      formattedData,
-      row => new Date(row.date) >= firstDataPointDate && new Date(row.date) < pointDate
-    );
-    filteredFormattedData.push({
-      date: pointDate,
-      Clinton: pointValue,
-      Trump: pointValue,
-    });
-    if (formattedData[0].Clinton > formattedData[0].Trump) {
-      areaColor = candidateColor.Clinton.area;
-    } else {
-      areaColor = candidateColor.Trump.area;
+
+    {
+      let filteredFormattedData = [];
+      let areaColor = 'grey';
+
+      const point = intersections.points[0];
+      const pointDate = new Date(xScale.invert(point.x));
+      const pointValue = yScale.invert(point.y);
+
+      filteredFormattedData = _.filter(
+        formattedData,
+        row => new Date(row.date) >= firstDataPointDate && new Date(row.date) < pointDate
+      );
+
+      filteredFormattedData.push({
+        date: pointDate,
+        Clinton: pointValue,
+        Trump: pointValue,
+      });
+
+      if (formattedData[0].Clinton > formattedData[0].Trump) {
+        areaColor = candidateColor.Clinton.area;
+      } else {
+        areaColor = candidateColor.Trump.area;
+      }
+
+      layout.candidateAreas.push({
+        d: convertAreaData(filteredFormattedData),
+        fill: areaColor,
+      });
     }
 
-    layout.candidateAreas.push({
-      d: convertAreaData(filteredFormattedData),
-      fill: areaColor,
-    });
+    for (let i = 0; i < intersections.points.length; i += 1) {
+      const point = intersections.points[i];
+      const pointDate = new Date(xScale.invert(point.x));
+      const pointValue = yScale.invert(point.y);
 
-    for (let i = 0; i < intersections.points.length; i++) {
-      point = intersections.points[i];
-      pointDate = new Date(xScale.invert(point.x));
-      pointValue = yScale.invert(point.y);
-
-      filteredFormattedData = [];
-      areaColor = 'grey';
+      let filteredFormattedData = [];
+      let areaColor = 'grey';
 
       if (i === intersections.points.length - 1) { // if last breakpoint
         lastDataPointDate = new Date(formattedData[formattedData.length - 1].date);
-        filteredFormattedData = _.filter(formattedData, function(row) {
-          return new Date(row.date) <= lastDataPointDate && new Date(row.date) > pointDate;
-        });
+        filteredFormattedData = formattedData.filter(row => // eslint-disable-line no-loop-func
+          new Date(row.date) <= lastDataPointDate && new Date(row.date) > pointDate
+        );
+
         filteredFormattedData.unshift({
           date: pointDate,
           Clinton: pointValue,
           Trump: pointValue,
         });
+
         if (formattedData[formattedData.length - 1].Clinton > formattedData[formattedData.length - 1].Trump) {
           areaColor = candidateColor.Clinton.area;
         } else {
@@ -307,9 +332,9 @@ function timeseriesLayout(data, opts) {
       } else { // for everything else
         firstDataPointDate = pointDate;
         lastDataPointDate = new Date(xScale.invert(intersections.points[i + 1].x));
-        filteredFormattedData = _.filter(formattedData, function(row) {
-          return new Date(row.date) <= lastDataPointDate && new Date(row.date) >= firstDataPointDate;
-        });
+        filteredFormattedData = formattedData.filter(row => // eslint-disable-line no-loop-func
+          new Date(row.date) <= lastDataPointDate && new Date(row.date) >= firstDataPointDate
+        );
         const checkIndex = Math.max(0, Math.ceil((filteredFormattedData.length / 2) - 1));
         if (filteredFormattedData.length > 0 && (filteredFormattedData[checkIndex].Clinton > filteredFormattedData[checkIndex].Trump)) {
           areaColor = candidateColor.Clinton.area;
@@ -334,7 +359,9 @@ function timeseriesLayout(data, opts) {
       });
     }
   } else {
-    filteredFormattedData = formattedData;
+    const filteredFormattedData = formattedData;
+    let areaColor;
+
     if (filteredFormattedData[0].Clinton > filteredFormattedData[0].Trump) {
       areaColor = candidateColor.Clinton.area;
     } else {
@@ -347,64 +374,7 @@ function timeseriesLayout(data, opts) {
     });
   }
 
-// // produce the array of areas
-//   const areas = mergePolls(pollsByCandidate[0], pollsByCandidate[1], xScale, yScale)
-//     .reduce(function (sections, current) {
-//       // if there are no sections make the first
-//       if (sections.length === 0) {
-//         sections.push([current]);
-//         return sections;
-//       }
-//       // otherwise, get the leader in last poll in the last available section
-//       const currentSection = sections[sections.length - 1];
-//       const previousLead = currentSection[currentSection.length - 1].lead;
-//       // if it's a different leader from the poll currently being considered then make a new array and push it that as a new section
-//       if (previousLead !== current.lead) {
-//         sections.push([current]);
-//       } else {
-//         currentSection.push(current);
-//       }
-//       // insert the current poll into the last array in the array of sections
-//       return sections;
-//     }, []);
-
-//   const areaPath = d3.area()
-//     .x(d => round1dp(d.x))
-//     .y0(d => round1dp(d[candidates[0] + '_y']))
-//     .y1(d => round1dp(d[candidates[1] + '_y']));
-
-//   layout.candidateAreas = areas.map(function (d, i, a) {
-//     const leader = d[0].lead;
-//     const section = d;
-//     const startIntersection = intersections.points[i - 1];
-//     const endIntersection = intersections.points[i];
-//     if (startIntersection) {
-//       section.unshift({
-//         x: startIntersection.x,
-//         [candidates[0] + '_y']: startIntersection.y,
-//         [candidates[1] + '_y']: startIntersection.y,
-//       });
-//     }
-//     if (endIntersection) {
-//       section.push({
-//         x: endIntersection.x,
-//         [candidates[0] + '_y']: endIntersection.y,
-//         [candidates[1] + '_y']: endIntersection.y,
-//       });
-//     }
-
-//     let fillColor = 'none';
-//     if (leader !== 'tie') {
-//       fillColor = candidateColor[leader].area;
-//     }
-
-//     return {
-//       d: areaPath(section),
-//       fill: fillColor,
-//     };
-//   });
-
-  layout.candidateEndPoints = pollsByCandidate.map(function (d) {
+  layout.candidateEndPoints = pollsByCandidate.map(d => {
     const lastPoll = d.polls[d.polls.length - 1];
     let labelOffset = 10;
     if (d.name === currentLeader || d.name === 'Johnson') labelOffset = 0;

@@ -1,5 +1,3 @@
-import { isoFormat } from 'd3-time-format';
-import { render } from '../nunjucks';
 import { makePollTimeSeries } from '../lib/polls';
 
 import cache from '../lib/cache';
@@ -25,7 +23,7 @@ export default async (req, res) => {
   res.setHeader('Cache-Control', cacheControl);
 
   const html = await cache(
-    'polls-svg-' + qsCacheKey(req.query),
+    `polls-svg-${qsCacheKey(req.query)}`,
     async () => await makePollTimeSeries(req.query)
   );
 

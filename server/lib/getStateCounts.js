@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import _ from 'lodash';
 import getAllLatestStateAverages from '../../layouts/getAllLatestStateAverages';
 import stateIds from '../../data/states';
 
@@ -8,7 +8,7 @@ export default async overrideData => {
   const overrideCategories = overrideData.overrideCategories;
   const stateCounts = {};
 
-  for (let i = 0; i < stateIds.length; i++) {
+  for (let i = 0; i < stateIds.length; i += 1) {
     const stateKey = stateIds[i].code;
     let clintonAvg = null;
     let trumpAvg = null;
