@@ -886,7 +886,7 @@ a {
   margin: 0 0 1px 1px;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 670px) {
   .state-page__summary .graphic__ecvotes--circles {
     height: 110px;
   }
