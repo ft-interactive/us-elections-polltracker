@@ -137,6 +137,10 @@
   margin-bottom: 2em;
 }
 
+.rail__state-list__items .o-expander__content {
+  max-height: 200px;
+}
+
 .rail__state-list__nationalLink {
   margin-bottom: 18px;
 }
@@ -174,7 +178,7 @@
   margin-bottom: 6px;
 }
 
-.navmap{
+.rail__state-list__nationalMap{
   margin-top: 10px;
 }
 
@@ -992,7 +996,7 @@ tbody .state-winners-table__year {
 }
 
 .ec-breakdown-bar{
-     display:inline-block; 
+     display:inline-block;
      background-color:#000;
      height:100%;
      color:#FFF;
@@ -1076,5 +1080,238 @@ tbody .state-winners-table__year {
   }
   .ec-breakdown-column {
     margin-bottom: 20px;
+  }
+}
+/** Mobile nav **/
+
+.nav___mobile-nav,
+.rail__mobile-overlay,
+.rail__close-button--container {
+  display: none;
+}
+
+@media (max-width: 979px) {
+  .nav___mobile-nav {
+    display: flex;
+    margin-top: 1em;
+    padding: 1em 0;
+    justify-content: space-around;
+    border-top: 2px solid #E4DFCB;
+  }
+
+  .nav___mobile-nav--back-to-overview,
+  .nav___mobile-nav--choose-state {
+    color: #27757B;
+    height: 2em;
+  }
+
+  .nav___mobile-nav--back-to-overview {
+    background: transparent;
+    border: 0 !important;
+    display: flex !important;
+    padding: 0 !important;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .nav___mobile-nav:not(.page__national) .nav___mobile-nav--back-to-overview .dotted-underline {
+    color: #27757B;
+    border-bottom: 1px dotted #27757B;
+  }
+
+  .nav___mobile-nav--back-to-overview:focus,
+  .nav___mobile-nav--back-to-overview:active {
+    border: none !important;
+    box-shadow: none !important;
+    background: none !important;
+  }
+
+  .page__national .nav___mobile-nav--back-to-overview {
+    color: #333;
+    cursor: default;
+  }
+
+  .page__national .nav___mobile-nav--back-to-overview:focus {
+    outline: none !important;
+  }
+
+  .page__national .nav___mobile-nav--back-to-overview i.o-icons-icon {
+    display: none;
+  }
+
+  .nav___mobile-nav--choose-state {
+    background: transparent;
+    border: 0;
+    border-left: 2px solid #E4DFCB;
+    display: block;
+    text-align: center;
+    text-transform: none !important;
+  }
+
+  .nav___mobile-nav--back-to-overview .o-icons-icon {
+    height: 1em;
+    width: 2em;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 50% 0;
+    background-color: transparent;
+    vertical-align: baseline;
+  }
+
+  .nav___mobile-nav--back-to-overview .o-icons-icon.o-icons-icon--arrow-left {
+    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?source=o-icons&tint=%2327757B,%2327757B&format=svg);
+    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?source=o-icons&tint=%2327757B,%2327757B&format=png&width=14)\9;
+  }
+
+  .article__aside {
+    display: block;
+    position: fixed;
+    width: 90%;
+    height: 100%;
+    left: 105%; /* start off screen */
+    top: 0;
+    transition: left 195ms cubic-bezier(0.645, 0.045, 0.355, 1); /* exiting: easeInOutCubic */
+    background: #FFF3E5;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    z-index: 98;
+  }
+
+  .article__aside.opened {
+    left: 10%;
+    transition: left 225ms cubic-bezier(0.23, 1, 0.32, 1); /* entering: easeOutQuint */
+    box-shadow: -4px 6px 60px -4px rgba(0,0,0,0.5);
+  }
+
+  .rail {
+    height: 100%;
+  }
+
+  .rail__mobile-overlay {
+    display: block;
+    position: fixed;
+    left: 105%;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0);
+    transition: background-color 195ms linear;
+    width: 100%;
+    height: 100%;
+    z-index: 97;
+  }
+
+  .rail__mobile-overlay.opened {
+    left: 0%;
+    background-color: rgba(0, 0, 0, 0.25);
+  }
+
+  .rail__close-button--container {
+    border-bottom: 2px solid #F6EEE4;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    height: 2.5em;
+  }
+
+  .rail__close-button--button {
+    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:cross?source=o-icons&tint=%23555555,%23555555&format=svg);
+    background-size: contain;
+    display: block;
+    height: 1.25em;
+    width: 1.25em;
+    margin-right: 1em;
+  }
+
+  .rail__close-button--button:hover {
+    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:cross?source=o-icons&tint=%23333333,%23333333&format=svg);
+  }
+
+  .rail__content {
+    border: 0;
+    padding: 2em;
+    overflow: auto;
+    height: 95%;
+  }
+
+  .rail__content h3 {
+    display: none;
+  }
+
+  .rail__state-list {
+    padding: 0;
+  }
+
+  .rail__state-list h4 {
+    margin-bottom: 9px;
+    padding-top: 1em;
+  }
+
+  .rail__state-list ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .rail__state-list ul li {
+    padding: 0.25em 0.5em;
+    width: calc(50% - 2 * .5em);
+    font-weight: normal;
+    color: #545752;
+  }
+
+  .rail__state-list__nationalLink {
+    padding: 0 0 0 1.25em;
+    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?source=o-icons&tint=%2327757B,%2327757B&format=svg);
+    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?source=o-icons&tint=%2327757B,%2327757B&format=png&width=14)\9;
+    background-repeat: no-repeat;
+    background-position: -5px 50%;
+    background-size: contain;
+  }
+
+  .page__national .rail__state-list__nationalLink {
+    display: none;
+  }
+
+  .rail__state-list__nationalLink a {
+    color: #318085;
+    border-bottom: 1px #318085 dotted;
+    font-size: 1.2em;
+    font-weight: normal;
+  }
+
+  .rail__state-list__items .o-expander__content {
+    max-height: none;
+    padding-bottom: 8vh;
+  }
+
+  .rail__ad {
+    display: none;
+  }
+
+  /** hacky text overrides **/
+  .nav__link--district-of-columbia:before {
+    content: 'D.C.';
+    font-size: 1.125rem;
+  }
+  .nav__link--district-of-columbia {
+    font-size: 0;
+  }
+
+  @media (max-width: 320px) {
+    .nav___mobile-nav--back-to-overview,
+    .nav___mobile-nav--choose-state {
+      font-size: 90% !important;
+    }
+
+    .rail__content {
+      padding: 1em;
+    }
+
+    .rail__state-list ul li {
+      font-size: 90% !important;
+    }
+
+    .nav__link--district-of-columbia:before {
+      font-size: 1rem;
+    }
   }
 }

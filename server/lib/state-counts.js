@@ -83,7 +83,7 @@ export default async () => {
                                 ? Clinton - Trump : override;
     return { ...state, Trump, Clinton, margin };
   }).reduce((map, state) => {
-    map[state.code] = state;
+    map[state.code] = state; // eslint-disable-line
     return map;
   }, {});
 };
