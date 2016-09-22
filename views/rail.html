@@ -1,6 +1,9 @@
 {% import "site-nav.html" as SiteNav -%}
 
 <div class="rail">
+  <div class="rail__close-button--container">
+    <i class="rail__close-button--button o-icons-icon o-icons-icon--arrow-cross"></i>
+  </div>
   <div class="rail__content">
     {{ SiteNav.StateList(siteNav, state) }}
   </div>

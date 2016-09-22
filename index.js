@@ -2,9 +2,13 @@ import express from 'express';
 import lru from 'lru-cache';
 import * as nunjucks from './server/nunjucks';
 import ecForecastComponentController from './server/controllers/ec-forecast-component';
+<<<<<<< HEAD
 import getPollAverages from './layouts/getPollAverages.js';
 import layoutForecastMap from './layouts/forecast-map-layout';
 import nationalController from './server/controllers/national';
+=======
+import ecBreakdownController from './server/controllers/ec-breakdown';
+>>>>>>> master
 import pollGraphicsController from './server/controllers/poll-graphics';
 import stateCodeRedirectController from './server/controllers/state-code-redirect';
 import stateController from './server/controllers/state';
@@ -131,6 +135,9 @@ app.get('/polls/:code', stateCodeRedirectController);
 
 // Create homepage widget of current forecasts
 app.get('/ec-forecast-component.:ext', ecForecastComponentController);
+
+// Create electoral collecge breakdown
+app.get('/ec-breakdown.html', ecBreakdownController);
 
 // This needs to be last as it captures lot of paths and only does redirects
 app.get('/:code', stateCodeRedirectController);

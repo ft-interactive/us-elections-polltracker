@@ -2,12 +2,13 @@ import Page from './page';
 import { getEditorsConfig } from '../lib/editors-config';
 import getStateCounts from '../lib/state-counts';
 import layoutForecastMap from '../../layouts/forecast-map-layout';
+import layoutECBreakdown from '../../layouts/ec-breakdown-layout';
 import nationalCount from '../lib/national-count';
 
 class NationalPage extends Page {
   constructor() {
     super();
-    this.headline = 'US election poll tracker';
+    this.headline = 'Presidential election poll tracker';
     this.streamUrl = 'https://www.ft.com/us-election-2016';
     this.url = 'https://ig.ft.com/us-elections/polls';
     this.code = 'us';
@@ -38,6 +39,7 @@ class NationalPage extends Page {
 
     this.stateCounts = stateCounts;
     this.nationalBarCounts = await nationalCount(stateCounts);
+    this.ecBreakdownLayout = layoutECBreakdown(stateCounts);
     this.forecastMapLayout = layoutForecastMap(
       stateCounts,
       { size: '640x380' }

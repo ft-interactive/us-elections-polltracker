@@ -26,7 +26,7 @@ export default class Page {
 
   summary = null;
 
-  title = 'Presidential polls 2016';
+  title = 'US election polls 2016';
 
   description = 'Polling data for the 2016 US presidential election';
 
