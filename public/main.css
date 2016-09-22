@@ -546,8 +546,11 @@ a {
   }
 
   #national-bar-legend {
-    margin-top: 80px;
+    margin-top: 20px;
     margin-bottom: 20px;
+  }
+  .votes-container {
+    margin-bottom: 0;
   }
 }
 
