@@ -32,19 +32,13 @@ const addPollAveragesToDatabase = (polldate, candidate, value, state, pollnumcan
         winston.log('warn', `RCP value for ${candidate} on ${polldate} changed from ${res[0].dataValues.pollaverage} to ${value} in state ${state} (${pollnumcandidates}-way)`);
       }
     } else {
-      try {
-        await db.Pollaverages.create({
-          date: polldate,
-          candidatename: candidate,
-          pollaverage: value,
-          state,
-          pollnumcandidates,
-        });
-      } catch (error) {
-        winston.log('error', `Failed to create new poll average for ${candidate} on ${polldate} with value ${value} in state ${state} (${pollnumcandidates}-way) - error:`);
-        winston.log('error', error.stack);
-        return;
-      }
+      await db.Pollaverages.create({
+        date: polldate,
+        candidatename: candidate,
+        pollaverage: value,
+        state,
+        pollnumcandidates,
+      });
 
       winston.log('info', `New poll average added for ${candidate} on ${polldate} with value ${value} in state ${state} (${pollnumcandidates}-way)`);
     }
@@ -90,7 +84,7 @@ const addIndividualPollsToDatabase = (rcpid, type, pollster, rcpUpdated, link, d
     if (res.length > 0) { // already in the db
       // check to make sure value hasn't changed
       if (res[0].dataValues.pollvalue !== parseFloat(value)) {
-        await db.Polldata.update({ pollvalue: value }, {
+        await db.Polldata.update({ pollvalue: value || null }, {
           where: {
             id: res[0].dataValues.id,
           },
@@ -99,13 +93,7 @@ const addIndividualPollsToDatabase = (rcpid, type, pollster, rcpUpdated, link, d
         winston.log('warn', `RCP value for ${candidate} with id ${rcpid} changed from ${res[0].dataValues.pollvalue} to ${value} in state ${state} (${pollnumcandidates}-way)`);
       }
     } else {
-      try {
-        await db.Polldata.create({ rcpid, pollster, rcpUpdated, link, date, startDate, endDate, confidenceInterval, sampleSize, marginError, partisan, pollsterType, candidatename: candidate, pollvalue: value, state, pollnumcandidates });
-      } catch (error) {
-        winston.log('error', `Failed to create new Polldata row for ${candidate} with value ${value} in state ${state} (${pollnumcandidates}-way - stack:`);
-        winston.log('error', error.stack);
-        return;
-      }
+      await db.Polldata.create({ rcpid, pollster, rcpUpdated, link, date, startDate, endDate, confidenceInterval, sampleSize, marginError, partisan, pollsterType, candidatename: candidate, pollvalue: value || null, state, pollnumcandidates });
 
       winston.log('info', `New individual poll added for ${candidate} with id ${rcpid} and pollster ${pollster} with value ${value} in state ${state} (${pollnumcandidates}-way)`);
     }
@@ -163,7 +151,7 @@ const updateLastUpdatedDate = () => {
     } else {
       await db.lastupdates.create({ lastupdate: new Date() });
     }
-  })
+  });
 };
 
 (async () => {
