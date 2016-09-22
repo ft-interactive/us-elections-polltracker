@@ -4,10 +4,12 @@ import db from './models';
 import stateIds from './data/states';
 import nationalId from './data/national';
 
-// db.Pollaverages.sync({force: true}) // use this to drop table and recreate
-db.sequelize.sync();
+process.on('unhandledRejection', error => {
+  console.error('unhandledRejection', error.stack);
+  process.exit(1);
+});
 
-const addPollAveragesToDatabase = (polldate, candidate, value, state, pollnumcandidates) => {
+const addPollAveragesToDatabase = (polldate, candidate, value, state, pollnumcandidates) =>
   db.sequelize.transaction(async () => {
     const res = await db.Pollaverages.findAll({
       where: {
@@ -21,7 +23,7 @@ const addPollAveragesToDatabase = (polldate, candidate, value, state, pollnumcan
     if (res.length > 0) { // already in the db
       // check to make sure value hasn't changed
       if (res[0].dataValues.pollaverage !== parseFloat(value)) {
-        db.Pollaverages.update({ pollaverage: value }, {
+        await db.Pollaverages.update({ pollaverage: value }, {
           where: {
             id: res[0].dataValues.id,
           },
@@ -30,15 +32,34 @@ const addPollAveragesToDatabase = (polldate, candidate, value, state, pollnumcan
         winston.log('warn', `RCP value for ${candidate} on ${polldate} changed from ${res[0].dataValues.pollaverage} to ${value} in state ${state} (${pollnumcandidates}-way)`);
       }
     } else {
-      await db.Pollaverages.create({ date: polldate, candidatename: candidate, pollaverage: value, state, pollnumcandidates });
+      try {
+        await db.Pollaverages.create({
+          date: polldate,
+          candidatename: candidate,
+          pollaverage: value,
+          state,
+          pollnumcandidates,
+        });
+      } catch (error) {
+        winston.log('error', `Failed to create new poll average for ${candidate} on ${polldate} with value ${value} in state ${state} (${pollnumcandidates}-way) - error:`);
+        winston.log('error', error.stack);
+        return;
+      }
 
       winston.log('info', `New poll average added for ${candidate} on ${polldate} with value ${value} in state ${state} (${pollnumcandidates}-way)`);
     }
-  });
-};
+  })
+;
 
 const getPollAverageData = async (rcpURL, state, pollnumcandidates) => {
-  const rcpData = fetch(rcpURL).then(res => res.json());
+  console.log(`\n\n================\ngetPollAverageData\n  ${rcpURL}\n  ${state}\n  ${pollnumcandidates}\n`);
+
+  const rcpData = await fetch(rcpURL).then(res => (res.ok ? res.json() : null));
+
+  if (!rcpData) {
+    console.log('NO DATA');
+    return;
+  }
 
   const datapoints = rcpData.rcp_avg;
 
@@ -50,14 +71,14 @@ const getPollAverageData = async (rcpURL, state, pollnumcandidates) => {
       const candidate = datapoint.candidate[j].name;
       const value = datapoint.candidate[j].value;
 
-      addPollAveragesToDatabase(polldate, candidate, value, state, pollnumcandidates);
+      await addPollAveragesToDatabase(polldate, candidate, value, state, pollnumcandidates);
     }
   }
 };
 
-const addIndividualPollsToDatabase = (rcpid, type, pollster, rcpUpdated, link, date, startDate, endDate, confidenceInterval, sampleSize, marginError, partisan, pollsterType, candidate, value, state, pollnumcandidates) => {
+const addIndividualPollsToDatabase = (rcpid, type, pollster, rcpUpdated, link, date, startDate, endDate, confidenceInterval, sampleSize, marginError, partisan, pollsterType, candidate, value, state, pollnumcandidates) =>
   db.sequelize.transaction(async () => {
-    const res = db.Polldata.findAll({
+    const res = await db.Polldata.findAll({
       where: {
         rcpid,
         candidatename: candidate,
@@ -69,7 +90,7 @@ const addIndividualPollsToDatabase = (rcpid, type, pollster, rcpUpdated, link, d
     if (res.length > 0) { // already in the db
       // check to make sure value hasn't changed
       if (res[0].dataValues.pollvalue !== parseFloat(value)) {
-        db.Polldata.update({ pollvalue: value }, {
+        await db.Polldata.update({ pollvalue: value }, {
           where: {
             id: res[0].dataValues.id,
           },
@@ -78,108 +99,135 @@ const addIndividualPollsToDatabase = (rcpid, type, pollster, rcpUpdated, link, d
         winston.log('warn', `RCP value for ${candidate} with id ${rcpid} changed from ${res[0].dataValues.pollvalue} to ${value} in state ${state} (${pollnumcandidates}-way)`);
       }
     } else {
-      await db.Polldata.create({ rcpid, pollster, rcpUpdated, link, date, startDate, endDate, confidenceInterval, sampleSize, marginError, partisan, pollsterType, candidatename: candidate, pollvalue: value, state, pollnumcandidates });
+      try {
+        await db.Polldata.create({ rcpid, pollster, rcpUpdated, link, date, startDate, endDate, confidenceInterval, sampleSize, marginError, partisan, pollsterType, candidatename: candidate, pollvalue: value, state, pollnumcandidates });
+      } catch (error) {
+        winston.log('error', `Failed to create new Polldata row for ${candidate} with value ${value} in state ${state} (${pollnumcandidates}-way - stack:`);
+        winston.log('error', error.stack);
+        return;
+      }
 
       winston.log('info', `New individual poll added for ${candidate} with id ${rcpid} and pollster ${pollster} with value ${value} in state ${state} (${pollnumcandidates}-way)`);
     }
-  });
+  })
+;
+
+const getIndividualPollData = async (rcpURL, state, pollnumcandidates) => {
+  console.log(`\n\n================\ngetPollAverageData\n  ${rcpURL}\n  ${state}\n  ${pollnumcandidates}\n`);
+
+  const rcpData = await fetch(rcpURL).then(res => (res.ok ? res.json() : null));
+
+  if (!rcpData) {
+    console.log('NO DATA');
+    return;
+  }
+
+  const polls = rcpData.poll;
+
+  for (let i = 0; i < polls.length; i += 1) {
+    if (polls[i].type !== 'rcp_average') { // exclude poll averages
+      const poll = polls[i];
+
+      const {
+        type, pollster, link, date, confidenceInterval, sampleSize,
+        marginError, partisan,
+        pollster_type: pollsterType,
+        data_start_date: startDate,
+        data_end_date: endDate,
+        updated: rcpUpdated,
+        id: rcpid,
+      } = poll;
+
+      for (let j = 0; j < poll.candidate.length; j += 1) {
+        const candidate = poll.candidate[j].name;
+        const value = poll.candidate[j].value;
+
+        await addIndividualPollsToDatabase(rcpid, type, pollster, rcpUpdated, link, date, startDate, endDate, confidenceInterval, sampleSize, marginError, partisan, pollsterType, candidate, value, state, pollnumcandidates);
+      }
+    }
+  }
 };
 
-function getIndividualPollData(rcpURL, state, pollnumcandidates) {
-  fetch(rcpURL).then(response => {
-    response.json().then(rcpData => {
-      const polls = rcpData.poll;
-      for (let i = 0; i < polls.length; i += 1) {
-        if (polls[i].type !== 'rcp_average') { // exclude poll averages
-          const poll = polls[i];
+const updateLastUpdatedDate = () => {
+  console.log(`\n\n================\nupdateLastUpdatedDate\n`);
 
-          const {
-            type, pollster, link, date, confidenceInterval, sampleSize,
-            marginError, partisan,
-            pollster_type: pollsterType,
-            data_start_date: startDate,
-            data_end_date: endDate,
-            updated: rcpUpdated,
-            id: rcpid,
-          } = poll;
-
-          for (let j = 0; j < poll.candidate.length; j += 1) {
-            const candidate = poll.candidate[j].name;
-            const value = poll.candidate[j].value;
-
-            addIndividualPollsToDatabase(rcpid, type, pollster, rcpUpdated, link, date, startDate, endDate, confidenceInterval, sampleSize, marginError, partisan, pollsterType, candidate, value, state, pollnumcandidates);
-          }
-        }
-      }
-    });
-  });
-}
-
-function updateLastUpdatedDate() {
-  db.sequelize.transaction(async () => {
+  return db.sequelize.transaction(async () => {
     const res = await db.lastupdates.findAll({});
 
     if (res.length > 0) { // already in the db
-      db.lastupdates.update({ lastupdate: new Date() }, {
+      await db.lastupdates.update({ lastupdate: new Date() }, {
         where: {
           id: res[0].dataValues.id,
         },
       });
     } else {
-      db.lastupdates.create({ lastupdate: new Date() });
+      await db.lastupdates.create({ lastupdate: new Date() });
     }
-  });
-}
+  })
+};
 
-const allIds = stateIds.concat(nationalId);
+(async () => {
+  // await db.Pollaverages.sync({force: true}) // use this to drop table and recreate
+  await db.sequelize.sync();
 
-for (let i = 0; i < allIds.length; i += 1) {
-  const state = allIds[i].code.toLowerCase();
-  const raceId = allIds[i].raceId;
-  const raceId3Way = allIds[i].raceId3Way;
-  const raceId4Way = allIds[i].raceId4Way;
+  const allIds = stateIds.concat(nationalId);
 
-  if (raceId) {
-    getPollAverageData(
-      `http://www.realclearpolitics.com/poll/race/${raceId}/historical_data.json`,
-      state,
-      2
-    );
+  for (let i = 0; i < allIds.length; i += 1) {
+    const state = allIds[i].code.toLowerCase();
+    const raceId = allIds[i].raceId;
+    const raceId3Way = allIds[i].raceId3Way;
+    const raceId4Way = allIds[i].raceId4Way;
 
-    getIndividualPollData(
-      `http://www.realclearpolitics.com/poll/race/${raceId}/polling_data.json`,
-      state,
-      2
-    );
+    console.log(`\n\n=-=-=-=-=-\nSTATE: ${state}`);
+
+    if (raceId) {
+      console.log('race ID', raceId);
+
+      await getPollAverageData(
+        `http://www.realclearpolitics.com/poll/race/${raceId}/historical_data.json`,
+        state,
+        2
+      );
+
+      await getIndividualPollData(
+        `http://www.realclearpolitics.com/poll/race/${raceId}/polling_data.json`,
+        state,
+        2
+      );
+    }
+
+    if (raceId3Way) {
+      console.log('race ID (3-way)', raceId);
+
+      await getPollAverageData(
+        `http://www.realclearpolitics.com/poll/race/${raceId3Way}/historical_data.json`,
+        state,
+        3
+      );
+
+      await getIndividualPollData(
+        `http://www.realclearpolitics.com/poll/race/${raceId3Way}/polling_data.json`,
+        state,
+        3
+      );
+    }
+
+    if (raceId4Way) {
+      console.log('race ID (4-way)', raceId);
+
+      await getPollAverageData(
+        `http://www.realclearpolitics.com/poll/race/${raceId4Way}/historical_data.json`,
+        state,
+        4
+      );
+
+      await getIndividualPollData(
+        `http://www.realclearpolitics.com/poll/race/${raceId4Way}/polling_data.json`,
+        state,
+        4
+      );
+    }
   }
 
-  if (raceId3Way) {
-    getPollAverageData(
-      `http://www.realclearpolitics.com/poll/race/${raceId3Way}/historical_data.json`,
-      state,
-      3
-    );
-
-    getIndividualPollData(
-      `http://www.realclearpolitics.com/poll/race/${raceId3Way}/polling_data.json`,
-      state,
-      3
-    );
-  }
-
-  if (raceId4Way) {
-    getPollAverageData(
-      `http://www.realclearpolitics.com/poll/race/${raceId4Way}/historical_data.json`,
-      state,
-      4
-    );
-
-    getIndividualPollData(
-      `http://www.realclearpolitics.com/poll/race/${raceId4Way}/polling_data.json`,
-      state,
-      4
-    );
-  }
-}
-
-updateLastUpdatedDate();
+  await updateLastUpdatedDate();
+})();
