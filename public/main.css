@@ -999,7 +999,7 @@ tbody .state-winners-table__year {
 .ec-breakdown-bar{
      display:inline-block;
      background-color:#000;
-     height:100%;
+     height:15px;
      color:#FFF;
 }
 
@@ -1009,7 +1009,6 @@ tbody .state-winners-table__year {
 
 .ec-breakdown-row{
     height:15px;
-    // overflow:hidden;
     margin-bottom: 1px;
 }
 
