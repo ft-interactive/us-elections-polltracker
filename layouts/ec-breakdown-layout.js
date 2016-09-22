@@ -1,7 +1,7 @@
 import classifyState from './state-classifications';
 import color from './color';
 import states from '../data/states';
-
+const sum =require('d3-array').sum;
 
 function makeLookup(arr,key,value){
   const o = {};
@@ -42,13 +42,18 @@ function combineMENE(lookup) {
   const newLookup = {};
 
   Object.keys(lookup).forEach(function(d){
-    const code = lookup[d].code.substring(0,2); 
-    if( newLookup[code] ){ 
-      newLookup[code].ecVotes += lookup[d].ecVotes;
-    }else{
-      newLookup[code] = lookup[d];
+    const code = lookup[d].code.substring(0,2);
+    const state = lookup[d];
+    state.code = state.code .substring(0,2);
+    const forecast = (state.code === 'ME' || state.code === 'NE')
+            ? classifyState.forecastMENE(state.margin) : classifyState.forecast(state.margin);
+    state.forecast = forecast;
+    if ( newLookup[code + '-' + forecast]){ 
+      newLookup[code + '-' + forecast].ecVotes += state.ecVotes;
+    } else {
+      newLookup[code + '-' + forecast] = state;
     }    
-  })
+  });
   return newLookup;
 }
 
@@ -58,23 +63,27 @@ function percentOfCA(votes) { // electoral votes as a proportion of california i
 
 export default function (stateLookup) {
     // classify the data and sort by electoral college votes
-  const states = Object.keys(combineMENE(stateLookup))
+  const classified = combineMENE(stateLookup);
+  const states = Object.keys(classified)
         .map(function (key) {
-          const state = stateLookup[key];
-          const forecast = (state.code === 'ME' || state.code === 'ME')
-            ? classifyState.forecastMENE(state.margin) : classifyState.forecast(state.margin);
+          const state = classified[key];
           return {
-            forecast,
-            name: stateLookup[key].name,
-            shortname: shortname[stateLookup[key].code],
-            code: stateLookup[key].code,
-            ecVotes: stateLookup[key].ecVotes,
-            barPct: percentOfCA(stateLookup[key].ecVotes),
+            forecast: state.forecast,
+            code: state.code,
+            ecVotes: state.ecVotes,
+            barPct: percentOfCA(state.ecVotes),
           };
         })
         .sort((a, b) => b.ecVotes - a.ecVotes);
 
   const stateGroups = splitArray(states, function (d) { return d.forecast; });
+  const groupTotals = Object.keys(stateGroups).reduce(function(lookup, groupName){
+    //console.log(lookup);
+    lookup[groupName] = sum( stateGroups[groupName], d => d.ecVotes );
+    return lookup;
+  },{});
+
+  console.log(groupTotals);
 
   return {
     title: 'Current battleground states',
@@ -82,6 +91,7 @@ export default function (stateLookup) {
     fontless: true,
     order: classifyState.forecast.range().reverse(),
     stateGroups,
+    groupTotals,
     groupNames,
     color,
   };
