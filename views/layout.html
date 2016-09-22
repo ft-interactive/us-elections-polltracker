@@ -8,11 +8,11 @@
 
 {% block article_body %}
 
-  <nav class="nav___mobile-nav">
+  <nav class="nav___mobile-nav{{ ' page__national' if code == 'us' }}">
     <button
       type="button"
       name="button"
-      class="nav___mobile-nav--back-to-overview{{ ' national' if code == 'us' }} o-buttons o-buttons--uncolored o-buttons--big">
+      class="nav___mobile-nav--back-to-overview o-buttons o-buttons--uncolored o-buttons--big">
       <i class="o-icons-icon o-icons-icon--arrow-left"></i>
       <span class="dotted-underline">
         National polling
@@ -27,7 +27,7 @@
     </button>
   </nav>
 
-  <div class="o-grid-container">
+  <div class="o-grid-container{{ ' page__national' if code == 'us' }}">
     <div class="o-grid-row">
       <div data-o-grid-colspan="12 L8 XL7 XLoffset1">
         <div class="o-typography-body-wrapper" itemprop="articleBody">

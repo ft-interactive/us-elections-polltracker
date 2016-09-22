@@ -1114,7 +1114,7 @@ tbody .state-winners-table__year {
     text-align: left;
   }
 
-  .nav___mobile-nav--back-to-overview:not(.national) .dotted-underline {
+  .nav___mobile-nav:not(.page__national) .nav___mobile-nav--back-to-overview .dotted-underline {
     color: #27757B;
     border-bottom: 1px dotted #27757B;
   }
@@ -1126,16 +1126,16 @@ tbody .state-winners-table__year {
     background: none !important;
   }
 
-  .nav___mobile-nav--back-to-overview.national {
+  .page__national .nav___mobile-nav--back-to-overview {
     color: #333;
     cursor: default;
   }
 
-  .nav___mobile-nav--back-to-overview.national:focus {
+  .page__national .nav___mobile-nav--back-to-overview:focus {
     outline: none !important;
   }
 
-  .nav___mobile-nav--back-to-overview.national i.o-icons-icon {
+  .page__national .nav___mobile-nav--back-to-overview i.o-icons-icon {
     display: none;
   }
 
@@ -1265,6 +1265,10 @@ tbody .state-winners-table__year {
     background-repeat: no-repeat;
     background-position: -5px 50%;
     background-size: contain;
+  }
+
+  .page__national .rail__state-list__nationalLink {
+    display: none;
   }
 
   .rail__state-list__nationalLink a {

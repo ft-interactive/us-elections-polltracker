@@ -7,7 +7,7 @@
 (function main() {
   var overlay = document.createElement('div');
   var aside = document.querySelector('.article__aside');
-  var backButton = document.querySelector('.nav___mobile-nav--back-to-overview:not(.national)');
+  var backButton = document.querySelector('.nav___mobile-nav:not(.page__national) .nav___mobile-nav--back-to-overview');
   var startX;
   var startY;
   var dist;
@@ -59,9 +59,9 @@
   aside.addEventListener('touchstart', menuSwipeStart, false);
   aside.addEventListener('touchend', menuSwipeEnd, false);
 
-  if (backButton)
-    backButton
-      .addEventListener('click', goHome);
+  if (backButton) {
+    backButton.addEventListener('click', goHome);
+  }
 
   document.querySelector('.nav___mobile-nav--choose-state')
     .addEventListener('click', toggleMenu);
