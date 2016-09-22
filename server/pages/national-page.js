@@ -8,7 +8,7 @@ import nationalCount from '../lib/national-count';
 class NationalPage extends Page {
   constructor() {
     super();
-    this.headline = 'Presidential election poll tracker';
+    this.headline = 'Presidential election poll tracker';
     this.streamUrl = 'https://www.ft.com/us-election-2016';
     this.url = 'https://ig.ft.com/us-elections/polls';
     this.code = 'us';
