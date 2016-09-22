@@ -9,15 +9,17 @@ export default function siteNav() {
   return {
     keyBattlegroundStates: [
       getBySlug('arizona'),
+      getBySlug('colorado'),
       getBySlug('florida'),
       getBySlug('georgia'),
       getBySlug('iowa'),
       getBySlug('missouri'),
       getBySlug('nevada'),
+      getBySlug('new-hampshire'),
       getBySlug('north-carolina'),
       getBySlug('ohio'),
       getBySlug('pennsylvania'),
-      getBySlug('wisconsin'),
+      getBySlug('virginia'),
     ],
     allStates: allStatesMinusCD,
   };
