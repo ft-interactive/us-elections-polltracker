@@ -180,6 +180,7 @@
 
 .rail__state-list__nationalMap{
   margin-top: 10px;
+  width: 100%;
 }
 
 .congressional-district-nav {
@@ -1228,7 +1229,7 @@ tbody .state-winners-table__year {
 
   .rail__content {
     border: 0;
-    padding: 2em;
+    padding: 0 2em 2em 2em;
     overflow: auto;
     height: 95%;
   }
@@ -1243,7 +1244,7 @@ tbody .state-winners-table__year {
 
   .rail__state-list h4 {
     margin-bottom: 9px;
-    padding-top: 1em;
+    padding-top: 0;
   }
 
   .rail__state-list ul {
@@ -1258,13 +1259,20 @@ tbody .state-winners-table__year {
     color: #545752;
   }
 
+  .rail__state-list__nationalItems {
+    display: flex;
+    height: 100px;
+    align-items: center;
+  }
+
   .rail__state-list__nationalLink {
-    padding: 0 0 0 1.25em;
-    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?source=o-icons&tint=%2327757B,%2327757B&format=svg);
+    padding: 0;
+    /*background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?source=o-icons&tint=%2327757B,%2327757B&format=svg);
     background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?source=o-icons&tint=%2327757B,%2327757B&format=png&width=14)\9;
     background-repeat: no-repeat;
     background-position: -5px 50%;
-    background-size: contain;
+    background-size: contain;*/
+    width: 60%;
   }
 
   .page__national .rail__state-list__nationalLink {
@@ -1274,8 +1282,12 @@ tbody .state-winners-table__year {
   .rail__state-list__nationalLink a {
     color: #318085;
     border-bottom: 1px #318085 dotted;
-    font-size: 1.2em;
+    font-size: 1.5em;
     font-weight: normal;
+  }
+
+  .rail__state-list__nationalMap {
+    width: 40%;
   }
 
   .rail__state-list__items .o-expander__content {
