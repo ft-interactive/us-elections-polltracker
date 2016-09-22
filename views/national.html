@@ -43,20 +43,6 @@ the race for 270 electoral college votes is still too close to call
   )
 }}
 
-{% set racestring = 'four' %}
-{% if pollHistory.pollnumcandidates == 3 %}{% set racestring = 'three' %}{% endif %}
-{{
-  PollingHistory.LineChart(
-    statename="US",
-    title="Which White House candidate is leading in the polls?",
-    subtitle="National polling average based on " + racestring + "-way race (%)",
-    svgs=pollHistory.lineCharts,
-    latestPollAverages=pollHistory.latestAverages
-  )
-}}
-
-{{ Ads.MidContent(on=false) }}
-
 {{
   StateList(
     title="Where are the closest races?",
@@ -65,9 +51,23 @@ the race for 270 electoral college votes is still too close to call
   )
 }}
 
+{{ Ads.MidContent(on=false) }}
+
+{% set racestring = 'four' %}
+{% if pollHistory.pollnumcandidates == 3 %}{% set racestring = 'three' %}{% endif %}
+{{
+  PollingHistory.LineChart(
+    statename="US",
+    title="Who is leading in national opinion polls?",
+    subtitle="National polling average based on " + racestring + "-way race (%)",
+    svgs=pollHistory.lineCharts,
+    latestPollAverages=pollHistory.latestAverages
+  )
+}}
+
 {{
   PollingHistory.Table(
-    title="All individual polls",
+    subtitle="All national opinion polls",
     list=pollHistory.list
   )
 }}
