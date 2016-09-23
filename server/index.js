@@ -11,18 +11,6 @@ import stateCodeRedirectController from './controllers/state-code-redirect';
 import stateController from './controllers/state';
 import stateCount from './lib/state-counts';
 
-// run scraper up front if this is a review app
-let ready;
-if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '"1"') {
-  const scraper = require('../scraper').default; // eslint-disable-line global-require
-
-  scraper().then(() => {
-    ready = true;
-  });
-} else {
-  ready = true;
-}
-
 const cache = lru({
   max: 500,
   maxAge: 60 * 1000, // 60 seconds
@@ -36,15 +24,27 @@ const sMaxAge = 10;
 
 app.disable('x-powered-by');
 
-// prevent
-app.use((req, res, next) => {
-  if (!ready) {
-    res.status(500).send('still scraping - please wait then try again');
-    return;
-  }
+// run scraper up front if this is a review app
+if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '"1"') {
+  const scraper = require('../scraper').default; // eslint-disable-line global-require
 
-  next();
-});
+  let stillScraping = true;
+
+  // run this asynchronously
+  scraper().then(() => {
+    stillScraping = false;
+  });
+
+  // politely 500 all requests while scraper is still running
+  app.use((req, res, next) => {
+    if (stillScraping) {
+      res.status(500).send('still scraping - please wait then try again');
+      return;
+    }
+
+    next();
+  });
+}
 
 app.use(express.static('public'));
 
