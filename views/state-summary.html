@@ -1,0 +1,21 @@
+{% macro StateSummary(summary, state) %}
+<div class="state-page__summary">
+  <div class="bar__state-status {{ summary.marginClass }}">
+    ★ {{ summary.buttonText }} ★
+  </div>
+  <div class="bar__state-ec-votes {{ summary.marginClass }}">
+    <figure>{{ state.ecVotes }}</figure> of 538 electoral votes
+  </div>
+
+  <div class="graphic__ecvotes--circles">
+    {% for i in range(0, 538) %}
+    <div
+      class="circle {{ state.getVoteClass(loop.index0, state.ecVotes, state.nationalCounts, summary) }}"
+      data-state="{{ state.ecVoteScale(loop.index0) }}">
+      <div class="inner-square"></div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="graphic__ecvotes--label"></div>
+</div>
+{% endmacro %}
