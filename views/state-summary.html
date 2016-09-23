@@ -9,9 +9,13 @@
 
   <div class="graphic__ecvotes--circles">
     {% for i in range(0, 538) %}
-    <div class="circle {{ state.getVoteClass(loop.index0, state.ecVotes, state.nationalCounts, summary) }}"></div>
-    {% endfor %}
+    <div
+      class="circle {{ state.getVoteClass(loop.index0, state.ecVotes, state.nationalCounts, summary) }}"
+      data-state="{{ state.ecVoteScale(loop.index0) }}">
+      <div class="inner-square"></div>
     </div>
+    {% endfor %}
   </div>
+  <div class="graphic__ecvotes--label"></div>
 </div>
 {% endmacro %}

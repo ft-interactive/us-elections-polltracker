@@ -1,6 +1,6 @@
 import Page from './page';
 import { getBySlug } from '../lib/states';
-import getStateSummary, { getVoteClass } from '../lib/getStateSummary';
+import getStateSummary, { getVoteClass, getECVoteScale } from '../lib/getStateSummary';
 import referenceData from '../../layouts/stateDemographics';
 import historicalDataTable from '../../layouts/historicalDataTable';
 import demographicBarcode from '../../layouts/demographicBarcode';
@@ -35,6 +35,7 @@ class StatePage extends Page {
   async ready() {
     await this.pready();
     this.state.nationalCounts = await nationalCount();
+    this.state.ecVoteScale = await getECVoteScale();
     this.summaryData = await getStateSummary(this.state);
   }
 }

@@ -2,6 +2,8 @@
  * Gets state summary section
  */
 
+import { scaleThreshold } from 'd3-scale';
+
 import { marginThreshold } from './national-count';
 import getStateCounts from './state-counts';
 
@@ -38,6 +40,7 @@ export default async function getStateSummary(state) {
   return {
     buttonText: text,
     marginClass,
+    stateCounts,
   };
 }
 
@@ -94,4 +97,32 @@ export function getVoteClass(idx, stateVotes, counts, summary) {
     return margin === 'rep' ? getECClass(idx, stateVotes, margin, counts) : 'rep';
   }
   return undefined;
+}
+
+export async function getECVoteScale() {
+  const stateCounts = await getStateCounts();
+  const stateData = Object.entries(stateCounts).map(([name, data]) => ({
+    name,
+    category: marginThreshold(data.margin),
+    margin: data.margin,
+    ecVotes: data.ecVotes,
+  }))
+    .sort((a, b) => b.margin - a.margin)
+    .reduce((last, curr) => {
+      const currentTotal = last.length ? (last[last.length - 1].idxMax + curr.ecVotes) : curr.ecVotes;
+      last.push({
+        name: curr.name,
+        idxMax: currentTotal,
+      });
+
+      return last;
+    }, []);
+
+  const scaleECVotes = scaleThreshold()
+    .range(stateData.map(d => d.name))
+    .domain(stateData.map(d => d.idxMax));
+  // console.dir(scaleECVotes.range());
+  // console.dir(scaleECVotes.domain());
+
+  return scaleECVotes;
 }
