@@ -70,7 +70,7 @@
     "db:migrate": "sequelize db:migrate",
     "dev": "nodemon setup.js -e js,html,svg",
     "scraper": "babel-node scraper.js",
-    "start": "node setup.js",
+    "start": "npm run scraper && node setup.js",
     "test": "mocha --compilers js:babel-core/register layouts/*.spec.js"
   }
 }
