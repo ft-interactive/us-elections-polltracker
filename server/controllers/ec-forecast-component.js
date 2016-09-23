@@ -1,6 +1,6 @@
+import { minify } from 'html-minifier';
 import cache from '../lib/cache';
 import { render } from '../nunjucks';
-import { minify } from 'html-minifier';
 import nationalCount from '../lib/national-count';
 import ecForecastBarsLayout from '../../layouts/ec-forecast-bars-layout';
 
@@ -17,7 +17,7 @@ export default async (req, res) => {
 
   const layout = ecForecastBarsLayout(count);
 
-  const getHTML = async (override) => {
+  const getHTML = async override => {
     const data = { ...layout, override };
 
     return cache(

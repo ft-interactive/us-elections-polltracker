@@ -1,17 +1,9 @@
-'use strict';
-module.exports = function(sequelize, DataTypes) {
-  var Pollaverages = sequelize.define('Pollaverages', {
-    date: DataTypes.DATE,
-    candidatename: DataTypes.STRING,
-    pollaverage: DataTypes.FLOAT,
-    state: DataTypes.STRING,
-    pollnumcandidates: DataTypes.INTEGER,
-  }, {
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
-      }
-    }
-  });
-  return Pollaverages;
-};
+import { DataTypes } from 'sequelize';
+
+export default sequelize => sequelize.define('Pollaverages', {
+  date: DataTypes.DATE,
+  candidatename: DataTypes.STRING,
+  pollaverage: DataTypes.FLOAT,
+  state: DataTypes.STRING,
+  pollnumcandidates: DataTypes.INTEGER,
+});

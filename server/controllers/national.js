@@ -1,4 +1,4 @@
-import { createPage } from '../pages/national-page';
+import createNationalPage from '../pages/createNationalPage';
 import { render } from '../nunjucks';
 import cache from '../lib/cache';
 
@@ -11,7 +11,7 @@ export default async (req, res) => {
 
   const html = await cache(
     'nationalpolls',
-    async () => render('national.html', await createPage())
+    async () => render('national.html', await createNationalPage())
   );
 
   res.send(html);

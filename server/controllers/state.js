@@ -1,4 +1,4 @@
-import { createPage } from '../pages/state-page';
+import createStatePage from '../pages/createStatePage';
 import { codeToSlug, isState } from '../lib/states';
 import { render } from '../nunjucks';
 import cache from '../lib/cache';
@@ -43,7 +43,7 @@ export default async (req, res) => {
 
   const html = await cache(
     `statePage-${state}`,
-    async () => render('state.html', await createPage(state))
+    async () => render('state.html', await createStatePage(state))
   );
 
   res.send(html);

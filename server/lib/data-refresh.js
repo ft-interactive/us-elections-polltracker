@@ -1,9 +1,7 @@
 import { EventEmitter } from 'events';
 import { CronJob } from 'cron';
-import axios from 'axios';
 
 export default class DataRefresher extends EventEmitter {
-
   data = null;
 
   // Cache the last successful request.
@@ -24,14 +22,14 @@ export default class DataRefresher extends EventEmitter {
     if (logErrors) {
       this.on('error', err => {
         if (err instanceof Error) {
-          console.error(err.message, err.code)
+          console.error(err.message, err.code);
         } else {
           console.error(err);
         }
       });
     }
 
-    if(start) {
+    if (start) {
       process.nextTick(() => {
         this.emit('start');
       });
@@ -61,7 +59,7 @@ export default class DataRefresher extends EventEmitter {
       this.createRequest();
     }
 
-    return this.pendingRequest = new Promise((resolve, reject) => {
+    this.pendingRequest = new Promise((resolve, reject) => {
       this.once('error', reason => {
         console.log('on error');
         this.lastPendingPromise = null;
@@ -76,12 +74,13 @@ export default class DataRefresher extends EventEmitter {
         console.log('on result');
         this.lastPendingPromise = null;
         resolve(data);
-      })
+      });
     });
+
+    return this.pendingRequest;
   }
 
   createRequest() {
-
     // Only one job can run at a time
     if (this.pendingRequest) return;
 
@@ -101,5 +100,4 @@ export default class DataRefresher extends EventEmitter {
       });
     });
   }
-
 }

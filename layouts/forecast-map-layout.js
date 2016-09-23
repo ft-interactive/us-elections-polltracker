@@ -1,16 +1,16 @@
 // provides a dictionary of state colours based on defined thresholds for how safe a bet a given state is for a given candidate
 
-const d3 = require('d3');
 import color from './color.js';
 
 import { marginThreshold } from '../server/lib/national-count';
 
-function forecastMapLayout(stateData, opts) {
+export default (stateData, opts) => {
   const [svgWidth, svgHeight] = (opts.size || '900x580').split(/\D/); // split on non digit characters
+
   const layoutObject = {
     background: opts.background || null,
     color,
-    fontless: (typeof opts.fontless === 'boolean' ? opts.fontless : (opts.fontless ? opts.fontless === 'true' : true)),
+    fontless: (opts.fontless === 'true' ? true : opts.fontless),
     key: (opts.key ? opts.key === 'true' : false),
     logo: (opts.logo ? opts.logo === 'true' : false),
     width: svgWidth,
@@ -29,9 +29,7 @@ function forecastMapLayout(stateData, opts) {
   });
 
   return layoutObject;
-}
-
-module.exports = forecastMapLayout;
+};
 
 /* example state Object
 

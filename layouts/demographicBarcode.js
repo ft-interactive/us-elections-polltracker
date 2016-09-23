@@ -1,5 +1,4 @@
-import { extent } from 'd3-array';
-import { scaleLinear } from 'd3-scale';
+import * as d3 from 'd3';
 
 export function formatToPercent(n) {
   return Math.round(n * 1000) / 10;
@@ -24,7 +23,7 @@ export default function layout(indicator) {
 
   const [min, max] = indicator.domain;
   const range = [0, chartConfig.contentWidth()];
-  const scale = scaleLinear().domain(indicator.domain).range(range);
+  const scale = d3.scaleLinear().domain(indicator.domain).range(range);
   const flipLabelDirection = scale(indicator.stateValue) / scale(max) > 0.5;
   const stateLabelTextDirection = flipLabelDirection ? 'end' : 'start';
 

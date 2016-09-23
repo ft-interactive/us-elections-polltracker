@@ -1,2 +1,2 @@
 web: npm start
-scraper: node scraper.js
+scraper: npm run scraper

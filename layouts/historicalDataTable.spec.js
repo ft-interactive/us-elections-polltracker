@@ -1,16 +1,17 @@
+/* eslint-disable no-template-curly-in-string */
 /**
  * Unit tests for historicalDataTable.js
  */
 
 import chai from 'chai';
-chai.should();
-
 import getHistoricalResults, {
   getCandidatesList,
   getFederalWinners,
   getStateWinners,
   getBarExtents,
 } from './historicalDataTable';
+
+chai.should();
 
 const FAKE_STATE_DEMOGRAPHICS_DATA = {
   label: {

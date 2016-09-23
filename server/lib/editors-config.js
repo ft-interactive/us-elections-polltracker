@@ -5,7 +5,7 @@ const CONFIG_URL = (process.env.CONFIG_URL ||
                                 'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options');
 
 function fetchData() {
-  return axios.get(CONFIG_URL, {timeout: 10000}).then(response => {
+  return axios.get(CONFIG_URL, { timeout: 10000 }).then(response => {
     if (!Array.isArray(response.data) || !response.data.length) {
       throw new Error('Cannot get content');
     }
@@ -18,7 +18,7 @@ function fetchData() {
 function fetchError(error) {
   if (error instanceof Error) {
     const url = error.config && error.config.url;
-    console.log(error.message, error.code, url)
+    console.log(error.message, error.code, url);
   } else {
     console.error(error);
   }

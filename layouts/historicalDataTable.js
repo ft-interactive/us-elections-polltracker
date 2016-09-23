@@ -14,14 +14,14 @@ const BAR_RIGHT_PADDING = 0;
  */
 export function getCandidatesList(data) {
   return Object.keys(data.label)
-    .filter(label => !!~label.indexOf('outcome'))
+    .filter(label => label.includes('outcome'))
     .reduce((last, outcome) => {
       const year = outcome.replace('outcome', '');
       last[outcome] = { // eslint-disable-line no-param-reassign
-        dem: !!~data.label[outcome].indexOf('(DEM)') ?
+        dem: data.label[outcome].includes('(DEM)') ?
           data.label[outcome].replace(' (DEM)', '') :
           data.label[`loser${year}`].replace(' (DEM)', ''),
-        gop: !!~data.label[outcome].indexOf('(GOP)') ?
+        gop: data.label[outcome].includes('(GOP)') ?
           data.label[outcome].replace(' (GOP)', '') :
           data.label[`loser${year}`].replace(' (GOP)', ''),
       };
@@ -36,7 +36,7 @@ export function getCandidatesList(data) {
  */
 export function getFederalWinners(data) {
   return Object.keys(data.label)
-    .filter(label => !!~label.indexOf('outcome'))
+    .filter(label => label.includes('outcome'))
     .sort()
     .reverse()
     .map(outcome => data.label[outcome]);
@@ -48,7 +48,7 @@ export function getFederalWinners(data) {
  */
 export function getStateWinners(data, state, candidates) {
   return Object.keys(data[state])
-    .filter(label => !!~label.indexOf('outcome'))
+    .filter(label => label.includes('outcome'))
     .sort()
     .reverse()
     .map(outcome => (data[state][outcome] > 0 ?
@@ -71,7 +71,7 @@ export function getBarExtents(data) {
     .reduce((last, stateAbbr) => {
       const stateData = data[stateAbbr];
       return last.concat(Object.keys(stateData)
-        .filter(label => !!~label.indexOf('outcome'))
+        .filter(label => label.includes('outcome'))
         .map(label => (stateData[label] ? Math.abs(stateData[label]) : undefined))
         .filter(i => i));
     }, []));
@@ -111,7 +111,7 @@ export default function getHistoricalResults(data, state) {
    * all the above together.
    */
   return Object.keys(data[cleanCode])
-    .filter(label => !!~label.indexOf('outcome'))
+    .filter(label => label.includes('outcome'))
     .sort()
     .reverse()
     .map((key, i) => ({

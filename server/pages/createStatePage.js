@@ -5,7 +5,6 @@ import historicalDataTable from '../../layouts/historicalDataTable';
 import demographicBarcode from '../../layouts/demographicBarcode';
 import districtList from '../../layouts/districtList';
 
-
 class StatePage extends Page {
   constructor(state) {
     super();
@@ -35,7 +34,7 @@ class StatePage extends Page {
   }
 }
 
-export async function createPage(slug) {
+export default async slug => {
   const state = getBySlug(slug);
 
   if (!state) return null;
@@ -45,4 +44,4 @@ export async function createPage(slug) {
   await page.ready();
 
   return page;
-}
+};

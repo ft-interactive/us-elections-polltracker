@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import _ from 'lodash';
 import getAllLatestStateAverages from '../../layouts/getAllLatestStateAverages';
 import stateIds from '../../data/states';
 
@@ -8,7 +8,7 @@ export default async overrideData => {
   const overrideCategories = overrideData.overrideCategories;
   const stateCounts = {};
 
-  for (let i = 0; i < stateIds.length; i++) {
+  for (let i = 0; i < stateIds.length; i += 1) {
     const stateKey = stateIds[i].code;
     let clintonAvg = null;
     let trumpAvg = null;
@@ -17,8 +17,8 @@ export default async overrideData => {
     if (stateKey !== 'US') {
       if (stateKey.toLowerCase() in groupedStateCounts) {
         const statePollAverages = groupedStateCounts[stateKey.toLowerCase()];
-        clintonAvg = _.findWhere(statePollAverages, { candidatename: 'Clinton' }).pollaverage || null;
-        trumpAvg = _.findWhere(statePollAverages, { candidatename: 'Trump' }).pollaverage || null;
+        clintonAvg = _.find(statePollAverages, _.iteratee({ candidatename: 'Clinton' })).pollaverage || null;
+        trumpAvg = _.find(statePollAverages, _.iteratee({ candidatename: 'Trump' })).pollaverage || null;
         if (clintonAvg && trumpAvg) {
           margin = clintonAvg - trumpAvg;
         }
@@ -27,8 +27,8 @@ export default async overrideData => {
       stateCounts[stateKey] = {
         Clinton: clintonAvg,
         Trump: trumpAvg,
-        margin: margin || _.findWhere(overrideCategories, { state: stateKey.toUpperCase() }).overridevalue,
-        ecVotes: _.findWhere(stateIds, { code: stateKey.toUpperCase() }).ecVotes,
+        margin: margin || _.find(overrideCategories, _.iteratee({ state: stateKey.toUpperCase() })).overridevalue,
+        ecVotes: _.find(stateIds, _.iteratee({ code: stateKey.toUpperCase() })).ecVotes,
       };
     }
   }
