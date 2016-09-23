@@ -5,7 +5,7 @@ import referenceData from '../../layouts/stateDemographics';
 import historicalDataTable from '../../layouts/historicalDataTable';
 import demographicBarcode from '../../layouts/demographicBarcode';
 import districtList from '../../layouts/districtList';
-import nationalCount from '../lib/national-count';
+import getStateCounts from '../lib/state-counts';
 
 class StatePage extends Page {
   constructor(state) {
@@ -34,7 +34,7 @@ class StatePage extends Page {
 
   async ready() {
     await this.pready();
-    this.state.nationalCounts = await nationalCount();
+    this.state.stateCounts = await getStateCounts();
     this.state.ecVoteScale = await getECVoteScale();
     this.summaryData = await getStateSummary(this.state);
   }

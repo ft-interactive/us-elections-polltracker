@@ -329,7 +329,7 @@ a {
   }
   .pollchart.pollchart--M svg {
     max-width: 657px;
-  } 
+  }
 }
 @media (max-width: 76.24em) and (min-width: 61.25em) {
   .pollchart.pollchart--L {
@@ -892,6 +892,7 @@ a {
   margin: 0;
   padding: 0;
   border: 1px solid transparent;
+  cursor: pointer;
 }
 
 .state-page__summary .graphic__ecvotes--circles .circle .inner-square {
@@ -942,19 +943,19 @@ a {
   border-color: black !important;
 }
 
-.state-page__summary .graphic__ecvotes--circles .circle.ec-vote.dem .inner-square {
+.state-page__summary .graphic__ecvotes--circles .circle.current-state.dem .inner-square {
   background-color: #579dd5;
 }
-.state-page__summary .graphic__ecvotes--circles .circle.ec-vote.leaningDem .inner-square {
+.state-page__summary .graphic__ecvotes--circles .circle.current-state.leaningDem .inner-square {
   background-color: #a2c1e1;
 }
-.state-page__summary .graphic__ecvotes--circles .circle.ec-vote.rep .inner-square {
+.state-page__summary .graphic__ecvotes--circles .circle.current-state.rep .inner-square {
   background-color: #e03d46;
 }
-.state-page__summary .graphic__ecvotes--circles .circle.ec-vote.leaningRep .inner-square {
+.state-page__summary .graphic__ecvotes--circles .circle.current-state.leaningRep .inner-square {
   background-color: #f4a098;
 }
-.state-page__summary .graphic__ecvotes--circles .circle.ec-vote.swing .inner-square {
+.state-page__summary .graphic__ecvotes--circles .circle.current-state.swing .inner-square {
   background-color: #fcc83c;
 }
 

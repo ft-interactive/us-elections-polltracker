@@ -44,66 +44,14 @@ export default async function getStateSummary(state) {
   };
 }
 
-/**
- * When getting the class for the circles with a margin in a state with that margin,
- * check whether the index should be given an "ec-vote" class so it can be outlined.
- * This draws "dem/leaningDem" towards the right edge of their section, "swing" in the middle
- * of the swing votes, and "rep/leaningRep" towards the left edge of their group.
- * @param  {Number} idx        Index of current circle
- * @param  {Number} stateVotes Total number of state electoral college votes
- * @param  {String} margin     Margin class from getStateSummary()
- * @param  {Object} counts     Object containing the total EC vote estimate
- * @return {[type]}            [description]
- */
-function getECClass(idx, stateVotes, margin, counts) {
-  if (margin === 'dem') {
-    return idx >= counts.dem - stateVotes ? 'ec-vote dem' : 'dem';
-  } else if (margin === 'leaningDem') {
-    return idx >= (counts.dem + counts.leaningDem) - stateVotes ? 'ec-vote leaningDem' : 'leaningDem';
-  } else if (margin === 'swing') {
-    return idx >= (counts.dem + counts.leaningDem + (counts.swing / 2)) - stateVotes / 2 &&
-      idx <= (counts.dem + counts.leaningDem + (counts.swing / 2)) + stateVotes / 2
-      ? 'ec-vote swing' : 'swing';
-  } else if (margin === 'leaningRep') {
-    return idx < (538 - (counts.rep + counts.leaningRep) + stateVotes)
-      ? 'ec-vote leaningRep' : 'leaningRep';
-  } else if (margin === 'rep') {
-    return idx < (538 - counts.rep + stateVotes)
-      ? 'ec-vote rep' : 'rep';
-  }
-
-  return margin; // fallback to whatever margin is.
-}
-
-/**
- * This returns a class for the circles, color coding them appropriately.
- * @param  {Number} idx        Index of current circle
- * @param  {Number} stateVotes Total number of state electoral college votes
- * @param  {Object} counts     Object containing the total EC vote estimate
- * @param  {Object} summary    Summary object from getStateSummary
- * @return {String|undefined}  Either one or two classes for the datum
- */
-export function getVoteClass(idx, stateVotes, counts, summary) {
-  const margin = summary.marginClass;
-  if (idx < counts.dem) {
-    return margin === 'dem' ? getECClass(idx, stateVotes, margin, counts) : 'dem';
-  } else if (idx < (counts.dem + counts.leaningDem)) {
-    return margin === 'leaningDem' ? getECClass(idx, stateVotes, margin, counts) : 'leaningDem';
-  } else if (idx < (counts.dem + counts.leaningDem + counts.swing)) {
-    return margin === 'swing' ? getECClass(idx, stateVotes, margin, counts) : 'swing';
-  } else if (idx < (counts.dem + counts.leaningDem + counts.swing + counts.leaningRep)) {
-    return margin === 'leaningRep' ? getECClass(idx, stateVotes, margin, counts) : 'leaningRep';
-  } else if (idx < 538) { // Magic number here is total number of EC votes
-    return margin === 'rep' ? getECClass(idx, stateVotes, margin, counts) : 'rep';
-  }
-  return undefined;
+export function getVoteClass(stateCode, stateCounts) {
+  return marginThreshold(stateCounts[stateCode].margin);
 }
 
 export async function getECVoteScale() {
   const stateCounts = await getStateCounts();
   const stateData = Object.entries(stateCounts).map(([name, data]) => ({
     name,
-    category: marginThreshold(data.margin),
     margin: data.margin,
     ecVotes: data.ecVotes,
   }))
@@ -121,8 +69,6 @@ export async function getECVoteScale() {
   const scaleECVotes = scaleThreshold()
     .range(stateData.map(d => d.name))
     .domain(stateData.map(d => d.idxMax));
-  // console.dir(scaleECVotes.range());
-  // console.dir(scaleECVotes.domain());
 
   return scaleECVotes;
 }

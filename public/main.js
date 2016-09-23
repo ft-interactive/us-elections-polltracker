@@ -100,5 +100,10 @@
         ecVotesTooltip.innerText = '';
         ecVotesTooltip.style.display = 'none';
       });
+
+      d.addEventListener('click', (e) => {
+        const stateAbbr = e.target.parentNode.dataset.state || e.target.dataset.state;
+        window.location.href = `${stateAbbr}-polls`;
+      });
     });
 }());
