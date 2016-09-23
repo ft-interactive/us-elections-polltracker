@@ -6,7 +6,8 @@
     "NODE_ENV": {
       "description": "Set to production environment",
       "value": "production"
-    }
+    },
+    "SCRAPE_ON_STARTUP": "1"
   },
   "formation": {
     "web": {
