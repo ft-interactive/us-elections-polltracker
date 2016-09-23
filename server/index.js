@@ -1,20 +1,15 @@
 import express from 'express';
 import lru from 'lru-cache';
-import * as nunjucks from './server/nunjucks';
-import ecForecastComponentController from './server/controllers/ec-forecast-component';
-import getPollAverages from './layouts/getPollAverages.js';
-import layoutForecastMap from './layouts/forecast-map-layout';
-import nationalController from './server/controllers/national';
-import ecBreakdownController from './server/controllers/ec-breakdown';
-import pollGraphicsController from './server/controllers/poll-graphics';
-import stateCodeRedirectController from './server/controllers/state-code-redirect';
-import stateController from './server/controllers/state';
-import stateCount from './server/lib/state-counts';
-
-process.on('unhandledRejection', error => {
-  console.error('unhandledRejection', error.stack);
-  process.exit(1);
-});
+import * as nunjucks from './nunjucks';
+import ecForecastComponentController from './controllers/ec-forecast-component';
+import getPollAverages from '../layouts/getPollAverages.js';
+import layoutForecastMap from '../layouts/forecast-map-layout';
+import nationalController from './controllers/national';
+import ecBreakdownController from './controllers/ec-breakdown';
+import pollGraphicsController from './controllers/poll-graphics';
+import stateCodeRedirectController from './controllers/state-code-redirect';
+import stateController from './controllers/state';
+import stateCount from './lib/state-counts';
 
 const cache = lru({
   max: 500,
@@ -28,6 +23,27 @@ const maxAge = 120; // for user agent caching purposes
 const sMaxAge = 10;
 
 app.disable('x-powered-by');
+
+// run scraper up front if this is a review app
+if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '"1"') {
+  const scraper = require('../scraper').default; // eslint-disable-line global-require
+
+  let stillScraping = true;
+
+  scraper().then(() => {
+    stillScraping = false;
+  });
+
+  // politely 500 all requests while scraper is still running
+  app.use((req, res, next) => {
+    if (stillScraping) {
+      res.status(500).send('still scraping - please wait then try again');
+      return;
+    }
+
+    next();
+  });
+}
 
 app.use(express.static('public'));
 

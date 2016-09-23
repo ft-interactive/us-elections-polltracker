@@ -6,12 +6,13 @@
     "NODE_ENV": {
       "description": "Set to production environment",
       "value": "production"
+    },
+    "SCRAPE_ON_STARTUP": {
+      "description": "Make the scraper run before the web server starts up",
+      "value": "1"
     }
   },
   "formation": {
-    "scraper": {
-      "quantity": 1
-    },
     "web": {
       "quantity": 1
     }
