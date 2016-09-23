@@ -1,6 +1,5 @@
 # US Elections Poll Tracker
 
-
 Partially based on the [FT Brexit polling app](https://github.com/ft-interactive/brexit-polling).
 
 A web service scraping data from Real Clear Politics' [historical averages polling data feed for the 2016 general election between Trump v Clinton](http://www.realclearpolitics.com/poll/race/5491/historical_data.xml) and publishing it as SVG charts.

@@ -45,9 +45,6 @@ function fetchError(error) {
 const overrideData = new DataRefresher('*/50 * * * * *', fetchData, { fallbackData: new Map(), logErrors: false });
 
 overrideData.on('error', fetchError);
-overrideData.on('result', (...args) => {
-  console.log('OVERRIDE DATA RESULT', args);
-});
 
 function getPollAvg(data, candidateName) {
   if (!data || !data.length) return null;
