@@ -9,8 +9,7 @@
     },
     "SCRAPE_ON_STARTUP": {
       "description": "Make the scraper run before the web server starts up",
-      "value": "1",
-      "required": true
+      "value": "1"
     }
   },
   "formation": {

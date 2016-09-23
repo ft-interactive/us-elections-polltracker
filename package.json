@@ -64,7 +64,9 @@
   },
   "private": true,
   "scripts": {
-    "dev": "make watch",
+    "start": "sequelize db:migrate && node --require ./setup.js server",
+    "scraper": "node --require ./setup.js scraper/run",
+    "dev": "nodemon --ext js,html,svg",
     "test": "mocha --compilers js:babel-core/register layouts/*.spec.js"
   }
 }
