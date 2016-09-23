@@ -27,7 +27,7 @@
 {% include "includes/who-won-here.html" %}
 
 {% call PageElements.Figure(title="Key data about " + state.name,
-                  subtitle="Economic and demographic indicators relative to the US (%). Darker lines indicate multiple states with similar values.") %}
+                  subtitle="Economic and demographic indicators relative to the national average (%). Darker lines indicate multiple states with similar values.") %}
   {{
     StateDemographics(
       indicators=demographicIndicators,
