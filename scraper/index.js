@@ -1,13 +1,8 @@
 import fetch from 'isomorphic-fetch';
 import winston from 'winston';
-import db from './models';
-import stateIds from './data/states';
-import nationalId from './data/national';
-
-process.on('unhandledRejection', error => {
-  console.error('unhandledRejection', error.stack);
-  process.exit(1);
-});
+import db from '../models';
+import stateIds from '../data/states';
+import nationalId from '../data/national';
 
 const addPollAveragesToDatabase = (polldate, candidate, value, state, pollnumcandidates) =>
   db.sequelize.transaction(async () => {
@@ -154,7 +149,7 @@ const updateLastUpdatedDate = () => {
   });
 };
 
-(async () => {
+export default async () => {
   // await db.Pollaverages.sync({force: true}) // use this to drop table and recreate
   await db.sequelize.sync();
 
@@ -218,4 +213,4 @@ const updateLastUpdatedDate = () => {
   }
 
   await updateLastUpdatedDate();
-})();
+};

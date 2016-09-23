@@ -1,22 +1,22 @@
 import classifyState from './state-classifications';
 import color from './color';
-import states from '../data/states';
-const sum =require('d3-array').sum;
 
-function makeLookup(arr,key,value){
-  const o = {};
-  arr.forEach(function(d){
-    o[ d[key] ] = value(d);
-  })
-  return o;
-}
+const sum = require('d3-array').sum;
 
-const shortname = makeLookup(states,'code',function(d){ 
-  if(d.shortName){
-    return d.shortName;
-  }
-  return d.name;
-});
+// function makeLookup(arr, key, value) {
+//   const o = {};
+//   arr.forEach(d => {
+//     o[d[key]] = value(d);
+//   });
+//   return o;
+// }
+
+// const shortname = makeLookup(states, 'code', d => {
+//   if (d.shortName) {
+//     return d.shortName;
+//   }
+//   return d.name;
+// });
 
 const groupNames = {
   swing: 'Toss-up',
@@ -26,14 +26,15 @@ const groupNames = {
   leaningDem: 'Leaning',
 };
 
-function splitArray(a, keyFunction) {
+function splitArray(a, keyFunction = String) {
   const o = {};
-  if (!keyFunction) keyFunction = function (d) { return String(d); };
-  a.forEach(function (d) {
-      const key = keyFunction(d);
-      if (!o[key]) o[key] = [];
-      o[key].push(d);
-    });
+
+  a.forEach(d => {
+    const key = keyFunction(d);
+    if (!o[key]) o[key] = [];
+    o[key].push(d);
+  });
+
   return o;
 }
 
@@ -41,31 +42,30 @@ function splitArray(a, keyFunction) {
 function combineMENE(lookup) {
   const newLookup = {};
 
-  Object.keys(lookup).forEach(function(d){
-    const code = lookup[d].code.substring(0,2);
-    const state = lookup[d];
-    state.code = state.code .substring(0,2);
-    const forecast = (state.code === 'ME' || state.code === 'NE')
-            ? classifyState.forecastMENE(state.margin) : classifyState.forecast(state.margin);
+  Object.keys(lookup).forEach(d => {
+    // const code = lookup[d].code.substring(0 ,2);
+    const state = Object.assign({}, lookup[d]);
+    state.code = state.code.substring(0, 2);
+    const forecast = classifyState.forecast(state.margin);
     state.forecast = forecast;
-    if ( newLookup[code + '-' + forecast]){ 
-      newLookup[code + '-' + forecast].ecVotes += state.ecVotes;
+    if (newLookup[`${state.code}-${forecast}`]) {
+      newLookup[`${state.code}-${forecast}`].ecVotes += state.ecVotes;
     } else {
-      newLookup[code + '-' + forecast] = state;
-    }    
+      newLookup[`${state.code}-${forecast}`] = state;
+    }
   });
   return newLookup;
 }
 
 function percentOfCA(votes) { // electoral votes as a proportion of california i.e. california bar is 100% of available width
-  return votes / 55 * 100;
+  return (votes / 55) * 100;
 }
 
 export default function (stateLookup) {
     // classify the data and sort by electoral college votes
   const classified = combineMENE(stateLookup);
   const states = Object.keys(classified)
-        .map(function (key) {
+        .map(key => {
           const state = classified[key];
           return {
             forecast: state.forecast,
@@ -76,12 +76,12 @@ export default function (stateLookup) {
         })
         .sort((a, b) => b.ecVotes - a.ecVotes);
 
-  const stateGroups = splitArray(states, function (d) { return d.forecast; });
-  const groupTotals = Object.keys(stateGroups).reduce(function(lookup, groupName){
-    //console.log(lookup);
-    lookup[groupName] = sum( stateGroups[groupName], d => d.ecVotes );
+  const stateGroups = splitArray(states, d => d.forecast);
+  const groupTotals = Object.keys(stateGroups).reduce((lookup, groupName) => {
+    // console.log(lookup);
+    lookup[groupName] = sum(stateGroups[groupName], d => d.ecVotes); // eslint-disable-line no-param-reassign
     return lookup;
-  },{});
+  }, {});
 
   console.log(groupTotals);
 

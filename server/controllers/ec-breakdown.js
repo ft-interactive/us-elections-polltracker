@@ -13,7 +13,7 @@ export default async (req, res) => {
   const layout = ecBreakdownLayout(await stateCount());
 
   const html = await cache(
-    'ec-breakdown-fontless:' + layout.fontless,
+    `ec-breakdown-fontless:${layout.fontless}`,
     async () => render('ec-breakdown.html', { layout })
   );
 
