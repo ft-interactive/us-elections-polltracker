@@ -139,3 +139,8 @@ const server = app.listen(process.env.PORT || 5000, () => {
   const port = server.address().port;
   console.log(`running ${host} ${port}`);
 });
+
+if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '"1"') {
+  console.log('SCRAPE_ON_STARTUP is set - running scraper');
+  require('../scraper').default(); // eslint-disable-line global-require
+}

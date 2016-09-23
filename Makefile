@@ -4,11 +4,7 @@ SCRAPE_ON_STARTUP := "${SCRAPE_ON_STARTUP}"
 start:
 	@echo "Running migrations..."
 	sequelize db:migrate
-ifeq ($(SCRAPE_ON_STARTUP),"1")
-	@echo "Running scraper before starting web server..."
-	node --require ./setup.js scraper/run
-endif
-	@echo "Starting web server..."
+	@echo "Starting up..."
 	node --require ./setup.js server
 
 
