@@ -24,7 +24,7 @@ The format for URLs looks like `/polls.svg?size=300x400&type=both&background=fff
 
 - Requirements: node, git
 - Clone repository
-- `npm install`, `make watch`
+- `npm install`, `npm run dev`
 
 ## Licence
 This software is published by the Financial Times under the [MIT licence](http://opensource.org/licenses/MIT).
