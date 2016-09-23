@@ -16,11 +16,7 @@ export default async _stateData => {
   const stateCounts = Object.keys(stateData).reduce((cumulative, stateCode) => {
     const state = stateData[stateCode];
 
-    const forecast = (
-      state.code.substring(0, 2) === 'ME' || state.code.substring(0, 2) === 'NE')
-        ? classifyState.forecastMENE(state.margin)
-        : classifyState.forecast(state.margin
-    );
+    const forecast = classifyState.forecast(state.margin);
 
     cumulative[forecast] += state.ecVotes; // eslint-disable-line no-param-reassign
     return cumulative;

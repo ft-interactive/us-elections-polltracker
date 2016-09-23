@@ -42,16 +42,15 @@ function combineMENE(lookup) {
   const newLookup = {};
 
   Object.keys(lookup).forEach(function(d){
-    const code = lookup[d].code.substring(0,2);
-    const state = lookup[d];
-    state.code = state.code .substring(0,2);
-    const forecast = (state.code === 'ME' || state.code === 'NE')
-            ? classifyState.forecastMENE(state.margin) : classifyState.forecast(state.margin);
+    //const code = lookup[d].code.substring(0 ,2);
+    const state = Object.assign({}, lookup[d]);
+    state.code = state.code.substring(0,2);
+    const forecast = classifyState.forecast(state.margin);
     state.forecast = forecast;
-    if ( newLookup[code + '-' + forecast]){ 
-      newLookup[code + '-' + forecast].ecVotes += state.ecVotes;
+    if ( newLookup[state.code + '-' + forecast]){ 
+      newLookup[state.code + '-' + forecast].ecVotes += state.ecVotes;
     } else {
-      newLookup[code + '-' + forecast] = state;
+      newLookup[state.code + '-' + forecast] = state;
     }    
   });
   return newLookup;
