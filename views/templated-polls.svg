@@ -59,13 +59,24 @@ text{
 {% endif %}
 
 {% for line in candidateLines %}
+    <path class="candidateLine" d="{{ line.d }}" stroke-width="5px" stroke-linejoin="round"  stroke-linecap="round" fill="none" stroke="#FFF1e0"></path>
+{% endfor %}
+
+{% for line in candidateLines %}
     <path class="candidateLine" d="{{ line.d }}" stroke-width="2px" stroke-linejoin="round"  stroke-linecap="round" fill="none" stroke="{{ line.stroke }}"></path>
 {% endfor %}
 
 {% for point in candidateEndPoints %}
+    <circle class="lastpointlabel" cx="{{ point.cx }}" cy="{{ point.cy }}" r="5" fill="#fff1e0"></circle>
+    <text font-size="17px" class="lastpointtext" transform="translate({{ point.cx + 10 }},{{ point.cy + point.labelOffset }})" fill="{{ point.fill }}">
+        <tspan style="font-weight: 500;">{{ point.labelValue }}</tspan>
+        <tspan>{{ point.labelName }}</tspan>
+    </text>
+{% endfor %}
+{% for point in candidateEndPoints %}
     <circle class="lastpointlabel" cx="{{ point.cx }}" cy="{{ point.cy }}" r="3" fill="{{ point.fill }}"></circle>
-    <text font-size="14px" class="lastpointtext" transform="translate({{ point.cx + 10 }},{{ point.cy + point.labelOffset }})" fill="{{ point.fill }}">
-        <tspan style="font-weight: 600;">{{ point.labelValue }}</tspan>
+    <text font-size="17px" class="lastpointtext" transform="translate({{ point.cx + 10 }},{{ point.cy + point.labelOffset }})" fill="{{ point.fill }}">
+        <tspan style="font-weight: 500;">{{ point.labelValue }}</tspan>
         <tspan>{{ point.labelName }}</tspan>
     </text>
 {% endfor %}
