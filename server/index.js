@@ -30,7 +30,6 @@ if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '
 
   let stillScraping = true;
 
-  // run this asynchronously
   scraper().then(() => {
     stillScraping = false;
   });
