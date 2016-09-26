@@ -48,7 +48,7 @@ export default class Page {
     this.onwardJourney = onwardJourney();
     this.siteNav = siteNav();
 
-    const electionDay = moment('November 8, 2016');
+    const electionDay = moment('2016-11-08');
     const todayDay = moment();
     this.daysToElection = electionDay.diff(todayDay, 'days');
   }
