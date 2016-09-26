@@ -72,12 +72,13 @@
   // Interactivity for EC votes chart (state page)
   const ecVotesTooltip = document.querySelector('.graphic__ecvotes--label');
   const originalCircles = document.querySelectorAll('.graphic__ecvotes--circles .circle.current-state');
+  let currentState;
 
   [...originalCircles].forEach(d => d.classList.add('ec-vote'));
 
   [...document.querySelectorAll('.graphic__ecvotes--circles .circle')]
     .forEach(d => {
-      d.addEventListener('mouseover', e => {
+      function selectStateHandler(e) {
         const parent = e.target.parentNode;
         const stateAbbr = parent.dataset.state || e.target.dataset.state;
         const states = document.querySelectorAll(`[data-state="${stateAbbr}"]`);
@@ -92,7 +93,9 @@
         ecVotesTooltip.style.left = `${e.target.offsetLeft + 20}px`;
         ecVotesTooltip.style.position = 'absolute';
         ecVotesTooltip.style.display = 'block';
-      });
+      }
+
+      d.addEventListener('mouseover', selectStateHandler);
 
       d.addEventListener('mouseout', () => {
         [...document.querySelectorAll('.graphic__ecvotes--circles .circle.ec-vote')]
@@ -104,9 +107,18 @@
         ecVotesTooltip.style.display = 'none';
       });
 
-      d.addEventListener('click', (e) => {
+      d.addEventListener('click', e => {
         const stateAbbr = e.target.parentNode.dataset.state || e.target.dataset.state;
-        window.location.href = `${stateAbbr}-polls`;
+        if ('ontouchstart' in document.documentElement === true) {
+          if (currentState === stateAbbr) {
+            window.location.href = `${stateAbbr}-polls`;
+          } else {
+            currentState = stateAbbr;
+            selectStateHandler(e);
+          }
+        } else {
+          window.location.href = `${stateAbbr}-polls`;
+        }
       });
     });
 }());
