@@ -2,7 +2,7 @@ import _ from 'lodash';
 import * as d3 from 'd3';
 import { getByCode } from '../lib/states';
 import getAllPolls from '../../layouts/getAllPolls';
-import nationalReference from '../../data/states';
+import nationalReference from '../../data/national';
 import getPollAverages from '../../layouts/getPollAverages';
 import layoutTimeSeries from '../../layouts/timeseries-layout';
 import { render } from '../nunjucks';
@@ -20,11 +20,11 @@ export const makePollTimeSeries = async chartOpts => {
   const endDate = chartOpts.endDate ? chartOpts.endDate : d3.isoFormat(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';
 
-  let defaultPollNumCandidates = 4;
+  let defaultPollNumCandidates;
   if (state === 'us') {
     defaultPollNumCandidates = nationalReference[0].displayRace || 4;
   } else {
-    defaultPollNumCandidates = getByCode(state.toUpperCase()).displayRace || 4;
+    defaultPollNumCandidates = getByCode(state).displayRace || 4;
   }
 
   const pollnumcandidates = (chartOpts.pollnumcandidates ?
@@ -99,7 +99,7 @@ export async function list(code, pollnumcandidates) {
 }
 
 export async function pollHistory(code) {
-  let pollnumcandidates = 4;
+  let pollnumcandidates;
   if (code.toUpperCase() === 'US') {
     pollnumcandidates = nationalReference[0].displayRace || 4;
   } else {
