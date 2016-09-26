@@ -127,7 +127,7 @@ function timeseriesLayout(data, _opts) {
     margin: opts.margin ? opts.margin : {
       top: 70,
       left: 35,
-      right: 90,
+      right: 110,
       bottom: 70,
     },
     color,
