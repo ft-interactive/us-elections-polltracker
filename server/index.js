@@ -1,5 +1,6 @@
 import express from 'express';
 import lru from 'lru-cache';
+import babelify from 'express-babelify-middleware';
 import * as nunjucks from './nunjucks';
 import ecForecastComponentController from './controllers/ec-forecast-component';
 import getPollAverages from '../layouts/getPollAverages.js';
@@ -45,6 +46,7 @@ if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '
   });
 }
 
+app.use('/main.js', babelify('public/main.js'));
 app.use(express.static('public'));
 
 // utility functions

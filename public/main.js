@@ -71,7 +71,10 @@
 
   // Interactivity for EC votes chart (state page)
   const ecVotesTooltip = document.querySelector('.graphic__ecvotes--label');
-  const originalCircles = document.querySelectorAll('.graphic__ecvotes--circles .circle.ec-vote');
+  const originalCircles = document.querySelectorAll('.graphic__ecvotes--circles .circle.current-state');
+
+  [...originalCircles].forEach(d => d.classList.add('ec-vote'));
+
   [...document.querySelectorAll('.graphic__ecvotes--circles .circle')]
     .forEach(d => {
       d.addEventListener('mouseover', e => {
