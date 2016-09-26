@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import * as d3 from 'd3';
-import { getPollNumCandidatesByCode } from '../lib/states';
+import { getByCode } from '../lib/states';
 import getAllPolls from '../../layouts/getAllPolls';
 import getPollAverages from '../../layouts/getPollAverages';
 import layoutTimeSeries from '../../layouts/timeseries-layout';
@@ -18,10 +18,14 @@ export const makePollTimeSeries = async chartOpts => {
   const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-07-01 00:00:00';
   const endDate = chartOpts.endDate ? chartOpts.endDate : d3.isoFormat(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';
+  let defaultPollNumCandidates = 4;
+  if (getByCode(state.toUpperCase())) {
+    defaultPollNumCandidates = getByCode(state.toUpperCase()).displayRace;
+  }
 
   const pollnumcandidates = (chartOpts.pollnumcandidates ?
     chartOpts.pollnumcandidates :
-    getPollNumCandidatesByCode(state.toUpperCase()) || 4
+    defaultPollNumCandidates
   );
 
   const pollData = await pollAverages(startDate, endDate, state, pollnumcandidates);
@@ -91,7 +95,10 @@ export async function list(code, pollnumcandidates) {
 }
 
 export async function pollHistory(code) {
-  const pollnumcandidates = getPollNumCandidatesByCode(code) || 4;
+  let pollnumcandidates = 4;
+  if (getByCode(code)) {
+    pollnumcandidates = getByCode(code).displayRace;
+  }
 
   const startDate = '2016-07-01 00:00:00';
   const endDate = d3.isoFormat(new Date());
