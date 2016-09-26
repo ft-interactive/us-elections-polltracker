@@ -59,7 +59,7 @@ text{
 {% endif %}
 
 {% for line in candidateLines %}
-    <path class="candidateLine" d="{{ line.d }}" stroke-width="5px" stroke-linejoin="round"  stroke-linecap="round" fill="none" stroke="#FFF1e0"></path>
+    <path class="candidateLine" d="{{ line.d }}" stroke-width="5px" stroke-linejoin="round"  stroke-linecap="round" fill="none" stroke="#{{ outlineColor }}"></path>
 {% endfor %}
 
 {% for line in candidateLines %}
@@ -67,7 +67,7 @@ text{
 {% endfor %}
 
 {% for point in candidateEndPoints %}
-    <circle class="lastpointlabel" cx="{{ point.cx }}" cy="{{ point.cy }}" r="5" fill="#fff1e0"></circle>
+    <circle class="lastpointlabel" cx="{{ point.cx }}" cy="{{ point.cy }}" r="5" fill="#{{ outlineColor }}"></circle>
     <text font-size="17px" class="lastpointtext" transform="translate({{ point.cx + 10 }},{{ point.cy + point.labelOffset }})" fill="{{ point.fill }}">
         <tspan style="font-weight: 500;">{{ point.labelValue }}</tspan>
         <tspan>{{ point.labelName }}</tspan>
@@ -93,5 +93,4 @@ text{
 </g>
 {% endif %}
 </g>
-
 </svg>

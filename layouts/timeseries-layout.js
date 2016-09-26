@@ -132,6 +132,7 @@ function timeseriesLayout(data, _opts) {
     },
     color,
     pollnumcandidates: opts.pollnumcandidates,
+    outlineColor: opts.outlineColor || 'ffffff',
   });
 
   // make the scales
