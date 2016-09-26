@@ -48,10 +48,10 @@ export function getVoteClass(stateCode, stateCounts) {
   return marginThreshold(stateCounts[stateCode].margin);
 }
 
-export async function getECVoteScale() {
+export async function getECVoteScales() {
   const stateCounts = await getStateCounts();
-  const stateData = Object.entries(stateCounts).map(([name, data]) => ({
-    name,
+  const stateData = Object.entries(stateCounts).map(([, data]) => ({
+    data,
     margin: data.margin,
     ecVotes: data.ecVotes,
   }))
@@ -59,16 +59,24 @@ export async function getECVoteScale() {
     .reduce((last, curr) => {
       const currentTotal = last.length ? (last[last.length - 1].idxMax + curr.ecVotes) : curr.ecVotes;
       last.push({
-        name: curr.name,
+        code: curr.data.code,
+        name: curr.data.name,
         idxMax: currentTotal,
       });
 
       return last;
     }, []);
 
-  const scaleECVotes = scaleThreshold()
+  const scaleECVotesByCode = scaleThreshold()
+    .range(stateData.map(d => d.code))
+    .domain(stateData.map(d => d.idxMax));
+
+  const scaleECVotesByName = scaleThreshold()
     .range(stateData.map(d => d.name))
     .domain(stateData.map(d => d.idxMax));
 
-  return scaleECVotes;
+  return idx => ({
+    code: scaleECVotesByCode(idx),
+    name: scaleECVotesByName(idx),
+  });
 }
