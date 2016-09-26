@@ -53,6 +53,7 @@
   line-height: 1.52em
 }
 .article-figure .article-figure__heading {
+  margin-top: 2em;
   margin-bottom: 0.5em;
   font-family: inherit;
 }
@@ -378,7 +379,7 @@ a {
 }
 
 #national-bar-wrapper {
-  margin: 2em 0 1em;
+  margin: 2em 0 2em;
 }
 
 #national-bar-wrapper * {
@@ -884,8 +885,11 @@ a {
 
 
 .article-figure__heading--state-winners-table {
-  margin-bottom: 0.75em; /* Needed due to lack of subhead */
+    margin-bottom: 0.75em;
+   /* Needed due to lack of subhead */
 }
+
+
 
 .state-winners-table {
   width: 100%;
