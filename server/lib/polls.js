@@ -20,7 +20,7 @@ export const makePollTimeSeries = async chartOpts => {
   const state = chartOpts.state ? chartOpts.state : 'us';
   let defaultPollNumCandidates = 4;
   if (getByCode(state.toUpperCase())) {
-    defaultPollNumCandidates = getByCode(state.toUpperCase()).displayRace;
+    defaultPollNumCandidates = getByCode(state.toUpperCase()).displayRace || 4;
   }
 
   const pollnumcandidates = (chartOpts.pollnumcandidates ?
@@ -97,7 +97,7 @@ export async function list(code, pollnumcandidates) {
 export async function pollHistory(code) {
   let pollnumcandidates = 4;
   if (getByCode(code)) {
-    pollnumcandidates = getByCode(code).displayRace;
+    pollnumcandidates = getByCode(code).displayRace || 4;
   }
 
   const startDate = '2016-07-01 00:00:00';
