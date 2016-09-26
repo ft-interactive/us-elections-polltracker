@@ -2,7 +2,7 @@ import _ from 'lodash';
 import * as d3 from 'd3';
 import { intersect, shape } from 'svg-intersections';
 import color from './color.js';
-import { codeToName } from '../server/lib/states';
+import { getByCode } from '../server/lib/states';
 
 // little utility functions
 const timeFormat = d3.timeFormat('%b %e, %Y');
@@ -68,7 +68,7 @@ function mergePolls(a, b, xScale, yScale) {
 function getTitle(state, width) {
   if (width < 450 && (state === 'us' || !state)) return 'Latest polls';
   if (state && state !== 'us') {
-    const stateName = codeToName(state.toUpperCase());
+    const stateName = getByCode(state.toUpperCase()).name;
 
     if (width < 450) return `Latest polls: ${stateName}`;
     return `Which candidate is leading in ${stateName}?`;
