@@ -28,16 +28,17 @@ export const makePollTimeSeries = async chartOpts => {
   const endDate = chartOpts.endDate ? chartOpts.endDate : d3.isoFormat(midnightTonight());
   const state = chartOpts.state ? chartOpts.state : 'us';
 
-  let defaultPollNumCandidates;
+  const defaultPollNumCandidates = 4;
+  let numcandidates;
   if (state === 'us') {
-    defaultPollNumCandidates = nationalReference[0].displayRace || 4;
+    numcandidates = nationalReference[0].displayRace;
   } else {
-    defaultPollNumCandidates = getByCode(state).displayRace || 4;
+    numcandidates = getByCode(state).displayRace;
   }
 
   const pollnumcandidates = (chartOpts.pollnumcandidates ?
     chartOpts.pollnumcandidates :
-    defaultPollNumCandidates
+    numcandidates || defaultPollNumCandidates
   );
 
   const pollData = await pollAverages(startDate, endDate, state, pollnumcandidates);
@@ -107,12 +108,15 @@ export async function list(code, pollnumcandidates) {
 }
 
 export async function pollHistory(code) {
-  let pollnumcandidates;
+  const defaultPollNumCandidates = 4;
+  let numcandidates;
   if (code.toUpperCase() === 'US') {
-    pollnumcandidates = nationalReference[0].displayRace || 4;
+    numcandidates = nationalReference[0].displayRace;
   } else {
-    pollnumcandidates = getByCode(code.toUpperCase()).displayRace || 4;
+    numcandidates = getByCode(code.toUpperCase()).displayRace;
   }
+
+  const pollnumcandidates = numcandidates || defaultPollNumCandidates;
 
   const startDate = '2016-07-01 00:00:00';
   const endDate = d3.isoFormat(new Date());
