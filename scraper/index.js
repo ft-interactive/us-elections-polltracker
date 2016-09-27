@@ -219,7 +219,7 @@ export default async () => {
     }
 
     winston.log('info', `Completed scraping for state: ${state}`);
-  }, { concurrency: 5 });
+  }, { concurrency: 4 });
 
   await updateLastUpdatedDate();
 
