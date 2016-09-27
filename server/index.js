@@ -1,6 +1,7 @@
 import express from 'express';
 import lru from 'lru-cache';
 import babelify from 'express-babelify-middleware';
+import slashes from 'connect-slashes';
 import * as nunjucks from './nunjucks';
 import ecForecastComponentController from './controllers/ec-forecast-component';
 import ecForecastComponentController2 from './controllers/ec-forecast-component-2';
@@ -49,6 +50,7 @@ if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '
 
 app.use('/main.js', babelify('public/main.js'));
 app.use(express.static('public'));
+app.use(slashes(false));
 
 // utility functions
 const setSVGHeaders = res => {
