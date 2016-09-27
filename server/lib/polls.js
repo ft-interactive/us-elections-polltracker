@@ -7,7 +7,15 @@ import layoutTimeSeries from '../../layouts/timeseries-layout';
 import { render } from '../nunjucks';
 import cache from './cache';
 
-async function pollAverages(start, end, state = 'us', pollnumcandidates) {
+function midnightTonight() {
+  const d = new Date();
+  d.setUTCHours(23);
+  d.setUTCMinutes(59);
+  d.setUTCSeconds(59);
+  return d;
+}
+
+export async function pollAverages(start, end, state = 'us', pollnumcandidates) {
   return await cache(
     `dbAverages-${state}-${start}-${end}-candidateNum${pollnumcandidates}`,
     async () => await getPollAverages(state, start, end, pollnumcandidates)
@@ -15,8 +23,8 @@ async function pollAverages(start, end, state = 'us', pollnumcandidates) {
 }
 
 export const makePollTimeSeries = async chartOpts => {
-  const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-07-01 00:00:00';
-  const endDate = chartOpts.endDate ? chartOpts.endDate : d3.isoFormat(new Date());
+  const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-07-01T00:00:00Z';
+  const endDate = chartOpts.endDate ? chartOpts.endDate : d3.isoFormat(midnightTonight());
   const state = chartOpts.state ? chartOpts.state : 'us';
   let defaultPollNumCandidates = 4;
   if (getByCode(state.toUpperCase())) {
