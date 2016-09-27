@@ -26,19 +26,11 @@ export const state = async(req, res) => {
     numCandidates = pollnumcandidates || state.displayRace;
   }
 
-
-  const data = await polls.pollAverages(
+  setHeaders(res);
+  res.json(await polls.pollAverages(
     startOfPolls,
     aDateAfterTheElection,
     code,
     numCandidates || defaultNumCandidates
-  );
-
-  if (!data) {
-    res.sendStatus(404);
-    return;
-  }
-
-  setHeaders(res);
-  res.json(data);
+  ));
 }
