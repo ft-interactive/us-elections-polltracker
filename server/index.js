@@ -1,6 +1,7 @@
 import express from 'express';
 import lru from 'lru-cache';
 import babelify from 'express-babelify-middleware';
+import slashes from 'connect-slashes';
 import * as nunjucks from './nunjucks';
 import ecForecastComponentController from './controllers/ec-forecast-component';
 import getPollAverages from '../layouts/getPollAverages.js';
@@ -24,7 +25,6 @@ const maxAge = 120; // for user agent caching purposes
 const sMaxAge = 10;
 
 app.disable('x-powered-by');
-app.set('strict routing', true);
 
 // run scraper up front if this is a review app
 if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '"1"') {
@@ -49,6 +49,7 @@ if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '
 
 app.use('/main.js', babelify('public/main.js'));
 app.use(express.static('public'));
+app.use(slashes(false));
 
 // utility functions
 const setSVGHeaders = res => {
