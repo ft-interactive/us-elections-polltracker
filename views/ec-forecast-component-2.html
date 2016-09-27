@@ -1,0 +1,35 @@
+<article class="ec-forecast-component">
+	<a class="ec-forecast-component__link" href="https://ig.ft.com/us-elections/polls">
+
+		<h2 class="ec-forecast-component__title">Poll tracker</h2>
+		<h3 class="ec-forecast-component__subtitle">Predicted electoral college votes</h3>
+
+		<div class="ec-forecast-component__chart">
+
+			<div class="ec-forecast-component__row">
+				<div class="ec-forecast-component__bar ec-forecast-component__bar--clinton">{{ data.dem + data.leaningDem }}</div>
+				<div class="ec-forecast-component__bar ec-forecast-component__bar--tossup"></div>
+				<div class="ec-forecast-component__bar ec-forecast-component__bar--trump">{{ data.rep + data.leaningRep }}</div>
+
+				<div class="ec-forecast-component__marker">
+					<div class="ec-forecast-component__marker-label">270 to win</div>
+				</div>
+			</div>
+
+
+			<div class="ec-forecast-component__row">
+				<div class="ec-forecast-component__label ec-forecast-component__label--clinton">Clinton</div>
+				<div class="ec-forecast-component__label ec-forecast-component__label--tossup">Toss-up</div>
+				<div class="ec-forecast-component__label ec-forecast-component__label--trump">Trump</div>
+			</div>
+		</div>
+
+		<footer class="ec-forecast-component__footer">
+			<div class="ec-forecast-component__source">
+				<span>Based on RCP polling averages</span>
+			</div>
+
+			<div class="ec-forecast-component__faux-link">More</div>
+		</footer>
+	</a>
+</article>

@@ -1,11 +1,11 @@
 import color from './color';
 
-export default function (data) {
+export default function (data, ancestorSelector = '.us-election-midriff-graphic') {
   const total = data.rep + data.leaningRep + data.dem + data.leaningDem + data.swing;
 
   return {
+    ancestorSelector,
     includeStyles: true,
-    ancestorSelector: '.us-election-midriff-graphic',
     proportion: {
       swing: (data.swing / total) * 100,
       rep: (data.rep / total) * 100,
