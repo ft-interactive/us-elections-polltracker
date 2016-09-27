@@ -6,6 +6,19 @@ import db from '../models';
 import stateIds from '../data/states';
 import nationalId from '../data/national';
 
+const getJSON = async url => {
+  winston.log('info', `Fetching JSON from URL: ${url}`);
+
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    winston.log('warn', `Non-200 response for URL: ${url}`);
+    return null;
+  }
+
+  return res.json();
+};
+
 const addPollAveragesToDatabase = (polldate, candidate, value, state, pollnumcandidates) =>
   db.sequelize.transaction(async () => {
     const res = await db.Pollaverages.findAll({
@@ -43,7 +56,7 @@ const addPollAveragesToDatabase = (polldate, candidate, value, state, pollnumcan
 ;
 
 const getPollAverageData = async (rcpURL, state, pollnumcandidates) => {
-  const rcpData = await fetch(rcpURL).then(res => (res.ok ? res.json() : null));
+  const rcpData = await getJSON(rcpURL);
 
   if (!rcpData) {
     console.log(`getPollAverageData - NO RCP DATA for ${state}`);
@@ -96,7 +109,7 @@ const addIndividualPollsToDatabase = (rcpid, type, pollster, rcpUpdated, link, d
 ;
 
 const getIndividualPollData = async (rcpURL, state, pollnumcandidates) => {
-  const rcpData = await fetch(rcpURL).then(res => (res.ok ? res.json() : null));
+  const rcpData = await getJSON(rcpURL);
 
   if (!rcpData) {
     console.log(`getIndividualPollData - NO RCP DATA for ${state}`);
