@@ -104,9 +104,24 @@ app.get('/favicon.ico', (req, res) => { // explicit override to redirect if favi
   res.redirect(301, 'https://ig.ft.com/favicon.ico');
 });
 
+app.get('/polls/state-polling.json', async (req, res) => {
+  const cacheKey = 'state-data-json';
+  let value = cache.get(cacheKey);
+  if (!value) {
+    const count = await stateCount();
+    value = Object.keys(count)
+      .map(id => count[id]);
+    if (value) cache.set(cacheKey, value);
+  } else {
+    value = false;
+  }
+  setJSONHeaders(res)
+    .send(value);
+  return value;
+});
+
 app.get('/polls/:state.json', async (req, res) => {
   let value = await pollAverages('July 1, 2015', 'November 9, 2016', req.params.state);
-
   if (value) {
     setJSONHeaders(res).send(value);
   } else {
