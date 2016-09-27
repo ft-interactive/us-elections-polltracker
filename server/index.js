@@ -1,8 +1,10 @@
 import express from 'express';
 import lru from 'lru-cache';
 import babelify from 'express-babelify-middleware';
+import slashes from 'connect-slashes';
 import * as nunjucks from './nunjucks';
 import ecForecastComponentController from './controllers/ec-forecast-component';
+import ecForecastComponentController2 from './controllers/ec-forecast-component-2';
 import getPollAverages from '../layouts/getPollAverages.js';
 import layoutForecastMap from '../layouts/forecast-map-layout';
 import nationalController from './controllers/national';
@@ -10,6 +12,7 @@ import ecBreakdownController from './controllers/ec-breakdown';
 import pollGraphicsController from './controllers/poll-graphics';
 import stateCodeRedirectController from './controllers/state-code-redirect';
 import stateController from './controllers/state';
+import * as apiController from './controllers/api';
 import stateCount from './lib/state-counts';
 
 const cache = lru({
@@ -48,6 +51,7 @@ if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '
 
 app.use('/main.js', babelify('public/main.js'));
 app.use(express.static('public'));
+app.use(slashes(false));
 
 // utility functions
 const setSVGHeaders = res => {
@@ -74,19 +78,6 @@ const convertToCacheKeyName = queryRequest => {
   return paramOrder.reduce((a, b) => a + queryRequest[b], queryRequest.fontless);
 };
 
-const pollAverages = async (start, end, state = 'us') => {
-  const dbCacheKey = `dbAverages-${[state, start, end].join('-')}`;
-
-  let dbResponse = cache.get(dbCacheKey);
-
-  if (!dbResponse) {
-    dbResponse = await getPollAverages(state, start, end);
-    cache.set(dbCacheKey, dbResponse);
-  }
-
-  return dbResponse;
-};
-
 const makeForecastMap = async chartOpts => {
   const statePollingData = await stateCount();
   const layout = layoutForecastMap(statePollingData, chartOpts);
@@ -104,16 +95,23 @@ app.get('/favicon.ico', (req, res) => { // explicit override to redirect if favi
   res.redirect(301, 'https://ig.ft.com/favicon.ico');
 });
 
-app.get('/polls/:state.json', async (req, res) => {
-  let value = await pollAverages('July 1, 2015', 'November 9, 2016', req.params.state);
-
-  if (value) {
-    setJSONHeaders(res).send(value);
+app.get('/polls/state-polling.json', async (req, res) => {
+  const cacheKey = 'state-data-json';
+  let value = cache.get(cacheKey);
+  if (!value) {
+    const count = await stateCount();
+    value = Object.keys(count)
+      .map(id => count[id]);
+    if (value) cache.set(cacheKey, value);
   } else {
     value = false;
   }
+  setJSONHeaders(res)
+    .send(value);
   return value;
 });
+
+app.get('/polls/:state.json', apiController.state);
 
 app.get('/polls.svg', pollGraphicsController);
 
@@ -150,6 +148,7 @@ app.get('/polls/:code', stateCodeRedirectController);
 
 // Create homepage widget of current forecasts
 app.get('/ec-forecast-component.:ext', ecForecastComponentController);
+app.get('/ec-forecast-component-2.:ext', ecForecastComponentController2);
 
 // Create electoral collecge breakdown
 app.get('/ec-breakdown.html', ecBreakdownController);

@@ -1,3 +1,5 @@
+// DEPRECATED – this can be removed once next is no longer using it
+
 import { minify } from 'html-minifier';
 import cache from '../lib/cache';
 import { render } from '../nunjucks';

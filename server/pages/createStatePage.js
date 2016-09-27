@@ -14,6 +14,7 @@ class StatePage extends Page {
     this.id = this.state.id;
     this.code = this.state.code;
     this.headline = `Presidential election poll tracker: ${this.state.fullname}`;
+    this.title = `Latest ${this.state.fullname} polls | US Election 2016 poll tracker`;
 
     this.url = `https://ig.ft.com/us-elections/${this.state.slug}-polls`;
     this.streamUrl = this.state.url || (this.state.conceptId ? `https://www.ft.com/stream/regionsId/${this.conceptId}` : null);
