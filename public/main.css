@@ -446,7 +446,7 @@ span.national-bar-container-values {
 
 @media (max-width: 490px){
   .national-bar-container-values {
-  line-height: 37px;  
+  line-height: 37px;
   }
 }
 
@@ -1282,6 +1282,11 @@ tbody .state-winners-table__year {
   }
   .ec-breakdown-column {
     margin-bottom: 20px;
+  }
+
+  .ec-breakdown-column.Solid,
+  .ec-breakdown-column.Leaning {
+    display: none;
   }
 }
 /** Mobile nav **/
