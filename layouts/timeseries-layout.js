@@ -394,8 +394,7 @@ function timeseriesLayout(data, _opts) {
   });
 
   // pass in # of data points
-  layout.numPoints = data.length / candidates.length;
-
+  layout.numPoints = data.length / data[0].pollnumcandidates;
   return layout;
 }
 
