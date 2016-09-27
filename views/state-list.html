@@ -15,7 +15,7 @@
       data-o-expander-count-selector="tbody tr">
       <table>
       <thead>
-        <tr>
+          <th class="statelist-switch"></th>
           <th class="statelist-state">State</th>
           <th class="statelist-pollmargin">Poll margin</th>
           <th class="statelist-ecvotes">Electoral college votes</th>
@@ -23,7 +23,15 @@
       </thead>
       <tbody class="o-expander__content">
         {% for state in stateCounts | orderStatesByImportance %}
-        <tr class="statelist-staterow statelist-{{ state.margin | getClassificationFromMargin }} statelist-staterow-{{ state.code | lower }}">
+        <tr class="statelist-staterow statelist-{{ state.margin | getClassificationFromMargin }} statelist-staterow-{{ state.code | lower }}" 
+          data-margin="{{ state.margin | round1dp }}"
+          data-ecvotes="{{ state.ecVotes }}"
+          data-classification="{{ state.margin | getClassificationFromMargin }}">
+          <td class="statelist-switch">
+            <a href="#" class="switch-button" data-position="clinton">Clntn</a>
+            <a href="#" class="switch-button" data-position="tossup">¯\_(ツ)_/¯</a>
+            <a href="#" class="switch-button" data-position="trump">Trmp</a> 
+          </td>
           <td class="statelist-state">
             <div class="statelist-catLabel"></div>
             <a href="{{ state.slug }}-polls"><div class="statelist-stateLabel">{{ state.fullname }}</div></a>
@@ -47,6 +55,9 @@
         {% endfor %}
       </tbody>
       </table>
+      <script>
+        {% include "includes/ec-calc.js" %}
+      </script>
       <button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big">Show more states</button>
     </div>
   </div>

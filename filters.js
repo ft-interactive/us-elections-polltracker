@@ -1,5 +1,6 @@
-import { marginThreshold } from './server/lib/national-count';
 import stateData from './data/states.json';
+
+const  marginThreshold = require('./layouts/state-classifications').forecast;
 
 export function commas(n) {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
