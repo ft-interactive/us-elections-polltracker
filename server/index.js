@@ -11,6 +11,7 @@ import ecBreakdownController from './controllers/ec-breakdown';
 import pollGraphicsController from './controllers/poll-graphics';
 import stateCodeRedirectController from './controllers/state-code-redirect';
 import stateController from './controllers/state';
+import * as apiController from './controllers/api';
 import stateCount from './lib/state-counts';
 
 const cache = lru({
@@ -75,19 +76,6 @@ const convertToCacheKeyName = queryRequest => {
   return paramOrder.reduce((a, b) => a + queryRequest[b], queryRequest.fontless);
 };
 
-const pollAverages = async (start, end, state = 'us') => {
-  const dbCacheKey = `dbAverages-${[state, start, end].join('-')}`;
-
-  let dbResponse = cache.get(dbCacheKey);
-
-  if (!dbResponse) {
-    dbResponse = await getPollAverages(state, start, end);
-    cache.set(dbCacheKey, dbResponse);
-  }
-
-  return dbResponse;
-};
-
 const makeForecastMap = async chartOpts => {
   const statePollingData = await stateCount();
   const layout = layoutForecastMap(statePollingData, chartOpts);
@@ -121,15 +109,7 @@ app.get('/polls/state-polling.json', async (req, res) => {
   return value;
 });
 
-app.get('/polls/:state.json', async (req, res) => {
-  let value = await pollAverages('July 1, 2015', 'November 9, 2016', req.params.state);
-  if (value) {
-    setJSONHeaders(res).send(value);
-  } else {
-    value = false;
-  }
-  return value;
-});
+app.get('/polls/:state.json', apiController.state);
 
 app.get('/polls.svg', pollGraphicsController);
 
