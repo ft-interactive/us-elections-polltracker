@@ -141,7 +141,7 @@ function init() {
     document.documentElement.className = document.documentElement.className.replace(/\bcore\b/g, ['enhanced', window.isNext ? 'is-next' : 'is-falcon', window.isLoggedIn ? 'is-loggedin' : 'is-anonymous'].join(' '));
   });
 
-  exec(createPolyfillURL(polyfillFeatures), true, true);
+  exec(createPolyfillURL(polyfillFeatures), true, false);
 }
 
 },{}],2:[function(require,module,exports){
