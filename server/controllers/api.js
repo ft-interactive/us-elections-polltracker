@@ -8,6 +8,7 @@ const setHeaders = res => {
 
 const startOfPolls = '2015-07-01T00:00:00Z';
 const aDateAfterTheElection = '2016-11-09T00:00:00Z';
+const defaultNumCandidates = 4;
 
 export const state = async(req, res) => {
   const code = req.params.state.toLowerCase();
@@ -15,19 +16,22 @@ export const state = async(req, res) => {
   let numCandidates;
 
   if (code === 'us') {
-    numCandidates = pollnumcandidates >= 2 ? pollnumcandidates : 4;
-  } else if (!pollnumcandidates) {
-    numCandidates = 4;
+    numCandidates = pollnumcandidates;
   } else {
     const state = getByCode(code);
+    if (!state) {
+      res.sendStatus(404);
+      return
+    }
     numCandidates = state.displayRace;
   }
+
 
   const data = await polls.pollAverages(
     startOfPolls,
     aDateAfterTheElection,
     code,
-    numCandidates
+    numCandidates || defaultNumCandidates
   );
 
   if (!data) {
