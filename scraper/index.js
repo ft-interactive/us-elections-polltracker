@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import winston from 'winston';
 import prettyMS from 'pretty-ms';
+import Bluebird from 'bluebird';
 import db from '../models';
 import stateIds from '../data/states';
 import nationalId from '../data/national';
@@ -45,7 +46,7 @@ const getPollAverageData = async (rcpURL, state, pollnumcandidates) => {
   const rcpData = await fetch(rcpURL).then(res => (res.ok ? res.json() : null));
 
   if (!rcpData) {
-    console.log('NO DATA');
+    console.log(`getPollAverageData - NO RCP DATA for ${state}`);
     return;
   }
 
@@ -98,7 +99,7 @@ const getIndividualPollData = async (rcpURL, state, pollnumcandidates) => {
   const rcpData = await fetch(rcpURL).then(res => (res.ok ? res.json() : null));
 
   if (!rcpData) {
-    console.log('NO DATA');
+    console.log(`getIndividualPollData - NO RCP DATA for ${state}`);
     return;
   }
 
@@ -152,11 +153,13 @@ export default async () => {
 
   const allIds = stateIds.concat(nationalId);
 
-  await Promise.all(allIds.map(async id => { // eslint-disable-line array-callback-return
+  await Bluebird.map(allIds, async id => {
     const state = id.code.toLowerCase();
     const raceId = id.raceId;
     const raceId3Way = id.raceId3Way;
     const raceId4Way = id.raceId4Way;
+
+    winston.log('info', `Starting scraping for state: ${state}`);
 
     if (raceId) {
       await getPollAverageData(
@@ -200,8 +203,8 @@ export default async () => {
       );
     }
 
-    winston.log('info', `Completed state ${state}`);
-  }));
+    winston.log('info', `Completed scraping for state: ${state}`);
+  }, { concurrency: 5 });
 
   await updateLastUpdatedDate();
 
