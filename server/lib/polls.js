@@ -15,16 +15,7 @@ function midnightTonight() {
   return d;
 }
 
-let counter = 0;
-
 export async function pollAverages(start, end, state = 'us', pollnumcandidates) {
-
-  console.log(`
-
-    ${++counter}
-
-  `);
-
   return await cache(
     `dbAverages-${state}-${start}-${end}-candidateNum${pollnumcandidates}`,
     async () => await getPollAverages(state, start, end, pollnumcandidates)
