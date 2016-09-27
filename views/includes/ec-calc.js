@@ -18,7 +18,6 @@ d3.selectAll('tr.statelist-staterow')
 showTotals();
 
 function setState(stateCode, newPosition){
-    console.log('switch ' + stateCode + ' to ' + newPosition);
     var selection = d3.selectAll('tr.statelist-staterow')
         .filter(function(d){
             return stateCode == d.statecode;
@@ -27,13 +26,18 @@ function setState(stateCode, newPosition){
     selection.datum()
         .classification = newPosition;
     //update row styles
-    console.log( selection.attr('class') );
+    selection.classed('statelist-swing statelist-dem statelist-rep statelist-leaningDem statelist-leaningRep',false);
+    selection.classed('statelist-'+newPosition, true);
 };
 
 function showTotals(){
     var total = calculateTotals( d3.selectAll('tr.statelist-staterow').data() );
+    var demresult = total.dem;
+    var represult = total.rep;
+    if (total.dem > 269){ demresult = '🎊 ' + demresult + ' 🎊';}
+    if (total.rep > 269){ represult = '🎊 ' + represult + ' 🎊';}
     d3.select('#calculation-result')
-        .html('CLNTN: ' + total.dem + '<br>¯\\_(ツ)_/¯: ' + total.swing +  '<br>TRMP: ' + total.rep);
+        .html('CLINTON: ' + demresult + '<br>¯\\_(ツ)_/¯: ' + total.swing +  '<br>TRUMP: ' + represult);
 }
 
 function calculateTotals(data){
