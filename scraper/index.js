@@ -1,8 +1,23 @@
-import fetch from 'isomorphic-fetch';
+import fetch from 'node-fetch';
 import winston from 'winston';
+import prettyMS from 'pretty-ms';
+import Bluebird from 'bluebird';
 import db from '../models';
 import stateIds from '../data/states';
 import nationalId from '../data/national';
+
+const getJSON = async url => {
+  winston.log('info', `Fetching JSON from URL: ${url}`);
+
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    winston.log('warn', `Non-200 response for URL: ${url}`);
+    return null;
+  }
+
+  return res.json();
+};
 
 const addPollAveragesToDatabase = (polldate, candidate, value, state, pollnumcandidates) =>
   db.sequelize.transaction(async () => {
@@ -41,12 +56,10 @@ const addPollAveragesToDatabase = (polldate, candidate, value, state, pollnumcan
 ;
 
 const getPollAverageData = async (rcpURL, state, pollnumcandidates) => {
-  console.log(`\n\n================\ngetPollAverageData\n  ${rcpURL}\n  ${state}\n  ${pollnumcandidates}\n`);
-
-  const rcpData = await fetch(rcpURL).then(res => (res.ok ? res.json() : null));
+  const rcpData = await getJSON(rcpURL);
 
   if (!rcpData) {
-    console.log('NO DATA');
+    console.log(`getPollAverageData - NO RCP DATA for ${state}`);
     return;
   }
 
@@ -96,12 +109,10 @@ const addIndividualPollsToDatabase = (rcpid, type, pollster, rcpUpdated, link, d
 ;
 
 const getIndividualPollData = async (rcpURL, state, pollnumcandidates) => {
-  console.log(`\n\n================\ngetPollAverageData\n  ${rcpURL}\n  ${state}\n  ${pollnumcandidates}\n`);
-
-  const rcpData = await fetch(rcpURL).then(res => (res.ok ? res.json() : null));
+  const rcpData = await getJSON(rcpURL);
 
   if (!rcpData) {
-    console.log('NO DATA');
+    console.log(`getIndividualPollData - NO RCP DATA for ${state}`);
     return;
   }
 
@@ -131,10 +142,8 @@ const getIndividualPollData = async (rcpURL, state, pollnumcandidates) => {
   }
 };
 
-const updateLastUpdatedDate = () => {
-  console.log(`\n\n================\nupdateLastUpdatedDate\n`);
-
-  return db.sequelize.transaction(async () => {
+const updateLastUpdatedDate = () =>
+  db.sequelize.transaction(async () => {
     const res = await db.lastupdates.findAll({});
 
     if (res.length > 0) { // already in the db
@@ -146,26 +155,26 @@ const updateLastUpdatedDate = () => {
     } else {
       await db.lastupdates.create({ lastupdate: new Date() });
     }
-  });
-};
+  })
+;
 
 export default async () => {
+  const start = Date.now();
+
   // await db.Pollaverages.sync({force: true}) // use this to drop table and recreate
   await db.sequelize.sync();
 
   const allIds = stateIds.concat(nationalId);
 
-  for (let i = 0; i < allIds.length; i += 1) {
-    const state = allIds[i].code.toLowerCase();
-    const raceId = allIds[i].raceId;
-    const raceId3Way = allIds[i].raceId3Way;
-    const raceId4Way = allIds[i].raceId4Way;
+  await Bluebird.map(allIds, async id => {
+    const state = id.code.toLowerCase();
+    const raceId = id.raceId;
+    const raceId3Way = id.raceId3Way;
+    const raceId4Way = id.raceId4Way;
 
-    console.log(`\n\n=-=-=-=-=-\nSTATE: ${state}`);
+    winston.log('info', `Starting scraping for state: ${state}`);
 
     if (raceId) {
-      console.log('race ID', raceId);
-
       await getPollAverageData(
         `http://www.realclearpolitics.com/poll/race/${raceId}/historical_data.json`,
         state,
@@ -180,8 +189,6 @@ export default async () => {
     }
 
     if (raceId3Way) {
-      console.log('race ID (3-way)', raceId);
-
       await getPollAverageData(
         `http://www.realclearpolitics.com/poll/race/${raceId3Way}/historical_data.json`,
         state,
@@ -196,8 +203,6 @@ export default async () => {
     }
 
     if (raceId4Way) {
-      console.log('race ID (4-way)', raceId);
-
       await getPollAverageData(
         `http://www.realclearpolitics.com/poll/race/${raceId4Way}/historical_data.json`,
         state,
@@ -210,7 +215,11 @@ export default async () => {
         4
       );
     }
-  }
+
+    winston.log('info', `Completed scraping for state: ${state}`);
+  }, { concurrency: 5 });
 
   await updateLastUpdatedDate();
+
+  winston.log('info', `Scraper finished in ${prettyMS(Date.now() - start)}`);
 };
