@@ -5,5 +5,5 @@ const d3 = require('d3');
 module.exports = {
   forecast: d3.scaleThreshold()
     .range(['rep', 'leaningRep', 'swing', 'leaningDem', 'dem'])
-    .domain([-10, -5, 5, 10]),
+    .domain([-10.01, -5.01, 5.01, 10.01]),
 };
