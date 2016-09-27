@@ -23,7 +23,7 @@ export const state = async(req, res) => {
       res.sendStatus(404);
       return
     }
-    numCandidates = state.displayRace;
+    numCandidates = pollnumcandidates || state.displayRace;
   }
 
 
