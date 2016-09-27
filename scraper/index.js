@@ -16,6 +16,8 @@ const getJSON = async url => {
     return null;
   }
 
+  winston.log('info', `OK response from URL: ${url}`);
+
   return res.json();
 };
 
