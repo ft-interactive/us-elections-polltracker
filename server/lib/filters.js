@@ -31,7 +31,7 @@ export function stateShortname(code, override = {}) {
   let state = typeof code === 'string' ? getByCode(code) : code;
   if (!state) {
     state = getBySlug(code);
-    if (!state)
+    if (!state) {
       return '';
     }
   }
