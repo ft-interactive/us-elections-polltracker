@@ -78,18 +78,15 @@ export default function (stateLookup) {
 
   const stateGroups = splitArray(states, d => d.forecast);
   const groupTotals = Object.keys(stateGroups).reduce((lookup, groupName) => {
-    // console.log(lookup);
     lookup[groupName] = sum(stateGroups[groupName], d => d.ecVotes); // eslint-disable-line no-param-reassign
     return lookup;
   }, {});
-
-  console.log(groupTotals);
 
   return {
     title: 'Where are the battleground states?',
     standalone: true,
     fontless: true,
-    order: classifyState.forecast.range().reverse(),
+    order: classifyState.forecast.range().concat().reverse(),
     stateGroups,
     groupTotals,
     groupNames,

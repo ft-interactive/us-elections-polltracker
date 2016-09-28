@@ -1,7 +1,7 @@
 import { getByCode, getBySlug, getByContentId } from '../lib/states';
 
-export default async (req, res) => {
-  if (req.params.code === 'us') {
+export default async (req, res, next) => {
+  if (req.params.code.toLowerCase() === 'us') {
     res.redirect(301, 'polls');
     return;
   }
@@ -11,7 +11,7 @@ export default async (req, res) => {
                 getByContentId(req.params.code);
 
   if (!state) {
-    res.sendStatus(404);
+    next()
     return;
   }
 

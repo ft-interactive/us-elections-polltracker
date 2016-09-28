@@ -47,7 +47,6 @@ export default code => {
     if (!data) return null;
 
     const stateValue = data[category.property];
-    // console.log(category.allStates);
     // Important: don't mutate the category, copy it instead.
     return {
       ...category,

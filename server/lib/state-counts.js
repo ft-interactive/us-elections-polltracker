@@ -15,9 +15,17 @@ returns an object of objects keyed by state abbreviation
 import _ from 'lodash';
 import axios from 'axios';
 import DataRefresher from './data-refresh';
-import getAllLatestStateAverages from '../../layouts/getAllLatestStateAverages';
 import { getSimpleList } from './states';
 import stateReference from '../../data/states';
+import db from '../../models';
+
+// runs a psql query to get the latest polling averages
+// for all states (choose 3 or 4-way based on displayRace)
+const latestAveragesByState = pollnumcandidates =>
+  db.sequelize.query(
+    `SELECT * FROM (SELECT ROW_NUMBER() OVER (PARTITION BY state ORDER BY date DESC) AS r, t.* FROM (SELECT * FROM "Pollaverages" WHERE pollnumcandidates = ${pollnumcandidates}) t) x WHERE x.r <= ${pollnumcandidates};`,
+    { type: db.sequelize.QueryTypes.SELECT }
+  ).then(data => _.groupBy(data, 'state'));
 
 const STATE_OVERRIDES_URL = process.env.STATE_OVERRIDES_URL ||
   'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/overrideCategories'
@@ -36,7 +44,7 @@ function fetchData() {
 function fetchError(error) {
   if (error instanceof Error) {
     const url = error.config && error.config.url;
-    console.log(error.message, error.code, url);
+    console.error(error.message, error.code, url);
   } else {
     console.error(error);
   }
@@ -51,10 +59,6 @@ function getPollAvg(data, candidateName) {
   const o = data.find(d => d.candidatename === candidateName);
   if (!o) return null;
   return o.pollaverage;
-}
-
-async function latestAveragesByState(pollnumcandidates) {
-  return _.groupBy(await getAllLatestStateAverages(pollnumcandidates), 'state');
 }
 
 export default async () => {
