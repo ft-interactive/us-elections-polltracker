@@ -976,7 +976,14 @@ span.national-bar-container-values {
   background-color: transparent;
 }
 
-@media (max-width: 670px) {
+@media (min-width: 980px) {
+  .state-page__summary .graphic__ecvotes--circles {
+    height: 110px;
+  }
+}
+
+
+@media (max-width: 690px) {
   .state-page__summary .graphic__ecvotes--circles {
     height: 100px;
   }
