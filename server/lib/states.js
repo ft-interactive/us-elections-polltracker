@@ -10,7 +10,7 @@ const states = stateReference.map(d => {
   if (d.children) {
     fullname = `${d.name} (statewide)`;
   }
-  return { ...d, fullname, demographics};
+  return { ...d, fullname, demographics };
 });
 
 const codeIndex = states.reduce((map, state) =>
