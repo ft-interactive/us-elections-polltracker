@@ -1352,6 +1352,11 @@ tbody .state-winners-table__year {
   .ec-breakdown-column {
     margin-bottom: 20px;
   }
+
+  .ec-breakdown-column.Solid,
+  .ec-breakdown-column.Leaning {
+    display: none;
+  }
 }
 /** Mobile nav **/
 
