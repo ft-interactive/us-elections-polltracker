@@ -8,22 +8,22 @@
         <div class="o-grid-row">
             {% for group in layout.order %}
             <div data-o-grid-colspan="12 S2" class="ec-breakdown-column {{ layout.groupNames[group] }}">
-                <div class="o-grid-row ec-breakdown-row ec-breakdown-header">{{ layout.groupNames[group] }} ({{layout.groupTotals[group]}})</div>
+                <div class="o-grid-row ec-breakdown-row ec-breakdown-header">{{ layout.groupNames[group] }} ({{ layout.groupTotals[group] }})</div>
                 {% for state in layout.stateGroups[group] %}
-                <a href="{{ state.code | statePollPageURL}}">
+                <a href="{{ state.code | statePollPageURL }}">
                     <div class="o-grid-row ec-breakdown-row">
                         <div data-o-grid-colspan="2 S4" class="ec-breakdown-statelabel">
                         {% if (layout.groupNames[group] == 'Toss-up') %}
                             <span>{{ state.code | stateShortname }}</span>
                         {% else %}
-                            <span>{{state.code}}</span>
+                            <span>{{ state.code }}</span>
                         {% endif %}
                         </div>
                         <div data-o-grid-colspan="9 S6" class="ec-breakdown-bar-container">
                             <div style="width:{{ state.barPct }}%; background-color:{{ color[group] }};" class="ec-breakdown-bar"></div>
                         </div>
                         <div data-o-grid-colspan="1 S2" class="ec-breakdown-bar-container">
-                            <div class="ec-breakdown-bar-label">{{state.ecVotes}}</div>
+                            <div class="ec-breakdown-bar-label">{{ state.ecVotes }}</div>
                         </div>
                         </div>
                     </a>
@@ -40,7 +40,7 @@
 <html>
     <head>
         <tite> {{ title }} </tite>
-        
+
 <link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-grid@^4.2.1">
 <link rel="stylesheet" href="g-ui/main.css">
 <link rel="stylesheet" href="main.css">
@@ -50,6 +50,6 @@
         <article class="article" itemscope itemtype="http://schema.org/Article">
         <div>
         {{ECBreakdown(layout)}}
-        </div>    
+        </div>
     </body>
 </html>
