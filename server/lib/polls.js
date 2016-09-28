@@ -22,7 +22,6 @@ export const pollAverages = async (_start, _end, _state, pollnumcandidates = 4) 
   const start = moment(_start).startOf('day').format();
   const end = moment(_end).endOf('day').format();
   const state = _state.toLowerCase();
-  const ran = Math.random();
   const cacheKey = `dbAverages-${state}-${start.replace(/T.*/,'')}-${end.replace(/T.*/,'')}-${pollnumcandidates}`;
   const query = () => {
     return db.Pollaverages.findAll({
