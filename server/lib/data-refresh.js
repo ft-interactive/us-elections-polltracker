@@ -61,7 +61,6 @@ export default class DataRefresher extends EventEmitter {
 
     this.pendingRequest = new Promise((resolve, reject) => {
       this.once('error', reason => {
-        console.log('on error');
         this.lastPendingPromise = null;
         if (!this.data) {
           reject(reason);
@@ -71,7 +70,6 @@ export default class DataRefresher extends EventEmitter {
       });
 
       this.once('result', data => {
-        console.log('on result');
         this.lastPendingPromise = null;
         resolve(data);
       });

@@ -79,7 +79,6 @@ function getTitle(state, width) {
 
 function getSubtitle(date, width, state) {
   if (width < 350) {
-    console.log('state', state);
 
     if (state && state !== 'us') {
       return `State polling average to ${timeFormat(date)} (%)`;

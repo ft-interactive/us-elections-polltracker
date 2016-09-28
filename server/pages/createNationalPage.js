@@ -26,7 +26,7 @@ class NationalPage extends Page {
       // Fail gracefully if we have trouble getting data from the Bertha sheet
       // Ideally let the template provide default values for things.
       // If we need some default calculations do them here...
-      console.log('Error getting editors config');
+      console.error('Error getting editors config');
       editorsConfig = new Map();
     }
 

@@ -3,7 +3,6 @@ import { render } from '../nunjucks';
 import stateCount from '../lib/state-counts';
 import ecBreakdownLayout from '../../layouts/ec-breakdown-layout';
 
-
 const maxAge = 120;
 const sMaxAge = 10;
 const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
