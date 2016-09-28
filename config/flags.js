@@ -9,7 +9,7 @@ export default () => ({
   shareButtons: true,
   onwardJourney: true,
   nationalBar: true,
-  forecastMap: 'choropleth', // Options: 'choropleth', 'dots'
+  forecastMap: 'dots', // Options: 'choropleth', 'dots'
   stateDemographics: true,
   header: true,
   footer: true,
