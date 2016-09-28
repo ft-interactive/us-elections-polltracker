@@ -135,11 +135,12 @@
 .rail__state-list li a {
   color: #6b6e68;
   border-bottom: none;
+  border-bottom: 1px dotted transparent;
 }
 
 .rail__state-list li a:hover {
   color: #27757b;
-  border-bottom: 1px dotted #27757b;
+  border-color: #27757b;
 }
 
 .rail__state-list select {
@@ -152,17 +153,14 @@
 }
 
 .rail__state-list__nationalLink {
-  margin-bottom: 18px;
+  margin-bottom: 3px;
 }
 
 .rail__state-list__nationalLink a {
-  color: #9e2f50;
-  border-bottom: none;
-  font-weight: 500;
-}
-
-.rail__state-list__nationalLink a:hover{
-  border-bottom: 1px dotted #9e2f50;
+  color: #318085;
+  border-bottom: 1px #318085 dotted;
+  font-size: 1.4em;
+  font-weight: normal;
 }
 
 #rail__state-list__expander .o-expander__toggle {
@@ -190,7 +188,18 @@
 
 .rail__state-list__nationalMap{
   margin-top: 10px;
+  width: 93%;
+  display: inline-block;
+}
+
+a.rail__state-list__nationalMap {
+  border: none;
+}
+
+.rail__state-list__nationalMap img {
   width: 100%;
+  height: auto;
+  display: block;
 }
 
 .congressional-district-nav {
@@ -1443,6 +1452,7 @@ tbody .state-winners-table__year {
   .article__aside {
     display: block;
     position: fixed;
+    padding-left: 0;
     width: 90%;
     height: 100%;
     left: 105%; /* start off screen */
@@ -1506,7 +1516,7 @@ tbody .state-winners-table__year {
 
   .rail__content {
     border: 0;
-    padding: 0 2em 2em 2em;
+    padding: 0 1.9em 1.9em 2em;
     overflow: auto;
     height: 95%;
   }
@@ -1520,25 +1530,28 @@ tbody .state-winners-table__year {
   }
 
   .rail__state-list h4 {
-    margin-bottom: 9px;
+    margin-bottom: 10px;
     padding-top: 0;
+    margin-top: 4px;
   }
 
   .rail__state-list ul {
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 20px;
   }
 
   .rail__state-list ul li {
     padding: 0.25em 0.5em;
     width: calc(50% - 2 * .5em);
+    max-width: 200px;
     font-weight: normal;
     color: #545752;
   }
 
   .rail__state-list__nationalItems {
     display: flex;
-    height: 100px;
+    height: 94px;
     align-items: center;
   }
 
@@ -1550,26 +1563,18 @@ tbody .state-winners-table__year {
     background-position: -5px 50%;
     background-size: contain;*/
     width: 60%;
-  }
-
-  .page__national .rail__state-list__nationalLink {
-    display: none;
-  }
-
-  .rail__state-list__nationalLink a {
-    color: #318085;
-    border-bottom: 1px #318085 dotted;
-    font-size: 1.5em;
-    font-weight: normal;
+    max-width: 180px;
   }
 
   .rail__state-list__nationalMap {
     width: 40%;
+    max-width: 130px;
+    margin-top: 24px;
   }
 
   .rail__state-list__items .o-expander__content {
     max-height: none;
-    padding-bottom: 8vh;
+    padding-bottom: 5vh;
   }
 
   .rail__ad {
