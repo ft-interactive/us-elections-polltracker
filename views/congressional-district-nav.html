@@ -1,5 +1,5 @@
 {% macro Render(stateName, districtList) %}
-{% if districtList.length > 0 %}
+{% if districtList.length %}
 <div class="congressional-district-nav">
 <p>{{ stateName }} uses the congressional district method to allocate electoral votes. This means two of its electoral votes are assigned to the winner of the statewide vote, while one vote is assigned to the winner of each of its {% if stateName == "Maine" %}2{% elif stateName == "Nebraska" %}3{% endif %} congressional districts.</p>
 {% for district in districtList %}

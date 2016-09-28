@@ -1,10 +1,9 @@
 import Page from './page';
-import { getBySlug } from '../lib/states';
+import { getBySlug, getDistricts } from '../lib/states';
 import getStateSummary, { getVoteClass, getECVoteScales } from '../lib/getStateSummary';
-import referenceData from '../../layouts/stateDemographics';
+import referenceData from '../../data/state-demographics';
 import historicalDataTable from '../../layouts/historicalDataTable';
 import demographicBarcode from '../../layouts/demographicBarcode';
-import districtList from '../../layouts/districtList';
 import getStateCounts from '../lib/state-counts';
 
 class StatePage extends Page {
@@ -29,7 +28,7 @@ class StatePage extends Page {
 
     this.historicalResults = historicalDataTable(referenceData, this.state.code);
     this.demographicIndicators = this.state.demographics.map(d => demographicBarcode(d));
-    this.districtList = districtList(this.state);
+    this.districtList = getDistricts(this.code);
     this.state.getVoteClass = getVoteClass;
   }
 

@@ -10,14 +10,23 @@ const states = stateReference.map(d => {
   if (d.children) {
     fullname = `${d.name} (statewide)`;
   }
-  return { ...d, fullname, demographics };
+  return { ...d, fullname, demographics};
 });
+
+const codeIndex = states.reduce((map, state) =>
+        map.set(state.code, state.slug), new Map());
 
 export const slugIndex = states.reduce((map, state) =>
         map.set(state.slug, state), new Map());
 
-const codeIndex = states.reduce((map, state) =>
-        map.set(state.code, state.slug), new Map());
+const districts = states.filter(state => state.children)
+        .map(state => [state, ...states.filter(s => s.parent === state.code)])
+        .reduce((map, districts) => {
+          districts.forEach(district => map.set(district.code, districts))
+          return map;
+        }, new Map());
+
+console.log('DISTRICTS KEYS', [...districts.keys()]);
 
 export function codeToSlug(code) {
   if (!code) return null;
@@ -44,6 +53,11 @@ export function getByContentId(id) {
 
 export function getAllCodes() {
   return codeIndex.keys();
+}
+
+export function getDistricts(code) {
+  console.log('CODE', code, districts.get(code.toUpperCase()));
+  return districts.get(code.toUpperCase()) || [];
 }
 
 export function getSimpleList() {

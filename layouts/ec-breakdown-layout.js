@@ -1,22 +1,7 @@
-import classifyState from './state-classifications';
+import * as classifyState from './state-classifications';
 import color from './color';
 
 const sum = require('d3-array').sum;
-
-// function makeLookup(arr, key, value) {
-//   const o = {};
-//   arr.forEach(d => {
-//     o[d[key]] = value(d);
-//   });
-//   return o;
-// }
-
-// const shortname = makeLookup(states, 'code', d => {
-//   if (d.shortName) {
-//     return d.shortName;
-//   }
-//   return d.name;
-// });
 
 const groupNames = {
   swing: 'Toss-up',
@@ -37,7 +22,6 @@ function splitArray(a, keyFunction = String) {
 
   return o;
 }
-
 
 function combineMENE(lookup) {
   const newLookup = {};
