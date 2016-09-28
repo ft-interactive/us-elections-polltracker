@@ -79,6 +79,11 @@
   [...document.querySelectorAll('.graphic__ecvotes--circles .circle')]
     .forEach(d => {
       function selectStateHandler(e) {
+        if (('ontouchstart' in window) ||
+          (navigator.maxTouchPoints > 0) ||
+          (navigator.msMaxTouchPoints > 0)) {
+            return;
+        }
         const parent = e.target.parentNode;
         const stateAbbr = parent.dataset.state || e.target.dataset.state;
         const states = document.querySelectorAll(`[data-state="${stateAbbr}"]`);
@@ -109,13 +114,10 @@
 
       d.addEventListener('click', e => {
         const stateAbbr = e.target.parentNode.dataset.state || e.target.dataset.state;
-        if ('ontouchstart' in document.documentElement === true) {
-          if (currentState === stateAbbr) {
-            window.location.href = `${stateAbbr}-polls`;
-          } else {
-            currentState = stateAbbr;
-            selectStateHandler(e);
-          }
+        if (('ontouchstart' in window) ||
+          (navigator.maxTouchPoints > 0) ||
+          (navigator.msMaxTouchPoints > 0)) {
+          return;
         } else {
           window.location.href = `${stateAbbr}-polls`;
         }
