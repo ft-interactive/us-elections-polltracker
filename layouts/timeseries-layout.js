@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import * as d3 from 'd3';
 import { intersect, shape } from 'svg-intersections';
-import color from './color.js';
+import color from './color';
 import { getByCode } from '../server/lib/states';
 
 // little utility functions

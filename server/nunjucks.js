@@ -1,5 +1,5 @@
 import { templates } from 'g-ui/dist';
-import * as filters from '../filters';
+import * as filters from './lib/filters';
 import color from '../layouts/color';
 
 export function configure() {

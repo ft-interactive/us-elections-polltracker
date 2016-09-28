@@ -13,11 +13,18 @@ const states = stateReference.map(d => {
   return { ...d, fullname, demographics };
 });
 
+const codeIndex = states.reduce((map, state) =>
+        map.set(state.code, state.slug), new Map());
+
 export const slugIndex = states.reduce((map, state) =>
         map.set(state.slug, state), new Map());
 
-const codeIndex = states.reduce((map, state) =>
-        map.set(state.code, state.slug), new Map());
+const districts = states.filter(state => state.children)
+        .map(state => [state, ...states.filter(s => s.parent === state.code)])
+        .reduce((map, districts) => {
+          districts.forEach(district => map.set(district.code, districts))
+          return map;
+        }, new Map());
 
 export function codeToSlug(code) {
   if (!code) return null;
@@ -44,6 +51,10 @@ export function getByContentId(id) {
 
 export function getAllCodes() {
   return codeIndex.keys();
+}
+
+export function getDistricts(code) {
+  return districts.get(code.toUpperCase()) || [];
 }
 
 export function getSimpleList() {
