@@ -50,7 +50,9 @@ if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '
 }
 
 app.use('/main.js', babelify('public/main.js'));
-app.use(express.static('public'));
+app.use(express.static('public', {
+  maxAge: app.get('env') === 'production' ? '10m' : 0
+}));
 app.use(slashes(false));
 
 // utility functions
