@@ -59,7 +59,7 @@ const getPollAverageData = async (rcpURL, state, pollnumcandidates) => {
   const rcpData = await getJSON(rcpURL);
 
   if (!rcpData) {
-    console.log(`getPollAverageData - NO RCP DATA for ${state}`);
+    winston.log('warn', `getPollAverageData - NO RCP DATA for ${state}`);
     return;
   }
 
@@ -110,7 +110,7 @@ const getIndividualPollData = async (rcpURL, state, pollnumcandidates) => {
   const rcpData = await getJSON(rcpURL);
 
   if (!rcpData) {
-    console.log(`getIndividualPollData - NO RCP DATA for ${state}`);
+    winston.log('warn', `getIndividualPollData - NO RCP DATA for ${state}`);
     return;
   }
 
