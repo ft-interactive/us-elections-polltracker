@@ -60,7 +60,7 @@ export async function getECVoteScales() {
       const currentTotal = last.length ? (last[last.length - 1].idxMax + curr.ecVotes) : curr.ecVotes;
       last.push({
         code: curr.data.code,
-        name: curr.data.name,
+        fullname: curr.data.fullname,
         idxMax: currentTotal,
       });
 
@@ -71,12 +71,12 @@ export async function getECVoteScales() {
     .range(stateData.map(d => d.code))
     .domain(stateData.map(d => d.idxMax));
 
-  const scaleECVotesByName = scaleThreshold()
-    .range(stateData.map(d => d.name))
+  const scaleECVotesByFullname = scaleThreshold()
+    .range(stateData.map(d => d.fullname))
     .domain(stateData.map(d => d.idxMax));
 
   return idx => ({
     code: scaleECVotesByCode(idx),
-    name: scaleECVotesByName(idx),
+    fullname: scaleECVotesByFullname(idx),
   });
 }
