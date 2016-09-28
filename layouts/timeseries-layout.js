@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import * as d3 from 'd3';
 import { intersect, shape } from 'svg-intersections';
-import color from './color.js';
+import color from './color';
 import { getByCode } from '../server/lib/states';
 
 // little utility functions
@@ -79,7 +79,6 @@ function getTitle(state, width) {
 
 function getSubtitle(date, width, state) {
   if (width < 350) {
-    console.log('state', state);
 
     if (state && state !== 'us') {
       return `State polling average to ${timeFormat(date)} (%)`;
@@ -394,8 +393,7 @@ function timeseriesLayout(data, _opts) {
   });
 
   // pass in # of data points
-  layout.numPoints = data.length / candidates.length;
-
+  layout.numPoints = data.length / data[0].pollnumcandidates;
   return layout;
 }
 

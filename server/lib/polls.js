@@ -1,31 +1,48 @@
 import _ from 'lodash';
 import * as d3 from 'd3';
-import { getByCode } from '../lib/states';
-import getAllPolls from '../../layouts/getAllPolls';
+import moment from 'moment';
 import nationalReference from '../../data/national';
-import getPollAverages from '../../layouts/getPollAverages';
+import db from '../../models';
+import { getByCode } from './states';
 import layoutTimeSeries from '../../layouts/timeseries-layout';
 import { render } from '../nunjucks';
 import cache from './cache';
 
-function midnightTonight() {
-  const d = new Date();
-  d.setUTCHours(23);
-  d.setUTCMinutes(59);
-  d.setUTCSeconds(59);
-  return d;
-}
+const deleteTimezoneOffset = d3.timeFormat('%B %e, %Y');
 
-export async function pollAverages(start, end, state = 'us', pollnumcandidates) {
-  return await cache(
-    `dbAverages-${state}-${start}-${end}-candidateNum${pollnumcandidates}`,
-    async () => await getPollAverages(state, start, end, pollnumcandidates)
-  );
-}
+const getAllPolls = (state, pollnumcandidates) => db.Polldata.findAll({
+  where: { state: state.toLowerCase(), pollnumcandidates },
+  order: [['endDate', 'ASC']],
+  raw: true,
+});
+
+// TODO: start and end must be dates not strings
+export const pollAverages = async (_start, _end, _state, pollnumcandidates = 4) => {
+  // to capture data from anytime during the day (and timezone offsets), set endDate
+  // to the start of the next day
+  const start = moment(_start).startOf('day').format();
+  const end = moment(_end).endOf('day').format();
+  const state = _state.toLowerCase();
+  const cacheKey = `dbAverages-${state}-${start.replace(/T.*/,'')}-${end.replace(/T.*/,'')}-${pollnumcandidates}`;
+  const query = () => {
+    return db.Pollaverages.findAll({
+      where: { state, pollnumcandidates, date: { $gte: start, $lte: end }},
+      order: [['date', 'ASC']],
+      raw: true,
+    }).then(data =>
+      data.map(row => {
+        row.date = new Date(deleteTimezoneOffset(row.date));
+        return row;
+      })
+    );
+  }
+
+  return cache(cacheKey, query, 30000);
+};
 
 export const makePollTimeSeries = async chartOpts => {
   const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-07-01T00:00:00Z';
-  const endDate = chartOpts.endDate ? chartOpts.endDate : d3.isoFormat(midnightTonight());
+  const endDate = chartOpts.endDate ? chartOpts.endDate : d3.isoFormat(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';
 
   const defaultPollNumCandidates = 4;
@@ -75,7 +92,7 @@ export async function lineChart(code, pollnumcandidates) {
 }
 
 export async function list(code, pollnumcandidates) {
-  let allIndividualPolls = await getAllPolls(code.toLowerCase(), pollnumcandidates);
+  let allIndividualPolls = await getAllPolls(code, pollnumcandidates);
   allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
   allIndividualPolls = _.values(allIndividualPolls);
   const formattedIndividualPolls = [];
@@ -120,8 +137,8 @@ export async function pollHistory(code) {
 
   const startDate = '2016-07-01 00:00:00';
   const endDate = d3.isoFormat(new Date());
-  const pollData = await pollAverages(startDate, endDate, code.toLowerCase(), pollnumcandidates);
-  const latestAveragesData = pollData.reverse().slice(0, pollnumcandidates);
+  const pollData = await pollAverages(startDate, endDate, code, pollnumcandidates);
+  const latestAveragesData = pollData.concat().reverse().slice(0, pollnumcandidates);
   let latestAverages = {};
   if (latestAveragesData.length > 0) {
     let steinPollAverage = null;
@@ -139,7 +156,7 @@ export async function pollHistory(code) {
 
   return {
     lineCharts: await lineChart(code.toLowerCase(), pollnumcandidates),
-    list: await list(code.toLowerCase(), pollnumcandidates),
+    list: await list(code, pollnumcandidates),
     pollnumcandidates,
     latestAverages,
   };

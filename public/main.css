@@ -52,11 +52,20 @@
 .article-figure p {
   line-height: 1.52em
 }
+
+
 .article-figure .article-figure__heading {
   margin-top: 2em;
   margin-bottom: 0.5em;
   font-family: inherit;
 }
+
+@media (max-width: 61.24em) {
+  .article-figure .article-figure__heading {
+  margin-top: 1em;}
+}
+
+
 .article-figure .article-figure__subheading {
   color: #6b6e68;
   font-size: 18px;
@@ -199,15 +208,35 @@
 
 .o-typography-body-wrapper .source {
   line-height: 1.1;
-  margin-top: 3em;
+  margin-top: 3.5em;
   padding: 0.1em;
   border-top: 1px solid #cec6b9;
 }
+
+@media (max-width: 61.24em){
+  .o-typography-body-wrapper .source {
+    margin-top: 0;
+  }
+}
+
 .o-typography-body-wrapper .source p {
   color: #333;
   font-family: MetricWeb, sans-serif;
-  font-size: 0.9em;
+  font-size: 1em;
 }
+
+.o-typography-body-wrapper .source p:first-of-type{
+    margin-top: 2em;
+}
+
+@media (max-width: 61.24em){
+  .o-typography-body-wrapper .source p:first-of-type{
+    margin-top: 1em;
+}
+}
+
+
+
 .o-typography-body-wrapper .note {
   line-height: 1.1;
   margin-top: 0.5em;
@@ -446,7 +475,7 @@ span.national-bar-container-values {
 
 @media (max-width: 490px){
   .national-bar-container-values {
-  line-height: 37px;  
+  line-height: 37px;
   }
 }
 
@@ -947,14 +976,54 @@ span.national-bar-container-values {
   background-color: transparent;
 }
 
-@media (max-width: 670px) {
+@media (min-width: 980px) {
   .state-page__summary .graphic__ecvotes--circles {
     height: 110px;
   }
+}
+
+
+@media (max-width: 690px) {
+  .state-page__summary .graphic__ecvotes--circles {
+    height: 100px;
+  }
 
   .state-page__summary .graphic__ecvotes--circles .circle {
-    width: 0.35em;
-    height: 0.35em;
+    width: 8px;
+    height: 8px;
+  }
+}
+
+@media (max-width: 580px) {
+  .state-page__summary .graphic__ecvotes--circles {
+    height: 100px;
+  }
+
+  .state-page__summary .graphic__ecvotes--circles .circle {
+    width: 7px;
+    height: 7px;
+  }
+}
+
+@media (max-width: 470px) {
+  .state-page__summary .graphic__ecvotes--circles {
+    height: 100px;
+  }
+
+  .state-page__summary .graphic__ecvotes--circles .circle {
+    width: 6px;
+    height: 6px;
+  }
+}
+
+@media (max-width: 390px) {
+  .state-page__summary .graphic__ecvotes--circles {
+    height: 105px;
+  }
+
+  .state-page__summary .graphic__ecvotes--circles .circle {
+    width: 5px;
+    height: 5px;
   }
 }
 
@@ -1007,7 +1076,7 @@ span.national-bar-container-values {
 .demographic-container {
   width: 48%;
   display: inline-block;
-  vertical-align: top;
+  /*vertical-align: top;*/
   text-align: center;
   margin-top: 2em;
 }
@@ -1282,6 +1351,11 @@ tbody .state-winners-table__year {
   }
   .ec-breakdown-column {
     margin-bottom: 20px;
+  }
+
+  .ec-breakdown-column.Solid,
+  .ec-breakdown-column.Leaning {
+    display: none;
   }
 }
 /** Mobile nav **/

@@ -18,7 +18,7 @@ function fetchData() {
 function fetchError(error) {
   if (error instanceof Error) {
     const url = error.config && error.config.url;
-    console.log(error.message, error.code, url);
+    console.error(error.message, error.code, url);
   } else {
     console.error(error);
   }

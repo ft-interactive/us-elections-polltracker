@@ -1,8 +1,11 @@
 import moment from 'moment';
 import flags from '../../config/flags';
-import lastUpdated from '../../layouts/getLastUpdated';
 import * as polls from '../lib/polls.js';
 import siteNav from '../lib/site-nav';
+import db from '../../models';
+
+const lastUpdated = () =>
+  db.lastupdates.findOne({ raw: true }).then(data => data && new Date(data.lastupdate));
 
 const onwardJourney = () => ({
   relatedContent: [
@@ -54,7 +57,7 @@ export default class Page {
   }
 
   async pready() {
-    this.publishedDate = new Date(await lastUpdated());
+    this.publishedDate = await lastUpdated();
     this.pollHistory = await polls.pollHistory(this.code);
   }
 

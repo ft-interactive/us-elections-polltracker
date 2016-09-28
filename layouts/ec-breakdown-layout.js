@@ -3,21 +3,6 @@ import color from './color';
 
 const sum = require('d3-array').sum;
 
-// function makeLookup(arr, key, value) {
-//   const o = {};
-//   arr.forEach(d => {
-//     o[d[key]] = value(d);
-//   });
-//   return o;
-// }
-
-// const shortname = makeLookup(states, 'code', d => {
-//   if (d.shortName) {
-//     return d.shortName;
-//   }
-//   return d.name;
-// });
-
 const groupNames = {
   swing: 'Toss-up',
   leaningRep: 'Leaning',
@@ -38,7 +23,6 @@ function splitArray(a, keyFunction = String) {
   return o;
 }
 
-
 function combineMENE(lookup) {
   const newLookup = {};
 
@@ -46,7 +30,7 @@ function combineMENE(lookup) {
     // const code = lookup[d].code.substring(0 ,2);
     const state = Object.assign({}, lookup[d]);
     state.code = state.code.substring(0, 2);
-    const forecast = classifyState.forecast(state.margin);
+    const forecast = classifyState(state.margin);
     state.forecast = forecast;
     if (newLookup[`${state.code}-${forecast}`]) {
       newLookup[`${state.code}-${forecast}`].ecVotes += state.ecVotes;
@@ -78,18 +62,15 @@ export default function (stateLookup) {
 
   const stateGroups = splitArray(states, d => d.forecast);
   const groupTotals = Object.keys(stateGroups).reduce((lookup, groupName) => {
-    // console.log(lookup);
     lookup[groupName] = sum(stateGroups[groupName], d => d.ecVotes); // eslint-disable-line no-param-reassign
     return lookup;
   }, {});
-
-  console.log(groupTotals);
 
   return {
     title: 'Where are the battleground states?',
     standalone: true,
     fontless: true,
-    order: classifyState.forecast.range().reverse(),
+    order: classifyState.range().concat().reverse(),
     stateGroups,
     groupTotals,
     groupNames,
