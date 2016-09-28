@@ -5,9 +5,9 @@ you can stateData (from eg. state-counts.js) but if you don't it'll go and get i
 */
 
 import stateCount from '../lib/state-counts';
-import { forecast } from '../../layouts/state-classifications';
+import classifyState from '../../layouts/state-classifications';
 
-export const marginThreshold = forecast;
+export const marginThreshold = classifyState;
 
 export default async _stateData => {
   // if state data is not supplied go get it
@@ -15,7 +15,7 @@ export default async _stateData => {
 
   const stateCounts = Object.keys(stateData).reduce((cumulative, stateCode) => {
     const state = stateData[stateCode];
-    cumulative[forecast(state.margin)] += state.ecVotes; // eslint-disable-line no-param-reassign
+    cumulative[classifyState(state.margin)] += state.ecVotes; // eslint-disable-line no-param-reassign
     return cumulative;
   }, {
     dem: 0,

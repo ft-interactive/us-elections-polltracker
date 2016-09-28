@@ -1,4 +1,4 @@
-import * as classifyState from './state-classifications';
+import classifyState from './state-classifications';
 import color from './color';
 
 const sum = require('d3-array').sum;
@@ -30,7 +30,7 @@ function combineMENE(lookup) {
     // const code = lookup[d].code.substring(0 ,2);
     const state = Object.assign({}, lookup[d]);
     state.code = state.code.substring(0, 2);
-    const forecast = classifyState.forecast(state.margin);
+    const forecast = classifyState(state.margin);
     state.forecast = forecast;
     if (newLookup[`${state.code}-${forecast}`]) {
       newLookup[`${state.code}-${forecast}`].ecVotes += state.ecVotes;
@@ -70,7 +70,7 @@ export default function (stateLookup) {
     title: 'Where are the battleground states?',
     standalone: true,
     fontless: true,
-    order: classifyState.forecast.range().concat().reverse(),
+    order: classifyState.range().concat().reverse(),
     stateGroups,
     groupTotals,
     groupNames,
