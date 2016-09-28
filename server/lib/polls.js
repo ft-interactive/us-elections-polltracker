@@ -112,6 +112,7 @@ export async function pollHistory(code) {
   const endDate = d3.isoFormat(new Date());
   const pollData = await pollAverages(startDate, endDate, code.toLowerCase(), pollnumcandidates);
   const latestAveragesData = pollData.reverse().slice(0, pollnumcandidates);
+  const latestAveragesData = pollData.concat().reverse().slice(0, pollnumcandidates);
   let latestAverages = {};
   if (latestAveragesData.length > 0) {
     let steinPollAverage = null;

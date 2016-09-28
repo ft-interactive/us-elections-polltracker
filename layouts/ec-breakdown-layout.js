@@ -89,7 +89,7 @@ export default function (stateLookup) {
     title: 'Where are the battleground states?',
     standalone: true,
     fontless: true,
-    order: classifyState.forecast.range().reverse(),
+    order: classifyState.forecast.range().concat().reverse(),
     stateGroups,
     groupTotals,
     groupNames,
