@@ -1,6 +1,5 @@
-import stateData from './data/states.json';
-
-const  marginThreshold = require('./layouts/state-classifications').forecast;
+import { marginThreshold } from './national-count';
+import stateData from '../../data/states.json';
 
 export function commas(n) {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -27,6 +26,7 @@ function makeLookup(arr, key) {
   });
   return o;
 }
+
 const stateLookup = makeLookup(stateData, 'code');
 
 export function statePollPageURL(code) {
@@ -101,3 +101,4 @@ export function orderStatesByImportance(states) {
 
   return statesWithPollDate.concat(statesWithout);
 }
+0

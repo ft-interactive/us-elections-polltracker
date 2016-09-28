@@ -10,8 +10,9 @@
   <div class="graphic__ecvotes--circles">
     {% for i in range(0, 538) %}
     <div
-      class="circle {{ state.getVoteClass(state.ecVoteScale(loop.index0), state.stateCounts) }} {{'current-state' if state.ecVoteScale(loop.index0) == state.code }}"
-      data-state="{{ state.ecVoteScale(loop.index0) }}">
+      class="circle {{ state.getVoteClass(state.ecVoteScale(loop.index0).code, state.stateCounts) }} {{'current-state' if state.ecVoteScale(loop.index0).code == state.code }}"
+      data-state="{{ state.ecVoteScale(loop.index0).code }}"
+      data-state-name="{{ state.ecVoteScale(loop.index0).fullname }}">
       <div class="inner-square"></div>
     </div>
     {% endfor %}

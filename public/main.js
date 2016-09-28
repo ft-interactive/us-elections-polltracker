@@ -79,8 +79,14 @@
   [...document.querySelectorAll('.graphic__ecvotes--circles .circle')]
     .forEach(d => {
       function selectStateHandler(e) {
+        if (('ontouchstart' in window) ||
+          (navigator.maxTouchPoints > 0) ||
+          (navigator.msMaxTouchPoints > 0)) {
+            return;
+        }
         const parent = e.target.parentNode;
         const stateAbbr = parent.dataset.state || e.target.dataset.state;
+        const stateName = parent.dataset.stateName || e.target.dataset.stateName;
         const states = document.querySelectorAll(`[data-state="${stateAbbr}"]`);
 
         [...document.querySelectorAll('.graphic__ecvotes--circles .circle.ec-vote')]
@@ -88,7 +94,7 @@
         [...states]
           .forEach(item => item.classList.add('ec-vote'));
 
-        ecVotesTooltip.innerText = `${stateAbbr}: ${states.length} vote${states.length > 1 ? 's' : ''}`;
+        ecVotesTooltip.innerText = `${stateName}: ${states.length} vote${states.length > 1 ? 's' : ''}`;
         ecVotesTooltip.style.top = `${e.target.offsetTop - 20}px`;
         ecVotesTooltip.style.left = `${e.target.offsetLeft + 20}px`;
         ecVotesTooltip.style.position = 'absolute';
@@ -109,13 +115,10 @@
 
       d.addEventListener('click', e => {
         const stateAbbr = e.target.parentNode.dataset.state || e.target.dataset.state;
-        if ('ontouchstart' in document.documentElement === true) {
-          if (currentState === stateAbbr) {
-            window.location.href = `${stateAbbr}-polls`;
-          } else {
-            currentState = stateAbbr;
-            selectStateHandler(e);
-          }
+        if (('ontouchstart' in window) ||
+          (navigator.maxTouchPoints > 0) ||
+          (navigator.msMaxTouchPoints > 0)) {
+          return;
         } else {
           window.location.href = `${stateAbbr}-polls`;
         }

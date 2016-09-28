@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import * as d3 from 'd3';
 import { intersect, shape } from 'svg-intersections';
-import color from './color.js';
+import color from './color';
 import { getByCode } from '../server/lib/states';
 
 // little utility functions
@@ -79,7 +79,6 @@ function getTitle(state, width) {
 
 function getSubtitle(date, width, state) {
   if (width < 350) {
-    console.log('state', state);
 
     if (state && state !== 'us') {
       return `State polling average to ${timeFormat(date)} (%)`;
@@ -187,24 +186,26 @@ function timeseriesLayout(data, _opts) {
     const monthSpacing = xScale(new Date(2016, 1, 1)) - xScale(new Date(2016, 0, 1));
     const tickBuffer = [5, 35];
 
-    do {
-      if (currentDate.getMonth() !== 0) { // dona't add a tick for jan as that'll be given a new year tick
-        layout.xTicks.push({
-          date: currentDate,
-          label: timeFormatMonth(currentDate),
-          position: xScale(currentDate),
-          important: (() =>
-            // make this true under certain circumstances i.e. if there are few enough ticks and the tick in question is distant enough from the end of the axis
-            monthSpacing > 50
-            && (xScale(currentDate) < xScale.range()[1] - tickBuffer[1])
-            && (xScale(currentDate) > xScale.range()[0] + tickBuffer[0])
-          )(currentDate),
-          textanchor: 'start',
-        });
-      }
-      currentDate.setDate(1);
-      currentDate.setMonth(currentDate.getMonth() + 1);
-    } while (currentDate.getTime() < xScale.domain()[1].getTime());
+    if (currentDate.getTime() <= xScale.domain()[1].getTime()) { // don't add more ticks if new month tick is greater than end date
+      do {
+        if (currentDate.getMonth() !== 0) { // dona't add a tick for jan as that'll be given a new year tick
+          layout.xTicks.push({
+            date: currentDate,
+            label: timeFormatMonth(currentDate),
+            position: xScale(currentDate),
+            important: (() =>
+              // make this true under certain circumstances i.e. if there are few enough ticks and the tick in question is distant enough from the end of the axis
+              monthSpacing > 50
+              && (xScale(currentDate) < xScale.range()[1] - tickBuffer[1])
+              && (xScale(currentDate) > xScale.range()[0] + tickBuffer[0])
+            )(currentDate),
+            textanchor: 'start',
+          });
+        }
+        currentDate.setDate(1);
+        currentDate.setMonth(currentDate.getMonth() + 1);
+      } while (currentDate.getTime() < xScale.domain()[1].getTime());
+    }
   }
 
   // if a year boundaries are crossed add year ticks
@@ -392,8 +393,7 @@ function timeseriesLayout(data, _opts) {
   });
 
   // pass in # of data points
-  layout.numPoints = data.length / candidates.length;
-
+  layout.numPoints = data.length / data[0].pollnumcandidates;
   return layout;
 }
 

@@ -1,6 +1,6 @@
 // provides a dictionary of state colours based on defined thresholds for how safe a bet a given state is for a given candidate
 
-import color from './color.js';
+import color from './color';
 
 import { marginThreshold } from '../server/lib/national-count';
 

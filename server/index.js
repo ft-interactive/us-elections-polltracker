@@ -5,7 +5,6 @@ import slashes from 'connect-slashes';
 import * as nunjucks from './nunjucks';
 import ecForecastComponentController from './controllers/ec-forecast-component';
 import ecForecastComponentController2 from './controllers/ec-forecast-component-2';
-import getPollAverages from '../layouts/getPollAverages.js';
 import layoutForecastMap from '../layouts/forecast-map-layout';
 import nationalController from './controllers/national';
 import ecBreakdownController from './controllers/ec-breakdown';
@@ -50,7 +49,9 @@ if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '
 }
 
 app.use('/main.js', babelify('public/main.js'));
-app.use(express.static('public'));
+app.use(express.static('public', {
+  maxAge: app.get('env') === 'production' ? '10m' : 0
+}));
 app.use(slashes(false));
 
 // utility functions

@@ -1,6 +1,6 @@
 import { extent } from 'd3-array';
 import _ from 'lodash';
-import referenceData from '../../layouts/stateDemographics';
+import referenceData from '../../data/state-demographics';
 
 const labels = referenceData.label;
 
@@ -47,7 +47,6 @@ export default code => {
     if (!data) return null;
 
     const stateValue = data[category.property];
-    // console.log(category.allStates);
     // Important: don't mutate the category, copy it instead.
     return {
       ...category,
