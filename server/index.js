@@ -5,7 +5,6 @@ import slashes from 'connect-slashes';
 import * as nunjucks from './nunjucks';
 import ecForecastComponentController from './controllers/ec-forecast-component';
 import ecForecastComponentController2 from './controllers/ec-forecast-component-2';
-import getPollAverages from '../layouts/getPollAverages.js';
 import layoutForecastMap from '../layouts/forecast-map-layout';
 import nationalController from './controllers/national';
 import ecBreakdownController from './controllers/ec-breakdown';
