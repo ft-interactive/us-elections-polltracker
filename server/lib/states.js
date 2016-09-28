@@ -26,8 +26,6 @@ const districts = states.filter(state => state.children)
           return map;
         }, new Map());
 
-console.log('DISTRICTS KEYS', [...districts.keys()]);
-
 export function codeToSlug(code) {
   if (!code) return null;
   return codeIndex.get(code.toUpperCase());
@@ -56,7 +54,6 @@ export function getAllCodes() {
 }
 
 export function getDistricts(code) {
-  console.log('CODE', code, districts.get(code.toUpperCase()));
   return districts.get(code.toUpperCase()) || [];
 }
 
