@@ -475,7 +475,7 @@ span.national-bar-container-values {
 
 @media (max-width: 490px){
   .national-bar-container-values {
-  line-height: 37px;  
+  line-height: 37px;
   }
 }
 
@@ -976,14 +976,54 @@ span.national-bar-container-values {
   background-color: transparent;
 }
 
-@media (max-width: 670px) {
+@media (min-width: 980px) {
   .state-page__summary .graphic__ecvotes--circles {
     height: 110px;
   }
+}
+
+
+@media (max-width: 690px) {
+  .state-page__summary .graphic__ecvotes--circles {
+    height: 100px;
+  }
 
   .state-page__summary .graphic__ecvotes--circles .circle {
-    width: 0.35em;
-    height: 0.35em;
+    width: 8px;
+    height: 8px;
+  }
+}
+
+@media (max-width: 580px) {
+  .state-page__summary .graphic__ecvotes--circles {
+    height: 100px;
+  }
+
+  .state-page__summary .graphic__ecvotes--circles .circle {
+    width: 7px;
+    height: 7px;
+  }
+}
+
+@media (max-width: 470px) {
+  .state-page__summary .graphic__ecvotes--circles {
+    height: 100px;
+  }
+
+  .state-page__summary .graphic__ecvotes--circles .circle {
+    width: 6px;
+    height: 6px;
+  }
+}
+
+@media (max-width: 390px) {
+  .state-page__summary .graphic__ecvotes--circles {
+    height: 105px;
+  }
+
+  .state-page__summary .graphic__ecvotes--circles .circle {
+    width: 5px;
+    height: 5px;
   }
 }
 
