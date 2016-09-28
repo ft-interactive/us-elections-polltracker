@@ -1,3 +1,6 @@
+var width=600, barHeight = 20, barGap = 5;
+var height = 3*barHeight+barGap;
+
 // create data binding
 // and add listeners
 d3.selectAll('tr.statelist-staterow')
@@ -16,7 +19,6 @@ d3.selectAll('tr.statelist-staterow')
     });
 
 //add the results SVG
-var width=600, height=200;
 d3.select('#calculation-result')
     .append('svg')
         .attr('class','calculation-chart')
@@ -43,7 +45,21 @@ function showTotals(){
     var barHeight = 20;
     var total = calculateTotals( d3.selectAll('tr.statelist-staterow').data() );
     function win(n){ return n>269; }
-    var selection = d3.select('svg.calculation-chart')
+
+    var tickSelection = d3.select('svg.calculation-chart').selectAll('g.tick')
+        .data([270])
+
+    tickSelection.enter().append('g')
+        .attr('class','tick')
+        .attr('transform',function(d){return 'translate('+d+',0)'})
+        .append('line')
+            .attr('x1',0)
+            .attr('y1',0)
+            .attr('x2',0)
+            .attr('y2',height)
+            .attr('stroke','#000');
+
+    var barSelection = d3.select('svg.calculation-chart')
         .selectAll('g.calculation-chart--bar')
         .data([
             { label:'Clinton', value:total.dem, winner:win(total.dem), color:'#579DD5' },
@@ -51,7 +67,7 @@ function showTotals(){
             { label:'Up for grabs', value:total.swing, winner:false, color:'#fcc83c' }
         ]);
 
-    selection.enter()
+    barSelection.enter()
         .append('g')
             .attr('class','calculation-chart--bar')
             .attr('transform', function(d,i){return 'translate(0,' + (i * barHeight) + ')'; })
@@ -68,7 +84,7 @@ function showTotals(){
                 .attr('class','calculation-chart--value')
                 .attr('dy', barHeight-4);
         })
-        .merge(selection)
+        .merge(barSelection)
         .transition()
         .call(function(parent){
             parent.select('rect')
