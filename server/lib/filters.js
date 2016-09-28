@@ -20,7 +20,7 @@ export function statePollPageURL(state) {
   let slug = state.slug ? state.slug : codeToSlug(state);
   if (!slug) {
     const s = getBySlug(state);
-    if (s)
+    if (s) {
       slug = s.slug;
     }
   }
