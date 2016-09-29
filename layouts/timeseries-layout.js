@@ -149,8 +149,8 @@ function timeseriesLayout(data, _opts) {
   const extent = roundExtent(rawExtent, tickInterval);
 
   const yScale = d3.scaleLinear()
-    .domain(extent)
-    .range([layout.height - layout.margin.top - layout.margin.bottom, 0]);
+    .domain([30, 60])
+    .range([layout.height - layout.margin.top - layout.margin.bottom - 4, 0]);
 
   let tickCount = (extent[1] - extent[0]) / tickInterval;
   if (tickCount < 3) {
