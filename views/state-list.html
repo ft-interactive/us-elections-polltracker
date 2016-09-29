@@ -45,7 +45,7 @@
           <td class="statelist-ecvotes">{{ state.ecVotes }}</td>
           <td class="statelist-pollmargin">
             {%- if state.Clinton == null -%}
-            <span class="statelist-nodata">No poll data</span>
+            <span class="statelist-nodata">No data</span>
             {%- else -%}
               {% if state.margin > 0 %}
               <span class="statelist-margin-cell dem-margin-cell">

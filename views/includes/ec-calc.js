@@ -22,11 +22,16 @@ d3.select('#calculation-result')
     });
 
 function rebindData(){
+
     d3.selectAll('tr.statelist-staterow')
         .each(function(){
             var row = d3.select(this);
-            row.datum( Object.assign({}, this.dataset) );
-
+            row.datum( {
+                classification:this.dataset.classification,
+                ecvotes:this.dataset.ecvotes,
+                margin:this.dataset.margin,
+                statecode:this.dataset.statecode,
+            } );//the object assign method doesn't work in safari :(
             row.selectAll('.switch-button')
                 .on('click', function(){
                     var switchPosition = d3.select(this).attr('data-position');
@@ -93,8 +98,7 @@ function showTotals(){
             .attr('y',0)
             .attr('width',barScale)
             .attr('height',height)
-            .attr('fill','#000')
-            .attr('fill-opacity',0.1);
+            .attr('fill','#f6e9d8');
 
     var barSelection = d3.select('svg.calculation-chart')
         .selectAll('g.calculation-chart--bar')
