@@ -1,18 +1,9 @@
-var width = 600;
-var barHeight = 20;
-var barGap = 5;
-var height = 3*(barHeight+barGap);
 
 // create data binding
 // and add listeners
 
 //add the results SVG
-d3.select('#calculation-result')
-    .append('svg')
-        .attr('class','calculation-chart')
-        .attr('width',width)
-        .attr('height',height)
-        .attr('viewBox','0 0 '+width+' '+height);
+
 
 //add reset button
 d3.select('#calculation-result')
@@ -68,30 +59,46 @@ function reclassTable(){
 }
 
 function showTotals(){
-    var barHeight = 20;
+    var barHeight = 15;
+    var barGap = 5;
+    var height = 3*(barHeight+barGap)-barGap;
+    var size = d3.select('#calculation-result').node().getBoundingClientRect();
+    var barScale = d3.scaleLinear()
+        .domain([0, 538])
+        .range([0, size.width]);
+
     var total = calculateTotals( d3.selectAll('tr.statelist-staterow').data() );
     
     function win(n){ return n>269; }
+
+    d3.select('#calculation-result')
+        .selectAll('svg').data([0]).enter()
+        .append('svg')
+            .attr('class','calculation-chart')
+            .attr('height',height);
+
+    d3.select('svg.calculation-chart')
+        .attr('width', size.width);
 
     var tickSelection = d3.select('svg.calculation-chart').selectAll('g.tick')
         .data([270])
 
     tickSelection.enter().append('g')
         .attr('class','tick')
-        .attr('transform',function(d){return 'translate('+d+',0)'})
-        .append('line')
-            .attr('x1',0)
-            .attr('y1',0)
-            .attr('x2',0)
-            .attr('y2',height)
-            .attr('stroke','#000');
+        .append('rect')
+            .attr('x',0)
+            .attr('y',0)
+            .attr('width',barScale)
+            .attr('height',height)
+            .attr('fill','#000')
+            .attr('fill-opacity',0.1);
 
     var barSelection = d3.select('svg.calculation-chart')
         .selectAll('g.calculation-chart--bar')
         .data([
-            { label:'Clinton', value:total.dem, winner:win(total.dem), color:'#579DD5' },
-            { label:'Trump', value:total.rep, winner:win(total.rep), color:'#e03d46' },
-            { label:'Up for grabs', value:total.swing, winner:false, color:'#fcc83c' }
+            { label: 'Clinton', value: total.dem, winner: win(total.dem), color: '#579DD5' },
+            { label: 'Trump', value: total.rep, winner: win(total.rep), color: '#e03d46' },
+            { label: 'Up for grabs', value: total.swing, winner: false, color: '#fcc83c' },
         ]);
 
     barSelection.enter()
@@ -115,14 +122,16 @@ function showTotals(){
         .transition()
         .call(function(parent){
             parent.select('rect')
-                .attr('width', function(d,i){ return d.value; });
+                .attr('width', function(d,i){ return barScale(d.value); });
 
             parent.select('text.calculation-chart--value')
-                .attr('dx', function(d,i){ return d.value+4; })
+                .attr('dx', function(d,i){ return Math.max(barScale(d.value), barScale(270))+4; })
                 .text(function(d){ return d.value; });
 
             parent.select('text.calculation-chart--name')
-                .attr('dx', function(d,i){ return d.value + 30; })
+                .attr('dx', function(d,i){ 
+                    return Math.max(barScale(d.value), barScale(270)) + 30; 
+                })
                 .text(function(d){
                     if(d.winner) return d.label + ' wins!';  
                     return d.label; });
