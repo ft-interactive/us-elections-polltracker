@@ -734,16 +734,20 @@ span.national-bar-container-values {
 }
 
 .statelist-dem .switch-button.rep,
+.statelist-leaningDem .switch-button.rep,
 .statelist-swing .switch-button.rep{
   background-image: url("ui/rep-off.png"); 
 }
 
 .statelist-rep .switch-button.dem,
+.statelist-leaningRep .switch-button.dem,
 .statelist-swing .switch-button.dem{
   background-image: url("ui/dem-off.png");
 }
 
 .statelist-dem .switch-button.swing,
+.statelist-leaningRep .switch-button.swing,
+.statelist-leaningDem .switch-button.swing,
 .statelist-rep .switch-button.swing{
   background-image: url("ui/swing-off.png");
 }
@@ -752,11 +756,13 @@ span.national-bar-container-values {
   background-image: url("ui/swing-on.png");
 }
 
-.statelist-dem .switch-button.dem{
+.statelist-dem .switch-button.dem,
+.statelist-leaningDem .switch-button.dem{
   background-image: url("ui/dem-on.png");
 }
 
-.statelist-rep .switch-button.rep{
+.statelist-rep .switch-button.rep,
+.statelist-leaningRep .switch-button.rep{
   background-image: url("ui/rep-on.png");
 }
 
