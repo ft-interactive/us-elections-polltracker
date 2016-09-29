@@ -722,6 +722,35 @@ span.national-bar-container-values {
   color: #000;
 }
 
+.switch-button{
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-size: 100%;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  border-bottom: none;
+}
+
+.statelist-dem .switch-button.rep,
+.statelist-swing .switch-button.rep{
+  background-image: url("ui/rep-off.png"); 
+}
+
+.statelist-rep .switch-button.dem,
+.statelist-swing .switch-button.dem{
+  background-image: url("ui/dem-off.png");
+}
+
+.statelist-dem .switch-button.dem{
+  background-image: url("ui/dem-on.png");
+}
+
+.statelist-rep .switch-button.rep{
+  background-image: url("ui/rep-on.png");
+}
+
 
 .statelist-catLabel {
   color: white;
