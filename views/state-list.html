@@ -32,7 +32,7 @@
         <tr class="statelist-staterow statelist-{{ state.margin | marginCategory }} statelist-staterow-{{ state.code | lower }}" 
           data-margin="{{ state.margin | round1dp }}"
           data-ecvotes="{{ state.ecVotes }}"
-          data-classification="{{ state.margin | getClassificationFromMargin }}"
+          data-classification="{{ state.margin | marginCategory }}"
           data-statecode="{{ state.code | lower }}">
           <td class="statelist-switch">
             <a href="#" class="switch-button" data-position="dem">Clinton</a>
