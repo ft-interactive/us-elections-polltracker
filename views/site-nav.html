@@ -1,7 +1,7 @@
 {% macro StateList(siteNav, selectedState) %}
 
 <div class="rail__state-list">
-  <h3>US election explained</h3>
+  <h3 style="display:none;">US election explained</h3>
 
   <nav>
     <i class="rail__close-button o-icons-icon o-icons-icon--arrow-cross"></i>
@@ -11,13 +11,13 @@
         <a href="polls">National polling</a>
       </div>
 
-      <img class="rail__state-list__nationalMap" src="forecast-map.svg" />
+      <a href="polls" class="rail__state-list__nationalMap"><img class="" src="forecast-map.svg" /></a>
     </div>
 
     <h4>Which states are in play?</h4>
     <ul>
       {% for state in siteNav.keyBattlegroundStates %}
-      <li><a href="{{ state.slug }}-polls">{{ state.fullname }}</a></li>
+      <li><a href="{{ state | statePollPageURL }}">{{ state.fullname }}</a></li>
       {% endfor %}
     </ul>
 

@@ -1,38 +1,42 @@
 {% macro ECBreakdown(layout) %}
 <div>
-    <div class="o-grid-container">
-        <div class="o-grid-row"><h2 class="article-figure__heading">{{ layout.title }}</h2ß></div>
+  {% if layout.title %}
+  <div class="o-grid-container">
+    <div class="o-grid-row">
+      <h2 class="article-figure__heading">{{ layout.title }}</h2>
     </div>
+  </div>
+  {% endif %}
 
-    <div class="o-grid-container ec-breakdown-container">
-        <div class="o-grid-row">
-            {% for group in layout.order %}
-            <div data-o-grid-colspan="12 S2" class="ec-breakdown-column {{ layout.groupNames[group] }}">
-                <div class="o-grid-row ec-breakdown-row ec-breakdown-header">{{ layout.groupNames[group] }} ({{layout.groupTotals[group]}})</div>
-                {% for state in layout.stateGroups[group] %}
-                <a href="{{ state.code | statePollPageURL}}">
-                    <div class="o-grid-row ec-breakdown-row">
-                        <div data-o-grid-colspan="2 S4" class="ec-breakdown-statelabel">
-                        {% if (layout.groupNames[group] == 'Toss-up') %}
-                            <span>{{ state.code | stateShortname }}</span>
-                        {% else %}
-                            <span>{{state.code}}</span>
-                        {% endif %}
-                        </div>
-                        <div data-o-grid-colspan="9 S6" class="ec-breakdown-bar-container">
-                            <div style="width:{{ state.barPct }}%; background-color:{{ color[group] }};" class="ec-breakdown-bar"></div>
-                        </div>
-                        <div data-o-grid-colspan="1 S2" class="ec-breakdown-bar-container">
-                            <div class="ec-breakdown-bar-label">{{state.ecVotes}}</div>
-                        </div>
-                        </div>
-                    </a>
-                {% endfor %}
-            </div>
-            {% endfor %}
-        </div>
+  <div class="o-grid-container o-grid-container--bleed ec-breakdown-container">
+    <div class="o-grid-row o-grid-row--compact">
+      {% for group in layout.order %}
+      <div data-o-grid-colspan="12 S2" class="ec-breakdown-column {{ layout.groupNames[group] }}">
+        <div class="o-grid-container o-grid-container--bleed" style="min-width:0;">
+        <div class="o-grid-row o-grid-row--compact ec-breakdown-row ec-breakdown-header">{{ layout.groupNames[group] }}&nbsp;({{ layout.groupTotals[group] }})</div>
+        {% for state in layout.stateGroups[group] %}
+          <a href="{{ state.code | statePollPageURL }}" class="o-grid-row o-grid-row--compact ec-breakdown-row">
+              <div data-o-grid-colspan="2 S4 M3 L4" class="ec-breakdown-statelabel">
+              {%- if (layout.groupNames[group] == 'Toss-up') -%}
+              {{ state.code | stateShortname }}
+              {%- else -%}
+              {{ state.code }}
+              {%- endif -%}
+              </div>
+              <div data-o-grid-colspan="10 S8 M9 L8" class="ec-breakdown-bar-container">
+                <div style="width:{{ state.barPct }}%; background-color:{{ color[group] }};" class="ec-breakdown-bar">
+
+                </div>
+                <div class="ec-breakdown-bar-label{% if state.code == 'CA' %} ec-breakdown-bar-label--wob{% endif%}">{{ state.ecVotes }}</div>
+              </div>
+          </a>
+        {% endfor %}
+      </div>
+      </div>
+      {% endfor %}
     </div>
-        <div class="ec-breakdown-footnote">States where the difference in poll numbers between Clinton and Trump is less than 5% are classed as 'toss-up' states, those with a difference of over 10% are classed as 'solid'. </div>
+  </div>
+  <div class="ec-breakdown-footnote">States where the difference in poll numbers between Clinton and Trump is less than 5% are classed as 'toss-up' states, those with a difference of over 10% are classed as 'solid'. </div>
 </div>
 {% endmacro %}
 
@@ -40,7 +44,7 @@
 <html>
     <head>
         <tite> {{ title }} </tite>
-        
+
 <link rel="stylesheet" href="https://origami-build.ft.com/v2/bundles/css?modules=o-grid@^4.2.1">
 <link rel="stylesheet" href="g-ui/main.css">
 <link rel="stylesheet" href="main.css">
@@ -50,6 +54,6 @@
         <article class="article" itemscope itemtype="http://schema.org/Article">
         <div>
         {{ECBreakdown(layout)}}
-        </div>    
+        </div>
     </body>
 </html>

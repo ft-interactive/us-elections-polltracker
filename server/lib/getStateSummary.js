@@ -3,8 +3,7 @@
  */
 
 import { scaleThreshold } from 'd3-scale';
-
-import { marginThreshold } from './national-count';
+import { category } from './margin-category';
 import getStateCounts from './state-counts';
 
 /**
@@ -15,7 +14,7 @@ import getStateCounts from './state-counts';
 export default async function getStateSummary(state) {
   const stateCounts = await getStateCounts();
   const margin = stateCounts[state.code].margin;
-  const marginClass = marginThreshold(margin);
+  const marginClass = category(margin);
 
   let text;
 
@@ -45,7 +44,7 @@ export default async function getStateSummary(state) {
 }
 
 export function getVoteClass(stateCode, stateCounts) {
-  return marginThreshold(stateCounts[stateCode].margin);
+  return category(stateCounts[stateCode].margin);
 }
 
 export async function getECVoteScales() {
