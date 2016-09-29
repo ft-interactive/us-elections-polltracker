@@ -1,10 +1,32 @@
-var width=600;
+var width = 600;
 var barHeight = 20;
 var barGap = 5;
 var height = 3*(barHeight+barGap);
 
 // create data binding
 // and add listeners
+
+//add the results SVG
+d3.select('#calculation-result')
+    .append('svg')
+        .attr('class','calculation-chart')
+        .attr('width',width)
+        .attr('height',height)
+        .attr('viewBox','0 0 '+width+' '+height);
+
+//add reset button
+d3.select('#calculation-result')
+    .append('a')
+    .text('reset')
+    .on('click',function(){
+        rebindData();
+        reclassTable();
+        showTotals();
+    });
+    
+rebindData();
+showTotals();
+
 
 function rebindData(){
     d3.selectAll('tr.statelist-staterow')
@@ -23,27 +45,6 @@ function rebindData(){
                 });
         });
 }
-
-rebindData();
-//add the results SVG
-d3.select('#calculation-result')
-    .append('svg')
-        .attr('class','calculation-chart')
-        .attr('width',width)
-        .attr('height',height)
-        .attr('viewBox','0 0 '+width+' '+height);
-
-//add reset button
-d3.select('#calculation-result')
-    .append('a')
-    .text('reset')
-    .on('click',function(){
-        rebindData();
-        reclassTable();
-        showTotals();
-    });
-
-showTotals();
 
 function setState(stateCode, newPosition){
     var selection = d3.selectAll('tr.statelist-staterow')
@@ -69,6 +70,7 @@ function reclassTable(){
 function showTotals(){
     var barHeight = 20;
     var total = calculateTotals( d3.selectAll('tr.statelist-staterow').data() );
+    
     function win(n){ return n>269; }
 
     var tickSelection = d3.select('svg.calculation-chart').selectAll('g.tick')
@@ -141,5 +143,3 @@ function calculateTotals(data){
         return previous;
     },{dem:0, rep:0, swing:0});
 }
-
-var totals = calculateTotals( d3.selectAll('tr.statelist-staterow').data() );
