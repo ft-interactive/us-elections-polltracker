@@ -1,23 +1,30 @@
-var width=600, barHeight = 20, barGap = 5;
-var height = 3*barHeight+barGap;
+var width=600;
+var barHeight = 20;
+var barGap = 5;
+var height = 3*(barHeight+barGap);
 
 // create data binding
 // and add listeners
-d3.selectAll('tr.statelist-staterow')
-    .each(function(){
-        var row = d3.select(this);
-        row.datum( Object.assign({}, this.dataset) );
 
-        row.selectAll('.switch-button')
-            .on('click', function(){
-                var switchPosition = d3.select(this).attr('data-position');
-                d3.event.preventDefault();
-                setState(row.datum().statecode, switchPosition);
-                showTotals();
-                return false;
-            });
-    });
+function rebindData(){
+    d3.selectAll('tr.statelist-staterow')
+        .each(function(){
+            var row = d3.select(this);
+            row.datum( Object.assign({}, this.dataset) );
 
+            row.selectAll('.switch-button')
+                .on('click', function(){
+                    var switchPosition = d3.select(this).attr('data-position');
+                    d3.event.preventDefault();
+                    setState(row.datum().statecode, switchPosition);
+                    reclassTable();
+                    showTotals();
+                    return false;
+                });
+        });
+}
+
+rebindData();
 //add the results SVG
 d3.select('#calculation-result')
     .append('svg')
@@ -25,6 +32,16 @@ d3.select('#calculation-result')
         .attr('width',width)
         .attr('height',height)
         .attr('viewBox','0 0 '+width+' '+height);
+
+//add reset button
+d3.select('#calculation-result')
+    .append('a')
+    .text('reset')
+    .on('click',function(){
+        rebindData();
+        reclassTable();
+        showTotals();
+    });
 
 showTotals();
 
@@ -36,10 +53,18 @@ function setState(stateCode, newPosition){
 
     selection.datum()
         .classification = newPosition;
-    //update row styles
-    selection.classed('statelist-swing statelist-dem statelist-rep statelist-leaningDem statelist-leaningRep',false);
-    selection.classed('statelist-'+newPosition, true);
 };
+
+function reclassTable(){
+    d3.selectAll('.statelist-staterow')
+        .each(function(d){
+            d3.select(this)
+                .classed('statelist-swing statelist-dem statelist-rep statelist-leaningDem statelist-leaningRep', false)
+                .classed('statelist-'+d.classification, true);                
+        })
+
+
+}
 
 function showTotals(){
     var barHeight = 20;
@@ -70,7 +95,7 @@ function showTotals(){
     barSelection.enter()
         .append('g')
             .attr('class','calculation-chart--bar')
-            .attr('transform', function(d,i){return 'translate(0,' + (i * barHeight) + ')'; })
+            .attr('transform', function(d,i){return 'translate(0,' + (i * (barHeight+barGap)) + ')'; })
         .call(function(parent){
             parent.append('rect')
                 .attr('height', barHeight)
