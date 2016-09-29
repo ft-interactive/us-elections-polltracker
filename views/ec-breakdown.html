@@ -17,11 +17,7 @@
         {% for state in layout.stateGroups[group] %}
           <a href="{{ state.code | statePollPageURL }}" class="o-grid-row o-grid-row--compact ec-breakdown-row">
               <div data-o-grid-colspan="2 S4 M3 L4" class="ec-breakdown-statelabel">
-              {%- if (layout.groupNames[group] == 'Toss-up') -%}
-              {{ state.code | stateShortname }}
-              {%- else -%}
-              {{ state.code }}
-              {%- endif -%}
+              {{ state.code | stateShortname({'NH': 'NH', 'RI': 'RI', 'WV': 'W.Va', 'SC': 'S.Car'}) }}
               </div>
               <div data-o-grid-colspan="10 S8 M9 L8" class="ec-breakdown-bar-container">
                 <div style="width:{{ state.barPct }}%; background-color:{{ color[group] }};" class="ec-breakdown-bar">
