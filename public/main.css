@@ -697,6 +697,23 @@ span.national-bar-container-values {
   text-decoration: underline;
 }
 
+.statelist-switch{
+  min-width: 80px;
+}
+
+.dem-margin-cell{
+  color:#579dd5;
+}
+
+.rep-margin-cell{
+  color:#e03d46;
+}
+
+.tie-margin-cell{
+  color: #000;
+}
+
+
 .statelist-catLabel {
   color: white;
   width: 20px;
