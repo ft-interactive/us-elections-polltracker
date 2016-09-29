@@ -5,19 +5,21 @@
 //add the results SVG
 
 
+
+    
+rebindData();
+showTotals();
+
 //add reset button
 d3.select('#calculation-result')
+    .append('div')
     .append('a')
-    .text('reset')
+    .text('RESET')
     .on('click',function(){
         rebindData();
         reclassTable();
         showTotals();
     });
-    
-rebindData();
-showTotals();
-
 
 function rebindData(){
     d3.selectAll('tr.statelist-staterow')
@@ -80,12 +82,13 @@ function showTotals(){
     d3.select('svg.calculation-chart')
         .attr('width', size.width);
 
-    var tickSelection = d3.select('svg.calculation-chart').selectAll('g.tick')
+    var tickSelection = d3.select('svg.calculation-chart').selectAll('rect.tick')
         .data([270])
 
-    tickSelection.enter().append('g')
-        .attr('class','tick')
+    tickSelection.enter()
         .append('rect')
+            .attr('class','tick')
+        .merge(tickSelection).transition()
             .attr('x',0)
             .attr('y',0)
             .attr('width',barScale)
@@ -152,3 +155,19 @@ function calculateTotals(data){
         return previous;
     },{dem:0, rep:0, swing:0});
 }
+
+var debounce = function(fn, timeout) {
+  var timeoutID = -1;
+  return function() {
+    if (timeoutID > -1) {
+      window.clearTimeout(timeoutID);
+    }
+    timeoutID = window.setTimeout(fn, timeout);
+  }
+};
+
+var drawChart = debounce(function() {
+  showTotals();
+}, 125); //but wait atleast 125 ms before repeating this function
+
+d3.select(window).on('resize', drawChart);

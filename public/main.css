@@ -743,6 +743,15 @@ span.national-bar-container-values {
   background-image: url("ui/dem-off.png");
 }
 
+.statelist-dem .switch-button.swing,
+.statelist-rep .switch-button.swing{
+  background-image: url("ui/swing-off.png");
+}
+
+.statelist-swing .switch-button.swing{
+  background-image: url("ui/swing-on.png");
+}
+
 .statelist-dem .switch-button.dem{
   background-image: url("ui/dem-on.png");
 }
@@ -762,7 +771,7 @@ span.national-bar-container-values {
 }
 
 .statelist-stateLabel {
-  margin-left: 25px;
+  margin-left: 0px;
   color: #333;
 }
 
@@ -806,7 +815,7 @@ span.national-bar-container-values {
     text-align: right;
     padding-left: 0;
     padding-right: 0;
-    width: 140px;
+    width: 80px;
     min-width: 80px;
   }
 
