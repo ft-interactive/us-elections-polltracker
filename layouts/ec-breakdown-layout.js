@@ -67,7 +67,7 @@ export default function (stateLookup) {
   }, {});
 
   return {
-    title: 'Where are the battleground states?',
+    title: null,
     standalone: true,
     fontless: true,
     order: categoryOrder,

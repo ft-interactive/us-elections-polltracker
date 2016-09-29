@@ -188,7 +188,7 @@
 
 .rail__state-list__nationalMap{
   margin-top: 10px;
-  width: 93%;
+  width: 90%;
   display: inline-block;
 }
 
@@ -583,7 +583,7 @@ span.national-bar-container-values {
 
 @media (max-width: 580px) {
   #national-bar-wrapper {
-    margin: 3em 0 1em;
+    margin: 2em 0 1em;
   }
 }
 
@@ -1271,7 +1271,7 @@ tbody .state-winners-table__year {
 /* electoral college breakdown*/
 
 .ec-breakdown-container {
-  margin-top: 0.5em;
+  margin-top: 1.75em;
   padding-bottom: 1em;
   border-bottom: 1px solid #cec6b9;
 }
@@ -1279,7 +1279,7 @@ tbody .state-winners-table__year {
 .ec-breakdown-bar{
      display:inline-block;
      background-color:#000;
-     height:15px;
+     height:13px;
      color:#FFF;
 }
 
@@ -1287,9 +1287,13 @@ tbody .state-winners-table__year {
     padding-left: 3px;
 }
 
-.ec-breakdown-row{
+.ec-breakdown-row {
     height:15px;
     margin-bottom: 1px;
+}
+
+a.ec-breakdown-row {
+  border: none;
 }
 
 .ec-breakdown-header {
@@ -1301,18 +1305,20 @@ tbody .state-winners-table__year {
     padding: 4px 0;
     margin-bottom: 8px;
     border-bottom: 1px solid #555555;
+    white-space: nowrap;
 }
 .ec-breakdown-column:nth-child(3) .ec-breakdown-header {
     border-top: 1px solid #999999;
 }
 
 .ec-breakdown-statelabel {
-    overflow:visible;
-    text-align: right;
-    padding: 0px;
-    font-size: 13px;
-    color: #333333;
+  overflow:visible;
+  text-align: right;
+  padding: 0 4px 0 0;
+  font-size: 13px;
+  color: #333333;
 }
+
 .ec-breakdown-row:not(.ec-breakdown-header):hover .ec-breakdown-statelabel span{
   text-decoration: none;
   cursor: pointer;
@@ -1324,6 +1330,14 @@ tbody .state-winners-table__year {
   font-feature-settings: "tnum";
   color: #333333;
   font-size: 13px;
+  position:absolute;
+  right: 2px;
+  top: 0;
+  line-height: 13px;
+}
+
+.ec-breakdown-bar-label--wob {
+  color: #ffffff;
 }
 
 .Toss-up {
@@ -1350,6 +1364,11 @@ tbody .state-winners-table__year {
 }
 
 @media (max-width: 490px) {
+
+  .ec-breakdown-container {
+    margin-top: 0.5em;
+  }
+
   .Toss-up {
     margin: 0;
   }
