@@ -31,7 +31,9 @@ function rebindData(){
                 .on('click', function(){
                     var switchPosition = d3.select(this).attr('data-position');
                     d3.event.preventDefault();
+                    if(row.datum().classification === switchPosition) switchPosition = 'swing';
                     setState(row.datum().statecode, switchPosition);
+
                     reclassTable();
                     showTotals();
                     return false;
