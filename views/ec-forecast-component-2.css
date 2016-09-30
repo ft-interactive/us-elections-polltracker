@@ -169,6 +169,14 @@
 	position: relative;
 }
 
+{{ ancestorSelector }} .ec-forecast-component__link:hover .ec-forecast-component__title > span {
+	border-bottom: 1px dotted transparent;
+}
+
+{{ ancestorSelector }} .ec-forecast-component__link:hover .ec-forecast-component__title > span {
+	border-color: #555;
+}
+
 {{ ancestorSelector }} .ec-forecast-component__link:hover .ec-forecast-component__faux-link {
 	color: #333;
 }
@@ -190,4 +198,28 @@
 {{ ancestorSelector }} .ec-forecast-component__link:hover .ec-forecast-component__faux-link:after {
 	background-image: url('//image.webservices.ft.com/v1/images/raw/fticon:arrow-right?width=100&format=png&source=ig&tint=%23333333,%23333333');
 	background-image: url('//image.webservices.ft.com/v1/images/raw/fticon:arrow-right?format=svg&source=ig&tint=%23333333,%23333333'), none;
+}
+
+{{ ancestorSelector }} .ec-forecast-component__tweet-button {
+	display: block;
+	height: 25px;
+	width: 25px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	border-radius: 25px;
+
+	border: 1px solid #e9decf;
+
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMTMgLTEwMyA0MCA0MCI+PHBhdGggZmlsbD0iI2E3YTU5YiIgZD0iTS04MS44NjItODkuNzg2Yy0uODIuMzU3LTEuNy42LTIuNjI0LjcwOC45NDMtLjU1NiAxLjY2OC0xLjQzNiAyLjAxLTIuNDgzLS44ODMuNTEtMS44NjIuODgtMi45MDIgMS4wOC0uODMzLS44Ny0yLjAyLTEuNDItMy4zMzctMS40Mi0yLjUyMyAwLTQuNTcgMi4wMS00LjU3IDQuNDkgMCAuMzUuMDQuNjkuMTE4IDEuMDItMy44LS4xOS03LjE2Ny0xLjk3OC05LjQyLTQuNjktLjM5NC42Ni0uNjIgMS40My0uNjIgMi4yNiAwIDEuNTUuODA3IDIuOTMgMi4wMzMgMy43My0uNzUtLjAyNS0xLjQ1NC0uMjI4LTIuMDctLjU2di4wNTRjMCAyLjE3NiAxLjU3MyAzLjk5IDMuNjY3IDQuNC0uMzg0LjEwNC0uNzkuMTYtMS4yMDQuMTYtLjMgMC0uNTgtLjAyNy0uODYtLjA4LjU4IDEuNzgyIDIuMjcgMy4wOCA0LjI3IDMuMTE2LTEuNTcgMS4yMDUtMy41NCAxLjkyMy01LjY4IDEuOTIzLS4zNyAwLS43NC0uMDI2LTEuMDktLjA2NyAyLjAyIDEuMjcyIDQuNDIgMi4wMTUgNyAyLjAxNSA4LjQgMCAxMy02Ljg0IDEzLTEyLjc3IDAtLjE5NC0uMDA3LS4zOS0uMDE4LS41OC44OS0uNjMzIDEuNjY1LTEuNDI1IDIuMjgtMi4zMjV6Ii8+PC9zdmc+);
+}
+
+{{ ancestorSelector }} .ec-forecast-component__tweet-button:hover {
+  opacity: 1;
+  background-color: #e9decf;
+}
+
+{{ ancestorSelector }} .ec-forecast-component__tweet-button:active {
+	background-color: #dbcebd;
+	border-color: #dbcebd;
 }
