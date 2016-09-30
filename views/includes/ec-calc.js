@@ -2,9 +2,12 @@
 // create data binding
 // and add listeners
 //add the results SVG
-    
+
+
 rebindData();
+var originalValues = calculateTotals( d3.selectAll('tr.statelist-staterow').data() );
 showTotals();
+
 
 //add reset button
 d3.select('#calculation-result')
@@ -63,7 +66,7 @@ function reclassTable(){
 }
 
 function showTotals(){
-    var barHeight = 15;
+    var barHeight = 20;
     var barGap = 5;
     var height = 3*(barHeight+barGap)-barGap;
     var size = d3.select('#calculation-result').node().getBoundingClientRect();
@@ -85,21 +88,26 @@ function showTotals(){
         .attr('width', size.width);
 
     var tickSelection = d3.select('svg.calculation-chart').selectAll('rect.tick')
-        .data([270])
+        .data([270,270,270])
 
     tickSelection.enter()
         .append('rect')
             .attr('class','tick')
         .merge(tickSelection).transition()
             .attr('x',0)
-            .attr('y',0)
+            .attr('y',function(d,i){
+                return (i * (barHeight+barGap));
+            })
             .attr('width',barScale)
-            .attr('height',height)
+            .attr('height',barHeight)
             .attr('fill','#f6e9d8');
+    
+    
+    console.log(originalValues);
 
-    var result = [{ label: 'Clinton', value: total.dem, winner: win(total.dem), color: '#579DD5' },
-            { label: 'Trump', value: total.rep, winner: win(total.rep), color: '#e03d46' },
-            { label: 'Up for grabs', value: total.swing, winner: false, color: '#fcc83c' },];
+    var result = [{ label: 'Clinton', value: total.dem, winner: win(total.dem), color: '#579DD5', addition:(total.dem - originalValues.dem), },
+            { label: 'Trump', value: total.rep, winner: win(total.rep), color: '#e03d46', addition:(total.rep - originalValues.rep) },
+            { label: 'Up for grabs', value: total.swing, winner: false, color: '#fcc83c', addition:0 }];
 
     var barSelection = d3.select('svg.calculation-chart')
         .selectAll('g.calculation-chart--bar')
@@ -117,7 +125,7 @@ function showTotals(){
         .call(function(parent){
             parent.append('rect')
                 .attr('height', barHeight)
-                .attr('fill',function(d){ return d.color; });
+                .attr('fill', function(d){ return d.color; });
 
             parent.append('text')
                 .attr('class', 'calculation-chart--name')
@@ -126,6 +134,11 @@ function showTotals(){
             parent.append('text')
                 .attr('class','calculation-chart--value')
                 .attr('dy', barHeight-4);
+            
+            parent.append('text')
+                .attr('class','calculation-chart--addition')
+                .attr('dy', barHeight-4);
+
         })
         .merge(barSelection)
         .transition()
@@ -139,16 +152,19 @@ function showTotals(){
                 });
 
             parent.select('text.calculation-chart--value')
-                .attr('dx', function(d,i){ return Math.max(barScale(d.value), barScale(270))+4; })
+                .attr('dx', function(d,i){ return Math.max(barScale(d.value), 140)-4; })
+                .attr('text-anchor','end')
                 .text(function(d){ return d.value; });
 
             parent.select('text.calculation-chart--name')
-                .attr('dx', function(d,i){ 
-                    return Math.max(barScale(d.value), barScale(270)) + 30; 
-                })
+                .attr('dx', 2)
                 .text(function(d){
-                    if(d.winner) return d.label + ' wins!';  
-                    return d.label; });
+                    if(d.winner) return (d.label + ' wins!').toUpperCase();  
+                    return d.label.toUpperCase(); });
+
+            parent.select('text.calculation-chart--addition')
+                .attr('dx', function(d,i){ return Math.max(barScale(d.value), 140)+10; })
+                .text(function(d){ if (d.addition) return '(' + sign(d.addition) + ')'; });
         });
 }
 
@@ -194,6 +210,11 @@ function throttle(func, wait, options) {
     });
 }
 
+function sign(n){
+    if(n>0) return '+' + String(n);
+    return String(n);
+}
+
 var drawChart = debounce(function() {
   showTotals();
 }, 125); //but wait atleast 125 ms before repeating this function
@@ -202,11 +223,16 @@ function stick(){
     var position = d3.select('.sticky').node().getBoundingClientRect();
     var parentPosition = d3.select('#statelist-table').node().getBoundingClientRect();
     if(parentPosition.bottom > 0 && parentPosition.top >= 0 || parentPosition.bottom < 0){
-        d3.select('.sticky').classed('stuck',false);
+        d3.select('.sticky')
+            .classed('stuck',false)
+            .style('height', null)
+            .style('width', null);
+
         d3.select('#placeholder')
             .style('display','none');
     }else{
-        d3.select('.sticky').classed('stuck',true)
+        d3.select('.sticky')
+            .classed('stuck',true)
             .style('height', position.height + 'px')
             .style('width', position.width + 'px');
         

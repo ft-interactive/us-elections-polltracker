@@ -714,10 +714,14 @@ span.national-bar-container-values {
   padding-left:25px;
 }
 
+th.statelist-switch{
+  text-align: center;
+  margin:auto;
+}
+
 .statelist-switch{
-  width:150px;
   text-align:center;
-  min-width: 80px;
+  min-width: 150px;
 }
 
 .dem-margin-cell{
