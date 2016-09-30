@@ -742,6 +742,16 @@ th.statelist-switch{
   background-color: #fff1e0; 
 }
 
+.calculation-chart--name,
+.calculation-chart--value{
+  fill:#FFF;
+}
+
+.calculation-chart--addition{
+  fill:#333;
+  font-weight: bold;
+}
+
 .sticky{
   z-index: 1000; /* :( */
 }
