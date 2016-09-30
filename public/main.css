@@ -739,7 +739,7 @@ span.national-bar-container-values {
 }
 
 .sticky{
-
+  z-index: 1000; /* :( */
 }
 
 .stuck{

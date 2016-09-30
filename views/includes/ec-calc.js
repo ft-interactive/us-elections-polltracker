@@ -203,11 +203,17 @@ function stick(){
     var parentPosition = d3.select('#statelist-table').node().getBoundingClientRect();
     if(parentPosition.bottom > 0 && parentPosition.top >= 0 || parentPosition.bottom < 0){
         d3.select('.sticky').classed('stuck',false);
-        d3.select('#placeholder').style('display','none');
+        d3.select('#placeholder')
+            .style('display','none');
     }else{
-        d3.select('.sticky').classed('stuck',true);
-        d3.select('#placeholder').style('display','block')
-        d3.select('#placeholder').style('height', position.height + 'px');
+        d3.select('.sticky').classed('stuck',true)
+            .style('height', position.height + 'px')
+            .style('width', position.width + 'px');
+        
+        d3.select('#placeholder')
+            .style('display','block')
+            .style('height', position.height + 'px')
+            .style('width', position.width + 'px');
     }
 };
 
