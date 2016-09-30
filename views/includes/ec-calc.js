@@ -1,11 +1,7 @@
 
 // create data binding
 // and add listeners
-
 //add the results SVG
-
-
-
     
 rebindData();
 showTotals();
@@ -22,7 +18,6 @@ d3.select('#calculation-result')
     });
 
 function rebindData(){
-
     d3.selectAll('tr.statelist-staterow')
         .each(function(){
             var row = d3.select(this);
@@ -100,13 +95,20 @@ function showTotals(){
             .attr('height',height)
             .attr('fill','#f6e9d8');
 
+    var result = [{ label: 'Clinton', value: total.dem, winner: win(total.dem), color: '#579DD5' },
+            { label: 'Trump', value: total.rep, winner: win(total.rep), color: '#e03d46' },
+            { label: 'Up for grabs', value: total.swing, winner: false, color: '#fcc83c' },];
+
     var barSelection = d3.select('svg.calculation-chart')
         .selectAll('g.calculation-chart--bar')
-        .data([
-            { label: 'Clinton', value: total.dem, winner: win(total.dem), color: '#579DD5' },
-            { label: 'Trump', value: total.rep, winner: win(total.rep), color: '#e03d46' },
-            { label: 'Up for grabs', value: total.swing, winner: false, color: '#fcc83c' },
-        ]);
+        .data(result);
+
+    var victory = result.reduce(function(previous,current){
+        if(current.winner) return current.label;
+        return previous
+    },false);
+
+    console.log(victory);
 
     barSelection.enter()
         .append('g')
@@ -129,7 +131,12 @@ function showTotals(){
         .transition()
         .call(function(parent){
             parent.select('rect')
-                .attr('width', function(d,i){ return barScale(d.value); });
+                .attr('width', function(d,i){ return barScale(d.value); })
+                .attr('fill-opacity',function(d){
+                    if(!victory) return 1;
+                    if(d.label === victory) return 1;
+                    if(d.label !== victory) return 0.3;
+                });
 
             parent.select('text.calculation-chart--value')
                 .attr('dx', function(d,i){ return Math.max(barScale(d.value), barScale(270))+4; })

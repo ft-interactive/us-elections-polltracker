@@ -1726,3 +1726,10 @@ a.ec-breakdown-row {
     }
   }
 }
+
+.fixed {
+    display: block;
+    position: fixed;
+    top: 5px;
+    width:80%;
+}
