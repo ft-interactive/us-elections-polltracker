@@ -641,7 +641,7 @@ span.national-bar-container-values {
 }
 
 #statelist-table {
-  max-width: 478px;
+  max-width: 500px;
   margin: 0 auto;
   color: #333;
 }
@@ -724,46 +724,61 @@ span.national-bar-container-values {
 
 .switch-button{
   display: inline-block;
-  width: 16px;
+  width: 50px;
   height: 16px;
   background-size: 100%;
-  text-indent: 100%;
+  margin: 0 4px;
+  padding: 3px;
+  border-radius: 2px;
+  /*text-indent: 100%;*/
   white-space: nowrap;
-  overflow: hidden;
+  /*overflow: hidden;*/
   border-bottom: none;
 }
 
 .statelist-dem .switch-button.rep,
 .statelist-leaningDem .switch-button.rep,
 .statelist-swing .switch-button.rep{
-  background-image: url("ui/rep-off.png"); 
+  /*background-image: url("ui/rep-off.png"); */
+  background-color: white;
+  border: 2px solid red;
+  color: red;
 }
 
 .statelist-rep .switch-button.dem,
 .statelist-leaningRep .switch-button.dem,
 .statelist-swing .switch-button.dem{
-  background-image: url("ui/dem-off.png");
+  /*background-image: url("ui/dem-off.png");*/
+  background-color: white;
+  border: 2px solid blue;
+  color: blue;
 }
 
 .statelist-dem .switch-button.swing,
 .statelist-leaningRep .switch-button.swing,
 .statelist-leaningDem .switch-button.swing,
 .statelist-rep .switch-button.swing{
-  background-image: url("ui/swing-off.png");
+  /*background-image: url("ui/swing-off.png");*/
 }
 
 .statelist-swing .switch-button.swing{
-  background-image: url("ui/swing-on.png");
+  /*background-image: url("ui/swing-on.png");*/
 }
 
 .statelist-dem .switch-button.dem,
 .statelist-leaningDem .switch-button.dem{
-  background-image: url("ui/dem-on.png");
+  /*background-image: url("ui/dem-on.png");*/
+  background-color: blue;
+  border: 2px solid blue;
+  color: white;
 }
 
 .statelist-rep .switch-button.rep,
 .statelist-leaningRep .switch-button.rep{
-  background-image: url("ui/rep-on.png");
+  /*background-image: url("ui/rep-on.png");*/
+  background-color: red;
+  border: 2px solid red;
+  color: white;
 }
 
 
