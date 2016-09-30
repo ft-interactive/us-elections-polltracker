@@ -177,14 +177,39 @@ var debounce = function(fn, timeout) {
   }
 };
 
+function throttle(func, wait, options) {
+    var leading = true,
+        trailing = true;
+    if (typeof func != 'function') {
+        throw new TypeError(FUNC_ERROR_TEXT);
+    }
+    if (isObject(options)) {
+        leading = 'leading' in options ? !!options.leading : leading;
+        trailing = 'trailing' in options ? !!options.trailing : trailing;
+    }
+    return debounce(func, wait, {
+        'leading': leading,
+        'maxWait': wait,
+        'trailing': trailing
+    });
+}
+
 var drawChart = debounce(function() {
   showTotals();
 }, 125); //but wait atleast 125 ms before repeating this function
 
-var stick = debounce(function(d){
-    console.log('d',d)
-    console.log('scroll',document.documentElement.scrollTop);
-})
+function stick(){
+    var position = d3.select('.sticky').node().getBoundingClientRect();
+    var parentPosition = d3.select('#statelist-table').node().getBoundingClientRect();
+    if(parentPosition.bottom > 0 && parentPosition.top >= 0 || parentPosition.bottom < 0){
+        d3.select('.sticky').classed('stuck',false);
+        d3.select('#placeholder').style('display','none');
+    }else{
+        d3.select('.sticky').classed('stuck',true);
+        d3.select('#placeholder').style('display','block')
+        d3.select('#placeholder').style('height', position.height + 'px');
+    }
+};
 
 d3.select(window).on('resize', drawChart);
 d3.select(window).on('scroll', stick);

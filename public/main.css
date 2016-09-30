@@ -734,6 +734,24 @@ span.national-bar-container-values {
   color: #000;
 }
 
+#calculation-result{
+  background-color: #fff1e0; 
+}
+
+.sticky{
+
+}
+
+.stuck{
+  position: fixed;
+  top:0px;
+  width:100%;
+}
+
+.unstuck{
+
+}
+
 .switch-button{
   display: inline-block;
   width: 50px;
