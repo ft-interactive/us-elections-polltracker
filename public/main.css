@@ -710,6 +710,10 @@ span.national-bar-container-values {
   text-decoration: underline;
 }
 
+#statelist td.statelist-state{
+  padding-left:25px;
+}
+
 .statelist-switch{
   width:150px;
   text-align:center;
