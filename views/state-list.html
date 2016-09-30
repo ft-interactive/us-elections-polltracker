@@ -6,12 +6,7 @@
   {% call PageElements.Figure(title="The 270 calculator: does it all hinge on Florida?") %}
   <p>What will it take for Trump or Clinton to win? Are they giving us an accurate picture of of public voting intentions?</p>
   <!-- <p>The candidates are focusing their attention on states where the races are too close to call. These <span style="border-bottom:3px solid {{color.swing}}">toss-up states</span> are shown in the table below, showing the closest races first. You can see how the outcome of state elections affect the race for the presidency by clicking the buttons <img width="16px" height="16px" src="ui/dem-off.png"><img width="16px" height="16px" src="ui/swing-off.png"><img width="16px" height="16px" src="ui/rep-off.png">.</p> -->
-  <div class="o-grid-container">
-  <div class="o-grid-row">
-    <div data-o-grid-colspan="12" id="calculation-result">
-    </div>
-  </div>
-  </div>
+
   <div id="statelist-table">
     {% set row_num_collapse = 15 %}
     <div data-o-component="o-expander" class="o-expander items"
@@ -20,11 +15,18 @@
       data-o-expander-toggle-selector=".table-toggle-btn"
       data-o-expander-shrink-to="{{ row_num_collapse }}"
       data-o-expander-count-selector="tbody tr">
+      <div class="o-grid-container">
+      <div class="o-grid-row">
+        <div data-o-grid-colspan="12" id="calculation-result">
+        </div>
+      </div>
+      </div>
       <table>
       <thead>
           <th class="statelist-state"></th>
-          <th class="statelist-pollmargin" style="width:4px;padding-right:5px;">Poll margin</th>
-          <th class="statelist-switch" style="width:220px;text-align:center;">Pick a winner</th>
+          <th class="statelist-pollmargin" style="width:4px;padding-right:5px;">Dem lead</th>
+          <th class="statelist-switch" style="width:150px;text-align:center;">Pick a winner</th>
+          <th class="statelist-pollmargin" style="width:4px;padding-right:5px;">Rep lead</th>
           <th class="statelist-ecvotes" style="text-align:left">Electoral votes</th>
         </tr>
       </thead>
@@ -37,30 +39,32 @@
           data-statecode="{{ state.code | lower }}">
 
           <td class="statelist-state" style="text-align:right;">
-            <a href="{{ state | statePollPageURL }}"><div class="statelist-stateLabel">{{ state.fullname }}</div></a>
+            <span class="swing"></span>
+            <a href="{{ state | statePollPageURL }}">{{ state.fullname }}</a>
           </td>
 
-          <td class="statelist-pollmargin" style="width:4px;padding-right:5px;">
-            {%- if state.Clinton == null -%}
-            <span class="statelist-nodata"> - </span>
-            {%- else -%}
-              {% if state.margin > 0 %}
-              <span class="statelist-margin-cell dem-margin-cell">
-              {% elif state.margin == 0 %}
-              <span class="statelist-margin-cell tie-margin-cell">
-              {% else %}
-              <span class="statelist-margin-cell rep-margin-cell">
-              {% endif %}
-              +{{ state.margin | round1dp | replace('-', '') }}</span>
-            {%- endif -%}
+          {% if state.margin > 0 %}
+          <td class="statelist-pollmargin statelist-margin-cell dem-margin-cell" style="text-align:right;">
+              +{{ state.margin | round1dp | replace('-', '') }}
+          </td>
+          {%- else -%}
+          <td>&nbsp;</td>
+          {%- endif -%}
+
+
+          <td class="statelist-switch" style="width:150px;text-align:center;">
+            <a href="#" class="switch-button dem{% if state.margin > 0 %} leaning{% endif %}" data-position="dem">Clinton</a>
+
+            <a href="#" class="switch-button rep{% if state.margin < 0 %} leaning{% endif %}" data-position="rep">Trump</a>
           </td>
 
-
-          <td class="statelist-switch" style="width:220px;text-align:center;">
-            <a href="#" class="switch-button dem" data-position="dem">Clinton</a>
-
-            <a href="#" class="switch-button rep" data-position="rep">Trump</a>
+          {%- if state.margin < 0 -%}
+          <td class="statelist-pollmargin statelist-margin-cell rep-margin-cell" style="text-align:left;">
+              +{{ state.margin | round1dp | replace('-', '') }}
           </td>
+          {%- else -%}
+          <td>&nbsp;</td>
+          {%- endif -%}
 
           <td class="statelist-ecvotes" style="text-align:left">{{ state.ecVotes }}</td>
 
