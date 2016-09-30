@@ -108,8 +108,6 @@ function showTotals(){
         return previous
     },false);
 
-    console.log(victory);
-
     barSelection.enter()
         .append('g')
             .attr('class','calculation-chart--bar')
@@ -181,4 +179,10 @@ var drawChart = debounce(function() {
   showTotals();
 }, 125); //but wait atleast 125 ms before repeating this function
 
+var stick = debounce(function(d){
+    console.log('d',d)
+    console.log('scroll',document.documentElement.scrollTop);
+})
+
 d3.select(window).on('resize', drawChart);
+d3.select(window).on('scroll', stick);

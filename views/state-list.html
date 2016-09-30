@@ -16,18 +16,18 @@
       data-o-expander-shrink-to="{{ row_num_collapse }}"
       data-o-expander-count-selector="tbody tr">
       <div class="o-grid-container">
-      <div class="o-grid-row">
-        <div data-o-grid-colspan="12" id="calculation-result">
+      <div class="sticky">
+        <div id="calculation-result">
         </div>
       </div>
       </div>
       <table>
       <thead>
           <th class="statelist-state"></th>
-          <th class="statelist-ecvotes" style="text-align:left">Electoral votes</th>
-          <th class="statelist-pollmargin" style="width:4px;padding-right:5px;">Dem lead</th>
-          <th class="statelist-switch" style="width:150px;text-align:center;">Pick a winner</th>
-          <th class="statelist-pollmargin" style="width:4px;padding-right:5px;">Rep lead</th>
+          <th class="statelist-ecvotes" >Electoral votes</th>
+          <th class="statelist-pollmargin">Dem lead</th>
+          <th class="statelist-switch">Pick a winner</th>
+          <th class="statelist-pollmargin"Rep lead</th>
         </tr>
       </thead>
       <tbody class="o-expander__content">
@@ -38,13 +38,13 @@
           data-classification="{{ state.margin | marginCategory }}"
           data-statecode="{{ state.code | lower }}">
 
-          <td class="statelist-state" style="text-align:right;">
+          <td class="statelist-state">
             <div class="statelist-catLabel"></div>
             <a href="{{ state | statePollPageURL }}">{{ state.fullname }}</a>
           </td>
-          <td class="statelist-ecvotes" style="text-align:left">{{ state.ecVotes }}</td>
+          <td class="statelist-ecvotes">{{ state.ecVotes }}</td>
           {% if state.margin > 0 %}
-          <td class="statelist-pollmargin statelist-margin-cell dem-margin-cell" style="text-align:right;">
+          <td class="statelist-pollmargin statelist-margin-cell dem-margin-cell">
               +{{ state.margin | round1dp | replace('-', '') }}
           </td>
           {%- else -%}
@@ -52,14 +52,14 @@
           {%- endif -%}
 
 
-          <td class="statelist-switch" style="width:150px;text-align:center;">
+          <td class="statelist-switch">
             <a href="#" class="switch-button dem{% if state.margin > 0 %} leaning{% endif %}" data-position="dem">Clinton</a>
 
             <a href="#" class="switch-button rep{% if state.margin < 0 %} leaning{% endif %}" data-position="rep">Trump</a>
           </td>
 
           {%- if state.margin < 0 -%}
-          <td class="statelist-pollmargin statelist-margin-cell rep-margin-cell" style="text-align:left;">
+          <td class="statelist-pollmargin statelist-margin-cell rep-margin-cell">
               +{{ state.margin | round1dp | replace('-', '') }}
           </td>
           {%- else -%}

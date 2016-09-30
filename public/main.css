@@ -665,6 +665,7 @@ span.national-bar-container-values {
 }
 
 #statelist th.statelist-state {
+  text-align:right;
   padding-left: 0;
   width: 166px;
 }
@@ -676,13 +677,14 @@ span.national-bar-container-values {
 }
 
 #statelist .statelist-pollmargin {
-  text-align: right;
+  width:4px;
+  padding-right:5px;
   padding: 0;
   width: 0px;
 }
 
 #statelist th.statelist-ecvotes {
-  text-align: center;
+  text-align:left
   width: 102px;
   min-width: 102px;
   padding-right: 0;
@@ -709,15 +711,19 @@ span.national-bar-container-values {
 }
 
 .statelist-switch{
+  width:150px;
+  text-align:center;
   min-width: 80px;
 }
 
 .dem-margin-cell{
   color:#579dd5;
+  text-align:right;
 }
 
 .rep-margin-cell{
   color:#e03d46;
+  text-align:left;
 }
 
 .tie-margin-cell{
@@ -845,7 +851,7 @@ span.national-bar-container-values {
 
 @media (max-width: 400px) {
   #statelist th.statelist-ecvotes {
-    text-align: center;
+    text-align:left
     min-width: 0px;
   }
 
@@ -855,11 +861,11 @@ span.national-bar-container-values {
   }
 
   #statelist .statelist-pollmargin {
+    width:4px;
+    padding-right:5px;
     text-align: right;
     padding-left: 0;
     padding-right: 0;
-    width: 80px;
-    min-width: 80px;
   }
 
 }
@@ -1725,11 +1731,4 @@ a.ec-breakdown-row {
       font-size: 1rem;
     }
   }
-}
-
-.fixed {
-    display: block;
-    position: fixed;
-    top: 5px;
-    width:80%;
 }
