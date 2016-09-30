@@ -24,10 +24,10 @@
       <table>
       <thead>
           <th class="statelist-state"></th>
+          <th class="statelist-ecvotes" style="text-align:left">Electoral votes</th>
           <th class="statelist-pollmargin" style="width:4px;padding-right:5px;">Dem lead</th>
           <th class="statelist-switch" style="width:150px;text-align:center;">Pick a winner</th>
           <th class="statelist-pollmargin" style="width:4px;padding-right:5px;">Rep lead</th>
-          <th class="statelist-ecvotes" style="text-align:left">Electoral votes</th>
         </tr>
       </thead>
       <tbody class="o-expander__content">
@@ -42,7 +42,7 @@
             <div class="statelist-catLabel"></div>
             <a href="{{ state | statePollPageURL }}">{{ state.fullname }}</a>
           </td>
-
+          <td class="statelist-ecvotes" style="text-align:left">{{ state.ecVotes }}</td>
           {% if state.margin > 0 %}
           <td class="statelist-pollmargin statelist-margin-cell dem-margin-cell" style="text-align:right;">
               +{{ state.margin | round1dp | replace('-', '') }}
@@ -66,12 +66,13 @@
           <td>&nbsp;</td>
           {%- endif -%}
 
-          <td class="statelist-ecvotes" style="text-align:left">{{ state.ecVotes }}</td>
+          
 
         </tr>
         {% endfor %}
       </tbody>
       </table>
+      <script src="stickyfill.min.js"></script>
       <script src="d3.v4.min.js"></script>
       <script>
         {% include "includes/ec-calc.js" %}
