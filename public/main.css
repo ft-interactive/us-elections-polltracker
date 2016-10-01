@@ -587,7 +587,7 @@ span.national-bar-container-values {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 490px) {
   .national-bar-legend-item {
     display: block;
     width: 100%;
