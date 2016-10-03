@@ -141,12 +141,19 @@ function timeseriesLayout(data, _opts) {
     }
     return null;
   });
+
   let tickInterval = 5;
-  if (rawExtent[1] - rawExtent[0] < 5) {
-    tickInterval = 1;
+  let extent;
+
+  if (opts.yAxisDomain) {
+    extent = [Number(opts.yAxisDomain.split('-')[0]), Number(opts.yAxisDomain.split('-')[1])];
+  } else {
+    if (rawExtent[1] - rawExtent[0] < 5) {
+      tickInterval = 1;
+    }
+    rawExtent = [rawExtent[0] - 1, rawExtent[1] + 1];
+    extent = roundExtent(rawExtent, tickInterval);
   }
-  rawExtent = [rawExtent[0] - 1, rawExtent[1] + 1];
-  const extent = roundExtent(rawExtent, tickInterval);
 
   const yScale = d3.scaleLinear()
     .domain(extent)

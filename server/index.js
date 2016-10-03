@@ -3,7 +3,6 @@ import lru from 'lru-cache';
 import babelify from 'express-babelify-middleware';
 import slashes from 'connect-slashes';
 import * as nunjucks from './nunjucks';
-import ecForecastComponentController from './controllers/ec-forecast-component';
 import ecForecastComponentController2 from './controllers/ec-forecast-component-2';
 import layoutForecastMap from '../layouts/forecast-map-layout';
 import nationalController from './controllers/national';
@@ -146,7 +145,6 @@ app.get('/:state-polls', stateController);
 app.get('/polls/:code', stateCodeRedirectController);
 
 // Create homepage widget of current forecasts
-app.get('/ec-forecast-component.:ext', ecForecastComponentController);
 app.get('/ec-forecast-component-2.:ext', ecForecastComponentController2);
 
 // Create electoral collecge breakdown
