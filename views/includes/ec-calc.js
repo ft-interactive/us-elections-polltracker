@@ -155,8 +155,7 @@ function showTotals(){
                 });
 
             parent.select('text.calculation-chart--value')
-                .attr('dx', function(d,i){ return Math.max(barScale(d.value), 140)-4; })
-                .attr('text-anchor','end')
+                .attr('dx', function(d,i){ return Math.max(barScale(d.value), barScale(270))+10; })
                 .text(function(d){ return d.value; });
 
             parent.select('text.calculation-chart--name')
@@ -166,7 +165,7 @@ function showTotals(){
                     return d.label.toUpperCase(); });
 
             parent.select('text.calculation-chart--addition')
-                .attr('dx', function(d,i){ return Math.max(barScale(d.value), 140)+10; })
+                .attr('dx', function(d,i){ return Math.max(barScale(d.value), barScale(270))+40; })
                 .text(function(d){ if (d.addition) return '(' + sign(d.addition) + ')'; });
         });
 }

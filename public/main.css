@@ -760,20 +760,22 @@ th.statelist-switch{
   background-color: #F6E9D8; 
 }
 
-.calculation-chart--name,
-.calculation-chart--value{
+.calculation-chart--name{
   fill:#FFF;
 }
 
-.calculation-chart--secondarytext .calculation-chart--name,
-.calculation-chart--secondarytext .calculation-chart--value{
+.calculation-chart--value{
+  font-weight: bold;
+   fill:#333; 
+}
+
+.calculation-chart--secondarytext .calculation-chart--name{
   fill:#333;
 }
 
 
 .calculation-chart--addition{
   fill:#333;
-  font-weight: bold;
 }
 
 .sticky{
