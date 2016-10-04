@@ -207,6 +207,9 @@ var drawChart = debounce(function() {
 function stick(){
     var position = d3.select('.sticky').node().getBoundingClientRect();
     var parentPosition = d3.select('#statelist-table').node().getBoundingClientRect();
+    var computedStyle = window.getComputedStyle(d3.select('#statelist-table').node());
+    var innerWidth =  parseInt(computedStyle.width);
+
     if(parentPosition.bottom > 0 && parentPosition.top >= 0 || parentPosition.bottom < 0){
         d3.select('.sticky')
             .classed('stuck',false)
@@ -220,8 +223,8 @@ function stick(){
     }else{
         d3.select('.sticky')
             .classed('stuck',true)
-            .style('height', (position.height-1) + 'px') //-1 becasue of the bottom border thickness 
-            .style('width', (parentPosition.width) + 'px');
+            .style('height', (position.height-1) + 'px'); //-1 becasue of the bottom border thickness 
+            //.style('width', Math.min(parentPosition.width, innerWidth) + 'px');
 
         d3.select('#placeholder')
             .style('display','block')
