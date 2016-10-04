@@ -69,8 +69,8 @@ const getPollAverageData = async (rcpURL, state, pollnumcandidates) => {
     const datapoint = datapoints[i];
     const polldate = datapoint.date;
 
-    if (!datapoint.candidate.every(record => record.value)) {
-      winston.log('warn', `Skipping inserting records for poll because one or more candidates have a null value: ${JSON.stringify(datapoint)}`);
+    if (datapoint.candidate.some(({ value }) => value === '' || value == null)) {
+      winston.log('warn', `Skipping inserting records for poll because one or more candidates are missing a value: ${JSON.stringify(datapoint)}`);
       continue; // eslint-disable-line no-continue
     }
 
