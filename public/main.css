@@ -780,12 +780,13 @@ th.statelist-switch{
 
 .sticky{
   z-index: 1000; /* :( */
-  margin-left: -20px;
+  /*margin-left: -20px;*/
   width:100%;
   border-bottom: 1px solid #cec6b9;
 }
 
 .stuck{
+  margin-left: -20px;
   position: fixed;
   top:0px;
   width:520px;

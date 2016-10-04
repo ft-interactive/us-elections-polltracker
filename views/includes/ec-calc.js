@@ -232,15 +232,18 @@ function stick(){
 
         d3.select('#placeholder')
             .style('display','none');
+
+        showTotals();
     }else{
         d3.select('.sticky')
             .classed('stuck',true)
-            .style('height', (position.height-1) + 'px') //-1 becasue of the bottom border thickness 
+            .style('height', (position.height-1) + 'px'); //-1 becasue of the bottom border thickness 
 
         d3.select('#placeholder')
             .style('display','block')
-            .style('height', position.height + 'px')
-            
+            .style('height', position.height + 'px');
+
+        showTotals();            
     }
 };
 
