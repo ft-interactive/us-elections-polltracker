@@ -154,12 +154,12 @@ const updateLastUpdatedDate = async () => {
   }
 };
 
-export default async () => {
+export default async (force = false) => {
   const start = Date.now();
 
+  await db.sequelize.sync({ force });
+
   await db.sequelize.transaction(async () => {
-    await db.sequelize.sync();
-    // await db.Pollaverages.sync({force: true}) // use this to drop table and recreate
 
     const allIds = stateIds.concat(nationalId);
 
