@@ -12,6 +12,7 @@ showTotals();
 //add reset button
 d3.select('#calculation-result')
     .append('div')
+    .attr('class','calculator-reset-button')
     .append('a')
     .text('RESET')
     .on('click',function(){
@@ -101,9 +102,6 @@ function showTotals(){
             .attr('width',barScale)
             .attr('height',barHeight)
             .attr('fill','#f6e9d8');
-    
-    
-    console.log(originalValues);
 
     var result = [{ label: 'Clinton', value: total.dem, winner: win(total.dem), color: '#579DD5', addition:(total.dem - originalValues.dem), },
             { label: 'Trump', value: total.rep, winner: win(total.rep), color: '#e03d46', addition:(total.rep - originalValues.rep) },
@@ -221,6 +219,7 @@ var drawChart = debounce(function() {
 
 function stick(){
     var position = d3.select('.sticky').node().getBoundingClientRect();
+    console.log(position.height);
     var parentPosition = d3.select('#statelist-table').node().getBoundingClientRect();
     if(parentPosition.bottom > 0 && parentPosition.top >= 0 || parentPosition.bottom < 0){
         d3.select('.sticky')
@@ -233,9 +232,8 @@ function stick(){
     }else{
         d3.select('.sticky')
             .classed('stuck',true)
-            .style('height', position.height + 'px')
-            .style('width', position.width + 'px');
-        
+            .style('height', (position.height-1) + 'px') //-1 becasue of the bottom border thickness 
+            //.style('width', position.width + 'px');
         d3.select('#placeholder')
             .style('display','block')
             .style('height', position.height + 'px')

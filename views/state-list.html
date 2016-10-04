@@ -49,7 +49,7 @@
               +{{ state.margin | round1dp | replace('-', '') }}
           </td>
           {%- else -%}
-          <td>&nbsp;</td>
+          <td class="statelist-pollmargin">&nbsp;</td>
           {%- endif -%}
 
 
@@ -73,7 +73,6 @@
         {% endfor %}
       </tbody>
       </table>
-      <script src="stickyfill.min.js"></script>
       <script src="d3.v4.min.js"></script>
       <script>
         {% include "includes/ec-calc.js" %}
