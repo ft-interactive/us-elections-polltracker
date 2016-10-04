@@ -184,6 +184,7 @@
 
 #rail__state-list__expander ul {
   margin-bottom: 6px;
+  overflow: hidden;
 }
 
 .rail__state-list__nationalMap{
@@ -587,7 +588,7 @@ span.national-bar-container-values {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 490px) {
   .national-bar-legend-item {
     display: block;
     width: 100%;
