@@ -642,7 +642,7 @@ span.national-bar-container-values {
 }
 
 #statelist-table {
-  max-width: 478px;
+  max-width: 510px;
   margin: 0 auto;
   color: #333;
 }
@@ -657,7 +657,6 @@ span.national-bar-container-values {
 }
 
 #statelist th {
-  text-align: left;
   font-weight: 400;
   text-transform: uppercase;
   font-size: 14px;
@@ -666,8 +665,9 @@ span.national-bar-container-values {
 }
 
 #statelist th.statelist-state {
-  padding-left: 35px;
-  width: 200px;
+  text-align:right;
+  padding-left: 0;
+  width: 166px;
 }
 
 #statelist td {
@@ -677,20 +677,23 @@ span.national-bar-container-values {
 }
 
 #statelist .statelist-pollmargin {
-  text-align: right;
-  padding-right: 50px;
-  width: 120px;
+  width:4px;
+  padding-right:5px;
+  padding: 0;
+  width: 0px;
 }
 
 #statelist th.statelist-ecvotes {
-  text-align: center;
+  text-align:left
   width: 102px;
   min-width: 102px;
   padding-right: 0;
+
 }
 
 #statelist td.statelist-ecvotes {
-  padding-right: 40px;
+  padding-right: 0;
+  padding-left: 0;
   text-align: right;
 }
 
@@ -707,6 +710,142 @@ span.national-bar-container-values {
   text-decoration: underline;
 }
 
+#statelist td.statelist-state{
+  padding-left:25px;
+}
+
+th.statelist-switch{
+  text-align: center;
+  margin:auto;
+}
+
+.statelist-switch{
+  text-align:center;
+  min-width: 150px;
+}
+
+.dem-margin-cell{
+  color:#579dd5;
+  text-align:right;
+}
+
+.rep-margin-cell{
+  color:#e03d46;
+  text-align:left;
+}
+
+.tie-margin-cell{
+  color: #000;
+}
+
+#calculation-result{
+  background-color: #fff1e0; 
+}
+
+.calculation-chart--name,
+.calculation-chart--value{
+  fill:#FFF;
+}
+
+.calculation-chart--addition{
+  fill:#333;
+  font-weight: bold;
+}
+
+.sticky{
+  z-index: 1000; /* :( */
+}
+
+.stuck{
+  position: fixed;
+  top:0px;
+  width:100%;
+}
+
+.unstuck{
+
+}
+
+.switch-button{
+  display: inline-block;
+  width: 50px;
+  height: 16px;
+  background-size: 100%;
+  margin: 0 4px;
+  padding: 3px;
+  line-height: 100%;
+  border-radius: 2px;
+  /*text-indent: 100%;*/
+  white-space: nowrap;
+  /*overflow: hidden;*/
+  border-bottom: none;
+}
+
+.statelist-dem .switch-button.rep,
+.statelist-leaningDem .switch-button.rep,
+.statelist-swing .switch-button.rep{
+  /*background-image: url("ui/rep-off.png"); */
+  background-color: white;
+  border: 2px solid #e03d46;
+  color: #e03d46;
+}
+
+.statelist-rep .switch-button.dem,
+.statelist-leaningRep .switch-button.dem,
+.statelist-swing .switch-button.dem{
+  /*background-image: url("ui/dem-off.png");*/
+  background-color: white;
+  border: 2px solid #3d8ed0;
+  color: #3d8ed0;
+}
+
+.statelist-dem .switch-button.swing,
+.statelist-leaningRep .switch-button.swing,
+.statelist-leaningDem .switch-button.swing,
+.statelist-rep .switch-button.swing{
+  /*background-image: url("ui/swing-off.png");*/
+}
+
+.swing {
+  display: inline-block;
+  opacity: 0;
+  font-size: 15px;
+  background-size: 100%;
+  margin: 0 4px;
+  padding: 3px;
+  border-radius: 100%;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: 0;
+  background-color: #fcc83c;
+  transition: opacity 0.2s linear;
+}
+
+.statelist-swing .swing{
+  opacity: 1;
+}
+
+
+
+.statelist-dem .switch-button.dem,
+.statelist-leaningDem .switch-button.dem{
+  /*background-image: url("ui/dem-on.png");*/
+  background-color: #3d8ed0 !important;
+  border: 2px solid #3d8ed0;
+  color: white;
+}
+
+
+.statelist-rep .switch-button.rep,
+.statelist-leaningRep .switch-button.rep{
+  /*background-image: url("ui/rep-on.png");*/
+  background-color: #e03d46 !important;
+  border: 2px solid #e03d46;
+  color: white;
+}
+
+
 .statelist-catLabel {
   color: white;
   width: 20px;
@@ -717,7 +856,7 @@ span.national-bar-container-values {
 }
 
 .statelist-stateLabel {
-  margin-left: 25px;
+  margin-left: 0px;
   color: #333;
 }
 
@@ -746,23 +885,10 @@ span.national-bar-container-values {
   color: #666;
 }
 
-@media (max-width: 400px) {
-  #statelist th.statelist-ecvotes {
-    text-align: center;
-    min-width: 0px;
-  }
-
-  #statelist td.statelist-ecvotes {
-    padding-right: 32px;
-    text-align: right;
-  }
+@media (max-width: 500px) {
 
   #statelist .statelist-pollmargin {
-    text-align: right;
-    padding-left: 0;
-    padding-right: 0;
-    width: 140px;
-    min-width: 80px;
+    display: none;
   }
 
 }
