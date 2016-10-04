@@ -17,7 +17,7 @@
         {% for state in layout.stateGroups[group] %}
           <a href="{{ state.code | statePollPageURL }}" class="o-grid-row o-grid-row--compact ec-breakdown-row">
               <div data-o-grid-colspan="2 S4 M3 L4" class="ec-breakdown-statelabel">
-              {{ state.code | stateShortname({'NH': 'NH', 'RI': 'RI', 'WV': 'W.Va', 'SC': 'S.Car'}) }}
+              {{ state.code | stateShortname({'NH': 'N.Hamp', 'RI': 'Rh.Isl', 'WV': 'W.Va', 'SC': 'S.Car', 'MD': 'Maryl', 'VT': 'Verm', 'IL': 'Illin', 'VA': 'Virg', 'NM': 'N.Mex', 'FL': 'Flori', 'MT': 'Mont', 'KY': 'Ken', 'LA': 'Louis', 'ND': 'N.Dak', 'SD': 'S.Dak', 'MO': 'Misso', 'MS': 'Missi', 'IN': 'Indi', 'ME': 'Maine*', 'NE': 'Nebr*'}) }}
               </div>
               <div data-o-grid-colspan="10 S8 M9 L8" class="ec-breakdown-bar-container">
                 <div style="width:{{ state.barPct }}%; background-color:{{ color[group] }};" class="ec-breakdown-bar">
