@@ -1395,6 +1395,19 @@ a.ec-breakdown-row {
   display: none;
 }
 
+.rail__state-list__nationalItems {
+  display: flex;
+  height: 232px;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.rail__state-list__logo {
+  padding: 0 1em;
+  border-bottom: none !important;
+}
+
 @media (max-width: 979px) {
   .nav___mobile-nav {
     display: flex;
@@ -1453,20 +1466,12 @@ a.ec-breakdown-row {
     text-transform: none !important;
   }
 
-  .nav___mobile-nav--back-to-overview .o-icons-icon {
-    height: 1em;
-    width: 2em;
-    display: inline-block;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: 50% 0;
-    background-color: transparent;
-    vertical-align: baseline;
+  .nav___mobile-nav--back-to-overview {
+    align-items: center;
   }
 
-  .nav___mobile-nav--back-to-overview .o-icons-icon.o-icons-icon--arrow-left {
-    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?source=o-icons&tint=%2327757B,%2327757B&format=svg);
-    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?source=o-icons&tint=%2327757B,%2327757B&format=png&width=14)\9;
+  .nav___mobile-nav--back-to-overview > img {
+    padding: 0 0.5em;
   }
 
   .article__aside {
@@ -1534,6 +1539,10 @@ a.ec-breakdown-row {
     opacity: 1;
   }
 
+  .rail__state-list__nationalItems {
+    height: 75px;
+  }
+
   .rail__content {
     border: 0;
     padding: 0 1.9em 1.9em 2em;
@@ -1569,12 +1578,6 @@ a.ec-breakdown-row {
     color: #545752;
   }
 
-  .rail__state-list__nationalItems {
-    display: flex;
-    height: 94px;
-    align-items: center;
-  }
-
   .rail__state-list__nationalLink {
     padding: 0;
     /*background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?source=o-icons&tint=%2327757B,%2327757B&format=svg);
@@ -1587,9 +1590,7 @@ a.ec-breakdown-row {
   }
 
   .rail__state-list__nationalMap {
-    width: 40%;
-    max-width: 130px;
-    margin-top: 24px;
+    display: none;
   }
 
   .rail__state-list__items .o-expander__content {
