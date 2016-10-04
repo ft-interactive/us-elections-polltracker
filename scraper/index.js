@@ -22,12 +22,6 @@ const getJSON = async url => {
 };
 
 const addPollAveragesToDatabase = async (polldate, candidate, value, state, pollnumcandidates) => {
-  console.log('>>>addPollAveragesToDatabase', { polldate, candidate, value, state, pollnumcandidates });
-
-  if (value === '') {
-    winston.log('warn', `No 'value' set in RCP data for pollaverage polldate "${polldate}", candidate "${candidate}", state "${state}, pollnumcandidates "${pollnumcandidates}""`);
-  }
-
   const res = await db.Pollaverages.findAll({
     where: {
       date: polldate,
@@ -74,6 +68,11 @@ const getPollAverageData = async (rcpURL, state, pollnumcandidates) => {
   for (let i = 0; i < datapoints.length; i += 1) {
     const datapoint = datapoints[i];
     const polldate = datapoint.date;
+
+    if (!datapoint.candidate.every(record => record.value)) {
+      winston.log('warn', `Skipping inserting records for poll because one or more candidates have a null value: ${JSON.stringify(datapoint)}`);
+      return;
+    }
 
     for (let j = 0; j < datapoint.candidate.length; j += 1) {
       const candidate = datapoint.candidate[j].name;
