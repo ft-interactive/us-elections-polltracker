@@ -771,6 +771,12 @@ th.statelist-switch{
   fill:#FFF;
 }
 
+.calculation-chart--secondarytext .calculation-chart--name,
+.calculation-chart--secondarytext .calculation-chart--value{
+  fill:#333;
+}
+
+
 .calculation-chart--addition{
   fill:#333;
   font-weight: bold;
