@@ -752,9 +752,7 @@ th.statelist-switch{
   font-weight: bold;
 }
 
-.calculator-reset-button{
-  text-align:right; 
-}
+.calculator-reset-button{}
 
 .sticky{
   z-index: 1000; /* :( */
@@ -766,7 +764,6 @@ th.statelist-switch{
 .stuck{
   position: fixed;
   top:0px;
-/*  width:100%;*/
   width:520px;
 }
 
