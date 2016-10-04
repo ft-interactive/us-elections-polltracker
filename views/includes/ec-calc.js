@@ -12,6 +12,7 @@ showTotals();
 //add reset button
 d3.select('#calculation-result')
     .append('div')
+    .attr('class','calculator-reset-button')
     .append('a')
     .text('RESET')
     .on('click',function(){
@@ -218,6 +219,7 @@ var drawChart = debounce(function() {
 
 function stick(){
     var position = d3.select('.sticky').node().getBoundingClientRect();
+    console.log(position.height);
     var parentPosition = d3.select('#statelist-table').node().getBoundingClientRect();
     if(parentPosition.bottom > 0 && parentPosition.top >= 0 || parentPosition.bottom < 0){
         d3.select('.sticky')
@@ -228,11 +230,15 @@ function stick(){
         d3.select('#placeholder')
             .style('display','none');
     }else{
+
+        console.log('before', d3.select('.sticky').node().getBoundingClientRect().height);
+        
         d3.select('.sticky')
             .classed('stuck',true)
-            .style('height', position.height + 'px')
+            .style('height', (position.height-1) + 'px') //-1 becasue of the bottom border thickness 
             .style('width', position.width + 'px');
-        
+
+        console.log('after', d3.select('.sticky').node().getBoundingClientRect().height);
         d3.select('#placeholder')
             .style('display','block')
             .style('height', position.height + 'px')

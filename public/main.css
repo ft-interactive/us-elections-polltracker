@@ -752,18 +752,22 @@ th.statelist-switch{
   font-weight: bold;
 }
 
+.calculator-reset-button{
+  text-align:right; 
+}
+
 .sticky{
   z-index: 1000; /* :( */
+  margin-left: -20px;
+  width:520px;
+  border-bottom: 1px solid black;
 }
 
 .stuck{
   position: fixed;
   top:0px;
-  width:100%;
-}
-
-.unstuck{
-
+/*  width:100%;*/
+  width:520px;
 }
 
 .switch-button{
