@@ -195,23 +195,6 @@ var debounce = function(fn, timeout) {
   }
 };
 
-function throttle(func, wait, options) {
-    var leading = true,
-        trailing = true;
-    if (typeof func != 'function') {
-        throw new TypeError(FUNC_ERROR_TEXT);
-    }
-    if (isObject(options)) {
-        leading = 'leading' in options ? !!options.leading : leading;
-        trailing = 'trailing' in options ? !!options.trailing : trailing;
-    }
-    return debounce(func, wait, {
-        'leading': leading,
-        'maxWait': wait,
-        'trailing': trailing
-    });
-}
-
 function sign(n){
     if(n>0) return '+' + String(n);
     return String(n);
