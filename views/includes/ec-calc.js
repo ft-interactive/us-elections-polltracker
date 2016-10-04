@@ -230,15 +230,10 @@ function stick(){
         d3.select('#placeholder')
             .style('display','none');
     }else{
-
-        console.log('before', d3.select('.sticky').node().getBoundingClientRect().height);
-        
         d3.select('.sticky')
             .classed('stuck',true)
             .style('height', (position.height-1) + 'px') //-1 becasue of the bottom border thickness 
             //.style('width', position.width + 'px');
-
-        console.log('after', d3.select('.sticky').node().getBoundingClientRect().height);
         d3.select('#placeholder')
             .style('display','block')
             .style('height', position.height + 'px')
