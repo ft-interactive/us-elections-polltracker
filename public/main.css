@@ -1341,6 +1341,11 @@ a.ec-breakdown-row {
   color: #ffffff;
 }
 
+.Solid,
+.Leaning {
+  padding: 0 1%;
+}
+
 .Toss-up {
   margin: 0 8.3333%;
   font-size: 15px;
