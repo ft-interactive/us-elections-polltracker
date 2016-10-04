@@ -22,6 +22,8 @@ const getJSON = async url => {
 };
 
 const addPollAveragesToDatabase = async (polldate, candidate, value, state, pollnumcandidates) => {
+  console.log('>>>addPollAveragesToDatabase', { polldate, candidate, value, state, pollnumcandidates });
+
   if (value === '') {
     winston.log('warn', `No 'value' set in RCP data for pollaverage polldate "${polldate}", candidate "${candidate}", state "${state}, pollnumcandidates "${pollnumcandidates}""`);
   }
