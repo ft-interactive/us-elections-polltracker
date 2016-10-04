@@ -30,16 +30,16 @@ app.disable('x-powered-by');
 if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '"1"') {
   const scraper = require('../scraper').default; // eslint-disable-line global-require
 
-  let stillScraping = true;
+  let stillInitialising = true;
 
-  scraper().then(() => {
-    stillScraping = false;
+  scraper(true).then(() => {
+    stillInitialising = false;
   });
 
   // politely 500 all requests while scraper is still running
   app.use((req, res, next) => {
-    if (stillScraping) {
-      res.status(500).send('still scraping - please wait then try again');
+    if (stillInitialising) {
+      res.status(500).send('still initialising database - please wait then try again');
       return;
     }
 

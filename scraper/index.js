@@ -69,6 +69,11 @@ const getPollAverageData = async (rcpURL, state, pollnumcandidates) => {
     const datapoint = datapoints[i];
     const polldate = datapoint.date;
 
+    if (datapoint.candidate.some(({ value }) => value === '' || value == null)) {
+      winston.log('warn', `Skipping inserting records for poll because one or more candidates are missing a value: ${JSON.stringify(datapoint)}`);
+      continue; // eslint-disable-line no-continue
+    }
+
     for (let j = 0; j < datapoint.candidate.length; j += 1) {
       const candidate = datapoint.candidate[j].name;
       const value = datapoint.candidate[j].value;
@@ -154,13 +159,12 @@ const updateLastUpdatedDate = async () => {
   }
 };
 
-export default async () => {
+export default async (force = false) => {
   const start = Date.now();
 
-  await db.sequelize.transaction(async () => {
-    await db.sequelize.sync();
-    // await db.Pollaverages.sync({force: true}) // use this to drop table and recreate
+  await db.sequelize.sync({ force });
 
+  await db.sequelize.transaction(async () => {
     const allIds = stateIds.concat(nationalId);
 
     await Bluebird.map(allIds, async id => {
