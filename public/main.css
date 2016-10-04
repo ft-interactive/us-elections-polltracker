@@ -470,15 +470,17 @@ a {
 }
 
 span.national-bar-container-values {
-    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+    /*text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);*/
 }
 
 .national-bar-container-values {
+  font-weight: 500;
+  letter-spacing: 1px;
   position: absolute;
   top: 2px;
   left: 0;
   width: 100%;
-  font-size: 17px;
+  font-size: 18px;
   color: #ffffff;
 }
 
@@ -641,9 +643,14 @@ span.national-bar-container-values {
 }
 
 #statelist-table {
-  max-width: 510px;
-  margin: 0 auto;
-  color: #333;
+    max-width: 510px;
+    padding: 2em 4em 0.5em 4em;
+    margin: 40px auto 0;
+    color: #333;
+    background: #F6E9D8;
+    -webkit-box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.15);
+    box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.15);
 }
 
 #statelist table {
@@ -656,12 +663,16 @@ span.national-bar-container-values {
 }
 
 #statelist th {
-  text-align: left;
+  text-align: center;
   font-weight: 400;
   text-transform: uppercase;
   font-size: 14px;
   vertical-align: bottom;
   padding-bottom: 0.3em;
+}
+
+#statelist-table .statelist-switch{
+  font-weight: 600;
 }
 
 #statelist th.statelist-state {
@@ -671,7 +682,7 @@ span.national-bar-container-values {
 }
 
 #statelist td {
-  padding: 0.25em 10px;
+  padding: 0.25em;
   position: relative;
   font-size: 1.06rem;
 }
@@ -684,7 +695,7 @@ span.national-bar-container-values {
 }
 
 #statelist th.statelist-ecvotes {
-  text-align:left
+  text-align:center;
   width: 102px;
   min-width: 102px;
   padding-right: 0;
@@ -714,15 +725,24 @@ span.national-bar-container-values {
   padding-left:25px;
 }
 
+
+
+.statelist-switch {
+  font-weight: 500;
+}
+
+.statelist-switch{
+  font-size: 0.9rem;
+  text-align:center;
+  text-transform: uppercase;
+  min-width: 167px;
+}
+
 th.statelist-switch{
   text-align: center;
   margin:auto;
 }
 
-.statelist-switch{
-  text-align:center;
-  min-width: 150px;
-}
 
 .dem-margin-cell{
   color:#579dd5;
@@ -739,7 +759,7 @@ th.statelist-switch{
 }
 
 #calculation-result{
-  background-color: #fff1e0; 
+  background-color: #F6E9D8; 
 }
 
 .calculation-chart--name,
@@ -767,18 +787,23 @@ th.statelist-switch{
 }
 
 .switch-button{
+  font-size: 0.85em;
+  font-weight: 500;
   display: inline-block;
   width: 50px;
   height: 16px;
   background-size: 100%;
   margin: 0 4px;
-  padding: 3px;
+  padding: 5px 10px 3px;
   line-height: 100%;
-  border-radius: 2px;
+  border-radius: 4px;
   /*text-indent: 100%;*/
   white-space: nowrap;
   /*overflow: hidden;*/
   border-bottom: none;
+-webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
+-moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
+box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
 }
 
 .statelist-dem .switch-button.rep,
@@ -786,7 +811,7 @@ th.statelist-switch{
 .statelist-swing .switch-button.rep{
   /*background-image: url("ui/rep-off.png"); */
   background-color: white;
-  border: 2px solid #e03d46;
+  border: 2px solid rgba(224, 61, 70,0.5);
   color: #e03d46;
 }
 
@@ -795,7 +820,7 @@ th.statelist-switch{
 .statelist-swing .switch-button.dem{
   /*background-image: url("ui/dem-off.png");*/
   background-color: white;
-  border: 2px solid #3d8ed0;
+  border: 2px solid rgba(61, 142, 208, 0.5);
   color: #3d8ed0;
 }
 
