@@ -22,6 +22,10 @@ const getJSON = async url => {
 };
 
 const addPollAveragesToDatabase = async (polldate, candidate, value, state, pollnumcandidates) => {
+  if (value == null) {
+    winston.log('warn', `No 'value' set in RCP data for pollaverage polldate "${polldate}", candidate "${candidate}", state "${state}, pollnumcandidates "${pollnumcandidates}""`);
+  }
+
   const res = await db.Pollaverages.findAll({
     where: {
       date: polldate,
@@ -160,7 +164,6 @@ export default async (force = false) => {
   await db.sequelize.sync({ force });
 
   await db.sequelize.transaction(async () => {
-
     const allIds = stateIds.concat(nationalId);
 
     await Bluebird.map(allIds, async id => {
