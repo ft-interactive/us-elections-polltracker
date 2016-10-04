@@ -694,13 +694,15 @@ a {
   padding-right:5px;
   padding: 0;
   width: 0px;
+  font-weight: normal;
 }
 
 #statelist th.statelist-ecvotes {
   text-align:center;
-  width: 102px;
-  min-width: 102px;
+/*  width: 102px;*/
+  min-width: 50px;
   padding-right: 0;
+  font-weight: normal;
 
 }
 
@@ -737,15 +739,12 @@ a {
   font-size: 0.9rem;
   text-align:center;
   text-transform: uppercase;
-  min-width: 167px;
-<<<<<<< HEAD
-=======
+  min-width: 170px;
 }
 
 th.statelist-switch{
   text-align: center;
   margin:auto;
->>>>>>> cn-electoral-college-calculator
 }
 
 
@@ -782,7 +781,7 @@ th.statelist-switch{
 .sticky{
   z-index: 1000; /* :( */
   margin-left: -20px;
-  width:520px;
+  width:100%;
   border-bottom: 1px solid #cec6b9;
 }
 
@@ -922,6 +921,14 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
     display: none;
   }
 
+  #statelist-table {
+    max-width: 510px;
+    padding: 0 10px 0 10px;
+  }
+
+  #statelist-table table{
+    width:100%;
+  }
 }
 
 #individualpolls table {
