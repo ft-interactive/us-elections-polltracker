@@ -25,7 +25,7 @@
       <table>
       <thead>
           <th class="statelist-state"></th>
-          <th class="statelist-ecvotes" >Electoral votes</th>
+          <th class="statelist-ecvotes" ><span class="statelist-cellfull">Electoral votes</span><span class="statelist-cellabbrv">Votes</span></th>
           <th class="statelist-pollmargin">Dem lead</th>
           <th class="statelist-switch">Pick a winner</th>
           <th class="statelist-pollmargin">Rep lead</th>
@@ -41,7 +41,7 @@
 
           <td class="statelist-state">
             <div class="statelist-catLabel"></div>
-            <a href="{{ state | statePollPageURL }}">{{ state.fullname }}</a>
+            <a href="{{ state | statePollPageURL }}"><span class="statelist-cellabbrv">{{ state.code | stateShortname({'NH':'N Hamps'}) }}</span><span class="statelist-cellfull">{{ state.fullname }}</span></a>
           </td>
           <td class="statelist-ecvotes">{{ state.ecVotes }}</td>
           {% if state.margin > 0 %}

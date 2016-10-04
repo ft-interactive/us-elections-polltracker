@@ -662,10 +662,7 @@ a {
 }
 
 #statelist th {
-<<<<<<< HEAD
-=======
   text-align: center;
->>>>>>> cn-electoral-college-calculator
   font-weight: 400;
   text-transform: uppercase;
   font-size: 14px;
@@ -680,7 +677,6 @@ a {
 #statelist th.statelist-state {
   text-align:right;
   padding-left: 0;
-  width: 166px;
 }
 
 #statelist td {
@@ -728,8 +724,6 @@ a {
 #statelist td.statelist-state{
   padding-left:25px;
 }
-
-
 
 .statelist-switch {
   font-weight: 500;
@@ -781,8 +775,6 @@ th.statelist-switch{
   fill:#333;
   font-weight: bold;
 }
-
-.calculator-reset-button{}
 
 .sticky{
   z-index: 1000; /* :( */
@@ -921,7 +913,31 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
   color: #666;
 }
 
+.statelist-cellabbrv{
+  display:none;
+}
+
+.statelist-cellfull{
+  display: inline;
+}
+
 @media (max-width: 500px) {
+
+  .statelist-catLabel{
+    width:8px;
+  }
+
+  #statelist td.statelist-state{
+    padding-left: 10px;
+  }
+
+  .statelist-cellabbrv{
+    display:inline;
+  }
+
+  .statelist-cellfull{
+    display: none;
+  }
 
   #statelist .statelist-pollmargin {
     display: none;
