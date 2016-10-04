@@ -210,7 +210,7 @@ function stick(){
     var computedStyle = window.getComputedStyle(d3.select('#statelist-table').node());
     var innerWidth =  parseInt(computedStyle.width);
 
-    if(parentPosition.bottom > 0 && parentPosition.top >= 0 || parentPosition.bottom < 0){
+    if(parentPosition.bottom > 0 && parentPosition.top >= 0 || (parentPosition.bottom-position.height) < 0){
         d3.select('.sticky')
             .classed('stuck',false)
             .style('height', null)
