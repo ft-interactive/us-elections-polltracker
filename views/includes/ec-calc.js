@@ -101,9 +101,6 @@ function showTotals(){
             .attr('width',barScale)
             .attr('height',barHeight)
             .attr('fill','#f6e9d8');
-    
-    
-    console.log(originalValues);
 
     var result = [{ label: 'Clinton', value: total.dem, winner: win(total.dem), color: '#579DD5', addition:(total.dem - originalValues.dem), },
             { label: 'Trump', value: total.rep, winner: win(total.rep), color: '#e03d46', addition:(total.rep - originalValues.rep) },
