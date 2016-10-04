@@ -470,9 +470,7 @@ a {
   position: relative;
 }
 
-span.national-bar-container-values {
-    /*text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);*/
-}
+
 
 .national-bar-container-values {
   font-weight: 500;
@@ -644,9 +642,14 @@ span.national-bar-container-values {
 }
 
 #statelist-table {
-  max-width: 510px;
-  margin: 0 auto;
-  color: #333;
+    max-width: 510px;
+    padding: 2em 4em 0.5em 4em;
+    margin: 40px auto 0;
+    color: #333;
+    background: #F6E9D8;
+    -webkit-box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.15);
+    box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.15);
 }
 
 #statelist table {
@@ -659,11 +662,19 @@ span.national-bar-container-values {
 }
 
 #statelist th {
+<<<<<<< HEAD
+=======
+  text-align: center;
+>>>>>>> cn-electoral-college-calculator
   font-weight: 400;
   text-transform: uppercase;
   font-size: 14px;
   vertical-align: bottom;
   padding-bottom: 0.3em;
+}
+
+#statelist-table .statelist-switch{
+  font-weight: 600;
 }
 
 #statelist th.statelist-state {
@@ -673,7 +684,7 @@ span.national-bar-container-values {
 }
 
 #statelist td {
-  padding: 0.25em 10px;
+  padding: 0.25em;
   position: relative;
   font-size: 1.06rem;
 }
@@ -716,9 +727,10 @@ span.national-bar-container-values {
   padding-left:25px;
 }
 
-th.statelist-switch{
-  text-align: center;
-  margin:auto;
+
+
+.statelist-switch {
+  font-weight: 500;
 }
 
 .statelist-switch{
@@ -726,7 +738,16 @@ th.statelist-switch{
   text-align:center;
   text-transform: uppercase;
   min-width: 167px;
+<<<<<<< HEAD
+=======
 }
+
+th.statelist-switch{
+  text-align: center;
+  margin:auto;
+>>>>>>> cn-electoral-college-calculator
+}
+
 
 .dem-margin-cell{
   color:#579dd5;
@@ -743,7 +764,7 @@ th.statelist-switch{
 }
 
 #calculation-result{
-  background-color: #fff1e0; 
+  background-color: #F6E9D8; 
 }
 
 .calculation-chart--name,
