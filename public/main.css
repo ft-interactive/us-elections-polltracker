@@ -657,7 +657,6 @@ span.national-bar-container-values {
 }
 
 #statelist th {
-  text-align: left;
   font-weight: 400;
   text-transform: uppercase;
   font-size: 14px;
@@ -886,23 +885,10 @@ th.statelist-switch{
   color: #666;
 }
 
-@media (max-width: 400px) {
-  #statelist th.statelist-ecvotes {
-    text-align:left
-    min-width: 0px;
-  }
-
-  #statelist td.statelist-ecvotes {
-    padding-right: 32px;
-    text-align: right;
-  }
+@media (max-width: 500px) {
 
   #statelist .statelist-pollmargin {
-    width:4px;
-    padding-right:5px;
-    text-align: right;
-    padding-left: 0;
-    padding-right: 0;
+    display: none;
   }
 
 }
