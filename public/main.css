@@ -782,7 +782,6 @@ th.statelist-switch{
 .sticky{
   z-index: 1000; /* :( */
   margin-left: -20px;
-  padding-bottom:5px;
   width:520px;
   border-bottom: 1px solid #cec6b9;
 }
