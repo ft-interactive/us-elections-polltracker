@@ -756,7 +756,7 @@ th.statelist-switch{
 }
 
 #calculation-result{
-  background-color: #F6E9D8; 
+  background-color: #F6E9D8;
   padding: 10px 0;
 }
 
@@ -766,7 +766,7 @@ th.statelist-switch{
 
 .calculation-chart--value{
   font-weight: bold;
-   fill:#333; 
+   fill:#333;
 }
 
 .calculation-chart--secondarytext .calculation-chart--name{
@@ -1083,7 +1083,7 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
 }
 
 /** State Summary section **/
-.bar__state-status {
+.state-status-bar__container {
   width: 100%;
   color: white;
   text-align: center;
@@ -1095,46 +1095,46 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
   justify-content: center;
 }
 
-.bar__state-ec-votes {
+.state-ec-votes-total__container {
   text-align: center;
   font-style: italic;
   color: #A79B88;
   margin: 0.5em 0;
 }
-.bar__state-ec-votes figure {
+.state-ec-votes-total__container figure {
   display: inline;
   font-weight: bolder;
   color: black;
 }
 
-.bar__state-status.dem {
+.state-status-bar__container--dem {
   background-color: #579dd5;
 }
 
-.bar__state-status.leaningDem {
+.state-status-bar__container--leaningDem {
   background-color: #a2c1e1;
 }
 
-.bar__state-status.swing {
+.state-status-bar__container--swing {
   background-color: #fcc83c;
 }
 
-.bar__state-status.leaningRep {
+.state-status-bar__container--leaningRep {
   background-color: #f4a098;
 }
 
-.bar__state-status.rep {
+.state-status-bar__container--rep {
   background-color: #e03d46;
 }
 
-.state-page__summary .graphic__ecvotes--label {
+.state-ecvotes-graphic__tooltip {
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: .5em;
   padding: .5em;
   display: none;
 }
 
-.state-page__summary .graphic__ecvotes--circles {
+.state-ecvotes-graphic__squares {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -1144,7 +1144,7 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
   box-sizing: border-box;
 }
 
-.state-page__summary .graphic__ecvotes--circles .circle {
+.state-ecvotes-graphic__squares > div {
   width: .5em;
   height: .5em;
   display: inline-block;
@@ -1154,7 +1154,7 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
   cursor: pointer;
 }
 
-.state-page__summary .graphic__ecvotes--circles .circle .inner-square {
+.state-ecvotes-graphic__inner-square {
   margin: 0;
   padding: 0;
   border-width: 2px;
@@ -1168,93 +1168,93 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
 }
 
 @media (min-width: 980px) {
-  .state-page__summary .graphic__ecvotes--circles {
-    height: 110px;
+  .state-ecvotes-graphic__squares {
+    height: 95px;
   }
 }
 
 
 @media (max-width: 690px) {
-  .state-page__summary .graphic__ecvotes--circles {
-    height: 100px;
+  .state-ecvotes-graphic__squares {
+    height: 95px;
   }
 
-  .state-page__summary .graphic__ecvotes--circles .circle {
+  .state-ecvotes-graphic__squares > div {
     width: 8px;
     height: 8px;
   }
 }
 
-@media (max-width: 580px) {
-  .state-page__summary .graphic__ecvotes--circles {
+@media (max-width: 630px) {
+  .state-ecvotes-graphic__squares {
     height: 100px;
   }
 
-  .state-page__summary .graphic__ecvotes--circles .circle {
+  .state-ecvotes-graphic__squares > div {
     width: 7px;
     height: 7px;
   }
 }
 
 @media (max-width: 470px) {
-  .state-page__summary .graphic__ecvotes--circles {
+  .state-ecvotes-graphic__squares {
     height: 100px;
   }
 
-  .state-page__summary .graphic__ecvotes--circles .circle {
+  .state-ecvotes-graphic__squares > div {
     width: 6px;
     height: 6px;
   }
 }
 
 @media (max-width: 390px) {
-  .state-page__summary .graphic__ecvotes--circles {
+  .state-ecvotes-graphic__squares {
     height: 105px;
   }
 
-  .state-page__summary .graphic__ecvotes--circles .circle {
+  .state-ecvotes-graphic__squares > div {
     width: 5px;
     height: 5px;
   }
 }
 
-.state-page__summary .graphic__ecvotes--circles .circle.dem .inner-square {
-  border-color: #579dd5;
-}
-
-.state-page__summary .graphic__ecvotes--circles .circle.leaningDem .inner-square {
-  border-color: #a2c1e1;
-}
-
-.state-page__summary .graphic__ecvotes--circles .circle.rep .inner-square {
-  border-color: #e03d46;
-}
-
-.state-page__summary .graphic__ecvotes--circles .circle.leaningRep .inner-square {
-  border-color: #f4a098;
-}
-
-.state-page__summary .graphic__ecvotes--circles .circle.swing .inner-square {
-  border-color: #fcc83c;
-}
-
-.state-page__summary .graphic__ecvotes--circles .circle.ec-vote .inner-square {
+.state-ecvotes-graphic__square--ec-vote .state-ecvotes-graphic__inner-square {
   border-color: black !important;
 }
 
-.state-page__summary .graphic__ecvotes--circles .circle.current-state.dem .inner-square {
+.state-ecvotes-graphic__square--dem .state-ecvotes-graphic__inner-square {
+  border-color: #579dd5;
+}
+
+.state-ecvotes-graphic__square--leaningDem .state-ecvotes-graphic__inner-square {
+  border-color: #a2c1e1;
+}
+
+.state-ecvotes-graphic__square--rep .state-ecvotes-graphic__inner-square {
+  border-color: #e03d46;
+}
+
+.state-ecvotes-graphic__square--leaningRep .state-ecvotes-graphic__inner-square {
+  border-color: #f4a098;
+}
+
+.state-ecvotes-graphic__square--swing .state-ecvotes-graphic__inner-square {
+  border-color: #fcc83c;
+}
+
+.state-ecvotes-graphic__square--dem.current-state .state-ecvotes-graphic__inner-square {
   background-color: #579dd5;
 }
-.state-page__summary .graphic__ecvotes--circles .circle.current-state.leaningDem .inner-square {
+.state-ecvotes-graphic__square--leaningDem.current-state .state-ecvotes-graphic__inner-square {
   background-color: #a2c1e1;
 }
-.state-page__summary .graphic__ecvotes--circles .circle.current-state.rep .inner-square {
+.state-ecvotes-graphic__square--rep.current-state .state-ecvotes-graphic__inner-square {
   background-color: #e03d46;
 }
-.state-page__summary .graphic__ecvotes--circles .circle.current-state.leaningRep .inner-square {
+.state-ecvotes-graphic__square--leaningRep.current-state .state-ecvotes-graphic__inner-square {
   background-color: #f4a098;
 }
-.state-page__summary .graphic__ecvotes--circles .circle.current-state.swing .inner-square {
+.state-ecvotes-graphic__square--swing.current-state .state-ecvotes-graphic__inner-square {
   background-color: #fcc83c;
 }
 
