@@ -158,7 +158,7 @@ function showTotals(){
                 .text(function(d){ return d.value; });
 
             parent.select('text.calculation-chart--name')
-                .attr('dx', 2)
+                .attr('dx', 8)
                 .text(function(d){
                     if(d.winner) return (d.label + ' wins!').toUpperCase();  
                     return d.label.toUpperCase(); });
