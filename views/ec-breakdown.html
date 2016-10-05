@@ -17,11 +17,7 @@
         {% for state in layout.stateGroups[group] %}
           <a href="{{ state.code | statePollPageURL }}" class="o-grid-row o-grid-row--compact ec-breakdown-row">
               <div data-o-grid-colspan="2 S4 M3 L4" class="ec-breakdown-statelabel">
-              {%- if (layout.groupNames[group] == 'Toss-up') -%}
-              {{ state.code | stateShortname }}
-              {%- else -%}
-              {{ state.code }}
-              {%- endif -%}
+              {{ state.code | stateShortname({'NH': 'N.Ham', 'RI': 'Rh.Isl', 'WV': 'W.Va', 'SC': 'S.Car', 'MD': 'Maryl', 'VT': 'Verm', 'IL': 'Illin', 'VA': 'Virg', 'NM': 'N.Mex', 'FL': 'Flori', 'MT': 'Mont', 'KY': 'Ken', 'LA': 'Louis', 'ND': 'N.Dak', 'SD': 'S.Dak', 'MO': 'Misso', 'MS': 'Missi', 'IN': 'Indi', 'HI': 'Haw', 'AK': 'Alask', 'AL': 'Alab'}) }}
               </div>
               <div data-o-grid-colspan="10 S8 M9 L8" class="ec-breakdown-bar-container">
                 <div style="width:{{ state.barPct }}%; background-color:{{ color[group] }};" class="ec-breakdown-bar">
@@ -36,7 +32,7 @@
       {% endfor %}
     </div>
   </div>
-  <div class="ec-breakdown-footnote">States where the difference in poll numbers between Clinton and Trump is less than 5% are classed as 'toss-up' states, those with a difference of over 10% are classed as 'solid'. </div>
+  <div class="ec-breakdown-footnote">States where the difference in poll numbers between Clinton and Trump is less than 5% are classed as 'toss-up' states, those with a difference of over 10% are classed as 'solid'. <a href="{{ 'ME' | statePollPageURL }}">Maine</a> and <a href="{{ 'NE' | statePollPageURL }}">Nebraska</a> use the <a href="#methodology">congressional district method</a> in which the winner of each district takes that district’s electoral vote. </div>
 </div>
 {% endmacro %}
 
