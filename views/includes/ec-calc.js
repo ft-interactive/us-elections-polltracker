@@ -103,9 +103,9 @@ function showTotals(){
             .attr('stroke', '#d9cdbf')
             .attr('fill', '#fdfaf2');
 
-    var result = [{ label: 'Clinton', value: total.dem, winner: win(total.dem), color: '#579DD5', addition:(total.dem - originalValues.dem), },
-            { label: 'Trump', value: total.rep, winner: win(total.rep), color: '#e03d46', addition:(total.rep - originalValues.rep) },
-            { label: 'Toss-up', value: total.swing, winner: false, color: '#fcc83c', addition:0 }];
+    var result = [{ label: 'Clinton', value: total.dem, winner: win(total.dem), color: '#579DD5' },
+            { label: 'Trump', value: total.rep, winner: win(total.rep), color: '#e03d46' },
+            { label: 'Toss-up', value: total.swing, winner: false, color: '#fcc83c' }];
 
     var barSelection = d3.select('svg.calculation-chart')
         .selectAll('g.calculation-chart--bar')
@@ -136,11 +136,6 @@ function showTotals(){
             parent.append('text')
                 .attr('class','calculation-chart--value')
                 .attr('dy', barHeight-4);
-            
-            parent.append('text')
-                .attr('class','calculation-chart--addition')
-                .attr('dy', barHeight-4);
-
         })
         .merge(barSelection)
         .transition()
@@ -163,10 +158,6 @@ function showTotals(){
                 .text(function(d){
                     if(d.winner) return (d.label + ' wins!');  
                     return d.label; });
-
-            parent.select('text.calculation-chart--addition')
-                .attr('dx', function(d,i){ return Math.max(barScale(d.value), barScale(270))+40; })
-                .text(function(d){ if (d.addition) return '(' + sign(d.addition) + ')'; });
         });
 }
 
