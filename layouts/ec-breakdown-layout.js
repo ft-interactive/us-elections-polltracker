@@ -1,22 +1,7 @@
-import classifyState from './state-classifications';
+import { category, keyOrder as categoryOrder } from '../server/lib/margin-category';
 import color from './color';
 
 const sum = require('d3-array').sum;
-
-// function makeLookup(arr, key, value) {
-//   const o = {};
-//   arr.forEach(d => {
-//     o[d[key]] = value(d);
-//   });
-//   return o;
-// }
-
-// const shortname = makeLookup(states, 'code', d => {
-//   if (d.shortName) {
-//     return d.shortName;
-//   }
-//   return d.name;
-// });
 
 const groupNames = {
   swing: 'Toss-up',
@@ -38,7 +23,6 @@ function splitArray(a, keyFunction = String) {
   return o;
 }
 
-
 function combineMENE(lookup) {
   const newLookup = {};
 
@@ -46,7 +30,7 @@ function combineMENE(lookup) {
     // const code = lookup[d].code.substring(0 ,2);
     const state = Object.assign({}, lookup[d]);
     state.code = state.code.substring(0, 2);
-    const forecast = classifyState.forecast(state.margin);
+    const forecast = category(state.margin);
     state.forecast = forecast;
     if (newLookup[`${state.code}-${forecast}`]) {
       newLookup[`${state.code}-${forecast}`].ecVotes += state.ecVotes;
@@ -83,10 +67,10 @@ export default function (stateLookup) {
   }, {});
 
   return {
-    title: 'Where are the battleground states?',
+    title: null,
     standalone: true,
     fontless: true,
-    order: classifyState.forecast.range().concat().reverse(),
+    order: categoryOrder,
     stateGroups,
     groupTotals,
     groupNames,

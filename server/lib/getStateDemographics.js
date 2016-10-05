@@ -1,6 +1,6 @@
 import { extent } from 'd3-array';
 import _ from 'lodash';
-import referenceData from '../../layouts/stateDemographics';
+import referenceData from '../../data/state-demographics';
 
 const labels = referenceData.label;
 

@@ -1,8 +1,8 @@
 // provides a dictionary of state colours based on defined thresholds for how safe a bet a given state is for a given candidate
 
-import color from './color.js';
+import color from './color';
 
-import { marginThreshold } from '../server/lib/national-count';
+import { category, categoryColor } from '../server/lib/margin-category';
 
 export default (stateData, opts) => {
   const [svgWidth, svgHeight] = (opts.size || '900x580').split(/\D/); // split on non digit characters
@@ -19,11 +19,12 @@ export default (stateData, opts) => {
 
   Object.keys(stateData).forEach(d => {
     const currentState = stateData[d];
-    const stateClassification = Number.isFinite(currentState.margin) ? marginThreshold(currentState.margin) : 'nodata';
+    const margin = currentState.margin;
+    const c = categoryColor(margin);
     layoutObject[d] = {
-      classification: stateClassification,
-      fill: color[stateClassification],
-      stroke: color[stateClassification],
+      classification: category(margin),
+      fill: c,
+      stroke: c,
       data: currentState,
     };
   });

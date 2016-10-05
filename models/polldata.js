@@ -4,7 +4,7 @@ export default sequelize => sequelize.define('Polldata', {
   rcpid: DataTypes.INTEGER,
   pollster: DataTypes.STRING,
   rcpUpdated: DataTypes.DATE,
-  link: DataTypes.STRING,
+  link: DataTypes.STRING(1024),
   date: DataTypes.STRING,
   startDate: DataTypes.DATE,
   endDate: DataTypes.DATE,

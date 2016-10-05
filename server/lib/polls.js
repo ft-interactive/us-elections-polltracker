@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import * as d3 from 'd3';
 import moment from 'moment';
+import nationalReference from '../../data/national';
 import db from '../../models';
 import { getByCode } from './states';
 import layoutTimeSeries from '../../layouts/timeseries-layout';
@@ -43,14 +44,18 @@ export const makePollTimeSeries = async chartOpts => {
   const startDate = chartOpts.startDate ? chartOpts.startDate : '2016-07-01T00:00:00Z';
   const endDate = chartOpts.endDate ? chartOpts.endDate : d3.isoFormat(new Date());
   const state = chartOpts.state ? chartOpts.state : 'us';
-  let defaultPollNumCandidates = 4;
-  if (getByCode(state)) {
-    defaultPollNumCandidates = getByCode(state).displayRace || 4;
+
+  const defaultPollNumCandidates = 4;
+  let numcandidates;
+  if (state === 'us') {
+    numcandidates = nationalReference[0].displayRace;
+  } else {
+    numcandidates = getByCode(state).displayRace;
   }
 
   const pollnumcandidates = (chartOpts.pollnumcandidates ?
     chartOpts.pollnumcandidates :
-    defaultPollNumCandidates
+    numcandidates || defaultPollNumCandidates
   );
 
   const pollData = await pollAverages(startDate, endDate, state, pollnumcandidates);
@@ -73,6 +78,7 @@ const getPollSVG = async (state, size = '600x300', pollnumcandidates) =>
     margin: { top: 10, left: 35, bottom: 50, right: 90 },
     pollnumcandidates,
     outlineColor: 'fff1e0',
+    yAxisDomain: '30-60',
   })
 ;
 
@@ -120,10 +126,15 @@ export async function list(code, pollnumcandidates) {
 }
 
 export async function pollHistory(code) {
-  let pollnumcandidates = 4;
-  if (getByCode(code)) {
-    pollnumcandidates = getByCode(code).displayRace || 4;
+  const defaultPollNumCandidates = 4;
+  let numcandidates;
+  if (code.toUpperCase() === 'US') {
+    numcandidates = nationalReference[0].displayRace;
+  } else {
+    numcandidates = getByCode(code.toUpperCase()).displayRace;
   }
+
+  const pollnumcandidates = numcandidates || defaultPollNumCandidates;
 
   const startDate = '2016-07-01 00:00:00';
   const endDate = d3.isoFormat(new Date());

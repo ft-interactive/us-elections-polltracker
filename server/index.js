@@ -3,7 +3,6 @@ import lru from 'lru-cache';
 import babelify from 'express-babelify-middleware';
 import slashes from 'connect-slashes';
 import * as nunjucks from './nunjucks';
-import ecForecastComponentController from './controllers/ec-forecast-component';
 import ecForecastComponentController2 from './controllers/ec-forecast-component-2';
 import layoutForecastMap from '../layouts/forecast-map-layout';
 import nationalController from './controllers/national';
@@ -31,16 +30,16 @@ app.disable('x-powered-by');
 if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '"1"') {
   const scraper = require('../scraper').default; // eslint-disable-line global-require
 
-  let stillScraping = true;
+  let stillInitialising = true;
 
-  scraper().then(() => {
-    stillScraping = false;
+  scraper(true).then(() => {
+    stillInitialising = false;
   });
 
   // politely 500 all requests while scraper is still running
   app.use((req, res, next) => {
-    if (stillScraping) {
-      res.status(500).send('still scraping - please wait then try again');
+    if (stillInitialising) {
+      res.status(500).send('still initialising database - please wait then try again');
       return;
     }
 
@@ -49,9 +48,7 @@ if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '
 }
 
 app.use('/main.js', babelify('public/main.js'));
-app.use(express.static('public', {
-  maxAge: app.get('env') === 'production' ? '10m' : 0
-}));
+app.use(express.static('public'));
 app.use(slashes(false));
 
 // utility functions
@@ -148,7 +145,6 @@ app.get('/:state-polls', stateController);
 app.get('/polls/:code', stateCodeRedirectController);
 
 // Create homepage widget of current forecasts
-app.get('/ec-forecast-component.:ext', ecForecastComponentController);
 app.get('/ec-forecast-component-2.:ext', ecForecastComponentController2);
 
 // Create electoral collecge breakdown
