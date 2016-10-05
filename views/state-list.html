@@ -43,7 +43,7 @@
             <a href="{{ state | statePollPageURL }}"><span class="statelist-cellabbrv">{{ state.code | stateShortname({'NH':'N Hamps'}) }}</span><span class="statelist-cellfull">{{ state.fullname }}</span></a>
           </td>
           <td class="statelist-ecvotes">{{ state.ecVotes }}</td>
-          {% if state.margin > 0 %}
+          {% if state.margin > 0 and state.Clinton != null %}
           <td class="statelist-pollmargin statelist-margin-cell dem-margin-cell">
               +{{ state.margin | round1dp | replace('-', '') }}
           </td>
@@ -58,7 +58,7 @@
             <a href="#" class="switch-button rep{% if state.margin < 0 %} leaning{% endif %}" data-position="rep">Trump</a>
           </td>
 
-          {%- if state.margin < 0 -%}
+          {%- if state.margin < 0 and state.Trump != null -%}
           <td class="statelist-pollmargin statelist-margin-cell rep-margin-cell">
               +{{ state.margin | round1dp | replace('-', '') }}
           </td>
