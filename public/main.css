@@ -780,7 +780,8 @@ th.statelist-switch{
 
 .sticky{
   z-index: 1000; /* :( */
-  /*margin-left: -20px;*/
+  box-sizing: border-box;
+  margin-left:-20px;
   width:100%;
   border-bottom: 1px solid #cec6b9;
 }
@@ -789,7 +790,7 @@ th.statelist-switch{
   margin-left: -20px;
   position: fixed;
   top:0px;
-  width:520px;
+  display:block;
 }
 
 .switch-button{
@@ -926,7 +927,12 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
 
 @media (max-width: 500px) {
 
+  .sticky{
+    margin-left:-10px;
+  }
+
   .stuck{
+    margin-left:-10px;
     width:100vw;
   }
 
