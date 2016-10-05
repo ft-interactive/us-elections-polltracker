@@ -104,7 +104,7 @@ function showTotals(){
 
     var result = [{ label: 'Clinton', value: total.dem, winner: win(total.dem), color: '#579DD5', addition:(total.dem - originalValues.dem), },
             { label: 'Trump', value: total.rep, winner: win(total.rep), color: '#e03d46', addition:(total.rep - originalValues.rep) },
-            { label: 'Up for grabs', value: total.swing, winner: false, color: '#fcc83c', addition:0 }];
+            { label: 'Toss-up', value: total.swing, winner: false, color: '#fcc83c', addition:0 }];
 
     var barSelection = d3.select('svg.calculation-chart')
         .selectAll('g.calculation-chart--bar')
