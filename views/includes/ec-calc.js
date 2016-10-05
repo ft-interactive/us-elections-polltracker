@@ -70,7 +70,7 @@ function showTotals(){
     var barHeight = 20;
     var barGap = 5;
     var height = 3*(barHeight+barGap)-barGap;
-    var size = d3.select('#calculation-result').node().getBoundingClientRect();
+    var size = d3.select('#statelist-table table').node().getBoundingClientRect();
     var barScale = d3.scaleLinear()
         .domain([0, 538])
         .range([0, size.width]);
@@ -209,6 +209,7 @@ function stick(){
     var parentPosition = d3.select('#statelist-table').node().getBoundingClientRect();
     var computedStyle = window.getComputedStyle(d3.select('#statelist-table').node());
     var innerWidth =  parseInt(computedStyle.width);
+    var tableSize = d3.select('#statelist-table table').node().getBoundingClientRect();
 
     if(parentPosition.bottom > 0 && parentPosition.top >= 0 || (parentPosition.bottom-position.height) < 0){
         d3.select('.sticky')
@@ -221,14 +222,19 @@ function stick(){
 
         showTotals();
     }else{
+        var placeholder = d3.select('#placeholder')
+        if(placeholder.style('display') == 'none'){
+            placeholder
+                .style('display','block')
+                .style('box-sizing','border-box')
+                .style('height', position.height + 'px')
+                .style('width', position.width + 'px');
+        }
+
         d3.select('.sticky')
             .classed('stuck',true)
-            .style('height', (position.height-1) + 'px'); //-1 becasue of the bottom border thickness 
-            //.style('width', Math.min(parentPosition.width, innerWidth) + 'px');
-
-        d3.select('#placeholder')
-            .style('display','block')
-            .style('height', position.height + 'px');
+            .style('height', placeholder.style('height'))
+            .style('width', tableSize.width + 'px'); 
 
         showTotals();            
     }
