@@ -68,7 +68,7 @@ function reclassTable(){
 function showTotals(){
     var barHeight = 20;
     var barGap = 5;
-    var height = 3*(barHeight+barGap)-barGap;
+    var height = 3*(barHeight+barGap)-barGap+6; // add 6 b/c of borders
     var size = d3.select('#statelist-table table').node().getBoundingClientRect();
     var barScale = d3.scaleLinear()
         .domain([0, 538])
@@ -100,7 +100,8 @@ function showTotals(){
             })
             .attr('width',barScale)
             .attr('height',barHeight)
-            .attr('fill','#fff1e0');
+            .attr('stroke', '#d9cdbf')
+            .attr('fill', '#fdfaf2');
 
     var result = [{ label: 'Clinton', value: total.dem, winner: win(total.dem), color: '#579DD5', addition:(total.dem - originalValues.dem), },
             { label: 'Trump', value: total.rep, winner: win(total.rep), color: '#e03d46', addition:(total.rep - originalValues.rep) },
