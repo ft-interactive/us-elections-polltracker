@@ -10,6 +10,7 @@ import ecBreakdownController from './controllers/ec-breakdown';
 import pollGraphicsController from './controllers/poll-graphics';
 import stateCodeRedirectController from './controllers/state-code-redirect';
 import stateController from './controllers/state';
+import resultController from './controllers/result';
 import * as apiController from './controllers/api';
 import stateCount from './lib/state-counts';
 
@@ -149,6 +150,8 @@ app.get('/ec-forecast-component-2.:ext', ecForecastComponentController2);
 
 // Create electoral collecge breakdown
 app.get('/ec-breakdown.html', ecBreakdownController);
+
+app.get('/result', resultController);
 
 // This needs to be last as it captures lot of paths and only does redirects
 app.get('/:code', stateCodeRedirectController);
