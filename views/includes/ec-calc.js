@@ -160,8 +160,8 @@ function showTotals(){
             parent.select('text.calculation-chart--name')
                 .attr('dx', 8)
                 .text(function(d){
-                    if(d.winner) return (d.label + ' wins!').toUpperCase();  
-                    return d.label.toUpperCase(); });
+                    if(d.winner) return (d.label + ' wins!');  
+                    return d.label; });
 
             parent.select('text.calculation-chart--addition')
                 .attr('dx', function(d,i){ return Math.max(barScale(d.value), barScale(270))+40; })
