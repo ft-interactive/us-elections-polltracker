@@ -11,9 +11,8 @@ showTotals();
 
 //add reset button
 d3.select('#calculation-result')
-    .append('div')
-    .attr('class','calculator-reset-button')
-    .append('a')
+    .append('button')
+    .attr('class','calculator-reset-button o-buttons o-buttons--standout')
     .text('RESET')
     .on('click',function(){
         rebindData();
@@ -210,8 +209,9 @@ function stick(){
     var computedStyle = window.getComputedStyle(d3.select('#statelist-table').node());
     var innerWidth =  parseInt(computedStyle.width);
     var tableSize = d3.select('#statelist-table table').node().getBoundingClientRect();
+    var innerPadding = 20;
 
-    if(parentPosition.bottom > 0 && parentPosition.top >= 0 || (parentPosition.bottom-position.height) < 0){
+    if(parentPosition.bottom > 0 && parentPosition.top+innerPadding >= 0 || (parentPosition.bottom-position.height) < 0){
         d3.select('.sticky')
             .classed('stuck',false)
             .style('height', null)
@@ -227,6 +227,7 @@ function stick(){
             placeholder
                 .style('display','block')
                 .style('box-sizing','border-box')
+                .style('visibility','visible')
                 .style('height', position.height + 'px')
                 .style('width', position.width + 'px');
         }
