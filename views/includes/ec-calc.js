@@ -228,8 +228,7 @@ function stick(){
 
         d3.select('#placeholder')
             .style('display','block')
-            .style('height', position.height + 'px')
-            .style('width', (position.width) + 'px');
+            .style('height', position.height + 'px');
 
         showTotals();            
     }
