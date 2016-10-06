@@ -156,9 +156,11 @@ function showTotals(){
             parent.select('text.calculation-chart--name')
                 .attr('dx', 8)
                 .text(function(d){
-                    if(d.winner) return (d.label + ' wins!');  
                     return d.label; });
         });
+
+    d3.select('#statelist-winner-container')
+            .attr('data-statelist-winner', victory);
 }
 
 function calculateTotals(data){

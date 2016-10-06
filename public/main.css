@@ -795,6 +795,35 @@ th.statelist-switch{
   border-bottom: 140px solid #cec6b9;
 }
 
+#statelist-winner-container {
+  position: absolute;
+  width: 100%;
+}
+
+#statelist-winner-container[data-statelist-winner="Clinton"] .statelist-winner#statelist-winner--clinton,
+#statelist-winner-container[data-statelist-winner="Trump"] .statelist-winner#statelist-winner--trump {
+  opacity: 1;
+}
+
+#statelist-winner-container-panel {
+  width: 100%;
+  background: #F6E9D8;
+  opacity: 0;
+  height: 90px;
+  position: absolute;
+}
+
+#statelist-winner-container[data-statelist-winner="Clinton"] #statelist-winner-container-panel,
+#statelist-winner-container[data-statelist-winner="Trump"] #statelist-winner-container-panel {
+  opacity: 0.7;
+}
+
+.statelist-winner {
+  position: absolute;
+  opacity: 0;
+  left: 40px;
+}
+
 .switch-button{
   font-size: 0.85em;
   font-weight: 500;
