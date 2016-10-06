@@ -811,6 +811,7 @@ th.statelist-switch{
   opacity: 0;
   height: 90px;
   position: absolute;
+  transition: opacity 295ms cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
 #statelist-winner-container[data-statelist-winner="Clinton"] #statelist-winner-container-panel,
@@ -822,6 +823,7 @@ th.statelist-switch{
   position: absolute;
   opacity: 0;
   left: 40px;
+  transition: opacity 295ms cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
 .switch-button{
