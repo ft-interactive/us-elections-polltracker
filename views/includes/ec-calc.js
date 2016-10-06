@@ -12,7 +12,7 @@ showTotals();
 //add reset button
 d3.select('#calculation-result')
     .append('button')
-    .attr('class','calculator-reset-button o-buttons o-buttons--standout')
+    .attr('class','calculator-reset-button o-buttons')
     .text('RESET')
     .on('click',function(){
         rebindData();
