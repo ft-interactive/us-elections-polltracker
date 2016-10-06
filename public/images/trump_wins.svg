@@ -25,7 +25,7 @@
       <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0" in="shadowBlurOuter1"/>
     </filter>
     <text id="h" font-family="Metric-Semibold, Metric" font-size="33" font-weight="500">
-      <tspan x="37.089" y="21">Trump wins!</tspan>
+      <tspan x="37.089" y="21">Trump wins</tspan>
     </text>
     <filter id="g" width="200%" height="200%" x="-50%" y="-50%" filterUnits="objectBoundingBox">
       <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
@@ -34,23 +34,11 @@
     </filter>
   </defs>
   <g fill="none" fill-rule="evenodd" transform="translate(-31 4)">
-    <g transform="translate(46 27)">
-      <use fill="black" filter="url(#a)" xlink:href="#b"/>
-      <use fill="#E03D46" stroke="#FFFFFF" stroke-width="3" xlink:href="#b"/>
-      <g transform="rotate(-20 22.5 30.643)">
-        <use fill="black" filter="url(#c)" xlink:href="#d"/>
-        <use fill="#E03D46" stroke="#FFFFFF" stroke-width="3" xlink:href="#d"/>
-      </g>
-      <g transform="rotate(20 118.5 30.643)">
-        <use fill="black" filter="url(#e)" xlink:href="#f"/>
-        <use fill="#E03D46" stroke="#FFFFFF" stroke-width="3" xlink:href="#f"/>
-      </g>
-    </g>
     <use fill="#FFFFFF" stroke="#FFFFFF" stroke-width="6" filter="url(#g)" xlink:href="#h"/>
     <use fill="#FFFFFF" xlink:href="#h"/>
     <use stroke="#FFFFFF" stroke-width="6" xlink:href="#h"/>
     <text fill="#E03D46" font-family="Metric-Semibold, Metric" font-size="33" font-weight="500">
-      <tspan x="37.089" y="21">Trump wins!</tspan>
+      <tspan x="37.089" y="21">Trump wins</tspan>
     </text>
   </g>
 </svg>
