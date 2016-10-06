@@ -803,6 +803,7 @@ th.statelist-switch{
 #statelist-winner-container[data-statelist-winner="Clinton"] .statelist-winner#statelist-winner--clinton,
 #statelist-winner-container[data-statelist-winner="Trump"] .statelist-winner#statelist-winner--trump {
   opacity: 1;
+  display: block;
 }
 
 #statelist-winner-container-panel {
@@ -824,6 +825,7 @@ th.statelist-switch{
   opacity: 0;
   left: 40px;
   transition: opacity 195ms cubic-bezier(0.645, 0.045, 0.355, 1) 50ms;
+  display: none;
 }
 
 .statelist-winner img {
