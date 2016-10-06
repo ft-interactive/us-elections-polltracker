@@ -51,7 +51,7 @@
         {% for poll in list %}
         <tr>
           <td class="date">{{ poll.date | formatDateForIndividualPollsTable }}</td>
-          <td>{{ poll.pollster | safe }}</td>
+          <td>{{ poll.pollster | replace("&amp;", "&") }}</td>
           <td class="narrowonly numeric {% if poll.winner == 'Clinton' %}winner clinton{% endif %} {% if poll.winner == 'Trump' %}winner trump{% endif %}"><span class="{% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</span> / <span class="{% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</span></td>
           <td class="secondary numeric clinton {% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}%</td>
           <td class="secondary numeric trump {% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}%</td>
