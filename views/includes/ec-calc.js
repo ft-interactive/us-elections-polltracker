@@ -12,8 +12,8 @@ showTotals();
 //add reset button
 d3.select('#calculation-result')
     .append('button')
-    .attr('class','calculator-reset-button o-buttons o-buttons--standout')
-    .text('RESET')
+    .attr('class','calculator-reset-button o-buttons o-buttons--uncolored')
+    .text('Reset')
     .on('click',function(){
         rebindData();
         reclassTable();
