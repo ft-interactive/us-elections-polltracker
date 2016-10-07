@@ -1664,6 +1664,7 @@ a.ec-breakdown-row {
 
   .nav___mobile-nav--back-to-overview > img {
     padding: 0 0.5em;
+    position: relative;
   }
 
   .article__aside {
