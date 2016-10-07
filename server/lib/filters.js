@@ -40,7 +40,9 @@ export function stateShortname(code, override = {}) {
 
 export function stateName(code, override = {}) {
   if (!code) return '';
-  return override[code] || getByCode(code).name;
+  if(override[code]) return override[code];
+  if(getByCode(code)) return getByCode(code).name;
+  return code;
 }
 
 // turn 8/26 - 8/29 to Aug 26 - 29
