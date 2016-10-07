@@ -17,3 +17,25 @@
   {% endif %}
 </div>
 {% endmacro %}
+
+{% macro SuggestedReads(title, items) %}
+{% if items and items.length %}
+<div class="article-aside suggested-reads">
+  {% if title %}
+  <h3 class="suggested-reads__title">{{ title }}</h3>
+  {% endif %}
+  <div class="suggested-reads__list">
+  {% for item in items %}
+    <article class="suggested-reads__list-item">
+    <a href="https://www.ft.com/content/{{ item.id }}" class="suggested-reads__list-item__headline">
+      <h4 class="suggested-reads__list-item__headline-text">{{ item.title }}</h4>
+    </a>
+    {% if item.subheading %}
+    <p class="suggested-reads__list-item__subheading">{{ item.subheading }}</p>
+    </article>
+    {% endif %}
+  {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endmacro %}
