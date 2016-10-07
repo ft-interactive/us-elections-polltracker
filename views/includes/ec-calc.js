@@ -34,7 +34,10 @@ function rebindData(){
                 .on('click', function(){
                     var switchPosition = d3.select(this).attr('data-position');
                     d3.event.preventDefault();
-                    if(row.datum().classification === switchPosition) switchPosition = 'swing';
+                    if(row.datum().classification === switchPosition){  //on a second click of the same switch
+                        switchPosition = row.node().dataset.classification; //this line switches the row back to it's original classification' 
+                        //switchPosition = 'swing'; //this line sets it to be a swing state
+                    };
                     setState(row.datum().statecode, switchPosition);
 
                     reclassTable();
@@ -43,6 +46,8 @@ function rebindData(){
                 });
         });
 }
+
+
 
 function setState(stateCode, newPosition){
     var selection = d3.selectAll('tr.statelist-staterow')
