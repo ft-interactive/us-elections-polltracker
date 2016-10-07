@@ -1,0 +1,42 @@
+{% extends "g-ui/layout/article" %}
+
+{% import "page-elements.html" as PageElements -%}
+
+{% set layout = {name: 'left-body'} %}
+{% set stylesheets = ['https://origami-build.ft.com/v2/bundles/css?modules=o-expander@^4.0.2,o-buttons@^4.0.2'] %}
+{% set scripts = ['https://origami-build.ft.com/v2/bundles/js?modules=o-expander@^4.0.2,o-buttons@^4.0.2&export=bundle'] %}
+
+{% block article_body %}
+
+  <nav class="nav___mobile-nav{{ ' page__national' if code == 'us' }}">
+    <button
+      type="button"
+      name="button"
+      class="nav___mobile-nav--back-to-overview o-buttons o-buttons--uncolored o-buttons--big">
+      <i class="o-icons-icon o-icons-icon--arrow-left"></i>
+      <span class="dotted-underline">
+        National polling
+      </span>
+    </button>
+
+    <button
+      type="button"
+      name="button"
+      class="o-buttons o-buttons--standout o-buttons--big nav___mobile-nav--choose-state">
+      Choose state
+    </button>
+  </nav>
+
+  <div class="o-grid-container{{ ' page__national' if code == 'us' }}">
+    <div class="o-grid-row">
+      <div data-o-grid-colspan="12 L8 XL7 XLoffset1">
+        <div class="o-typography-body-wrapper" itemprop="articleBody">
+        {% block content %}{% endblock %}
+        </div>
+      </div>
+      <div class="article__aside o-grid-remove-gutters--XL" data-o-grid-colspan="hide L4 XL3 XLoffset1" role="complementary" aria-hidden="true">
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
