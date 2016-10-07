@@ -152,10 +152,6 @@
   max-height: 200px;
 }
 
-.rail__state-list__nationalLink {
-  margin-bottom: 3px;
-}
-
 .rail__state-list__nationalLink a {
   color: #318085;
   border-bottom: 1px #318085 dotted;
@@ -1596,7 +1592,7 @@ a.ec-breakdown-row {
 }
 
 .rail__state-list__logo {
-  padding: 0 1em;
+  padding: 0 8px 0 1em;
   border-bottom: none !important;
 }
 
@@ -1625,7 +1621,7 @@ a.ec-breakdown-row {
   }
 
   .nav___mobile-nav .nav___mobile-nav--back-to-overview .dotted-underline {
-    margin-top: 0.8em;
+    margin-top: 10px;
   }
 
   .nav___mobile-nav:not(.page__national) .nav___mobile-nav--back-to-overview .dotted-underline {
@@ -1669,6 +1665,7 @@ a.ec-breakdown-row {
   .nav___mobile-nav--back-to-overview > img {
     padding: 0 0.5em;
     position: relative;
+    margin-top: -7px;
   }
 
   .article__aside {
