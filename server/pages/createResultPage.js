@@ -1,8 +1,10 @@
 import Page from './page';
+import getResult from '../lib/getResultData';
 
-class NationalPage extends Page {
+class ResultPage extends Page {
   constructor() {
     super();
+
     this.title = 'Presidential election result';
     this.headline = 'Presidential election result';
     this.streamUrl = 'https://www.ft.com/us-election-2016';
@@ -12,12 +14,13 @@ class NationalPage extends Page {
   }
 
   async ready() {
+    this.result = await getResult();
     await this.pready();
   }
 }
 
 export default async () => {
-  const page = new NationalPage();
+  const page = new ResultPage();
   await page.ready();
   return page;
 };
