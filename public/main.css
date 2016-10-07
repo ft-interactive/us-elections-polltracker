@@ -470,16 +470,16 @@ a {
   position: relative;
 }
 
-span.national-bar-container-values {
-    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
-}
+
 
 .national-bar-container-values {
+  font-weight: 500;
+  letter-spacing: 1px;
   position: absolute;
   top: 2px;
   left: 0;
   width: 100%;
-  font-size: 17px;
+  font-size: 18px;
   color: #ffffff;
 }
 
@@ -642,14 +642,20 @@ span.national-bar-container-values {
 }
 
 #statelist-table {
-  max-width: 478px;
-  margin: 0 auto;
-  color: #333;
+    max-width: 510px;
+    padding: 2em 4em 0.5em 4em;
+    margin: 40px auto 0;
+    color: #333;
+    background: #F6E9D8;
+    -webkit-box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.15);
+    box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.15);
 }
 
 #statelist table {
   border-collapse: collapse;
   border-spacing: 0;
+  margin-top: 1em;
 }
 
 #statelist tr th {
@@ -657,7 +663,7 @@ span.national-bar-container-values {
 }
 
 #statelist th {
-  text-align: left;
+  text-align: center;
   font-weight: 400;
   text-transform: uppercase;
   font-size: 14px;
@@ -665,32 +671,39 @@ span.national-bar-container-values {
   padding-bottom: 0.3em;
 }
 
+#statelist-table .statelist-switch{
+  font-weight: 600;
+}
+
 #statelist th.statelist-state {
-  padding-left: 35px;
-  width: 200px;
+  text-align:right;
+  padding-left: 0;
 }
 
 #statelist td {
-  padding: 0.25em 10px;
+  padding: 0.25em;
   position: relative;
   font-size: 1.06rem;
 }
 
 #statelist .statelist-pollmargin {
-  text-align: right;
-  padding-right: 50px;
-  width: 120px;
+  width:4px;
+  padding: 0;
+  font-weight: normal;
 }
 
 #statelist th.statelist-ecvotes {
-  text-align: center;
-  width: 102px;
-  min-width: 102px;
+  text-align:center;
+  min-width: 50px;
+  max-width: 100px;
   padding-right: 0;
+  font-weight: normal;
+  padding-bottom: 0;
 }
 
 #statelist td.statelist-ecvotes {
-  padding-right: 40px;
+  padding-right: 9%;
+  padding-left: 0;
   text-align: right;
 }
 
@@ -707,6 +720,137 @@ span.national-bar-container-values {
   text-decoration: underline;
 }
 
+#statelist td.statelist-state{
+  padding-left:25px;
+}
+
+.statelist-switch {
+  font-weight: 500;
+}
+
+.statelist-switch{
+  font-size: 0.9rem;
+  text-align:center;
+  text-transform: uppercase;
+  min-width: 170px;
+}
+
+th.statelist-switch{
+  text-align: center;
+  margin:auto;
+}
+
+
+.dem-margin-cell{
+  color:#579dd5;
+  text-align:right;
+}
+
+.rep-margin-cell{
+  color:#e03d46;
+  text-align:left;
+}
+
+.tie-margin-cell{
+  color: #000;
+}
+
+#calculation-result{
+  background-color: #F6E9D8;
+  padding: 10px 0;
+}
+
+.calculation-chart--name{
+  fill:#FFF;
+}
+
+.calculation-chart--value{
+  font-weight: bold;
+   fill:#333;
+}
+
+.calculation-chart--secondarytext .calculation-chart--name{
+  fill:#333;
+}
+
+.o-buttons.calculator-reset-button {
+  margin-top: 1em;
+}
+
+.sticky{
+  box-sizing: border-box;
+  margin-left:-20px;
+  width:100%;
+}
+
+.stuck{
+  z-index: 1;
+  margin-left: -20px;
+  position: fixed;
+  top:0px;
+  display:block;
+}
+
+.stuck.sticky {
+  border-bottom: 140px solid #cec6b9;
+}
+
+.switch-button{
+  font-size: 0.85em;
+  font-weight: 500;
+  display: inline-block;
+  width: 50px;
+  height: 16px;
+  background-size: 100%;
+  margin: 0 4px;
+  padding: 5px 10px 3px;
+  line-height: 100%;
+  border-radius: 4px;
+  /*text-indent: 100%;*/
+  white-space: nowrap;
+  /*overflow: hidden;*/
+  border-bottom: none;
+-webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
+-moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
+box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
+}
+
+.statelist-dem .switch-button.rep,
+.statelist-leaningDem .switch-button.rep,
+.statelist-swing .switch-button.rep{
+  /*background-image: url("ui/rep-off.png"); */
+  background-color: white;
+  border: 2px solid rgba(224, 61, 70,0.5);
+  color: #e03d46;
+}
+
+.statelist-rep .switch-button.dem,
+.statelist-leaningRep .switch-button.dem,
+.statelist-swing .switch-button.dem{
+  /*background-image: url("ui/dem-off.png");*/
+  background-color: white;
+  border: 2px solid rgba(61, 142, 208, 0.5);
+  color: #3d8ed0;
+}
+
+.statelist-dem .switch-button.dem,
+.statelist-leaningDem .switch-button.dem{
+  /*background-image: url("ui/dem-on.png");*/
+  background-color: #3d8ed0 !important;
+  border: 2px solid #3d8ed0;
+  color: white;
+}
+
+
+.statelist-rep .switch-button.rep,
+.statelist-leaningRep .switch-button.rep{
+  /*background-image: url("ui/rep-on.png");*/
+  background-color: #e03d46 !important;
+  border: 2px solid #e03d46;
+  color: white;
+}
+
+
 .statelist-catLabel {
   color: white;
   width: 20px;
@@ -716,9 +860,14 @@ span.national-bar-container-values {
   top: 0;
 }
 
-.statelist-stateLabel {
-  margin-left: 25px;
+.statelist-state a {
+  margin-left: 0px;
   color: #333;
+  border-bottom: none;
+}
+
+.statelist-state a:hover {
+  border-bottom: 1px solid #333;
 }
 
 .statelist-dem .statelist-catLabel {
@@ -746,25 +895,63 @@ span.national-bar-container-values {
   color: #666;
 }
 
-@media (max-width: 400px) {
-  #statelist th.statelist-ecvotes {
-    text-align: center;
-    min-width: 0px;
+.statelist-cellabbrv{
+  display:none;
+}
+
+.statelist-cellfull{
+  display: inline;
+}
+
+@media (max-width: 740px) {
+  .stuck{
+    margin-left: -10px;
+  }
+}
+
+@media (max-width: 500px) {
+
+  .sticky{
+    margin-left:-10px;
+  }
+
+  .stuck{
+    margin-left:-10px;
+    width:100vw;
+  }
+
+  .statelist-catLabel{
+    width:8px;
+  }
+
+  #statelist td.statelist-state{
+    padding-left: 10px;
   }
 
   #statelist td.statelist-ecvotes {
-    padding-right: 32px;
-    text-align: right;
+    padding-right: 6%;
+  }
+
+  .statelist-cellabbrv{
+    display:inline;
+  }
+
+  .statelist-cellfull{
+    display: none;
   }
 
   #statelist .statelist-pollmargin {
-    text-align: right;
-    padding-left: 0;
-    padding-right: 0;
-    width: 140px;
-    min-width: 80px;
+    display: none;
   }
 
+  #statelist-table {
+    max-width: 510px;
+    padding: 0 10px 0 10px;
+  }
+
+  #statelist-table table{
+    width:100%;
+  }
 }
 
 #individualpolls table {
@@ -1341,6 +1528,11 @@ a.ec-breakdown-row {
   color: #ffffff;
 }
 
+.Solid,
+.Leaning {
+  padding: 0 1%;
+}
+
 .Toss-up {
   margin: 0 8.3333%;
   font-size: 15px;
@@ -1629,5 +1821,93 @@ a.ec-breakdown-row {
     .nav__link--district-of-columbia:before {
       font-size: 1rem;
     }
+  }
+}
+
+@media (min-width: 76.25em) {
+    .article__aside{
+      padding-left: 0;
+    }
+}
+
+.suggested-reads {
+    border: 1px solid #cec6b9;
+    position: relative;
+    margin: 30px 0 20px;
+    padding: 20px 20px 0;
+}
+
+.suggested-reads .suggested-reads__title {
+    font-family: FinancierDisplayWeb,serif;
+    font-size: 20px;
+    font-family: serif;
+    line-height: 24px;
+    font-weight: 400;
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    margin: 0;
+    padding: 0 10px;
+    background: #fff1e0;
+    font-size: 18px;
+}
+
+.suggested-reads .suggested-reads__subheading {
+    font-family: sans-serif;
+    font-size: 13.05px;
+    line-height: 17px;
+    font-weight: 400;
+    margin: 0 0 10px;
+    color: #333;
+    border-bottom: 1px solid #cec6b9;
+    padding-bottom: 10px;
+}
+
+.suggested-reads .suggested-reads__list-item {
+    margin-bottom: 20px;
+}
+
+.suggested-reads .suggested-reads__list-item__headline {
+    font-family: serif;
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 400;
+    display: block;
+    border-bottom: 0;
+    margin: 0 0 4px;
+}
+
+.suggested-reads__list-item__headline:hover .suggested-reads__list-item__headline-text {
+    border-bottom: 1px dotted;
+}
+
+.suggested-reads a:focus,
+.suggested-reads a:hover {
+    color: #505050;
+    border-bottom-color: transparent;
+    outline-width: 0;
+}
+
+.suggested-reads .suggested-reads__list-item__headline-text {
+    display: inline;
+    color: #333;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+}
+
+.suggested-reads .suggested-reads__list-item__subheading {
+    font-family: sans-serif;
+    font-size: 13.05px;
+    line-height: 17px;
+    font-weight: 400;
+    margin: 0;
+    color: #505050;
+}
+
+/* temp override rail ad */
+@media (min-width: 61.24em) {
+  .advert--reserve-250 {
+      height: unset;
   }
 }

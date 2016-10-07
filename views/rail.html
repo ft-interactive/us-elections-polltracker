@@ -10,4 +10,9 @@
   <div class="rail__ad">
     {{ Ads.MidContent(on=flags.ads) }}
   </div>
+  {% if flags.onwardJourney %}
+  <div class="rail__onwardjourney">
+    {{ PageElements.SuggestedReads("More on this topic", onwardJourney.suggestedReads.data.items) }}
+  </div>
+  {% endif %}
 <div>
