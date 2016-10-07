@@ -13,6 +13,7 @@ import stateController from './controllers/state';
 import resultController from './controllers/result';
 import * as apiController from './controllers/api';
 import stateCount from './lib/state-counts';
+import resultData from './lib/getResultData';
 
 const cache = lru({
   max: 500,
@@ -152,6 +153,19 @@ app.get('/ec-forecast-component-2.:ext', ecForecastComponentController2);
 app.get('/ec-breakdown.html', ecBreakdownController);
 
 app.get('/result', resultController);
+app.get('/result.json', async (req,res)=>{
+  const cacheKey = 'result-json';
+  let value = cache.get(cacheKey);
+  if (!value) {
+    value = await resultData()
+    if (value) cache.set(cacheKey, value);
+  } else {
+    value = false;
+  }
+  setJSONHeaders(res)
+    .send(value);
+  return value;
+});
 
 // This needs to be last as it captures lot of paths and only does redirects
 app.get('/:code', stateCodeRedirectController);
