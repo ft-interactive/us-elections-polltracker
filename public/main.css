@@ -1891,6 +1891,7 @@ a.ec-breakdown-row {
     color: #333;
     font-size: inherit;
     font-weight: inherit;
+    line-height: inherit;
 }
 
 .suggested-reads .suggested-reads__list-item__subheading {
