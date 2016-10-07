@@ -3,11 +3,26 @@ import flags from '../../config/flags';
 import * as polls from '../lib/polls.js';
 import siteNav from '../lib/site-nav';
 import db from '../../models';
+import axios from 'axios';
+import cache from '../lib/cache';
 
 const lastUpdated = () =>
   db.lastupdates.findOne({ raw: true }).then(data => data && new Date(data.lastupdate));
 
+const fetchSuggestedReads = ({list, limit = 10}) =>
+  cache(
+    `suggestedReads:${list}:${limit}`,
+    () => axios.get(`https://ig.ft.com/onwardjourney/v1/${list}/json/?limit=${limit}`, { timeout: 3000 }).then(response => response.data),
+    3 * 60 * 1000 // 3 mins
+  );
+
 const onwardJourney = () => ({
+
+  suggestedReads: {
+    list: 'list/721e37c6-7442-11e6-bf48-b372cdb1043a',
+    limit: 4,
+  },
+
   relatedContent: [
 
     // "US Election 2016" stream
@@ -49,6 +64,9 @@ export default class Page {
     };
     this.flags = flags();
     this.onwardJourney = onwardJourney();
+    this.onwardJourney.suggestedReads.data = [];
+
+
     this.siteNav = siteNav();
 
     const electionDay = moment('2016-11-08');
@@ -59,6 +77,13 @@ export default class Page {
   async pready() {
     this.publishedDate = await lastUpdated();
     this.pollHistory = await polls.pollHistory(this.code);
+    try {
+      this.onwardJourney.suggestedReads.data = await fetchSuggestedReads(this.onwardJourney.suggestedReads);
+    } catch(e) {
+      console.error('Failed to get onward journey inset links', e.message);
+      // swallow error. if we cant get the onward journey suggestedReads links
+      // no need to fail to render the page
+    }
   }
 
   tracking = {
