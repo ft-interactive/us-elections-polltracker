@@ -687,9 +687,13 @@ a {
   font-size: 1.06rem;
 }
 
+#statelist th.statelist-pollmargin {
+  padding: 0 0 0.3em 0;
+}
+
 #statelist .statelist-pollmargin {
   width:4px;
-  padding: 0 0 0.3em 0;
+  padding: 0;
   font-weight: normal;
 }
 
