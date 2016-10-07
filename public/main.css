@@ -778,13 +778,13 @@ th.statelist-switch{
 }
 
 .sticky{
-  z-index: 1000; /* :( */
   box-sizing: border-box;
   margin-left:-20px;
   width:100%;
 }
 
 .stuck{
+  z-index: 1;
   margin-left: -20px;
   position: fixed;
   top:0px;
