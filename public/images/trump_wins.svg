@@ -24,7 +24,7 @@
       <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
       <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0" in="shadowBlurOuter1"/>
     </filter>
-    <text id="h" font-family="Metric-Semibold, Metric" font-size="33" font-weight="500">
+    <text id="h" font-family="Metric-Semibold, MetricWeb" font-size="33" font-weight="500">
       <tspan x="37.089" y="21">Trump wins</tspan>
     </text>
     <filter id="g" width="200%" height="200%" x="-50%" y="-50%" filterUnits="objectBoundingBox">
