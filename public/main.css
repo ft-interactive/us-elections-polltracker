@@ -1624,6 +1624,10 @@ a.ec-breakdown-row {
     text-align: left;
   }
 
+  .nav___mobile-nav .nav___mobile-nav--back-to-overview .dotted-underline {
+    margin-top: 0.8em;
+  }
+
   .nav___mobile-nav:not(.page__national) .nav___mobile-nav--back-to-overview .dotted-underline {
     color: #27757B;
     border-bottom: 1px dotted #27757B;
