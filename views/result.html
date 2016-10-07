@@ -4,9 +4,26 @@
 </head>
 <body>
     <h1>{{ headline }}</h1>
-    {{ result }}
+    
+<div>
+    <h2>President</h2>
     CLINTON: {{ result.ecTotals.dem }},
-    TRUMP: {{ result.ecTotals.rep }},
-    OTHER: {{ result.ecTotals.total }}
+    TRUMP: {{ result.ecTotals.rep }}
+    <p>TOTAL: {{result.ecTotals.rep + result.ecTotals.dem}}/{{ result.ecTotals.total }}</p>
+</div>
+<div>
+    <h2>House</h2>
+    Dem {{ result.house.current.dem }} Rep {{ result.house.current.rep }}    
+</div>
+<div>
+    <h2>Senate</h2>
+    Dem {{ result.senate.current.dem }} (+{{ result.senate.current.dem - result.senate.initial.dem }}) Rep {{ result.senate.current.rep }} (+{{ result.senate.current.rep - result.senate.initial.rep }})
+</div>
+<div>
+    <h2>Electoral college detail</h2>
+    {% for state in result.electoralCollege %}
+    <div><b>{{ state.code | stateName }}</b> {% if state.rep %} Trump: {{ state.rep }} {% endif %} {% if state.dem %}Clinton: {{ state.dem }}{% endif %}</div>
+    {% endfor %}
+</div>
 </body>
 </html>

@@ -16,9 +16,8 @@ export default async function getResult() {
                         };
                     }, { rep: 0, dem: 0, ind: 0, total: 538 });
 
-            processed.senate = response.data.senate;
-            processed.house = response.data.house;
-
+            processed.senate = response.data.senate[0];
+            processed.house = response.data.house[0];
             processed.electoralCollege = response.data.electoralCollege;
             processed.ecTotals = totals;
 
