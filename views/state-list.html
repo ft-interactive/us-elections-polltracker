@@ -4,7 +4,7 @@
 {% if on %}
 <div id="statelist">
   {% call PageElements.Figure(title="The 270 calculator: which states will it take to win?") %}
-  <p>The candidates are focusing their attention on states where the races are too close to call. These <span style="border-bottom:3px solid {{color.swing}}">toss-up states</span> are shown in the table below, the closest races first. Buttons that are already coloured indicate a lead of more than 5 per cent. States without percentages do not have polling data. You can see how the outcome of state elections affect the race for the presidency. <b>Click the buttons to assign a state's votes to a candidate's total. Click as many buttons as you wish.</b></p>
+  <p>Hillary Clinton and Donald Trump each need 270 electoral votes to win the presidency. Most states are leaning or solidly in favor of one candidate, but in some states the race is too close to call. These <span style="border-bottom:3px solid {{color.swing}}">toss-up states</span> are ranked below, with the closest races shown first. Which way do you think they’ll vote?</p>
   <div id="statelist-table">
     {% set row_num_collapse = 15 %}
     <div data-o-component="o-expander" class="o-expander items"
@@ -27,7 +27,7 @@
       </div>
       <table>
       <thead>
-          <th class="statelist-state"></th>
+          <th class="statelist-state">Closest races first</th>
           <th class="statelist-ecvotes" ><span class="statelist-cellfull">Electoral votes</span><span class="statelist-cellabbrv">Votes</span></th>
           <th class="statelist-pollmargin">Dem lead</th>
           <th class="statelist-switch">Pick a winner</th>

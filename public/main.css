@@ -676,8 +676,9 @@ a {
 }
 
 #statelist th.statelist-state {
-  text-align:right;
-  padding-left: 0;
+  text-align: left;
+  text-transform: initial;
+  font-style: italic;
 }
 
 #statelist td {
@@ -688,7 +689,7 @@ a {
 
 #statelist .statelist-pollmargin {
   width:4px;
-  padding: 0;
+  padding: 0 0 0.3em 0;
   font-weight: normal;
 }
 
@@ -698,7 +699,6 @@ a {
   max-width: 100px;
   padding-right: 0;
   font-weight: normal;
-  padding-bottom: 0;
 }
 
 #statelist td.statelist-ecvotes {
