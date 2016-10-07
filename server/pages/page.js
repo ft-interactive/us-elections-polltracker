@@ -4,12 +4,17 @@ import * as polls from '../lib/polls.js';
 import siteNav from '../lib/site-nav';
 import db from '../../models';
 import axios from 'axios';
+import cache from '../lib/cache';
 
 const lastUpdated = () =>
   db.lastupdates.findOne({ raw: true }).then(data => data && new Date(data.lastupdate));
 
-const fetchInsetLinks = ({list, limit = 10}) =>
-  axios.get(`https://ig.ft.com/onwardjourney/v1/${list}/json/?limit=${limit}`, { timeout: 3000 }).then(response => response.data);
+const fetchSuggestedReads = ({list, limit = 10}) =>
+  cache(
+    `suggestedReads:${list}:${limit}`,
+    () => axios.get(`https://ig.ft.com/onwardjourney/v1/${list}/json/?limit=${limit}`, { timeout: 3000 }).then(response => response.data),
+    3 * 60 * 1000 // 3 mins
+  );
 
 const onwardJourney = () => ({
 
@@ -73,9 +78,9 @@ export default class Page {
     this.publishedDate = await lastUpdated();
     this.pollHistory = await polls.pollHistory(this.code);
     try {
-      this.onwardJourney.suggestedReads.data = await fetchInsetLinks(this.onwardJourney.suggestedReads);
+      this.onwardJourney.suggestedReads.data = await fetchSuggestedReads(this.onwardJourney.suggestedReads);
     } catch(e) {
-      console.eror('Failed to get onward journey inset links', e.message);
+      console.error('Failed to get onward journey inset links', e.message);
       // swallow error. if we cant get the onward journey suggestedReads links
       // no need to fail to render the page
     }
