@@ -1592,7 +1592,7 @@ a.ec-breakdown-row {
 }
 
 .rail__state-list__logo {
-  padding: 0 8px 0 1em;
+  padding: 0 8px 0 0;
   border-bottom: none !important;
 }
 
