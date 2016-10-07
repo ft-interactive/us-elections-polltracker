@@ -37,7 +37,7 @@
     <use fill="#FFFFFF" stroke="#FFFFFF" stroke-width="6" filter="url(#g)" xlink:href="#h"/>
     <use fill="#FFFFFF" xlink:href="#h"/>
     <use stroke="#FFFFFF" stroke-width="6" xlink:href="#h"/>
-    <text fill="#E03D46" font-family="Metric-Semibold, Metric" font-size="33" font-weight="500">
+    <text fill="#E03D46" font-family="Metric-Semibold, MetricWeb" font-size="33" font-weight="500">
       <tspan x="37.089" y="21">Trump wins</tspan>
     </text>
   </g>
