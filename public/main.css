@@ -672,14 +672,19 @@ a {
 }
 
 #statelist th.statelist-state {
-  text-align:right;
-  padding-left: 0;
+  text-align: left;
+  text-transform: initial;
+  font-style: italic;
 }
 
 #statelist td {
   padding: 0.25em;
   position: relative;
   font-size: 1.06rem;
+}
+
+#statelist th.statelist-pollmargin {
+  padding: 0 0 0.3em 0;
 }
 
 #statelist .statelist-pollmargin {
@@ -694,7 +699,6 @@ a {
   max-width: 100px;
   padding-right: 0;
   font-weight: normal;
-  padding-bottom: 0;
 }
 
 #statelist td.statelist-ecvotes {
@@ -789,6 +793,43 @@ th.statelist-switch{
 
 .stuck.sticky {
   border-bottom: 140px solid #cec6b9;
+}
+
+#statelist-winner-container {
+  position: absolute;
+  width: 100%;
+}
+
+#statelist-winner-container[data-statelist-winner="Clinton"] .statelist-winner#statelist-winner--clinton,
+#statelist-winner-container[data-statelist-winner="Trump"] .statelist-winner#statelist-winner--trump {
+  opacity: 1;
+  display: block;
+}
+
+#statelist-winner-container-panel {
+  width: 100%;
+  background: #F6E9D8;
+  opacity: 0;
+  height: 90px;
+  position: absolute;
+  transition: opacity 195ms cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+#statelist-winner-container[data-statelist-winner="Clinton"] #statelist-winner-container-panel,
+#statelist-winner-container[data-statelist-winner="Trump"] #statelist-winner-container-panel {
+  opacity: 0.7;
+}
+
+.statelist-winner {
+  position: absolute;
+  opacity: 0;
+  left: 40px;
+  transition: opacity 195ms cubic-bezier(0.645, 0.045, 0.355, 1) 50ms;
+  display: none;
+}
+
+.statelist-winner img {
+  margin-top: 27px;
 }
 
 .switch-button{

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="190" height="90" viewBox="0 0 190 90" xmlns:xlink="http://www.w3.org/1999/xlink">
+<style>
+@font-face{
+  src:url(https://origami-build.ft.com/v2/files/o-fonts-assets@1.3.0/MetricWeb-Regular.woff?#iefix) format("woff");
+  font-family:MetricWeb;
+  font-weight:400;
+  font-style:normal
+}
+
+@font-face{
+  src:url("https://origami-build.ft.com/v2/files/o-fonts-assets@1.3.0/MetricWeb-RegularItalic.woff?#iefix") format("woff");
+  font-family:MetricWeb;
+  font-weight:400;
+  font-style:italic;
+}
+
+@font-face{
+  src:url("https://origami-build.ft.com/v2/files/o-fonts-assets@1.3.0/MetricWeb-Semibold.woff?#iefix") format("woff");
+  font-family:MetricWeb;
+  font-weight:600;
+  font-style:normal;
+}
+text{
+    font-family: MetricWeb, sans-serif;
+}
+</style>
+  <defs>
+    <polygon id="b" points="70.5 35.487 56.594 42.798 59.25 27.313 48 16.347 63.547 14.088 70.5 0 77.453 14.088 93 16.347 81.75 27.313 84.406 42.798"/>
+    <filter id="a" width="200%" height="200%" x="-50%" y="-50%" filterUnits="objectBoundingBox">
+      <feMorphology radius="1.5" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"/>
+      <feOffset dy="2" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+      <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"/>
+      <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+      <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0" in="shadowBlurOuter1"/>
+    </filter>
+    <polygon id="d" points="22.5 41.601 11.684 47.287 13.75 35.244 5 26.714 17.092 24.957 22.5 14 27.908 24.957 40 26.714 31.25 35.244 33.316 47.287"/>
+    <filter id="c" width="200%" height="200%" x="-50%" y="-50%" filterUnits="objectBoundingBox">
+      <feMorphology radius="1.5" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"/>
+      <feOffset dy="2" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+      <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"/>
+      <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+      <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0" in="shadowBlurOuter1"/>
+    </filter>
+    <polygon id="f" points="118.5 41.601 107.684 47.287 109.75 35.244 101 26.714 113.092 24.957 118.5 14 123.908 24.957 136 26.714 127.25 35.244 129.316 47.287"/>
+    <filter id="e" width="200%" height="200%" x="-50%" y="-50%" filterUnits="objectBoundingBox">
+      <feMorphology radius="1.5" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"/>
+      <feOffset dy="2" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+      <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"/>
+      <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+      <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0" in="shadowBlurOuter1"/>
+    </filter>
+    <text id="h" font-family="Metric-Semibold, MetricWeb" font-size="33" font-weight="500">
+      <tspan x="34.498" y="21">Clinton wins</tspan>
+    </text>
+    <filter id="g" width="200%" height="200%" x="-50%" y="-50%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"/>
+      <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0" in="shadowBlurOuter1"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd" transform="translate(-31 8)">
+    <use fill="#FFFFFF" stroke="#FFFFFF" stroke-width="6" filter="url(#g)" xlink:href="#h"/>
+    <use fill="#FFFFFF" xlink:href="#h"/>
+    <use stroke="#FFFFFF" stroke-width="6" xlink:href="#h"/>
+    <text fill="#3D8ED0" font-family="Metric-Semibold, MetricWeb" font-size="33" font-weight="500">
+      <tspan x="34.498" y="21">Clinton wins</tspan>
+    </text>
+  </g>
+</svg>
