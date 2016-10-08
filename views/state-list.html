@@ -45,7 +45,7 @@
 
           <td class="statelist-state">
             <div class="statelist-catLabel"></div>
-            <a href="{{ state | statePollPageURL }}"><span class="statelist-cellabbrv">{{ state.code | stateShortname({'NH':'N Hamps'}) }} <span style="color: grey; text-transform: uppercase; font-size: 0.8em; margin-left: 5px;">{{ state.ecVotes }}{% if loop.first %} votes{% endif %}</span></span><span class="statelist-cellfull">{{ state.fullname }}</span></a>
+            <a href="{{ state | statePollPageURL }}"><span class="statelist-cellabbrv">{{ state.code | stateShortname({'NH':'N Hamps'}) }} <br /><span style="color: grey; text-transform: uppercase; font-size: 0.8em;">{{ state.ecVotes }}{% if loop.first %} votes{% endif %}</span></span><span class="statelist-cellfull">{{ state.fullname }}</span></a>
           </td>
           <td class="statelist-ecvotes">{{ state.ecVotes }}</td>
           <td class="statelist-pollmargin statelist-pollmargin--mobile statelist-margin-cell {% if state.margin > 0 and state.Clinton != null %}dem-margin-cell{% endif %} {% if state.margin < 0 and state.Trump != null %}rep-margin-cell{% endif %}">{% if (state.margin > 0 and state.Clinton != null) or (state.margin < 0 and state.Trump != null) %}+{{ state.margin | round1dp | replace('-', '') }}{% else %}–{% endif %}</td>
