@@ -724,6 +724,10 @@ a {
   padding-left:25px;
 }
 
+#statelist .statelist-pollmargin.statelist-pollmargin--mobile {
+  display: none;
+}
+
 .statelist-switch {
   font-weight: 500;
 }
@@ -977,8 +981,21 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
     display: none;
   }
 
+  #statelist .statelist-ecvotes {
+    display: none;
+  }
+
   #statelist .statelist-pollmargin {
     display: none;
+  }
+
+  #statelist .statelist-pollmargin.statelist-pollmargin--mobile {
+    display: table-cell;
+    text-align: center;
+  }
+
+  #statelist th.statelist-pollmargin.statelist-pollmargin--mobile {
+    padding-bottom: 0.3em;
   }
 
   #statelist-table {
