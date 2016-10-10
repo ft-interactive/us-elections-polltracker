@@ -15,4 +15,5 @@ export default () => ({
   footer: true,
   stateList: true,
   headerMarketingPromo: true,
+  cookieMessage: prod,
 });
