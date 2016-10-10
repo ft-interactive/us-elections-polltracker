@@ -6,6 +6,7 @@ import * as nunjucks from './nunjucks';
 import ecForecastComponentController2 from './controllers/ec-forecast-component-2';
 import layoutForecastMap from '../layouts/forecast-map-layout';
 import nationalController from './controllers/national';
+import timemachineController from './controllers/timemachine';
 import ecBreakdownController from './controllers/ec-breakdown';
 import pollGraphicsController from './controllers/poll-graphics';
 import stateCodeRedirectController from './controllers/state-code-redirect';
@@ -140,6 +141,8 @@ app.get('/polls-:state', (req, res) => {
 
 app.get('/polls', nationalController);
 app.get('/:state-polls', stateController);
+
+app.get('/timemachine', timemachineController);
 
 // support the old state poll format (redirect to new routes)
 app.get('/polls/:code', stateCodeRedirectController);
