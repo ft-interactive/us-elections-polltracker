@@ -764,6 +764,13 @@ th.statelist-switch{
   padding: 10px 0;
 }
 
+#calculation-result-label {
+  font-size: 14px;
+  font-style: italic;
+  color: #333333;
+  margin-bottom: 0.3em;
+}
+
 .calculation-chart--name{
   fill:#FFF;
 }
@@ -796,7 +803,7 @@ th.statelist-switch{
 }
 
 .stuck.sticky {
-  border-bottom: 140px solid #cec6b9;
+  border-bottom: 160px solid #cec6b9;
 }
 
 #statelist-winner-container {
