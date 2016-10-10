@@ -3,7 +3,7 @@
  */
 
 import mobileNav from './mobile-nav';
-import ecVotes from './states-page--ec-votes-chart';
+import ecVotes from './state-ecvotes-graphic';
 
 (function main() {
   mobileNav();
