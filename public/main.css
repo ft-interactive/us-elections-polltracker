@@ -821,7 +821,7 @@ th.statelist-switch{
   width: 100%;
   background: #F6E9D8;
   opacity: 0;
-  height: 90px;
+  height: 105px;
   position: absolute;
   transition: opacity 195ms cubic-bezier(0.645, 0.045, 0.355, 1);
 }
@@ -841,7 +841,7 @@ th.statelist-switch{
 }
 
 .statelist-winner img {
-  margin-top: 21px;
+  margin-top: 43px;
 }
 
 .switch-button{
