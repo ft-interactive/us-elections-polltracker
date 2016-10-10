@@ -1,10 +1,10 @@
 {% import "page-elements.html" as PageElements -%}
 
-{% macro Render(stateCounts, on=true) %}
+{% macro Render(stateCounts, on=true, nationalBarCounts) %}
 {% if on %}
 <div id="statelist">
   {% call PageElements.Figure(title="The 270 calculator: which states will it take to win?") %}
-  <p>Hillary Clinton and Donald Trump each need 270 electoral votes to win the presidency. Most states are leaning or solidly in favour of one candidate, but in some states the race is too close to call. These <span style="border-bottom:3px solid {{color.swing}}">toss-up states</span> are ranked below, with the closest races shown first. Which way do you think they’ll vote?</p>
+  <p>Hillary Clinton and Donald Trump each need 270 electoral votes to win the presidency. Most states are leaning or solidly in favour of one candidate, but in some states the race is too close to call. {% if nationalBarCounts.dem + nationalBarCounts.leaningDem >= 270 %} Polls suggest that Mrs Clinton currently has a sizeable lead in enough states to secure the 270 electoral votes needed to win the presidency. Use the calculator below to work out how the remaining <span style="border-bottom:3px solid {{color.swing}}">toss-up states</span> will vote, and in which other states Mr Trump must recover. {% else %} These <span style="border-bottom:3px solid {{color.swing}}">toss-up states</span> are ranked below, with the closest races shown first. Which way do you think they’ll vote? {% endif %}</p>
   <div id="statelist-table">
     {% set row_num_collapse = 15 %}
     <div data-o-component="o-expander" class="o-expander items"
