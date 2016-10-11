@@ -3,22 +3,26 @@
     
 <div>
     <h2>President</h2>
-    CLINTON: {{ result.ecTotals.dem }},
-    TRUMP: {{ result.ecTotals.rep }}
-    <p>TOTAL: {{result.ecTotals.rep + result.ecTotals.dem}}/{{ result.ecTotals.total }}</p>
+    CLINTON: {{ result.ecTotals.d }},
+    TRUMP: {{ result.ecTotals.r }}
+    <p>TOTAL: {{result.ecTotals.r + result.ecTotals.d}}/{{ result.ecTotals.total }}</p>
+    <div>{{ barLayout }}</div>
+    <div>{{ mapView }}</div>
 </div>
 <div>
     <h2>House</h2>
+    <div>{{ houseBarLayout }}</div>
     Dem {{ result.house.current.dem }} Rep {{ result.house.current.rep }}    
 </div>
 <div>
     <h2>Senate</h2>
+    <div>{{ senateBarLayout }}</div>
     Dem {{ result.senate.current.dem }} (+{{ result.senate.current.dem - result.senate.initial.dem }}) Rep {{ result.senate.current.rep }} (+{{ result.senate.current.rep - result.senate.initial.rep }})
 </div>
 <div>
     <h2>Electoral college detail</h2>
     {% for state in result.electoralCollege %}
-    <div><b>{{ state.code | stateName }}</b> {% if state.rep %} Trump: {{ state.rep }} {% endif %} {% if state.dem %}Clinton: {{ state.dem }}{% endif %}</div>
+    <div><b>{{ state.code | stateName }}</b> {% if state.winner == 'r' %} Trump: {{ state.ecvotes }} {% endif %} {% if state.winner == 'd' %}Clinton: {{ state.ecvotes }}{% endif %}</div>
     {% endfor %}
 </div>
 <hr>
