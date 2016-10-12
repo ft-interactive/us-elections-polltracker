@@ -5,23 +5,41 @@ import color from './color';
 export default (electoralCollegeData, opts) => {
     const votes = expand(electoralCollegeData);
     //console.log(votes);
-    const repSelector = votes
-        .filter(d => d.winner == 'r')
-        .map(d => d.selector)
-        .join(', ');
-    const demSelector = votes
-        .filter(d => d.winner == 'd')
-        .map(d => d.selector)
-        .join(', ');
+    const selectorGroups = makeSelectorStatements(votes); 
 
-    return 'dot map layout ' + repSelector;
+    return selectorGroups;
 };
+
+function makeSelectorStatements(arr){
+    const groups = arr.reduce(function(previous, current){
+        console.log(previous);
+        if(current.winner){
+            previous[current.winner].push( current.selector );
+        }else{
+            previous.n.push( current.selector );
+        }
+        return previous;
+    },
+    {
+        r: [],
+        d: [],
+        g: [],
+        l: [],
+        n: [],
+    });
+
+    Object.keys(groups).forEach(function(key){
+        groups[key] = groups[key].join(', ');
+    })
+
+    return groups;
+}
 
 function expand(arr){ 
     return arr.reduce(function(value, d){
         for(var i=0;i<d.ecvotes;i++){
             var s = JSON.parse( JSON.stringify(d))
-            s.selector = '#' + d.code + '_' + i;
+            s.selector = '#' + d.code.toUpperCase() + '_' + i;
             value.push(s);
         }
         return value;

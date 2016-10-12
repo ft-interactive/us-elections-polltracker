@@ -8,7 +8,6 @@ export default async function getResult() {
             const processed = {};
             const totals = response.data.electoralCollege
                 .reduce((previous, current) => {
-                    console.log(current);
                         let r = previous.r;
                         let d = previous.d;
                         let g = previous.g;
@@ -20,8 +19,6 @@ export default async function getResult() {
                         if(current.winner == 'l'){ l += current.ecvotes; }
                         return { r, d, g, l, total:previous.total};
                     }, { r: 0, d: 0, g: 0, l:0, total: 538 });
-
-                console.log(totals);
 
             processed.pollClosingTimes = response.data.events;
             processed.senate = response.data.senate[0];
