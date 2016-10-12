@@ -1,0 +1,9 @@
+.ecresultslist { }
+
+.ecresultslist__cell--dem{ 
+    background-color: #579dd5;
+}
+
+.ecresultslist__cell--rep{ 
+    background-color: #e03d46;
+}
