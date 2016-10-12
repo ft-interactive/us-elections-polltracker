@@ -1,6 +1,7 @@
 import Page from './page';
 import getResult from '../lib/getResultData';
 import dotMapLayout from '../../layouts/results-dot-map'; 
+import mapLayout from '../../layouts/results-map'; 
 import color from '../../layouts/color';
 
 class ResultPage extends Page {
@@ -18,12 +19,11 @@ class ResultPage extends Page {
     const result = await getResult(); 
     this.result = result;
     this.color = color;
-    this.mapSelectors = dotMapLayout( result.electoralCollege, { width: 800, height: 500 } );
+    this.dotMapSelectors = dotMapLayout( result.electoralCollege, { width: 800, height: 500 } );
+    this.mapSelectors = mapLayout( result.electoralCollege, { width: 800, height: 500 } );
     this.ecBarLayout = 'EC Bar Layout!';
     this.senateBarLayout = 'Senate Bar Layout!';
     this.houseBarLayout = 'House Bar Layout!';
-
-    console.log( 'MS::: ', this.mapSelectors );
 
     await this.pready();
   }
