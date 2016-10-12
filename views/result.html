@@ -1,13 +1,17 @@
 {% extends "results-layout.html" %}
 {% block content %}
-    
+
 <div>
     <h2>President</h2>
     CLINTON: {{ result.ecTotals.d }},
     TRUMP: {{ result.ecTotals.r }}
     <p>TOTAL: {{result.ecTotals.r + result.ecTotals.d}}/{{ result.ecTotals.total }}</p>
     <div>{{ barLayout }}</div>
-    <div>{{ mapView }}</div>
+
+
+    <div>
+        {% include "includes/results-dot-map.svg" %}
+    </div>
 </div>
 <div>
     <h2>House</h2>
