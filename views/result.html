@@ -25,9 +25,27 @@
 </div>
 <div>
     <h2>Electoral college detail</h2>
+    <table class="ecresultslist">
+    <thead>
+    <tr>
+        <th class="ecresultslist__headercell">2012</th>
+        <th class="ecresultslist__headercell">2016</th>
+        <th class="ecresultslist__headercell">State</th>
+        <th class="ecresultslist__headercell">Votes</th>
+        <th class="ecresultslist__headercell--optional">Margin</th>
+    </tr>
+    </thead>
+    <tbody>
     {% for state in result.electoralCollege %}
-    <div><b>{{ state.code | stateName }}</b> {% if state.winner == 'r' %} Trump: {{ state.ecvotes }} {% endif %} {% if state.winner == 'd' %}Clinton: {{ state.ecvotes }}{% endif %}</div>
+    <tr>
+        <td class="ecresultslist__cell--{{ state.code | winner2012 }}"></td>
+        <td class="ecresultslist__cell--{% if state.winner == 'r' %}rep{% endif %}{% if state.winner == 'd' %}dem{% endif %}">{% if state.winner == 'r' %} Trump {% endif %} {% if state.winner == 'd' %}Clinton{% endif %}</td>
+        <td class="ecresultslist__cell">{{ state.code | stateName }}</td>
+        <td class="ecresultslist__cell">{{ state.ecvotes }}</td>
+        <td class="ecresultslist__cell"></td>
+    </tr>
     {% endfor %}
+    </tbody>
+    </table>
 </div>
-<hr>
 {% endblock %}

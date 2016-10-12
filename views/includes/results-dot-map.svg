@@ -1,23 +1,28 @@
-<svg width="960" height="700" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="100%" viewBox="65 20 800 475" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <style type="text/css">
 	<![CDATA[
-		.land { fill: rgb(255, 241, 224); stroke: rgb(0, 0, 0); stroke-opacity: 0.1; }
+		.land { fill: #fff; stroke: #000; stroke-opacity: 0.1; }
 		.state-boundary { fill: none; stroke: rgb(0, 0, 0); stroke-opacity: 0.1; }
 		.college-vote { fill:none; stroke:#000; }
 		{{ mapSelectors.r }} {
 			fill:{{ color.rep }};
+			stroke:none;
 		}
 		{{ mapSelectors.d }} {
 			fill:{{ color.dem }};
+			stroke:none;
 		}
 		{{ mapSelectors.l }} {
 			fill:{{ color.lib }};
+			stroke:none;
 		}
 		{{ mapSelectors.g }} {
 			fill:{{ color.grn }};
+			stroke:none;
 		}
 		{{ mapSelectors.n }} {
 			fill:{{ color.nodata }};
+			stroke:none;
 		}
 	]]>
 </style>

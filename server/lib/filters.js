@@ -1,5 +1,5 @@
 import { category } from './margin-category';
-import { codeToSlug, getByCode, getBySlug } from './states';
+import { codeToSlug, getByCode, getBySlug, getResultsByCode } from './states';
 
 export function commas(n) {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -43,6 +43,10 @@ export function stateName(code, override = {}) {
   if(override[code]) return override[code];
   if(getByCode(code)) return getByCode(code).name;
   return code;
+}
+
+export function winner2012(code){
+  return getResultsByCode(code.toUpperCase(), 2012);
 }
 
 // turn 8/26 - 8/29 to Aug 26 - 29
