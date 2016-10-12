@@ -848,20 +848,21 @@ th.statelist-switch{
   font-size: 0.85em;
   font-weight: 500;
   display: inline-block;
-  width: 50px;
-  height: 16px;
+  width: 70px;
+  height: 28px;
   background-size: 100%;
   margin: 0 4px;
-  padding: 5px 10px 3px;
+  padding-top: 5px;
   line-height: 100%;
   border-radius: 4px;
+  box-sizing: border-box;
   /*text-indent: 100%;*/
   white-space: nowrap;
   /*overflow: hidden;*/
   border-bottom: none;
--webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
--moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
+-webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.3);
+-moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.3);
+box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.3);
 }
 
 .statelist-dem .switch-button.rep,
@@ -886,8 +887,9 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
 .statelist-leaningDem .switch-button.dem{
   /*background-image: url("ui/dem-on.png");*/
   background-color: #3d8ed0 !important;
-  border: 2px solid #3d8ed0;
+  border: 2px solid transparent;
   color: white;
+  box-shadow: inset 2px 2px 3px rgba(0,0,0,0.35);
 }
 
 
@@ -895,8 +897,9 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
 .statelist-leaningRep .switch-button.rep{
   /*background-image: url("ui/rep-on.png");*/
   background-color: #e03d46 !important;
-  border: 2px solid #e03d46;
+  border: 2px solid transparent;
   color: white;
+  box-shadow: inset 2px 2px 3px rgba(0,0,0,0.35);
 }
 
 
