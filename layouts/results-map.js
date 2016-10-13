@@ -10,9 +10,9 @@ export default (electoralCollegeData, opts) => {
 function makeSelectorStatements(arr){
     const groups = arr.reduce(function(previous, current){
         if(current.winner){
-            previous[current.winner].push( '#' + current.code );
+            previous[current.winner].push( '#' + current.code.toUpperCase() );
         }else{
-            previous.n.push( '#' + current.code );
+            previous.n.push( '#' + current.code.toUpperCase() );
         }
         return previous;
     },
@@ -27,6 +27,6 @@ function makeSelectorStatements(arr){
     Object.keys(groups).forEach(function(key){
         groups[key] = groups[key].join(', ');
     })
-
+    console.log(groups);
     return groups;
 }
