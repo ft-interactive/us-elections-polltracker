@@ -3,9 +3,9 @@
 
 <div>
     <h2>President</h2>
-    CLINTON: {{ result.overview.president.clinton }},
-    TRUMP: {{ result.overview.president.trump }}
-    <p>TOTAL: {{result.overview.president.trump + result.overview.president.clinton }}/ 538</p>
+    CLINTON: {{ overview.president.clinton }},
+    TRUMP: {{ overview.president.trump }}
+    <p>TOTAL: {{ overview.president.trump + overview.president.clinton }}/ 538</p>
     <div>{{ barLayout }}</div>
 
 
@@ -19,12 +19,12 @@
 <div>
     <h2>House</h2>
     <div>{{ houseBarLayout }}</div>
-    Dem {{ result.overview.house.dem }} Rep {{ result.overview.house.rep }}    
+    Dem {{ overview.house.dem }} Rep {{ overview.house.rep }}    
 </div>
 <div>
     <h2>Senate</h2>
     <div>{{ senateBarLayout }}</div>
-    Dem {{ result.overview.senate.dem }} Rep {{ result.overview.senate.rep }}
+    Dem {{ overview.senate.dem }} Rep {{ overview.senate.rep }}
 </div>
 <div>
     <h2>Electoral college detail</h2>
@@ -39,7 +39,7 @@
     </tr>
     </thead>
     <tbody>
-    {% for state in result.electoralCollege %}
+    {% for state in stateResults %}
     <tr>
         <td class="ecresultslist__cell--{{ state.code | winner2012 }}"></td>
         <td class="ecresultslist__cell--{% if state.winner == 'r' %}rep{% endif %}{% if state.winner == 'd' %}dem{% endif %}">{% if state.winner == 'r' %} Trump {% endif %} {% if state.winner == 'd' %}Clinton{% endif %}</td>
