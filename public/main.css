@@ -809,6 +809,7 @@ th.statelist-switch{
 #statelist-winner-container {
   position: absolute;
   width: 100%;
+  pointer-events: none;
 }
 
 #statelist-winner-container[data-statelist-winner="Clinton"] .statelist-winner#statelist-winner--clinton,
