@@ -30,7 +30,7 @@ export default async function getResult() {
                         if(current.winner){ reported[current.code.substring(0,2)] = true; }
 
                         return { r, d, g, l, guess_d:guess_d, guess_r:guess_r, total:previous.total, reported:reported};
-                    }, { r: 0, d: 0, g: 0, l:0, guess_d:0,guess_r:0, total: 538, reported:{} });
+                    }, { r: 0, d: 0, g: 0, l:0, guess_d:0, guess_r:0, total: 538, reported:{} });
 
 console.log(totals);
 
@@ -41,8 +41,8 @@ console.log(totals);
             processed.ecTotals = totals;
             processed.overview = {
                 timestamp: (new Date()).getTime(),
-                senate: response.data.senate[0].current,
-                house: response.data.house[0].current,
+                senate: Object.assign({total:response.data.senate[0].total}, response.data.senate[0].current),
+                house: Object.assign({total:response.data.house[0].total}, response.data.house[0].current),
                 president: {
                     clinton: totals.d,
                     trump: totals.r,
