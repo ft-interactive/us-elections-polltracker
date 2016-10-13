@@ -12,7 +12,6 @@ export default (electoralCollegeData, opts) => {
 
 function makeSelectorStatements(arr){
     const groups = arr.reduce(function(previous, current){
-        console.log(previous);
         if(current.winner){
             previous[current.winner].push( current.selector );
         }else{
