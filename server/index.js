@@ -44,7 +44,6 @@ if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '
       res.status(500).send('still initialising database - please wait then try again');
       return;
     }
-
     next();
   });
 }
@@ -153,17 +152,27 @@ app.get('/ec-forecast-component-2.:ext', ecForecastComponentController2);
 app.get('/ec-breakdown.html', ecBreakdownController);
 
 app.get('/result', resultController);
-app.get('/result.json', async (req,res)=>{
+app.get('/full-result.json', async (req, res) => {
   const cacheKey = 'result-json';
   let value = cache.get(cacheKey);
   if (!value) {
     value = await resultData()
     if (value) cache.set(cacheKey, value);
-  } else {
-    value = false;
   }
   setJSONHeaders(res)
     .send(value);
+  return value;
+});
+
+app.get('/overview-result.json', async (req, res) => {
+  const cacheKey = 'result-json';
+  let value = cache.get(cacheKey);
+  if (!value) {
+    value = await resultData();
+    if (value) cache.set(cacheKey, value);
+  }
+  setJSONHeaders(res)
+    .send(value.overview);
   return value;
 });
 
