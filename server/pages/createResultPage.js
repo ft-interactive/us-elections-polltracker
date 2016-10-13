@@ -8,7 +8,6 @@ class ResultPage extends Page {
   constructor() {
     super();
     this.title = 'Presidential election result';
-    this.headline = 'Presidential election result';
     this.streamUrl = 'https://www.ft.com/us-election-2016';
     this.url = 'https://ig.ft.com/us-elections/result';
     this.code = 'us';
@@ -17,7 +16,10 @@ class ResultPage extends Page {
 
   async ready() {
     const result = await getResult(); 
-    this.result = result;
+    this.headline = result.copy.headline;
+    this.subtitle = result.copy.subtitle;
+    this.stateResults = result.electoralCollege;
+    this.overview = result.overview;
     this.color = color;
     this.dotMapSelectors = dotMapLayout( result.electoralCollege, { width: 800, height: 500 } );
     this.mapSelectors = mapLayout( result.electoralCollege, { width: 800, height: 500 } );
