@@ -1,6 +1,9 @@
 {% extends "results-layout.html" %}
 {% block content %}
-
+<script>
+    var timestamp = {{ overview.timestamp }};
+    console.log(timestamp);
+</script>
 <div>
     <h2>President</h2>
     CLINTON: {{ overview.president.clinton }},
