@@ -66,8 +66,13 @@ export const makePollTimeSeries = async chartOpts => {
   return false;
 };
 
-const getPollSVG = async (state, size = '600x300', pollnumcandidates) =>
-  makePollTimeSeries({
+const getPollSVG = async (state, size = '600x300', pollnumcandidates) => {
+  let yAxisDomain = '30-60';
+  if (state === 'ut' || state === 'md' || state === 'ma' || state === 'or') {
+    yAxisDomain = null;
+  }
+
+  return makePollTimeSeries({
     fontless: true,
     notext: true,
     startDate: '2016-07-01T00:00:00',
@@ -78,9 +83,9 @@ const getPollSVG = async (state, size = '600x300', pollnumcandidates) =>
     margin: { top: 10, left: 35, bottom: 50, right: 90 },
     pollnumcandidates,
     outlineColor: 'fff1e0',
-    yAxisDomain: '30-60',
+    yAxisDomain,
   })
-;
+};
 
 export async function lineChart(code, pollnumcandidates) {
   return {

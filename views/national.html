@@ -13,14 +13,14 @@
 {% block content %}
 
 {% markdown %}
-With only {{ daysToElection }} day{% if daysToElection != 1 %}s{% endif %} left until election day,&nbsp;
+Democratic candidate Hillary Clinton and Republican candidate Donald Trump need 270 electoral college votes to win the presidency. With only {{ daysToElection }} day{% if daysToElection != 1 %}s{% endif %} left until election day,&nbsp; 
 {%- if nationalBarCounts.dem + nationalBarCounts.leaningDem > 270 -%}
-Hillary Clinton leads the race for 270 electoral college votes
+Mrs Clinton is leading the race
 {%- elif nationalBarCounts.rep + nationalBarCounts.leaningRep > 270 -%}
-Donald Trump leads the race for 270 electoral college votes
+Mr Trump is leading the race
 {%- else -%}
-the presidential race is still too close to call
-{%- endif -%}. Democratic candidate Hillary Clinton and Republican candidate Donald Trump need 270 electoral college votes to win the presidency. Both candidates will be paying attention to toss-up states such as <a href="{{ tossups[0] | statePollPageURL }}">{{ tossups[0].fullname }}</a>, <a href="{{ tossups[1] | statePollPageURL }}">{{ tossups[1].fullname }}</a> and <a href="{{ tossups[2] | statePollPageURL }}">{{ tossups[2].fullname }}</a>.
+the race remains close
+{%- endif -%}. Both candidates will be paying attention to toss-up states such as <a href="{{ tossups[0] | statePollPageURL }}">{{ tossups[0].fullname }}</a>, <a href="{{ tossups[1] | statePollPageURL }}">{{ tossups[1].fullname }}</a> and <a href="{{ tossups[2] | statePollPageURL }}">{{ tossups[2].fullname }}</a>.
 {% endmarkdown %}
 
 {% call PageElements.Figure(title="Latest prediction", subtitle="Electoral college votes") %}
@@ -37,7 +37,8 @@ the presidential race is still too close to call
 {{
   StateList(
     stateCounts=stateCounts,
-    on=flags.stateList
+    on=flags.stateList,
+    nationalBarCounts=nationalBarCounts
   )
 }}
 

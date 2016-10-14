@@ -44,7 +44,7 @@ export default async function getStateSummary(state) {
 }
 
 export function getVoteClass(stateCode, stateCounts) {
-  return category(stateCounts[stateCode].margin);
+  return `state-ecvotes-graphic__square--${category(stateCounts[stateCode].margin)}`;
 }
 
 export async function getECVoteScales() {

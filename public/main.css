@@ -152,14 +152,10 @@
   max-height: 200px;
 }
 
-.rail__state-list__nationalLink {
-  margin-bottom: 3px;
-}
-
 .rail__state-list__nationalLink a {
   color: #318085;
   border-bottom: 1px #318085 dotted;
-  font-size: 1.4em;
+  font-size: 1.2em;
   font-weight: normal;
 }
 
@@ -676,14 +672,19 @@ a {
 }
 
 #statelist th.statelist-state {
-  text-align:right;
-  padding-left: 0;
+  text-align: left;
+  text-transform: initial;
+  font-style: italic;
 }
 
 #statelist td {
   padding: 0.25em;
   position: relative;
   font-size: 1.06rem;
+}
+
+#statelist th.statelist-pollmargin {
+  padding: 0 0 0.3em 0;
 }
 
 #statelist .statelist-pollmargin {
@@ -698,7 +699,6 @@ a {
   max-width: 100px;
   padding-right: 0;
   font-weight: normal;
-  padding-bottom: 0;
 }
 
 #statelist td.statelist-ecvotes {
@@ -722,6 +722,10 @@ a {
 
 #statelist td.statelist-state{
   padding-left:25px;
+}
+
+#statelist .statelist-pollmargin.statelist-pollmargin--mobile {
+  display: none;
 }
 
 .statelist-switch {
@@ -760,6 +764,13 @@ th.statelist-switch{
   padding: 10px 0;
 }
 
+#calculation-result-label {
+  font-size: 14px;
+  font-style: italic;
+  color: #333333;
+  margin-bottom: 0.3em;
+}
+
 .calculation-chart--name{
   fill:#FFF;
 }
@@ -792,7 +803,46 @@ th.statelist-switch{
 }
 
 .stuck.sticky {
-  border-bottom: 140px solid #cec6b9;
+  border-bottom: 160px solid #cec6b9;
+}
+
+#statelist-winner-container {
+  position: absolute;
+  width: 100%;
+  pointer-events: none;
+}
+
+#statelist-winner-container[data-statelist-winner="Clinton"] .statelist-winner#statelist-winner--clinton,
+#statelist-winner-container[data-statelist-winner="Trump"] .statelist-winner#statelist-winner--trump {
+  opacity: 1;
+  display: block;
+}
+
+#statelist-winner-container-panel {
+  width: 100%;
+  background: #F6E9D8;
+  opacity: 0;
+  height: 105px;
+  position: absolute;
+  transition: opacity 195ms cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+#statelist-winner-container[data-statelist-winner="Clinton"] #statelist-winner-container-panel,
+#statelist-winner-container[data-statelist-winner="Trump"] #statelist-winner-container-panel {
+  opacity: 0.7;
+}
+
+.statelist-winner {
+  position: absolute;
+  opacity: 0;
+  left: 24px;
+  transition: opacity 195ms cubic-bezier(0.645, 0.045, 0.355, 1) 50ms;
+  display: none;
+  width: 210px;
+}
+
+.statelist-winner img {
+  margin-top: 43px;
 }
 
 .switch-button{
@@ -940,13 +990,26 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
     display: none;
   }
 
+  #statelist .statelist-ecvotes {
+    display: none;
+  }
+
   #statelist .statelist-pollmargin {
     display: none;
   }
 
+  #statelist .statelist-pollmargin.statelist-pollmargin--mobile {
+    display: table-cell;
+    text-align: center;
+  }
+
+  #statelist th.statelist-pollmargin.statelist-pollmargin--mobile {
+    padding-bottom: 0.3em;
+  }
+
   #statelist-table {
     max-width: 510px;
-    padding: 0 10px 0 10px;
+    padding: 0 10px 0.5em 10px;
   }
 
   #statelist-table table{
@@ -1089,7 +1152,7 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
 }
 
 /** State Summary section **/
-.bar__state-status {
+.state-status-bar__container {
   width: 100%;
   color: white;
   text-align: center;
@@ -1101,46 +1164,46 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
   justify-content: center;
 }
 
-.bar__state-ec-votes {
+.state-ec-votes-total__container {
   text-align: center;
   font-style: italic;
   color: #A79B88;
   margin: 0.5em 0;
 }
-.bar__state-ec-votes figure {
+.state-ec-votes-total__container figure {
   display: inline;
   font-weight: bolder;
   color: black;
 }
 
-.bar__state-status.dem {
+.state-status-bar__container--dem {
   background-color: #579dd5;
 }
 
-.bar__state-status.leaningDem {
+.state-status-bar__container--leaningDem {
   background-color: #a2c1e1;
 }
 
-.bar__state-status.swing {
+.state-status-bar__container--swing {
   background-color: #fcc83c;
 }
 
-.bar__state-status.leaningRep {
+.state-status-bar__container--leaningRep {
   background-color: #f4a098;
 }
 
-.bar__state-status.rep {
+.state-status-bar__container--rep {
   background-color: #e03d46;
 }
 
-.state-page__summary .graphic__ecvotes--label {
+.state-ecvotes-graphic__tooltip {
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: .5em;
   padding: .5em;
   display: none;
 }
 
-.state-page__summary .graphic__ecvotes--circles {
+.state-ecvotes-graphic__squares {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -1150,7 +1213,7 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
   box-sizing: border-box;
 }
 
-.state-page__summary .graphic__ecvotes--circles .circle {
+.state-ecvotes-graphic__squares > div {
   width: .5em;
   height: .5em;
   display: inline-block;
@@ -1160,7 +1223,7 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
   cursor: pointer;
 }
 
-.state-page__summary .graphic__ecvotes--circles .circle .inner-square {
+.state-ecvotes-graphic__inner-square {
   margin: 0;
   padding: 0;
   border-width: 2px;
@@ -1174,93 +1237,93 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
 }
 
 @media (min-width: 980px) {
-  .state-page__summary .graphic__ecvotes--circles {
-    height: 110px;
+  .state-ecvotes-graphic__squares {
+    height: 95px;
   }
 }
 
 
 @media (max-width: 690px) {
-  .state-page__summary .graphic__ecvotes--circles {
-    height: 100px;
+  .state-ecvotes-graphic__squares {
+    height: 95px;
   }
 
-  .state-page__summary .graphic__ecvotes--circles .circle {
+  .state-ecvotes-graphic__squares > div {
     width: 8px;
     height: 8px;
   }
 }
 
-@media (max-width: 580px) {
-  .state-page__summary .graphic__ecvotes--circles {
+@media (max-width: 630px) {
+  .state-ecvotes-graphic__squares {
     height: 100px;
   }
 
-  .state-page__summary .graphic__ecvotes--circles .circle {
+  .state-ecvotes-graphic__squares > div {
     width: 7px;
     height: 7px;
   }
 }
 
 @media (max-width: 470px) {
-  .state-page__summary .graphic__ecvotes--circles {
+  .state-ecvotes-graphic__squares {
     height: 100px;
   }
 
-  .state-page__summary .graphic__ecvotes--circles .circle {
+  .state-ecvotes-graphic__squares > div {
     width: 6px;
     height: 6px;
   }
 }
 
 @media (max-width: 390px) {
-  .state-page__summary .graphic__ecvotes--circles {
+  .state-ecvotes-graphic__squares {
     height: 105px;
   }
 
-  .state-page__summary .graphic__ecvotes--circles .circle {
+  .state-ecvotes-graphic__squares > div {
     width: 5px;
     height: 5px;
   }
 }
 
-.state-page__summary .graphic__ecvotes--circles .circle.dem .inner-square {
-  border-color: #579dd5;
-}
-
-.state-page__summary .graphic__ecvotes--circles .circle.leaningDem .inner-square {
-  border-color: #a2c1e1;
-}
-
-.state-page__summary .graphic__ecvotes--circles .circle.rep .inner-square {
-  border-color: #e03d46;
-}
-
-.state-page__summary .graphic__ecvotes--circles .circle.leaningRep .inner-square {
-  border-color: #f4a098;
-}
-
-.state-page__summary .graphic__ecvotes--circles .circle.swing .inner-square {
-  border-color: #fcc83c;
-}
-
-.state-page__summary .graphic__ecvotes--circles .circle.ec-vote .inner-square {
+.state-ecvotes-graphic__square--ec-vote .state-ecvotes-graphic__inner-square {
   border-color: black !important;
 }
 
-.state-page__summary .graphic__ecvotes--circles .circle.current-state.dem .inner-square {
+.state-ecvotes-graphic__square--dem .state-ecvotes-graphic__inner-square {
+  border-color: #579dd5;
+}
+
+.state-ecvotes-graphic__square--leaningDem .state-ecvotes-graphic__inner-square {
+  border-color: #a2c1e1;
+}
+
+.state-ecvotes-graphic__square--rep .state-ecvotes-graphic__inner-square {
+  border-color: #e03d46;
+}
+
+.state-ecvotes-graphic__square--leaningRep .state-ecvotes-graphic__inner-square {
+  border-color: #f4a098;
+}
+
+.state-ecvotes-graphic__square--swing .state-ecvotes-graphic__inner-square {
+  border-color: #fcc83c;
+}
+
+.state-ecvotes-graphic__square--dem.current-state .state-ecvotes-graphic__inner-square {
   background-color: #579dd5;
 }
-.state-page__summary .graphic__ecvotes--circles .circle.current-state.leaningDem .inner-square {
+.state-ecvotes-graphic__square--leaningDem.current-state .state-ecvotes-graphic__inner-square {
   background-color: #a2c1e1;
 }
-.state-page__summary .graphic__ecvotes--circles .circle.current-state.rep .inner-square {
+.state-ecvotes-graphic__square--rep.current-state .state-ecvotes-graphic__inner-square {
   background-color: #e03d46;
 }
-.state-page__summary .graphic__ecvotes--circles .circle.current-state.leaningRep .inner-square {
+.state-ecvotes-graphic__square--leaningRep.current-state .state-ecvotes-graphic__inner-square {
   background-color: #f4a098;
 }
-.state-page__summary .graphic__ecvotes--circles .circle.current-state.swing .inner-square {
+.state-ecvotes-graphic__square--swing.current-state .state-ecvotes-graphic__inner-square {
   background-color: #fcc83c;
 }
 
@@ -1587,6 +1650,19 @@ a.ec-breakdown-row {
   display: none;
 }
 
+.rail__state-list__nationalItems {
+  display: flex;
+  height: 232px;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.rail__state-list__logo {
+  padding: 0 8px 0 0;
+  border-bottom: none !important;
+}
+
 @media (max-width: 979px) {
   .nav___mobile-nav {
     display: flex;
@@ -1609,6 +1685,10 @@ a.ec-breakdown-row {
     padding: 0 !important;
     align-items: flex-start;
     text-align: left;
+  }
+
+  .nav___mobile-nav .nav___mobile-nav--back-to-overview .dotted-underline {
+    margin-top: 10px;
   }
 
   .nav___mobile-nav:not(.page__national) .nav___mobile-nav--back-to-overview .dotted-underline {
@@ -1645,20 +1725,14 @@ a.ec-breakdown-row {
     text-transform: none !important;
   }
 
-  .nav___mobile-nav--back-to-overview .o-icons-icon {
-    height: 1em;
-    width: 2em;
-    display: inline-block;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: 50% 0;
-    background-color: transparent;
-    vertical-align: baseline;
+  .nav___mobile-nav--back-to-overview {
+    align-items: center;
   }
 
-  .nav___mobile-nav--back-to-overview .o-icons-icon.o-icons-icon--arrow-left {
-    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?source=o-icons&tint=%2327757B,%2327757B&format=svg);
-    background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?source=o-icons&tint=%2327757B,%2327757B&format=png&width=14)\9;
+  .nav___mobile-nav--back-to-overview > img {
+    padding: 0 0.5em;
+    position: relative;
+    margin-top: -7px;
   }
 
   .article__aside {
@@ -1726,6 +1800,10 @@ a.ec-breakdown-row {
     opacity: 1;
   }
 
+  .rail__state-list__nationalItems {
+    height: 75px;
+  }
+
   .rail__content {
     border: 0;
     padding: 0 1.9em 1.9em 2em;
@@ -1761,12 +1839,6 @@ a.ec-breakdown-row {
     color: #545752;
   }
 
-  .rail__state-list__nationalItems {
-    display: flex;
-    height: 94px;
-    align-items: center;
-  }
-
   .rail__state-list__nationalLink {
     padding: 0;
     /*background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?source=o-icons&tint=%2327757B,%2327757B&format=svg);
@@ -1779,9 +1851,7 @@ a.ec-breakdown-row {
   }
 
   .rail__state-list__nationalMap {
-    width: 40%;
-    max-width: 130px;
-    margin-top: 24px;
+    display: none;
   }
 
   .rail__state-list__items .o-expander__content {
