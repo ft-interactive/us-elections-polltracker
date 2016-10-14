@@ -17,6 +17,12 @@
     </div>
 </div>
 <div>
+    What the US media is saying
+    {% for org in mediaOrgs %}
+    <div>{{ org.name }}</div>
+    {% endfor %}
+</div>
+<div>
     <h2>House</h2>
     <div>{{ houseBarLayout }}</div>
     Dem {{ overview.house.dem }} Rep {{ overview.house.rep }}    

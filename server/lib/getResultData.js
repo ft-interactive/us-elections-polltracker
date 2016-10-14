@@ -15,6 +15,15 @@ export default async function getResult() {
           });
           const reporting = response.data.electoralCollege.filter( d => (d.winner !== null) ).length;
 
+          const mediaorgs = Object.keys(response.data.media[0].media).map(function(name){
+              return {
+                  name:name,
+                  totals: sumECVotes(response.data.media, (d) => d.media[name] )
+              }
+          });
+
+          processed.mediaOrgs = mediaorgs;
+          console.log( processed.mediaOrgs);
           processed.pollClosingTimes = response.data.events;
           processed.electoralCollege = response.data.electoralCollege;
           processed.ecTotals = totals;
@@ -44,6 +53,7 @@ export default async function getResult() {
 function sumECVotes(array, accessor) {
   return array.reduce((totals, current) =>  {
     const winner = accessor(current);
+    if(winner == null) return totals;
     totals[winner] += current.ecvotes;
     return totals;
   }, { r: 0, d: 0, g: 0, l: 0 });
