@@ -2,6 +2,7 @@ import express from 'express';
 import lru from 'lru-cache';
 import babelify from 'express-babelify-middleware';
 import slashes from 'connect-slashes';
+import flags from '../config/flags';
 import * as nunjucks from './nunjucks';
 import ecForecastComponentController2 from './controllers/ec-forecast-component-2';
 import layoutForecastMap from '../layouts/forecast-map-layout';
@@ -14,6 +15,8 @@ import resultController from './controllers/result';
 import * as apiController from './controllers/api';
 import stateCount from './lib/state-counts';
 import resultData from './lib/getResultData';
+
+console.log(flags());
 
 const cache = lru({
   max: 500,
@@ -151,30 +154,34 @@ app.get('/ec-forecast-component-2.:ext', ecForecastComponentController2);
 // Create electoral collecge breakdown
 app.get('/ec-breakdown.html', ecBreakdownController);
 
-app.get('/result', resultController);
-app.get('/full-result.json', async (req, res) => {
-  const cacheKey = 'result-json';
-  let value = cache.get(cacheKey);
-  if (!value) {
-    value = await resultData()
-    if (value) cache.set(cacheKey, value);
-  }
-  setJSONHeaders(res)
-    .send(value);
-  return value;
-});
 
-app.get('/overview-result.json', async (req, res) => {
-  const cacheKey = 'result-json';
-  let value = cache.get(cacheKey);
-  if (!value) {
-    value = await resultData();
-    if (value) cache.set(cacheKey, value);
-  }
-  setJSONHeaders(res)
-    .send(value.overview);
-  return value;
-});
+
+if (flags().results){ // Results stuff
+  app.get('/result', resultController);
+  app.get('/full-result.json', async (req, res) => {
+    const cacheKey = 'result-json';
+    let value = cache.get(cacheKey);
+    if (!value) {
+      value = await resultData()
+      if (value) cache.set(cacheKey, value);
+    }
+    setJSONHeaders(res)
+      .send(value);
+    return value;
+  });
+
+  app.get('/overview-result.json', async (req, res) => {
+    const cacheKey = 'result-json';
+    let value = cache.get(cacheKey);
+    if (!value) {
+      value = await resultData();
+      if (value) cache.set(cacheKey, value);
+    }
+    setJSONHeaders(res)
+      .send(value.overview);
+    return value;
+  });
+}
 
 // This needs to be last as it captures lot of paths and only does redirects
 app.get('/:code', stateCodeRedirectController);
