@@ -30,7 +30,10 @@
   <div class="o-grid-container{{ ' page__national' if code == 'us' }}">
     <div class="o-grid-row">
       <div data-o-grid-colspan="12 L8 XL7 XLoffset1">
-        <div class="o-typography-body-wrapper" itemprop="articleBody">
+        <div class="o-typography-body-wrapper">
+          <section itemprop="articleBody">
+            {% block summary %}{% endblock %}
+          </section>
         {% block content %}{% endblock %}
         <div class="source" id="methodology">
           {% markdown %}
