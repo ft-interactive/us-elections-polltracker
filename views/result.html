@@ -1,16 +1,24 @@
 {% extends "results-layout.html" %}
+
 {% block content %}
+<p>{{ subtitle }}</p>
+<script src="d3.v4.min.js"></script>
 <script>
     var timestamp = {{ overview.timestamp }};
-    console.log(timestamp);
 </script>
-<div>
-    <h2>President</h2>
-    CLINTON: {{ overview.president.clinton }},
-    TRUMP: {{ overview.president.trump }}
-    <p>TOTAL: {{ overview.president.trump + overview.president.clinton }}/ 538</p>
-    <div>{{ barLayout }}</div>
 
+{% import "includes/result-bar-macros.html" as bars %}
+
+<div>
+    {{ bars.president( 
+        overview.president.isFinal, 
+        overview.president.clinton, 
+        overview.president.clinton_pct, 
+        overview.president.trump, 
+        overview.president.trump_pct, 
+        overview.president.bestGuessClinton_pct, 
+        overview.president.bestGuessTrump_pct, 
+        "footnote") }}
 
     <div>
         {% include "includes/results-plain-map.svg" %}
@@ -22,18 +30,26 @@
 <div>
     What the US media is saying
     {% for org in mediaOrgs %}
-    <div>{{ org.name }}</div>
+    <div>{{ org.name }} Clinton:{{org.totals.d}} Trump:{{org.totals.r}} ({{ org.totals.r + org.totals.d }}/ 538)</div>
     {% endfor %}
 </div>
 <div>
     <h2>House</h2>
-    <div>{{ houseBarLayout }}</div>
-    Dem {{ overview.house.dem }} Rep {{ overview.house.rep }}    
+    <div>{{ bars.house(
+        overview.house.dem_pct, 
+        overview.house.dem, 
+        overview.house.rep_pct, 
+        overview.house.rep, 
+        "footnote") }}</div>
 </div>
 <div>
     <h2>Senate</h2>
-    <div>{{ senateBarLayout }}</div>
-    Dem {{ overview.senate.dem }} Rep {{ overview.senate.rep }}
+    <div><div>{{ bars.senate(
+        overview.senate.dem_pct, 
+        overview.senate.dem, 
+        overview.senate.rep_pct, 
+        overview.senate.rep, 
+        "footnote") }}</div></div>
 </div>
 <div>
     <h2>Electoral college detail</h2>
@@ -60,4 +76,17 @@
     </tbody>
     </table>
 </div>
+
+<script>
+//set polling frequency
+
+function getData(){
+    d3.json('full-result.json',function(d){
+        if(d.overview.timestamp>timestamp){
+            timestamp = d.overview.timestamp;
+            console.log('ts');
+        }
+    });
+}
+</script>
 {% endblock %}
