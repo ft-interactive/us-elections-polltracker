@@ -20,6 +20,7 @@ class ResultPage extends Page {
     this.subtitle = result.copy.subtitle;
     this.stateResults = result.electoralCollege;
     this.overview = result.overview;
+    this.mediaOrgs = result.mediaOrgs;
     this.color = color;
     this.dotMapSelectors = dotMapLayout( result.electoralCollege, { width: 800, height: 500 } );
     this.mapSelectors = mapLayout( result.electoralCollege, { width: 800, height: 500 } );
