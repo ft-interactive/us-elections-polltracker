@@ -24,9 +24,6 @@ class ResultPage extends Page {
     this.color = color;
     this.dotMapSelectors = dotMapLayout( result.electoralCollege, { width: 800, height: 500 } );
     this.mapSelectors = mapLayout( result.electoralCollege, { width: 800, height: 500 } );
-    this.ecBarLayout = 'EC Bar Layout!';
-    this.senateBarLayout = 'Senate Bar Layout!';
-    this.houseBarLayout = 'House Bar Layout!';
 
     await this.pready();
   }

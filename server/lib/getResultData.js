@@ -22,6 +22,9 @@ export default async function getResult() {
               }
           });
 
+          const house = response.data.house[0];
+          const senate = response.data.senate[0];
+
           processed.mediaOrgs = mediaorgs;
           console.log( processed.mediaOrgs);
           processed.pollClosingTimes = response.data.events;
@@ -30,8 +33,20 @@ export default async function getResult() {
           processed.copy = copy;
           processed.overview = {
             timestamp: (new Date()).getTime(),
-            senate: Object.assign({ total: response.data.senate[0].total }, response.data.senate[0].current),
-            house: Object.assign({ total: response.data.house[0].total }, response.data.house[0].current),
+            senate:{ 
+              total: senate.total,  
+              dem_pct: (100/senate.total)* senate.current.dem,
+              rep_pct: (100/senate.total)* senate.current.rep,
+              dem: senate.current.dem,
+              rep: senate.current.rep,
+            },
+            house: { 
+              total: house.total,  
+              dem_pct: (100/house.total)* house.current.dem,
+              rep_pct: (100/house.total)* house.current.rep,
+              dem: house.current.dem,
+              rep: house.current.rep,
+            },
             president: {
               clinton: totals.d,
               trump: totals.r,
