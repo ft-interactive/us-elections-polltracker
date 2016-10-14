@@ -16,7 +16,6 @@ import * as apiController from './controllers/api';
 import stateCount from './lib/state-counts';
 import resultData from './lib/getResultData';
 
-console.log(flags());
 
 const cache = lru({
   max: 500,
