@@ -26,7 +26,6 @@ export default async function getResult() {
           const senate = response.data.senate[0];
 
           processed.mediaOrgs = mediaorgs;
-          console.log( processed.mediaOrgs);
           processed.pollClosingTimes = response.data.events;
           processed.electoralCollege = response.data.electoralCollege;
           processed.ecTotals = totals;
