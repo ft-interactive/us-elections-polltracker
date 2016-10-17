@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% from 'includes/forecast-map-macro.svg' import ForecastMap %}
+{% from 'ec-breakdown.html' import ECBreakdown %}
+{% from 'latest-news.html' import Block as LatestNews %}
+{% from 'electoral-college-bar.html' import Render as ElectoralCollegeBar %}
+{% from 'state-list.html' import Render as StateList %}
+{% import 'polling-history.html' as PollingHistory %}
+{% import "g-ui/ads" as Ads -%}
+
+{% block content %}
+
+<style>
+.article-figure .article-figure__heading {
+  margin-top: 2em;
+  margin-bottom: 0em;
+  font-family: inherit;
+  text-align: center;
+  color: black;
+  font-weight: 500;
+  font-size: 24px;
+}
+.article-figure .article-figure__subheading {
+  color: #6b6e68;
+  font-size: 18px;
+  font-family: inherit;
+  margin: 0.3em 0 -2.3em 0;
+  line-height: 1.2em;
+  text-align: center;
+  max-width: none;
+}
+</style>
+
+
+{% call PageElements.Figure(title=timeMachineDateString, subtitle="Electoral college votes") %}
+  {{
+    ElectoralCollegeBar(
+      data=nationalBarCounts,
+      showKey=true,
+      on=flags.nationalBar
+    )
+  }}
+  <br />
+  {{ ForecastMap(forecastMapLayout, color) }}
+{% endcall %}
+
+{% endblock %}
