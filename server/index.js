@@ -10,10 +10,9 @@ import ecBreakdownController from './controllers/ec-breakdown';
 import pollGraphicsController from './controllers/poll-graphics';
 import stateCodeRedirectController from './controllers/state-code-redirect';
 import stateController from './controllers/state';
-import resultController from './controllers/result';
+import * as resultController from './controllers/result';
 import * as apiController from './controllers/api';
 import stateCount from './lib/state-counts';
-import resultData from './lib/getResultData';
 
 const flags = require('../config/flags').default();
 
@@ -158,33 +157,15 @@ app.get('/ec-forecast-component-2.:ext', ecForecastComponentController2);
 // Create electoral collecge breakdown
 app.get('/ec-breakdown.html', ecBreakdownController);
 
+// Don't allow access to the page when
+// flags.results is false
+if (app.locals.flags.results) {
+  // National results page
+  app.get('/results', resultController.page);
 
-
-if (flags().results){ // Results stuff
-  app.get('/result', resultController);
-  app.get('/full-result.json', async (req, res) => {
-    const cacheKey = 'result-json';
-    let value = cache.get(cacheKey);
-    if (!value) {
-      value = await resultData()
-      if (value) cache.set(cacheKey, value);
-    }
-    setJSONHeaders(res)
-      .send(value);
-    return value;
-  });
-
-  app.get('/overview-result.json', async (req, res) => {
-    const cacheKey = 'result-json';
-    let value = cache.get(cacheKey);
-    if (!value) {
-      value = await resultData();
-      if (value) cache.set(cacheKey, value);
-    }
-    setJSONHeaders(res)
-      .send(value.overview);
-    return value;
-  });
+  // JSON endpoints for Results page client side
+  app.get('/full-result.json', resultController.fullResults);
+  app.get('/overview-result.json', resultController.resultOverview);
 }
 
 // This needs to be last as it captures lot of paths and only does redirects
