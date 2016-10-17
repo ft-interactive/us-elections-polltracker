@@ -134,7 +134,11 @@ app.get('/forecast-map.svg', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.redirect('polls');
+  if (app.locals.flags.results) {
+    res.redirect('results');
+  } else {
+    res.redirect('polls');
+  }
 });
 
 // convenience redirect in case users inputs it incorrectly
