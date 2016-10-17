@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const resultURL = 'http://bertha.ig.ft.com/republish/publish/gss/17Ea2kjME9yqEUZfQHlPZNc6cqraBUGrxtuHj-ch5Lp4/copy,events,electoralCollege,senate,house,media';
+// TODO: hit the republish endpoint on a CRON job or something
+const resultURL = 'http://bertha.ig.ft.com/view/publish/gss/17Ea2kjME9yqEUZfQHlPZNc6cqraBUGrxtuHj-ch5Lp4/copy,events,electoralCollege,senate,house,media';
 
 export default async function getResult() {
   return axios.get(resultURL)
