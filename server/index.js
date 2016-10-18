@@ -28,7 +28,7 @@ const maxAge = 120; // for user agent caching purposes
 const sMaxAge = 10;
 
 app.disable('x-powered-by');
-app.locals.flags = flags;
+app.locals.flags = flags();
 
 // run scraper up front if this is a review app
 if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '"1"') {
