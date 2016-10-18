@@ -164,6 +164,7 @@ app.get('/ec-breakdown.html', ecBreakdownController);
 if (app.locals.flags.results) {
   if (app.locals.flags.resultsFTAuth) {
     const authS3O = require('s3o-middleware');
+    app.set('trust proxy', true);
     app.get('/results', authS3O, resultController.page);
     // National results page
     app.post('/results', authS3O);
