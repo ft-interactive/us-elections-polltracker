@@ -21,20 +21,32 @@ var color = {
     darkDem: '#50708f',
 };
 
-
+queue('d3.v4.min.js', function() {
+    var pollingInterval = 3000;
+    window.setTimeout(function(){ //wait for 3 seconds
+        window.setInterval(function(){  //load data every three seconds
+            getData();
+        }, pollingInterval); 
+    }, pollingInterval);
+});
 
 function getData() {
     d3.json('full-result.json',function(data) {
         if(data.overview.timestamp > pageDataTimestamp){
             pageDataTimestamp = data.overview.timestamp;
-            console.log('UPDATE');
-            rebind(data);
+            rebindMap(data);
             colourMap();
+
+
         }
     });
 }
 
-function rebind(data) {
+function rebindBarData(data) {
+    
+}
+
+function rebindMap(data) {
     var lookupByCollegeID = makeLookup(data.electoralCollege, 'code');
     d3.selectAll('path.map-state')
         .each(function(datum){      
@@ -71,12 +83,4 @@ function makeLookup(arr,key){
     return o;
 }
 
-queue('d3.v4.min.js', function() {
-    var pollingInterval = 3000;
-    window.setTimeout(function(){ 
-        window.setInterval(function(){
-            console.log('polling');
-            getData();
-        }, pollingInterval); 
-    }, pollingInterval);
-})
+
