@@ -162,8 +162,14 @@ app.get('/ec-breakdown.html', ecBreakdownController);
 // Don't allow access to the page when
 // flags.results is false
 if (app.locals.flags.results) {
-  // National results page
-  app.get('/results', resultController.page);
+  if (app.locals.resultsFTAuth) {
+    const authS3O = require('s3o-middleware');
+    app.get('/results', authS3O, resultController.page);
+    // National results page
+    app.post('/results', authS3O);
+  } else {
+    app.get('/results', resultController.page);
+  }
 
   // JSON endpoints for Results page client side
   app.get('/full-result.json', resultController.fullResults);
