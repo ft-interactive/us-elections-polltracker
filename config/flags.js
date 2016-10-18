@@ -26,4 +26,5 @@ export default () => ({
   cookieMessage: prod,
   resultSuggestedReads: true,
   resultMediaSurvey: true,
+  resultsFTAuth: true,
 });
