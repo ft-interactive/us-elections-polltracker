@@ -1,0 +1,111 @@
+
+{% macro president(isFinal, clinton, clinton_pct, trump, trump_pct, bestGuessClinton_pct, bestGuessTrump_pct, footnote) %}
+<div class="mini-dashboard__chart {% if isFinal %} mini-dashboard__chart--final{% endif %}">
+  <div class="mini-dashboard__bars">
+    <div class="mini-dashboard__bar-container">
+      <div style="width: {{clinton_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+      <div style="width: {{trump_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+      <div class="mini-dashboard__bar-labels">
+        <div class="mini-dashboard__bar-label">
+          Clinton <strong>{{clinton}}</strong>
+        </div>
+        <div class="mini-dashboard__bar-label">
+          Trump <strong>{{trump}}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if isFinal %}
+  <span class="mini-dashboard__finish-line">
+    270 to win
+    <div class="mini-dashboard__triangle"></div>
+    <hr width="1" size="34" noshade />
+  </span>
+  {% else %}
+  <div class="mini-dashboard__best-guess">
+    <div class="mini-dashboard__bar-container">
+      <div style="width: {{bestGuessClinton_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+      <div style="width: {{bestGuessTrump_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+    </div>
+  </div>
+  <span class="mini-dashboard__finish-line">
+    270 to win
+    <div class="mini-dashboard__triangle"></div>
+    <hr width="1" size="46" noshade />
+    Best guess
+  </span>
+  {% endif %}
+  <div class="mini-dashboard__footnote">
+    {{footnote}}
+  </div>
+</div>
+{% endmacro %}
+
+{% macro house(dem_pct, dem, rep_pct, rep, footnote) %}
+<div class="mini-dashboard__chart">
+<div class="mini-dashboard__bars">
+  <div class="mini-dashboard__bar-container">
+    <div style="width: {{dem_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+    <div style="width: {{rep_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+    <div class="mini-dashboard__bar-labels">
+      <div class="mini-dashboard__bar-label">
+        Dem <strong>{{dem}}</strong>
+      </div>
+      <div class="mini-dashboard__bar-label">
+        Rep <strong>{{rep}}</strong>
+      </div>
+    </div>
+  </div>
+</div>
+<span class="mini-dashboard__finish-line">
+  218 for majority
+  <div class="mini-dashboard__triangle"></div>
+  <hr width="1" size="34" noshade />
+</span>
+<span class="mini-dashboard__footnote">
+  {{footnote}}
+</span>
+</div>
+{% endmacro %}
+
+{% macro senate(dem, dem_contested, rep, rep_contested, ind, footnote) %}
+<div class="mini-dashboard__chart">
+<div class="mini-dashboard__bars">
+  <div class="mini-dashboard__bar-container">
+    <div style="width: {{dem}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+
+    <div style="width: {{dem_contested}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--dem-contested"></div>
+
+    {% if ind %}
+    <div style="width: {{ind}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--ind"></div>
+    {% endif %}
+
+    <div style="width: {{rep}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+
+    <div style="width: {{rep_contested}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--rep-contested"></div>
+
+    <div class="mini-dashboard__bar-labels">
+      <div class="mini-dashboard__bar-label">
+        Dem <strong>{{dem}}</strong>
+      </div>
+      <div class="mini-dashboard__bar-label">
+        Rep <strong>{{rep}}</strong>
+      </div>
+    </div>
+  </div>
+</div>
+<span class="mini-dashboard__finish-line">
+  50 for majority
+  <div class="mini-dashboard__triangle"></div>
+  <hr width="1" size="34" noshade />
+</span>
+<div class="mini-dashboard__legend">
+  <div class="mini-dashboard__legend-item mini-dashboard__legend-item--dem-contested"></div>
+  <div class="mini-dashboard__legend-item mini-dashboard__legend-item--rep-contested"></div>
+  Contested seats
+</div>
+<span class="mini-dashboard__footnote">
+  {{footnote}}
+</span>
+</div>
+{% endmacro %}

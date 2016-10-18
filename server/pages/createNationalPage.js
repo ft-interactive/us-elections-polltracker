@@ -1,18 +1,24 @@
-import Page from './page';
+import PollsPage from './polls-page';
 import { getEditorsConfig } from '../lib/editors-config';
 import getStateCounts from '../lib/state-counts';
 import layoutForecastMap from '../../layouts/forecast-map-layout';
 import layoutECBreakdown from '../../layouts/ec-breakdown-layout';
 import nationalCount from '../lib/national-count';
+import onwardJourney from '../lib/onwardjourney';
 
-class NationalPage extends Page {
+class NationalPage extends PollsPage {
+
+  id = 'e01abff0-5292-11e6-9664-e0bdc13c3bef';
+
+  headline = 'Presidential election poll tracker';
+
+  url = 'https://ig.ft.com/us-elections/polls';
+
+  // TODO: what's this for?
+  code = 'us';
+
   constructor() {
     super();
-    this.headline = 'Presidential election poll tracker';
-    this.streamUrl = 'https://www.ft.com/us-election-2016';
-    this.url = 'https://ig.ft.com/us-elections/polls';
-    this.code = 'us';
-    this.id = 'e01abff0-5292-11e6-9664-e0bdc13c3bef';
   }
 
   async ready() {
@@ -38,6 +44,16 @@ class NationalPage extends Page {
     }
 
     this.stateCounts = stateCounts;
+    this.onwardJourney = await onwardJourney({
+      // Home page US Election midriff
+      suggestedReads: 'list/721e37c6-7442-11e6-bf48-b372cdb1043a',
+      relatedContent: [
+        // "US Election 2016" stream
+        'thing/N2UxNTM3MzItNWNlZC00MDc5LWI3ODUtYWNmZDA2YjE0MWE2-U2VjdGlvbnM=',
+        // Home page Highlights section
+        'list/highlights'
+      ]
+    });
     this.nationalBarCounts = await nationalCount(stateCounts);
     this.ecBreakdownLayout = layoutECBreakdown(stateCounts);
     this.forecastMapLayout = layoutForecastMap(

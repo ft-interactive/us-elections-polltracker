@@ -2,6 +2,7 @@ import express from 'express';
 import lru from 'lru-cache';
 import babelify from 'express-babelify-middleware';
 import slashes from 'connect-slashes';
+import flags from '../config/flags';
 import * as nunjucks from './nunjucks';
 import ecForecastComponentController2 from './controllers/ec-forecast-component-2';
 import layoutForecastMap from '../layouts/forecast-map-layout';
@@ -10,8 +11,10 @@ import ecBreakdownController from './controllers/ec-breakdown';
 import pollGraphicsController from './controllers/poll-graphics';
 import stateCodeRedirectController from './controllers/state-code-redirect';
 import stateController from './controllers/state';
+import * as resultController from './controllers/result';
 import * as apiController from './controllers/api';
 import stateCount from './lib/state-counts';
+import resultData from './lib/getResultData';
 
 const cache = lru({
   max: 500,
@@ -25,6 +28,7 @@ const maxAge = 120; // for user agent caching purposes
 const sMaxAge = 10;
 
 app.disable('x-powered-by');
+app.locals.flags = flags();
 
 // run scraper up front if this is a review app
 if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '"1"') {
@@ -42,7 +46,6 @@ if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '
       res.status(500).send('still initialising database - please wait then try again');
       return;
     }
-
     next();
   });
 }
@@ -130,7 +133,11 @@ app.get('/forecast-map.svg', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.redirect('polls');
+  if (app.locals.flags.results) {
+    res.redirect('results');
+  } else {
+    res.redirect('polls');
+  }
 });
 
 // convenience redirect in case users inputs it incorrectly
@@ -149,6 +156,17 @@ app.get('/ec-forecast-component-2.:ext', ecForecastComponentController2);
 
 // Create electoral collecge breakdown
 app.get('/ec-breakdown.html', ecBreakdownController);
+
+// Don't allow access to the page when
+// flags.results is false
+if (app.locals.flags.results) {
+  // National results page
+  app.get('/results', resultController.page);
+
+  // JSON endpoints for Results page client side
+  app.get('/full-result.json', resultController.fullResults);
+  app.get('/overview-result.json', resultController.resultOverview);
+}
 
 // This needs to be last as it captures lot of paths and only does redirects
 app.get('/:code', stateCodeRedirectController);

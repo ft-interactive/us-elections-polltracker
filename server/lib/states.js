@@ -1,5 +1,6 @@
 import stateReference from '../../data/states';
 import getStateDemographics from './getStateDemographics';
+import referenceData from '../../data/state-demographics';
 
 const states = stateReference.map(d => {
   const demographics = getStateDemographics(d.code);
@@ -43,6 +44,14 @@ export function getByCode(code) {
   const slug = codeToSlug(code);
   if (!slug) return null;
   return getBySlug(slug);
+}
+
+export function getResultsByCode(code, year) {
+  code = code.substring(0, 2);
+  if(referenceData[code]){
+    if(referenceData[code]['outcome'+year] > 0) return 'dem';
+    if(referenceData[code]['outcome'+year] < 0) return 'rep';
+  }
 }
 
 export function getByContentId(id) {
