@@ -30,6 +30,8 @@ const sMaxAge = 10;
 app.disable('x-powered-by');
 app.locals.flags = flags();
 
+console.log('Flags', app.locals.flags);
+
 // run scraper up front if this is a review app
 if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '"1"') {
   const scraper = require('../scraper').default; // eslint-disable-line global-require
