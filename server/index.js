@@ -11,11 +11,17 @@ import ecBreakdownController from './controllers/ec-breakdown';
 import pollGraphicsController from './controllers/poll-graphics';
 import stateCodeRedirectController from './controllers/state-code-redirect';
 import stateController from './controllers/state';
+<<<<<<< HEAD
 import resultController from './controllers/result';
+=======
+import * as resultController from './controllers/result';
+>>>>>>> origin/results-route
 import * as apiController from './controllers/api';
 import stateCount from './lib/state-counts';
 import resultData from './lib/getResultData';
 
+
+const flags = require('../config/flags').default();
 
 const cache = lru({
   max: 500,
@@ -29,6 +35,7 @@ const maxAge = 120; // for user agent caching purposes
 const sMaxAge = 10;
 
 app.disable('x-powered-by');
+app.locals.flags = flags;
 
 // run scraper up front if this is a review app
 if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '"1"') {
@@ -133,7 +140,11 @@ app.get('/forecast-map.svg', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.redirect('polls');
+  if (app.locals.flags.results) {
+    res.redirect('results');
+  } else {
+    res.redirect('polls');
+  }
 });
 
 // convenience redirect in case users inputs it incorrectly
@@ -153,33 +164,15 @@ app.get('/ec-forecast-component-2.:ext', ecForecastComponentController2);
 // Create electoral collecge breakdown
 app.get('/ec-breakdown.html', ecBreakdownController);
 
+// Don't allow access to the page when
+// flags.results is false
+if (app.locals.flags.results) {
+  // National results page
+  app.get('/results', resultController.page);
 
-
-if (flags().results){ // Results stuff
-  app.get('/result', resultController);
-  app.get('/full-result.json', async (req, res) => {
-    const cacheKey = 'result-json';
-    let value = cache.get(cacheKey);
-    if (!value) {
-      value = await resultData()
-      if (value) cache.set(cacheKey, value);
-    }
-    setJSONHeaders(res)
-      .send(value);
-    return value;
-  });
-
-  app.get('/overview-result.json', async (req, res) => {
-    const cacheKey = 'result-json';
-    let value = cache.get(cacheKey);
-    if (!value) {
-      value = await resultData();
-      if (value) cache.set(cacheKey, value);
-    }
-    setJSONHeaders(res)
-      .send(value.overview);
-    return value;
-  });
+  // JSON endpoints for Results page client side
+  app.get('/full-result.json', resultController.fullResults);
+  app.get('/overview-result.json', resultController.resultOverview);
 }
 
 // This needs to be last as it captures lot of paths and only does redirects

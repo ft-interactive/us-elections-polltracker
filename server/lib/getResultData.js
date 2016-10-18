@@ -1,8 +1,18 @@
 import axios from 'axios';
+import cache from '../lib/cache';
 
-const resultURL = 'http://bertha.ig.ft.com/republish/publish/gss/17Ea2kjME9yqEUZfQHlPZNc6cqraBUGrxtuHj-ch5Lp4/copy,events,electoralCollege,senate,house,media';
+// TODO: hit the republish endpoint on a CRON job or something
+const resultURL = 'http://bertha.ig.ft.com/view/publish/gss/17Ea2kjME9yqEUZfQHlPZNc6cqraBUGrxtuHj-ch5Lp4/copy,events,electoralCollege,senate,house,media';
 
-export default async function getResult() {
+export default function getResult() {
+  return cache(
+    'results',
+    fetchData,
+    300 // TODO: review for production
+  );
+}
+
+function fetchData() {
   return axios.get(resultURL)
         .then(response => {
           const processed = {};
@@ -32,15 +42,15 @@ export default async function getResult() {
           processed.copy = copy;
           processed.overview = {
             timestamp: (new Date()).getTime(),
-            senate:{ 
-              total: senate.total,  
+            senate:{
+              total: senate.total,
               dem_pct: (100/senate.total)* senate.current.dem,
               rep_pct: (100/senate.total)* senate.current.rep,
               dem: senate.current.dem,
               rep: senate.current.rep,
             },
-            house: { 
-              total: house.total,  
+            house: {
+              total: house.total,
               dem_pct: (100/house.total)* house.current.dem,
               rep_pct: (100/house.total)* house.current.rep,
               dem: house.current.dem,

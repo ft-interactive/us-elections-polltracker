@@ -1,5 +1,5 @@
-{% macro Figure(title, subtitle, source, note) %}
-<div class="article-figure">
+{% macro Figure(title, subtitle, source, note, id) %}
+<div class="article-figure" {% if id %}id="{{ id }}"{% endif %}>
   {% if title %}
   <h2 class="article-figure__heading">{{ title | md(true) }}</h2>
   {% endif %}

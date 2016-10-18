@@ -10,6 +10,14 @@
     "SCRAPE_ON_STARTUP": {
       "description": "Make the scraper run before the web server starts up",
       "value": "1"
+    },
+    "ELECTION_RESULTS": {
+      "description": "Turn on Election Results functionality",
+      "value": "TRUE"
+    },
+    "ELECTION_COUNTDOWN": {
+      "description": "Show the election day countdown",
+      "value": "FALSE"
     }
   },
   "formation": {
