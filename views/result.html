@@ -12,7 +12,9 @@
 
 {% block appendhead %}
 <script>
-    var timestamp = {{ overview.timestamp }};
+    function(){
+        var timestamp = {{ overview.timestamp }};
+    }();
 </script>
 {% endblock -%}
 
