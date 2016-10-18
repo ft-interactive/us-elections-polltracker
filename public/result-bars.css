@@ -13,7 +13,7 @@
 .mini-dashboard__bar-container {
   width: 100%;
   height: 2em;
-  background: #5c5c5c;
+  background: #e9decf;
 }
 
 .mini-dashboard__best-guess > .mini-dashboard__bar-container {
@@ -117,7 +117,7 @@
 
 .mini-dashboard__finish-line {
   text-align: center;
-  color: #eeeeee;
+  color: #333;
   position: absolute;
   left: 0;
   right: 0;
