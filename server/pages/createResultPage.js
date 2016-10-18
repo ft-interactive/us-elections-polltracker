@@ -1,33 +1,5 @@
 import Page from './page';
 import getResult from '../lib/getResultData';
-<<<<<<< HEAD
-import dotMapLayout from '../../layouts/results-dot-map'; 
-import mapLayout from '../../layouts/results-map'; 
-import color from '../../layouts/color';
-
-class ResultPage extends Page {
-  constructor() {
-    super();
-    this.title = 'Presidential election result';
-    this.streamUrl = 'https://www.ft.com/us-election-2016';
-    this.url = 'https://ig.ft.com/us-elections/result';
-    this.code = 'us';
-    this.id = '';
-  }
-
-  async ready() {
-    const result = await getResult(); 
-    this.headline = result.copy.headline;
-    this.subtitle = result.copy.subtitle;
-    this.stateResults = result.electoralCollege;
-    this.overview = result.overview;
-    this.mediaOrgs = result.mediaOrgs;
-    this.color = color;
-    this.dotMapSelectors = dotMapLayout( result.electoralCollege, { width: 800, height: 500 } );
-    this.mapSelectors = mapLayout( result.electoralCollege, { width: 800, height: 500 } );
-
-    await this.pready();
-=======
 import dotMapLayout from '../../layouts/results-dot-map';
 import mapLayout from '../../layouts/results-map';
 import color from '../../layouts/color';
@@ -77,16 +49,11 @@ class ResultPage extends Page {
         'list/highlights'
       ]
     });
->>>>>>> origin/results-route
   }
 }
 
 export default async () => {
   const page = new ResultPage();
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/results-route
   await page.ready();
   return page;
 };

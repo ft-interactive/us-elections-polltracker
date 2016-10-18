@@ -11,17 +11,10 @@ import ecBreakdownController from './controllers/ec-breakdown';
 import pollGraphicsController from './controllers/poll-graphics';
 import stateCodeRedirectController from './controllers/state-code-redirect';
 import stateController from './controllers/state';
-<<<<<<< HEAD
-import resultController from './controllers/result';
-=======
 import * as resultController from './controllers/result';
->>>>>>> origin/results-route
 import * as apiController from './controllers/api';
 import stateCount from './lib/state-counts';
 import resultData from './lib/getResultData';
-
-
-const flags = require('../config/flags').default();
 
 const cache = lru({
   max: 500,
