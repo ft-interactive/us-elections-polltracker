@@ -152,6 +152,11 @@
   max-height: 200px;
 }
 
+.rail__state-list__items .o-expander__content.o-expander__content--expanded {
+  max-height: none;
+  padding-bottom: 5vh;
+}
+
 .rail__state-list__nationalLink a {
   color: #318085;
   border-bottom: 1px #318085 dotted;
@@ -1852,11 +1857,6 @@ a.ec-breakdown-row {
 
   .rail__state-list__nationalMap {
     display: none;
-  }
-
-  .rail__state-list__items .o-expander__content {
-    max-height: none;
-    padding-bottom: 5vh;
   }
 
   .rail__ad {
