@@ -1,42 +1,52 @@
 
 {% macro president(isFinal, clinton, clinton_pct, trump, trump_pct, bestGuessClinton_pct, bestGuessTrump_pct, footnote) %}
-<div class="mini-dashboard__chart {% if isFinal %} mini-dashboard__chart--final{% endif %}">
-  <div class="mini-dashboard__bars">
-    <div class="mini-dashboard__bar-container">
-      <div style="width: {{clinton_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
-      <div style="width: {{trump_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
-      <div class="mini-dashboard__bar-labels">
-        <div class="mini-dashboard__bar-label">
-          Clinton <strong>{{clinton}}</strong>
-        </div>
-        <div class="mini-dashboard__bar-label">
-          Trump <strong>{{trump}}</strong>
-        </div>
+
+
+<div data-o-grid-colspan="2 Lpush1">
+    <div class="mini-dashboard__bar-label mini-dashboard__bar-label-dem">
+      <span class="national-bar-container-keys">Clinton</span>
+      <div class="national-bar-container-group-sums national-bar-container-group-sums-dem">{{clinton}}</div>
+    </div>
+</div>
+
+<div data-o-grid-colspan="2 Mpush8 Lpush7">  
+  <div class="mini-dashboard__bar-label mini-dashboard__bar-label-rep">
+    <span class="national-bar-container-keys">Trump</span>
+    <div class="national-bar-container-group-sums national-bar-container-group-sums-rep">{{trump}}</div>
+  </div>
+</div>
+
+<div data-o-grid-colspan="12 M8 L6 Mpull2  Lpull1">
+  <div class="mini-dashboard__chart {% if isFinal %} mini-dashboard__chart--final{% endif %}">
+    <div class="mini-dashboard__bars">
+      <div class="mini-dashboard__bar-container">
+        <div style="width: {{clinton_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+        <div style="width: {{trump_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
       </div>
     </div>
-  </div>
-  {% if isFinal %}
-  <span class="mini-dashboard__finish-line">
-    270 to win
-    <div class="mini-dashboard__triangle"></div>
-    <hr width="1" size="34" noshade />
-  </span>
-  {% else %}
-  <div class="mini-dashboard__best-guess">
-    <div class="mini-dashboard__bar-container">
-      <div style="width: {{bestGuessClinton_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
-      <div style="width: {{bestGuessTrump_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+    {% if isFinal %}
+    <span class="mini-dashboard__finish-line">
+      270 to win
+      <div class="mini-dashboard__triangle"></div>
+      <hr width="1" size="34" noshade />
+    </span>
+    {% else %}
+    <div class="mini-dashboard__best-guess">
+      <div class="mini-dashboard__bar-container">
+        <div style="width: {{bestGuessClinton_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+        <div style="width: {{bestGuessTrump_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+      </div>
     </div>
-  </div>
-  <span class="mini-dashboard__finish-line">
-    270 to win
-    <div class="mini-dashboard__triangle"></div>
-    <hr width="1" size="46" noshade />
-    Best guess
-  </span>
-  {% endif %}
-  <div class="mini-dashboard__footnote">
-    {{footnote}}
+    <span class="mini-dashboard__finish-line">
+      270 to win
+      <div class="mini-dashboard__triangle"></div>
+      <hr width="1" size="46" noshade />
+      Best guess
+    </span>
+    {% endif %}
+    <div class="mini-dashboard__footnote">
+      {{footnote}}
+    </div>
   </div>
 </div>
 {% endmacro %}

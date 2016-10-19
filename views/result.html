@@ -28,9 +28,10 @@ var pageDataTimestamp = {{ overview.timestamp }};
 <div class="article__main">
   <div class="o-grid-container">
     <div class="o-grid-row">
-      <div data-o-grid-colspan="center 11 L9">
+      <div data-o-grid-colspan="center 12">
           {% import "includes/result-bar-macros.html" as bars %}
           <div>
+            <div class="o-grid-row">
               {{ bars.president(
                   overview.president.isFinal,
                   overview.president.clinton,
@@ -40,6 +41,7 @@ var pageDataTimestamp = {{ overview.timestamp }};
                   overview.president.bestGuessClinton_pct,
                   overview.president.bestGuessTrump_pct,
                   "footnote") }}
+            </div>
               <div>
                   {% include "includes/results-plain-map.svg" %}
               </div>
