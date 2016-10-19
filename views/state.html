@@ -20,6 +20,7 @@
 
 {% set racestring = 'four' %}
 {% if pollHistory.pollnumcandidates == 3 %}{% set racestring = 'three' %}{% endif %}
+{% if pollHistory.pollnumcandidates == 5 %}{% set racestring = 'five' %}{% endif %}
 {{
   PollingHistory.LineChart(
     statename=state.fullname,

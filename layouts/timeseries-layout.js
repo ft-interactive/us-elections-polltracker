@@ -17,7 +17,7 @@ const roundExtent = (ext, divisor) => [
 const round1dp = x => Math.round(x * 10) / 10;
 
 // configuration
-const candidateList = ['Trump', 'Clinton', 'Johnson', 'Stein'];
+const candidateList = ['Trump', 'Clinton', 'McMullin', 'Johnson', 'Stein'];
 const candidateColor = {
   Trump: {
     line: color.Trump,
@@ -26,6 +26,10 @@ const candidateColor = {
   Clinton: {
     line: color.Clinton,
     area: color.Clinton,
+  },
+  McMullin: {
+    line: color.McMullin,
+    area: color.McMullin,
   },
   Johnson: {
     line: color.Johnson,
@@ -99,7 +103,11 @@ function timeseriesLayout(data, _opts) {
   if (!data || data.length < 1) return undefined;
 
   const opts = { ..._opts };
-  opts.pollnumcandidates = 2; // always only display Clinton/Trump lines
+  opts.pollnumcandidates = 2; // always only display Clinton/Trump lines, except in Utah where you also display McMullin
+  if (opts.state === 'ut') {
+    opts.pollnumcandidates = 3;
+    opts.type = 'line'; // utah should be by default a line
+  }
 
   const candidates = candidateList.slice(0, opts.pollnumcandidates);
 
@@ -136,7 +144,7 @@ function timeseriesLayout(data, _opts) {
 
   // make the scales
   let rawExtent = d3.extent(data, d => {
-    if (d.candidatename === 'Clinton' || d.candidatename === 'Trump') {
+    if (d.candidatename === 'Clinton' || d.candidatename === 'Trump' || d.candidatename === 'McMullin') {
       return d.pollaverage;
     }
     return null;
