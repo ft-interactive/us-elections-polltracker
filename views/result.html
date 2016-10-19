@@ -22,7 +22,7 @@ var pageDataTimestamp = {{ overview.timestamp }};
     <div class="o-grid-row">
       <div data-o-grid-colspan="center 11 L9">
           {% import "includes/result-bar-macros.html" as bars %}
-          <div>
+          <div class="president-bars">
               {{ bars.president(
                   overview.president.isFinal,
                   overview.president.clinton,
@@ -48,8 +48,8 @@ var pageDataTimestamp = {{ overview.timestamp }};
           {% endcall %}
       </div>
       <div data-o-grid-colspan="12 L6">
-          <div id="congressional">
-            {% call PageElements.Figure(title="House", id="Senate") %}
+          <div class="house-bars">
+            {% call PageElements.Figure(title="House", id="House") %}
                   {{ bars.house(
                     overview.house.dem_pct,
                     overview.house.dem,
@@ -57,8 +57,9 @@ var pageDataTimestamp = {{ overview.timestamp }};
                     overview.house.rep,
                     "footnote") }}
             {% endcall %}
-
-            {% call PageElements.Figure(title="Senate", id="House") %}
+          </div>
+          <div class="senate-bars">
+            {% call PageElements.Figure(title="Senate", id="Senate") %}
               {{ bars.senate(
                 overview.senate.dem_pct,
                 overview.senate.dem,

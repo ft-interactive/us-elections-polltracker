@@ -34,20 +34,50 @@ function getData() {
     d3.json('full-result.json',function(data) {
         if(data.overview.timestamp > pageDataTimestamp){
             pageDataTimestamp = data.overview.timestamp;
-            rebindMap(data);
-            colourMap();
-
-
+            rebindMap(data.electoralCollege);
+            rebindBars(data.overview);
+            redrawMap();
         }
     });
 }
 
-function rebindBarData(data) {
-    
+function rebindBars(data) {
+    //president
+    d3.select('.president-bars .mini-dashboard__bar-fill--dem')
+        .datum(data.president.clinton_pct);
+    d3.select('.president-bars .mini-dashboard__bar-fill--rep')
+        .datum(data.president.trump_pct);
+
+    d3.select('.president-bars .mini-dashboard__bar-label-dem')
+        .datum(data.president.clinton)
+    d3.select('.president-bars .mini-dashboard__bar-label-rep')
+        .datum(data.president.trump)
+
+    //house
+    d3.select('.house-bars .mini-dashboard__bar-fill--dem')
+        .datum(data.house.dem_pct);
+    d3.select('.house-bars .mini-dashboard__bar-fill--rep')
+        .datum(data.house.rep_pct);
+
+    d3.select('.president-bars .mini-dashboard__bar-label-dem')
+        .datum(data.house.dem)
+    d3.select('.president-bars .mini-dashboard__bar-label-rep')
+        .datum(data.house.rep)
+
+    //senate
+    d3.select('.senate-bars .mini-dashboard__bar-fill--dem')
+        .datum(data.senate.dem_pct);
+    d3.select('.senate-bars .mini-dashboard__bar-fill--rep')
+        .datum(data.senate.rep_pct);
+
+    d3.select('.president-bars .mini-dashboard__bar-label-dem')
+        .datum(data.senate.dem);
+    d3.select('.president-bars .mini-dashboard__bar-label-rep')
+        .datum(data.senate.rep);
 }
 
 function rebindMap(data) {
-    var lookupByCollegeID = makeLookup(data.electoralCollege, 'code');
+    var lookupByCollegeID = makeLookup(data, 'code');
     d3.selectAll('path.map-state')
         .each(function(){      
             var collegeID = d3.select(this).attr('id');
@@ -61,7 +91,7 @@ function rebindMap(data) {
         });
 }
 
-function colourMap(){
+function redrawMap(){
     d3.selectAll('path.map-state').transition()
         .style('fill',function(d){
             if ( d.winner ) return color[d.winner];
