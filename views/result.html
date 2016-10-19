@@ -3,18 +3,24 @@
 {% import "page-elements.html" as PageElements -%}
 
 {% set layout = {name: 'full-body'} %}
-{% set stylesheets = ['https://origami-build.ft.com/v2/bundles/css?modules=o-expander@^4.0.2,o-buttons@^4.0.2','result-page.css','result-bars.css'] %}
+{% set stylesheets = [
+  'https://origami-build.ft.com/v2/bundles/css?modules=o-expander@^4.0.2,o-buttons@^4.0.2,o-grid@^4.2.1,o-cookie-message@^2.2.0',
+  'g-ui/main.css',
+  'main.css',
+  'result-page.css',
+  'result-bars.css'
+  ]
+%}
 {% set scripts = [
-  'https://origami-build.ft.com/v2/bundles/js?modules=o-expander@^4.0.2,o-buttons@^4.0.2&export=bundle',
-  'result-page.js'
+  'result-page.js',
+  'g-ui/index.js',
+  'https://origami-build.ft.com/v2/bundles/js?export=bundle&modules=o-expander@^4.0.2,o-buttons@^4.0.2,o-date@^2.6.0,o-cookie-message@^2.2.0'
   ]
 %}
 
 {% block appendhead %}
 <script>
-    function(){
-        var timestamp = {{ overview.timestamp }};
-    }();
+var pageDataTimestamp = {{ overview.timestamp }};
 </script>
 {% endblock -%}
 
@@ -42,6 +48,22 @@
               </div>
           </div>
       </div>
+
+      <div data-o-grid-colspan="center 12">
+        <div class="o-ads o-ads--center o-ads--reserve-90 o-ads--transition"
+          data-o-ads-name="mid"
+          data-o-ads-center="true"
+          data-o-ads-targeting="pos=mid"
+          data-o-ads-formats-default="MediumRectangle,Responsive"
+          data-o-ads-formats-small="MediumRectangle,Responsive"
+          data-o-ads-formats-medium="Leaderboard"
+          data-o-ads-formats-large="SuperLeaderboard,Leaderboard"
+          data-o-ads-formats-extra="SuperLeaderboard,Leaderboard"
+          data-o-ads-lazy-load="true"
+          aria-hidden="true">
+        </div>
+      </div>
+
       <div data-o-grid-colspan="12 L6">
           {% call PageElements.Figure(title="What the US media is saying") %}
             {% for org in mediaOrgs %}
