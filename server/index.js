@@ -30,6 +30,8 @@ const sMaxAge = 10;
 app.disable('x-powered-by');
 app.locals.flags = flags();
 
+console.log('Flags', app.locals.flags);
+
 // run scraper up front if this is a review app
 if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '"1"') {
   const scraper = require('../scraper').default; // eslint-disable-line global-require
@@ -160,8 +162,15 @@ app.get('/ec-breakdown.html', ecBreakdownController);
 // Don't allow access to the page when
 // flags.results is false
 if (app.locals.flags.results) {
-  // National results page
-  app.get('/results', resultController.page);
+  if (app.locals.flags.resultsFTAuth) {
+    const authS3O = require('s3o-middleware');
+    app.set('trust proxy', true);
+    app.get('/results', authS3O, resultController.page);
+    // National results page
+    app.post('/results', authS3O);
+  } else {
+    app.get('/results', resultController.page);
+  }
 
   // JSON endpoints for Results page client side
   app.get('/full-result.json', resultController.fullResults);

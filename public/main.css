@@ -1898,17 +1898,21 @@ a.ec-breakdown-row {
     }
 }
 
-.suggested-reads {
+.article__aside .suggested-reads {
     border: 1px solid #cec6b9;
     position: relative;
     margin: 30px 0 20px;
     padding: 20px 20px 0;
 }
 
+.article__main .suggested-reads {
+  background-color: #e9decf;
+  padding: 20px 0;
+  box-sizing: border-box;
+}
+
 .suggested-reads .suggested-reads__title {
     font-family: FinancierDisplayWeb,serif;
-    font-size: 20px;
-    font-family: serif;
     line-height: 24px;
     font-weight: 400;
     position: absolute;
@@ -1918,6 +1922,18 @@ a.ec-breakdown-row {
     padding: 0 10px;
     background: #fff1e0;
     font-size: 18px;
+}
+
+.article__main .suggested-reads__title {
+  background: none;
+  display: block;
+  position: static;
+  margin: -10px 0 7px 20px;
+  padding: 0;
+  font-family: MetricWeb, sans-serif;
+  text-transform: uppercase;
+  color: #333;
+  font-size: 16px;
 }
 
 .suggested-reads .suggested-reads__subheading {
@@ -1931,8 +1947,30 @@ a.ec-breakdown-row {
     padding-bottom: 10px;
 }
 
+.article__main .suggested-reads__list {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+
 .suggested-reads .suggested-reads__list-item {
     margin-bottom: 20px;
+}
+
+.article__main .suggested-reads__list-item {
+  display: table-cell;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-right: 1px solid #a7a59b;
+}
+
+.article__main .suggested-reads__list-item:last-child {
+  border-right: none;
+}
+
+.article_aside .suggested-reads__list-item {
+  display: block;
 }
 
 .suggested-reads .suggested-reads__list-item__headline {
@@ -1943,6 +1981,10 @@ a.ec-breakdown-row {
     display: block;
     border-bottom: 0;
     margin: 0 0 4px;
+}
+
+.article__main .suggested-reads__list-item__headline {
+  font-size: 22px;
 }
 
 .suggested-reads__list-item__headline:hover .suggested-reads__list-item__headline-text {
@@ -1972,6 +2014,40 @@ a.ec-breakdown-row {
     margin: 0;
     color: #505050;
 }
+
+@media (max-width: 769px) {
+
+  .article__main .suggested-reads {
+    padding: 15px 10px 3px 10px;
+  }
+
+  .article__main .suggested-reads__title {
+    margin-left: 10px;
+  }
+
+  .article__main .suggested-reads__list {
+    display: block;
+  }
+
+  .article__main .suggested-reads__list-item {
+    display: block;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-right: none;
+    margin-bottom: 18px;
+  }
+
+  .article__main .suggested-reads__list-item__headline {
+    font-size: 16px;
+    line-height: 1.2;
+  }
+
+  .article__main .suggested-reads__list-item__subheading {
+    font-size: 12px;
+    line-height: 1.25;
+  }
+}
+
 
 /* temp override rail ad */
 @media (min-width: 61.24em) {

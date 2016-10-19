@@ -17,85 +17,106 @@ var pageDataTimestamp = {{ overview.timestamp }};
 {% endblock -%}
 
 {% block article_body %}
-<div class="o-grid-container {{ 'page__national' if code == 'us' }}">
-  <div class="o-grid-row">
-    <div data-o-grid-colspan="center 11 L9">
-        {% import "includes/result-bar-macros.html" as bars %}
-        <div>
-            {{ bars.president(
-                overview.president.isFinal,
-                overview.president.clinton,
-                overview.president.clinton_pct,
-                overview.president.trump,
-                overview.president.trump_pct,
-                overview.president.bestGuessClinton_pct,
-                overview.president.bestGuessTrump_pct,
-                "footnote") }}
-            <div>
-                {% include "includes/results-plain-map.svg" %}
-            </div>
-            <div>
-                {% include "includes/results-dot-map.svg" %}
-            </div>
-        </div>
-    </div>
-    <div data-o-grid-colspan="12 L6">
-
-        {% call PageElements.Figure(title="What the US media is saying") %}
-          {% for org in mediaOrgs %}
-          <div>{{ org.name }} Clinton:{{org.totals.d}} Trump:{{org.totals.r}} ({{ org.totals.r + org.totals.d }}/ 538)</div>
-          {% endfor %}
-        {% endcall %}
-    </div>
-    <div data-o-grid-colspan="12 L6">
-        <div id="congressional">
-          {% call PageElements.Figure(title="House", id="Senate") %}
-                {{ bars.house(
-                  overview.house.dem_pct,
-                  overview.house.dem,
-                  overview.house.rep_pct,
-                  overview.house.rep,
+<div class="article__main">
+  <div class="o-grid-container">
+    <div class="o-grid-row">
+      <div data-o-grid-colspan="center 11 L9">
+          {% import "includes/result-bar-macros.html" as bars %}
+          <div>
+              {{ bars.president(
+                  overview.president.isFinal,
+                  overview.president.clinton,
+                  overview.president.clinton_pct,
+                  overview.president.trump,
+                  overview.president.trump_pct,
+                  overview.president.bestGuessClinton_pct,
+                  overview.president.bestGuessTrump_pct,
                   "footnote") }}
+              <div>
+                  {% include "includes/results-plain-map.svg" %}
+              </div>
+              <div>
+                  {% include "includes/results-dot-map.svg" %}
+              </div>
+          </div>
+      </div>
+      <div data-o-grid-colspan="12 L6">
+          {% call PageElements.Figure(title="What the US media is saying") %}
+            {% for org in mediaOrgs %}
+            <div>{{ org.name }} Clinton:{{org.totals.d}} Trump:{{org.totals.r}} ({{ org.totals.r + org.totals.d }}/ 538)</div>
+            {% endfor %}
           {% endcall %}
+      </div>
+      <div data-o-grid-colspan="12 L6">
+          <div id="congressional">
+            {% call PageElements.Figure(title="House", id="Senate") %}
+                  {{ bars.house(
+                    overview.house.dem_pct,
+                    overview.house.dem,
+                    overview.house.rep_pct,
+                    overview.house.rep,
+                    "footnote") }}
+            {% endcall %}
 
-          {% call PageElements.Figure(title="Senate", id="House") %}
-            {{ bars.senate(
-              overview.senate.dem_pct,
-              overview.senate.dem,
-              overview.senate.rep_pct,
-              overview.senate.rep,
-              "footnote")
-            }}
-          {% endcall %}
+            {% call PageElements.Figure(title="Senate", id="House") %}
+              {{ bars.senate(
+                overview.senate.dem_pct,
+                overview.senate.dem,
+                overview.senate.rep_pct,
+                overview.senate.rep,
+                "footnote")
+              }}
+            {% endcall %}
+          </div>
+      </div>
+
+      {% set showSuggestedReads = flags.onwardJourney and
+                                  flags.resultSuggestedReads and
+                                  onwardJourney.suggestedReads.data and
+                                  onwardJourney.suggestedReads.data.items and
+                                  onwardJourney.suggestedReads.data.items.length > 2 %}
+      {% if showSuggestedReads %}
         </div>
-    </div>
-    <div data-o-grid-colspan="center 12 M9 L6">
-        {% call PageElements.Figure(title="Senate", id="House") %}
-          <table class="ecresultslist">
-            <thead>
-              <tr>
-                <th class="ecresultslist__headercell">2012</th>
-                <th class="ecresultslist__headercell">2016</th>
-                <th class="ecresultslist__headercell">State</th>
-                <th class="ecresultslist__headercell">Votes</th>
-                <th class="ecresultslist__headercell--optional">Margin</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for state in stateResults %}
-              <tr>
-                <td class="ecresultslist__cell--{{ state.code | winner2012 }}"></td>
-                <td class="ecresultslist__cell--{% if state.winner == 'r' %}rep{% endif %}{% if state.winner == 'd' %}dem{% endif %}">{% if state.winner == 'r' %} Trump {% endif %} {% if state.winner == 'd' %}Clinton{% endif %}</td>
-                <td class="ecresultslist__cell">{{ state.code | stateName }}</td>
-                <td class="ecresultslist__cell">{{ state.ecvotes }}</td>
-                <td class="ecresultslist__cell"></td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        {% endcall %}
+      </div>
+      <div class="o-grid-container o-grid-container--bleed">
+        <div class="o-grid-row">
+          <aside data-o-grid-colspan="center 12">
+          {% set firstThreeSelectedReads = onwardJourney.suggestedReads.data.items.slice(0, 3) %}
+          {{ PageElements.SuggestedReads(title="Top stories", items=firstThreeSelectedReads) }}
+          </aside>
+        </div>
+      </div>
+      <div class="o-grid-container">
+        <div class="o-grid-row">
+      {% endif %}
+
+      <div data-o-grid-colspan="center 12 M9 L6">
+          {% call PageElements.Figure(title="All states", id="all-states") %}
+            <table class="ecresultslist">
+              <thead>
+                <tr>
+                  <th class="ecresultslist__headercell">2012</th>
+                  <th class="ecresultslist__headercell">2016</th>
+                  <th class="ecresultslist__headercell">State</th>
+                  <th class="ecresultslist__headercell">Votes</th>
+                  <th class="ecresultslist__headercell--optional">Margin</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for state in stateResults %}
+                <tr>
+                  <td class="ecresultslist__cell--{{ state.code | winner2012 }}"></td>
+                  <td class="ecresultslist__cell--{% if state.winner == 'r' %}rep{% endif %}{% if state.winner == 'd' %}dem{% endif %}">{% if state.winner == 'r' %} Trump {% endif %} {% if state.winner == 'd' %}Clinton{% endif %}</td>
+                  <td class="ecresultslist__cell">{{ state.code | stateName }}</td>
+                  <td class="ecresultslist__cell">{{ state.ecvotes }}</td>
+                  <td class="ecresultslist__cell"></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endcall %}
+      </div>
     </div>
   </div>
 </div>
 {% endblock %}
-

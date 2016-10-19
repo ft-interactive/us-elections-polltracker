@@ -36,10 +36,7 @@ class StatePage extends PollsPage {
     ];
 
     if (this.state.conceptId) {
-      relatedContent.splice(1, 0, {
-        rows: 1,
-        list: `thing/${this.state.conceptId}`,
-      });
+      relatedContent.splice(1, 0, `thing/${this.state.conceptId}`);
     }
 
     this.onwardJourney = await onwardJourney({

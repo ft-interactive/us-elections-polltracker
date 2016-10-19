@@ -24,4 +24,7 @@ export default () => ({
   stateList: true,
   headerMarketingPromo: true,
   cookieMessage: prod,
+  resultSuggestedReads: true,
+  resultMediaSurvey: true,
+  resultsFTAuth: true,
 });
