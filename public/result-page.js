@@ -43,7 +43,7 @@ function getData() {
 }
 
 function rebindBarData(data) {
-
+    
 }
 
 function rebindMap(data) {
