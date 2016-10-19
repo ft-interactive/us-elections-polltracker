@@ -105,7 +105,7 @@ var pageDataTimestamp = {{ overview.timestamp }};
               </thead>
               <tbody>
                 {% for state in stateResults %}
-                <tr>
+                <tr id="{{ state.code }}-row">
                   <td class="ecresultslist__cell--{{ state.code | winner2012 }}"></td>
                   <td class="ecresultslist__cell--{% if state.winner == 'r' %}rep{% endif %}{% if state.winner == 'd' %}dem{% endif %}">{% if state.winner == 'r' %} Trump {% endif %} {% if state.winner == 'd' %}Clinton{% endif %}</td>
                   <td class="ecresultslist__cell">{{ state.code | stateName }}</td>

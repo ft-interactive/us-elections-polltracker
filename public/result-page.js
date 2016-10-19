@@ -36,9 +36,19 @@ function getData() {
             pageDataTimestamp = data.overview.timestamp;
             rebindMap(data.electoralCollege);
             rebindBars(data.overview);
+            rebindTable(data.electoralCollege);
             redrawMap();
         }
     });
+}
+
+function rebindTable(data){
+    var lookupByCollegeID = makeLookup(data, 'code');
+    d3.selectAll('.ecresultslist tr')
+        .each(function(){      
+            var collegeID = d3.select(this).attr('id').split('-')[0];
+            d3.select(this).datum( lookupByCollegeID[collegeID.toLowerCase()] );
+        });
 }
 
 function rebindBars(data) {
