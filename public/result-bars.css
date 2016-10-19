@@ -74,6 +74,17 @@
   text-align: left;
 }
 
+@media (max-width: 739px) {
+  .mini-dashboard__bar-label-dem {
+    text-align: left;
+    margin-bottom: 10px;
+  }
+  .mini-dashboard__bar-label-rep {
+    text-align: right;
+    margin-bottom: 10px;
+  }
+}
+
 .national-bar-container-group-sums {
   font-size: 2.8em;
 }
