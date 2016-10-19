@@ -49,13 +49,13 @@ function rebindBarData(data) {
 function rebindMap(data) {
     var lookupByCollegeID = makeLookup(data.electoralCollege, 'code');
     d3.selectAll('path.map-state')
-        .each(function(datum){      
+        .each(function(){      
             var collegeID = d3.select(this).attr('id');
             d3.select(this).datum( lookupByCollegeID[collegeID.toLowerCase()] );
         });
 
     d3.selectAll('circle.college-vote')
-        .each(function(datum){      
+        .each(function(){      
             var collegeID = d3.select(this).attr('id').split('_')[0];
             d3.select(this).datum( lookupByCollegeID[collegeID.toLowerCase()] );
         });
