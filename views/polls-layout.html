@@ -3,8 +3,18 @@
 {% import "page-elements.html" as PageElements -%}
 
 {% set layout = {name: 'left-body'} %}
-{% set stylesheets = ['https://origami-build.ft.com/v2/bundles/css?modules=o-expander@^4.0.2,o-buttons@^4.0.2'] %}
-{% set scripts = ['https://origami-build.ft.com/v2/bundles/js?modules=o-expander@^4.0.2,o-buttons@^4.0.2&export=bundle'] %}
+{% set stylesheets = [
+  'https://origami-build.ft.com/v2/bundles/css?modules=o-expander@^4.0.2,o-buttons@^4.0.2,o-grid@^4.2.1,o-cookie-message@^2.2.0',
+  'g-ui/main.css',
+  'main.css'
+  ]
+%}
+{% set scripts = [
+  'main.js',
+  'g-ui/index.js',
+  'https://origami-build.ft.com/v2/bundles/js?export=bundle&modules=o-expander@^4.0.2,o-buttons@^4.0.2,o-date@^2.6.0,o-cookie-message@^2.2.0'
+  ]
+%}
 
 {% block article_body %}
 
