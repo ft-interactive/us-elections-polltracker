@@ -2,21 +2,27 @@
 {% macro president(isFinal, clinton, clinton_pct, trump, trump_pct, bestGuessClinton_pct, bestGuessTrump_pct, footnote) %}
 
 
-<div data-o-grid-colspan="2 Lpush1">
-    <div class="mini-dashboard__bar-label mini-dashboard__bar-label-dem">
+<div data-o-grid-colspan="5 S5 M3">
+  <div class="mini-dashboard__bar-label-container mini-dashboard__bar-label-container-dem">
+    <div class="mini-dashboard__head-icons mini-dashboard__head-icons--dem"><img src="images/clinton.png"></div>
+    <div class="mini-dashboard__bar-label-dem">
       <span class="national-bar-container-keys">Clinton</span>
       <div class="national-bar-container-group-sums national-bar-container-group-sums-dem">{{clinton}}</div>
     </div>
-</div>
-
-<div data-o-grid-colspan="2 push8 Lpush7">  
-  <div class="mini-dashboard__bar-label mini-dashboard__bar-label-rep">
-    <span class="national-bar-container-keys">Trump</span>
-    <div class="national-bar-container-group-sums national-bar-container-group-sums-rep">{{trump}}</div>
   </div>
 </div>
 
-<div data-o-grid-colspan="12 M8 L6 Mpull2  Lpull1">
+<div data-o-grid-colspan="5 M3 push2 Mpush6">  
+   <div class="mini-dashboard__bar-label-container mini-dashboard__bar-label-container-rep">
+    <div class="mini-dashboard__bar-label-rep">
+      <span class="national-bar-container-keys">Trump</span>
+      <div class="national-bar-container-group-sums national-bar-container-group-sums-rep">{{trump}}</div>
+    </div>
+    <div class="mini-dashboard__head-icons mini-dashboard__head-icons--rep"><img src="images/trump.png"></div>
+  </div>
+</div>
+
+<div data-o-grid-colspan="12 M6 L6 Mpull3 Lpull3">
   <div class="mini-dashboard__chart {% if isFinal %} mini-dashboard__chart--final{% endif %}">
     <div class="mini-dashboard__bars">
       <div class="mini-dashboard__bar-container">
