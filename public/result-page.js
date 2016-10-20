@@ -59,9 +59,9 @@ function rebindBars(data) {
     d3.select('.president-bars .mini-dashboard__bar-fill--rep')
         .datum(data.president.trump_pct);
 
-    d3.select('.president-bars .mini-dashboard__bar-label-dem')
+    d3.select('.president-bars .national-bar-container-group-sums-dem')
         .datum(data.president.clinton)
-    d3.select('.president-bars .mini-dashboard__bar-label-rep')
+    d3.select('.president-bars .national-bar-container-group-sums-rep')
         .datum(data.president.trump)
 
     //house
@@ -115,7 +115,10 @@ function redraw(){
             return color.nomapdata;
         });
 
-    d3.selectAll('')
+    d3.selectAll('.ecresultslist__row').transition()
+        .call(function(parent){
+            //parent.select('')
+        });
 }
 
 function makeLookup(arr,key){
