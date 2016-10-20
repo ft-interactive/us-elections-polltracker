@@ -57,36 +57,36 @@ function rebindTable(data){
 
 function rebindBars(data) {
     //president
-    d3.select('.president-bars .mini-dashboard__bar-fill--dem')
+    d3.select('#president-bar-clinton')
         .datum(data.president.clinton_pct);
-    d3.select('.president-bars .mini-dashboard__bar-fill--rep')
+    d3.select('#president-bar-trump')
         .datum(data.president.trump_pct);
 
-    d3.select('.president-bars .national-bar-container-group-sums-dem')
-        .datum(data.president.clinton)
-    d3.select('.president-bars .national-bar-container-group-sums-rep')
-        .datum(data.president.trump)
+    d3.select('#president-datalabel-clinton')
+        .datum(data.president.clinton);
+    d3.select('#president-datalabel-trump')
+        .datum(data.president.trump);
 
     //house
-    d3.select('.house-bars .mini-dashboard__bar-fill--dem')
+    d3.select('#house-bar-dem')
         .datum(data.house.dem_pct);
-    d3.select('.house-bars .mini-dashboard__bar-fill--rep')
+    d3.select('#house-bar-rep')
         .datum(data.house.rep_pct);
 
-    d3.select('.president-bars .mini-dashboard__bar-label-dem')
-        .datum(data.house.dem)
-    d3.select('.president-bars .mini-dashboard__bar-label-rep')
-        .datum(data.house.rep)
+    d3.select('#house-datalabel-dem')
+        .datum(data.house.dem);
+    d3.select('#house-datalabel-rep')
+        .datum(data.house.rep);
 
     //senate
-    d3.select('.senate-bars .mini-dashboard__bar-fill--dem')
+    d3.select('#senate-bar-dem')
         .datum(data.senate.dem_pct);
-    d3.select('.senate-bars .mini-dashboard__bar-fill--rep')
+    d3.select('#senate-bar-rep')
         .datum(data.senate.rep_pct);
 
-    d3.select('.president-bars .mini-dashboard__bar-label-dem')
+    d3.select('#senate-datalabel-dem')
         .datum(data.senate.dem);
-    d3.select('.president-bars .mini-dashboard__bar-label-rep')
+    d3.select('#senate-datalabel-rep')
         .datum(data.senate.rep);
 }
 
@@ -106,6 +106,7 @@ function rebindMap(data) {
 }
 
 function redraw(){
+    //maps
     d3.selectAll('path.map-state').transition()
         .style('fill',function(d){
             if ( d.winner ) return color[d.winner];
@@ -118,10 +119,10 @@ function redraw(){
             return color.nomapdata;
         });
 
+    //table
     d3.selectAll('.ecresultslist__cell--2016')
         .transition()
         .attr('class',function(d){
-            console.log(d);
             if(d.winner == 'r') {
                 return 'ecresultslist__cell--2016 ecresultslist__cell--rep';
             }else if (d.winner == 'd'){
@@ -135,6 +136,14 @@ function redraw(){
                 return 'Clinton';
             }
         });
+    
+    d3.selectAll('.data-bar')
+        .transition()
+        .style('width', function(d){ return d; });
+    
+    d3.selectAll('.data-label')
+        .text(function(d){ return d; })
+
 }
 
 function makeLookup(arr,key){
