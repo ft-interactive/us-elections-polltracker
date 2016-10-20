@@ -80,7 +80,7 @@ const getPollSVG = async (state, size = '600x300', pollnumcandidates) => {
     type: 'area',
     state,
     logo: false,
-    margin: { top: 10, left: 35, bottom: 50, right: 100 },
+    margin: { top: 10, left: 35, bottom: 50, right: 110 },
     pollnumcandidates,
     outlineColor: 'fff1e0',
     yAxisDomain,
