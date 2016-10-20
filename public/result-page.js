@@ -81,6 +81,8 @@ function rebindBars(data) {
     //senate
     d3.select('#senate-bar-dem')
         .datum(data.senate.dem_pct);
+    d3.select('#senate-bar-ind')
+        .datum(data.house.ind_pct);
     d3.select('#senate-bar-rep')
         .datum(data.senate.rep_pct);
 
@@ -137,10 +139,13 @@ function redraw(){
             }
         });
     
+    //bars
+
     d3.selectAll('.data-bar')
-        .transition()
-        .style('width', function(d){ return d; });
-    
+        .style('width', function(d){ 
+            console.log(this.id, d); return d+'%'; 
+        });
+         
     d3.selectAll('.data-label')
         .text(function(d){ return d; })
 
