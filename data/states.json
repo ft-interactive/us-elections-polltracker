@@ -195,7 +195,7 @@
                 "conceptId":"TnN0ZWluX0dMX1VTX1RleGFz-R0w=","url":null,
                 "id":"7c3ea344-5b01-11e6-9f70-badea1b336d4",
                 "slug":"texas"},
-{"code":"UT",   "shortName":null,"name":"Utah","raceId":5834,"raceId3Way":null,"raceId4Way":5971,"displayRace":null,"ecVotes":6,
+{"code":"UT",   "shortName":null,"name":"Utah","raceId":5834,"raceId3Way":null,"raceId4Way":5971,"raceId5Way":6154,"displayRace":5,"ecVotes":6,
                 "conceptId":"TnN0ZWluX0dMX1VTX1V0YWg=-R0w=","url":null,
                 "id":"84f28ea6-5b01-11e6-9f70-badea1b336d4",
                 "slug":"utah"},

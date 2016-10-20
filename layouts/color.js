@@ -6,6 +6,7 @@ export default {
   Clinton: '#579dd5',
   Johnson: '#6e4794',
   Stein: '#55c72c',
+  McMullin: '#6e4794',
   lib: '#6e4794',
   grn: '#55c72c',
   rep: '#e03d46',

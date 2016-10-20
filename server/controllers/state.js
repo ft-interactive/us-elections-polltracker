@@ -3,8 +3,8 @@ import { codeToSlug, isState } from '../lib/states';
 import { render } from '../nunjucks';
 import cache from '../lib/cache';
 
-const maxAge = 120;
-const sMaxAge = 10;
+const maxAge = 360; // 6 mins
+const sMaxAge = 60; // 1 min
 const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
 
 const slugfixes = {

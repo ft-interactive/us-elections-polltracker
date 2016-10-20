@@ -80,11 +80,11 @@ const getPollSVG = async (state, size = '600x300', pollnumcandidates) => {
     type: 'area',
     state,
     logo: false,
-    margin: { top: 10, left: 35, bottom: 50, right: 90 },
+    margin: { top: 10, left: 35, bottom: 50, right: 100 },
     pollnumcandidates,
     outlineColor: 'fff1e0',
     yAxisDomain,
-  })
+  });
 };
 
 export async function lineChart(code, pollnumcandidates) {
@@ -148,8 +148,13 @@ export async function pollHistory(code) {
   let latestAverages = {};
   if (latestAveragesData.length > 0) {
     let steinPollAverage = null;
+    let mcMullinPollAverage = null;
+
     if (_.find(latestAveragesData, _.iteratee({ candidatename: 'Stein' }))) {
       steinPollAverage = _.find(latestAveragesData, _.iteratee({ candidatename: 'Stein' })).pollaverage;
+    }
+    if (_.find(latestAveragesData, _.iteratee({ candidatename: 'McMullin' }))) {
+      mcMullinPollAverage = _.find(latestAveragesData, _.iteratee({ candidatename: 'McMullin' })).pollaverage;
     }
 
     latestAverages = {
@@ -157,6 +162,7 @@ export async function pollHistory(code) {
       Trump: _.find(latestAveragesData, _.iteratee({ candidatename: 'Trump' })).pollaverage,
       Johnson: _.find(latestAveragesData, _.iteratee({ candidatename: 'Johnson' })).pollaverage,
       Stein: steinPollAverage,
+      McMullin: mcMullinPollAverage,
     };
   }
 

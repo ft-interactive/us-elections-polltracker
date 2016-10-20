@@ -172,6 +172,7 @@ export default async (force = false) => {
       const raceId = id.raceId;
       const raceId3Way = id.raceId3Way;
       const raceId4Way = id.raceId4Way;
+      const raceId5Way = id.raceId5Way;
 
       winston.log('info', `Starting scraping for state: ${state}`);
 
@@ -214,6 +215,20 @@ export default async (force = false) => {
           `http://www.realclearpolitics.com/poll/race/${raceId4Way}/polling_data.json`,
           state,
           4
+        );
+      }
+
+      if (raceId5Way) {
+        await getPollAverageData(
+          `http://www.realclearpolitics.com/poll/race/${raceId5Way}/historical_data.json`,
+          state,
+          5
+        );
+
+        await getIndividualPollData(
+          `http://www.realclearpolitics.com/poll/race/${raceId5Way}/polling_data.json`,
+          state,
+          5
         );
       }
 

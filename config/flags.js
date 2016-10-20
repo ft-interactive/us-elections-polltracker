@@ -23,8 +23,8 @@ export default () => ({
   footer: true,
   stateList: true,
   headerMarketingPromo: true,
-  cookieMessage: prod,
+  cookieMessage: true,
   resultSuggestedReads: true,
   resultMediaSurvey: true,
-  resultsFTAuth: true,
+  resultsFTAuth: prod,
 });
