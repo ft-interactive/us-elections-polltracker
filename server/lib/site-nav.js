@@ -14,6 +14,7 @@ export default function siteNav() {
       getBySlug('georgia'),
       getBySlug('iowa'),
       getBySlug('nevada'),
+      getBySlug('new-hampshire'),
       getBySlug('north-carolina'),
       getBySlug('ohio'),
       getBySlug('pennsylvania'),
