@@ -1094,6 +1094,10 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
   background: #f4a098;
 }
 
+#individualpolls td.mcmullin.winner {
+  background: #c0b5cc;
+}
+
 #individualpolls #individualpolls td.winner.narrowonly {
   font-weight: 400;
 }

@@ -80,7 +80,7 @@ const getPollSVG = async (state, size = '600x300', pollnumcandidates) => {
     type: 'area',
     state,
     logo: false,
-    margin: { top: 10, left: 35, bottom: 50, right: 100 },
+    margin: { top: 10, left: 35, bottom: 50, right: 110 },
     pollnumcandidates,
     outlineColor: 'fff1e0',
     yAxisDomain,
@@ -101,11 +101,15 @@ export async function list(code, pollnumcandidates) {
   let allIndividualPolls = await getAllPolls(code, pollnumcandidates);
   allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
   allIndividualPolls = _.values(allIndividualPolls);
+  allIndividualPolls = _.orderBy(allIndividualPolls, d => d[0].endDate);
   const formattedIndividualPolls = [];
   _.each(allIndividualPolls, poll => {
     let winner = '';
     const clintonVal = _.find(poll, _.iteratee({ candidatename: 'Clinton' })).pollvalue;
     const trumpVal = _.find(poll, _.iteratee({ candidatename: 'Trump' })).pollvalue;
+
+    let mcMullinVal = null;
+    if (_.find(poll, _.iteratee({ candidatename: 'McMullin' }))) mcMullinVal = _.find(poll, _.iteratee({ candidatename: 'McMullin' })).pollvalue;
 
     if (clintonVal > trumpVal) {
       winner = 'Clinton';
@@ -115,11 +119,16 @@ export async function list(code, pollnumcandidates) {
       winner = 'Trump';
     }
 
+    if (mcMullinVal > clintonVal && mcMullinVal > trumpVal) {
+      winner = 'McMullin';
+    }
+
     // unshift instead of push because dates keep being in chron instead of reverse chron
     // even when I change the pg query to order by endDate DESC
     formattedIndividualPolls.unshift({
-      Clinton: _.find(poll, _.iteratee({ candidatename: 'Clinton' })).pollvalue,
-      Trump: _.find(poll, _.iteratee({ candidatename: 'Trump' })).pollvalue,
+      Clinton: clintonVal,
+      Trump: trumpVal,
+      McMullin: mcMullinVal,
       date: poll[0].date,
       pollster: poll[0].pollster.replace(/\*$/, '').replace(/\//g, ', '), // get rid of asterisk b/c RCP doesn't track what it means
       sampleSize: poll[0].sampleSize,
