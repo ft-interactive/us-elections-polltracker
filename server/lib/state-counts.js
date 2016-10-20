@@ -66,13 +66,21 @@ export default async () => {
 
   const latestAverages = await latestAveragesByState(4);
   const latestAverages3Way = await latestAveragesByState(3);
+  const latestAverages5Way = await latestAveragesByState(5);
 
-  // use 4 way races but override some states (those with displayRace: 3 in data/states.json) with 3-way data
-  const threeWayStates = _.filter(stateReference, _.iteratee({ displayRace: 3 }));
-  for (let i = 0; i < threeWayStates.length; i += 1) {
-    const code = threeWayStates[i].code.toLowerCase();
-    if (latestAverages3Way[code]) {
-      latestAverages[code] = latestAverages3Way[code];
+  // use 4 way races but override some states (those with displayRace: 3 in data/states.json) with 3/5-way data
+  const not4WayStates = _.filter(stateReference, state => state.displayRace != null && state.displayRace != 4);
+  for (let i = 0; i < not4WayStates.length; i += 1) {
+    const code = not4WayStates[i].code.toLowerCase();
+    const pollWay = not4WayStates[i].displayRace;
+    
+    let newStateAverage = latestAverages3Way;
+    if (pollWay === 5) {
+      newStateAverage = latestAverages5Way;
+    }
+
+    if (newStateAverage[code]) {
+      latestAverages[code] = newStateAverage[code];
     } else {
       delete latestAverages[code];
     }
