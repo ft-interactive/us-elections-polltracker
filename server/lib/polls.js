@@ -101,6 +101,7 @@ export async function list(code, pollnumcandidates) {
   let allIndividualPolls = await getAllPolls(code, pollnumcandidates);
   allIndividualPolls = _.groupBy(allIndividualPolls, 'rcpid');
   allIndividualPolls = _.values(allIndividualPolls);
+  allIndividualPolls = _.orderBy(allIndividualPolls, d => d[0].endDate);
   const formattedIndividualPolls = [];
   _.each(allIndividualPolls, poll => {
     let winner = '';
