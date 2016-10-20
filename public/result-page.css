@@ -12,20 +12,48 @@
     background-color: #e03d46;
 }
 
+.o-typography-lead {
+  font: 20px/1.4 Georgia, serif;
+  color: #333333;
+}
 .article__main {
   margin-top: 1.6em;
+}
+
+.plain-map {
+  display: none;
+}
+
+.dot-map {
+  display: block;
+}
+
+.dot-map .article-figure__heading {
+  margin-top: 0;
+  margin-bottom: 0.3em;
+}
+
+.dot-map .article-figure__subheading {
+  margin-top: 0;
 }
 
 @media (max-width: 489px) {
   .article__main {
     margin-top: 0;
   }
+
+  .o-typography-lead {
+    font: 18px/1.4 Georgia, serif;
+  }
 }
 
+
 @media (max-width: 739px) {
-  .o-typography-lead {
-    font-size: 20px;
-    line-height: 22px;
+  .plain-map {
+    display: block;
+  }
+  .dot-map {
+    display: none;
   }
 }
 

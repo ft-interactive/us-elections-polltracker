@@ -42,11 +42,16 @@ var pageDataTimestamp = {{ overview.timestamp }};
                   overview.president.bestGuessTrump_pct,
                   "footnote") }}
             </div>
-              <div>
-                  {% include "includes/results-plain-map.svg" %}
-              </div>
-              <div>
-                  {% include "includes/results-dot-map.svg" %}
+            <div class="o-grid-row article-figure">
+              <div data-o-grid-colspan="center 12 L10">
+                <div class="plain-map">
+                    {% include "includes/results-plain-map.svg" %}
+                </div>
+                <div class="dot-map">
+                  <h2 class="article-figure__heading">Electoral college votes by state</h2>
+                  <p class="article-figure__subheading">Each candidate needs 270 electoral college votes to win the presidency</p>
+                    {% include "includes/results-dot-map.svg" %}
+                </div>
               </div>
           </div>
       </div>
