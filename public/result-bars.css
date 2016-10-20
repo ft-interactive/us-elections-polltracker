@@ -62,8 +62,8 @@
 }
 
 .mini-dashboard__head-icons {
-    display: inline-block;
-    vertical-align: bottom;
+  display: inline-block;
+  margin-top: -10px;  
 }
 
 .mini-dashboard__head-icons--dem {
@@ -88,10 +88,6 @@
 .mini-dashboard__bar-label-dem {
   float: right;
 }
-
-// .mini-dashboard__head-icons--rep {
-//   float: right;
-// }
 
 .mini-dashboard__bar-label-container-dem,
 .mini-dashboard__bar-label-rep {
@@ -120,10 +116,11 @@
     float: none;
     display: inline-block;
   }
-
+  .mini-dashboard__bar-label-container {
+    margin-bottom: -12px;
+  }
   .mini-dashboard__bar-label-container-dem {
     text-align: left;
-    margin-bottom: 10px;
   }
   .mini-dashboard__bar-label-container-rep {
     text-align: right;
@@ -133,9 +130,6 @@
 @media (max-width: 489px) {
   .mini-dashboard__head-icons {
     display: none;
-  }
-  .mini-dashboard__bar-label-container {
-    margin-bottom: -12px;
   }
 }
 
