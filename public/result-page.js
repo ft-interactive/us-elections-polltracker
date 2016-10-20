@@ -37,7 +37,8 @@ function getData() {
             rebindMap(data.electoralCollege);
             rebindBars(data.overview);
             rebindTable(data.electoralCollege);
-            redrawMap();
+
+            redraw();
         }
     });
 }
@@ -101,7 +102,7 @@ function rebindMap(data) {
         });
 }
 
-function redrawMap(){
+function redraw(){
     d3.selectAll('path.map-state').transition()
         .style('fill',function(d){
             if ( d.winner ) return color[d.winner];
@@ -113,6 +114,8 @@ function redrawMap(){
             if ( d.winner ) return color[d.winner];
             return color.nomapdata;
         });
+
+    d3.selectAll('')
 }
 
 function makeLookup(arr,key){
