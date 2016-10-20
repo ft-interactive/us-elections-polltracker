@@ -132,11 +132,11 @@ var pageDataTimestamp = {{ overview.timestamp }};
               <tbody>
                 {% for state in stateResults %}
                 <tr class="ecresultslist__row" id="{{ state.code }}-row">
-                  <td class="ecresultslist__cell--{{ state.code | winner2012 }}"></td>
-                  <td class="ecresultslist__cell--{% if state.winner == 'r' %}rep{% endif %}{% if state.winner == 'd' %}dem{% endif %}">{% if state.winner == 'r' %} Trump {% endif %} {% if state.winner == 'd' %}Clinton{% endif %}</td>
-                  <td class="ecresultslist__cell">{{ state.code | stateName }}</td>
-                  <td class="ecresultslist__cell">{{ state.ecvotes }}</td>
-                  <td class="ecresultslist__cell"></td>
+                  <td class="ecresultslist__cell--2012 ecresultslist__cell--{{ state.code | winner2012 }}"></td>
+                  <td class="ecresultslist__cell--2016 ecresultslist__cell--{% if state.winner == 'r' %}rep{% endif %}{% if state.winner == 'd' %}dem{% endif %}">{% if state.winner == 'r' %} Trump {% endif %} {% if state.winner == 'd' %}Clinton{% endif %}</td>
+                  <td class="ecresultslist__cell--name ecresultslist__cell">{{ state.code | stateName }}</td>
+                  <td class="ecresultslist__cell--ecvotes">{{ state.ecvotes }}</td>
+                  <td class="ecresultslist__cell--margin"></td>
                 </tr>
                 {% endfor %}
               </tbody>

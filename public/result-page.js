@@ -46,9 +46,12 @@ function getData() {
 function rebindTable(data){
     var lookupByCollegeID = makeLookup(data, 'code');
     d3.selectAll('.ecresultslist tr')
-        .each(function(){      
-            var collegeID = d3.select(this).attr('id').split('-')[0];
-            d3.select(this).datum( lookupByCollegeID[collegeID.toLowerCase()] );
+        .each(function(){
+            var selection = d3.select(this); 
+            if( selection.attr('id') ){
+                var collegeID = d3.select(this).attr('id').split('-')[0];
+                selection.select('.ecresultslist__cell--2016').datum( lookupByCollegeID[collegeID.toLowerCase()] );
+            }
         });
 }
 
@@ -115,9 +118,22 @@ function redraw(){
             return color.nomapdata;
         });
 
-    d3.selectAll('.ecresultslist__row').transition()
-        .call(function(parent){
-            //parent.select('')
+    d3.selectAll('.ecresultslist__cell--2016')
+        .transition()
+        .attr('class',function(d){
+            console.log(d);
+            if(d.winner == 'r') {
+                return 'ecresultslist__cell--2016 ecresultslist__cell--rep';
+            }else if (d.winner == 'd'){
+                return 'ecresultslist__cell--2016 ecresultslist__cell--dem';
+            }
+        })
+        .text(function(d){
+            if(d.winner == 'r') {
+                return 'Trump';
+            }else if (d.winner == 'd'){
+                return 'Clinton';
+            }
         });
 }
 
