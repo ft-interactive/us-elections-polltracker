@@ -391,10 +391,26 @@ function timeseriesLayout(data, _opts) {
     });
   }
 
+  // just for Utah, labelOffset 0 except for lowest poller
+  let lowestPoller = '';
+  if (opts.state === 'ut') {
+    lowestPoller = _.orderBy(pollsByCandidate.map(d => {
+      return {
+        name: d.polls[d.polls.length - 1].candidatename,
+        pollaverage: d.polls[d.polls.length - 1].pollaverage,
+      }
+    }), 'pollaverage', 'asc')[0].name;
+  }
+
   layout.candidateEndPoints = pollsByCandidate.map(d => {
     const lastPoll = d.polls[d.polls.length - 1];
     let labelOffset = 10;
     if (d.name === currentLeader || d.name === 'Johnson') labelOffset = 0;
+
+    if (opts.state === 'ut') {
+      labelOffset = 0;
+      if (d.name === lowestPoller) labelOffset = 10;
+    }
 
     return {
       cx: round1dp(xScale(lastPoll.date)),
