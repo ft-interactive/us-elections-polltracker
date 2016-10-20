@@ -11,3 +11,24 @@
 .ecresultslist__cell--rep{ 
     background-color: #e03d46;
 }
+
+.article__main {
+  margin-top: 1.6em;
+}
+
+@media (max-width: 489px) {
+  .article__main {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 739px) {
+  .o-typography-lead {
+    font-size: 20px;
+    line-height: 22px;
+  }
+}
+
+.result-bars {
+  margin-bottom: 1.5em;
+}
