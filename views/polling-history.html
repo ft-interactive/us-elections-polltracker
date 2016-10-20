@@ -37,10 +37,10 @@
         <tr>
           <th scope="col">Date</th>
           <th scope="col">Pollster</th>
-          <th scope="col" class="numeric narrowonly">{% if statename == 'Utah' %}McMullin / {% endif %}Clinton / Trump&nbsp;(%)</th>
-          {%- if statename == 'Utah' -%}<th scope="col" class="numeric secondary">McMullin</th>{%- endif -%}
+          <th scope="col" class="numeric narrowonly">Clinton / Trump{% if statename == 'Utah' %} / McMullin{% endif %}&nbsp;(%)</th>
           <th scope="col" class="numeric secondary">Clinton</th>
           <th scope="col" class="numeric secondary">Trump</th>
+          {%- if statename == 'Utah' -%}<th scope="col" class="numeric secondary">McMullin</th>{%- endif -%}
           <th scope="col" class="samplesize secondary">Sample*</th>
         </tr>
       </thead>
@@ -49,10 +49,10 @@
         <tr>
           <td class="date">{{ poll.date | formatDateForIndividualPollsTable }}</td>
           <td>{{ poll.pollster | replace("&amp;", "&") }}</td>
-          <td class="narrowonly numeric {% if poll.winner == 'Clinton' %}winner clinton{% endif %} {% if poll.winner == 'Trump' %}winner trump{% endif %} {% if poll.winner == 'McMullin' %}winner mcmullin{% endif %}">{% if statename == 'Utah' %}<span class="{% if poll.winner == 'McMullin' %}winner{% endif %}">{{ poll.McMullin }}</span> / {% endif %}<span class="{% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</span> / <span class="{% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</span></td>
-          {%- if statename == 'Utah' -%}<td class="secondary numeric mcmullin {% if poll.winner == 'McMullin' %}winner{% endif %}">{{ poll.McMullin }}%</td>{%- endif -%}
+          <td class="narrowonly numeric {% if poll.winner == 'Clinton' %}winner clinton{% endif %} {% if poll.winner == 'Trump' %}winner trump{% endif %} {% if poll.winner == 'McMullin' %}winner mcmullin{% endif %}"><span class="{% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}</span> / <span class="{% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}</span>{% if statename == 'Utah' %} / <span class="{% if poll.winner == 'McMullin' %}winner{% endif %}">{{ poll.McMullin }}</span>{% endif %}</td>
           <td class="secondary numeric clinton {% if poll.winner == 'Clinton' %}winner{% endif %}">{{ poll.Clinton }}%</td>
           <td class="secondary numeric trump {% if poll.winner == 'Trump' %}winner{% endif %}">{{ poll.Trump }}%</td>
+          {%- if statename == 'Utah' -%}<td class="secondary numeric mcmullin {% if poll.winner == 'McMullin' %}winner{% endif %}">{{ poll.McMullin }}%</td>{%- endif -%}
           <td class="numeric samplesize secondary">{{ poll.sampleSize | commas | formatSampleSizeForIndividualPollsTable | safe }}</td>
         </tr>
         {% endfor %}
