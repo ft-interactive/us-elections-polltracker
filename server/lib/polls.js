@@ -107,6 +107,9 @@ export async function list(code, pollnumcandidates) {
     const clintonVal = _.find(poll, _.iteratee({ candidatename: 'Clinton' })).pollvalue;
     const trumpVal = _.find(poll, _.iteratee({ candidatename: 'Trump' })).pollvalue;
 
+    let mcMullinVal = null;
+    if (_.find(poll, _.iteratee({ candidatename: 'McMullin' }))) mcMullinVal = _.find(poll, _.iteratee({ candidatename: 'McMullin' })).pollvalue;
+
     if (clintonVal > trumpVal) {
       winner = 'Clinton';
     }
@@ -115,11 +118,16 @@ export async function list(code, pollnumcandidates) {
       winner = 'Trump';
     }
 
+    if (mcMullinVal > clintonVal && mcMullinVal > trumpVal) {
+      winner = 'McMullin';
+    }
+
     // unshift instead of push because dates keep being in chron instead of reverse chron
     // even when I change the pg query to order by endDate DESC
     formattedIndividualPolls.unshift({
-      Clinton: _.find(poll, _.iteratee({ candidatename: 'Clinton' })).pollvalue,
-      Trump: _.find(poll, _.iteratee({ candidatename: 'Trump' })).pollvalue,
+      Clinton: clintonVal,
+      Trump: trumpVal,
+      McMullin: mcMullinVal,
       date: poll[0].date,
       pollster: poll[0].pollster.replace(/\*$/, '').replace(/\//g, ', '), // get rid of asterisk b/c RCP doesn't track what it means
       sampleSize: poll[0].sampleSize,
