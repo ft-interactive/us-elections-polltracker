@@ -37,6 +37,14 @@
   margin-top: 0;
 }
 
+.map__footnote {
+  text-align: left;
+  color: #777777;
+  font-size: 14px;
+  margin-top: 10px;
+  display: block;
+}
+
 @media (max-width: 489px) {
   .article__main {
     margin-top: 0;
