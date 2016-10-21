@@ -124,6 +124,13 @@
   .mini-dashboard__bar-label-container-rep {
     text-align: right;
   }
+  .mini-dashboard__head-icons--dem {
+    margin-right: 8px;
+  }
+
+  .mini-dashboard__head-icons--rep {
+    margin-left: 5px;
+  }
 }
 
 @media (max-width: 489px) {

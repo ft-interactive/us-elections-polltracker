@@ -1094,6 +1094,10 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
   background: #f4a098;
 }
 
+#individualpolls td.mcmullin.winner {
+  background: #c0b5cc;
+}
+
 #individualpolls #individualpolls td.winner.narrowonly {
   font-weight: 400;
 }
@@ -1109,6 +1113,7 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
 #individualpolls td.numeric{
   text-align: center;
   border-left: 1px solid #cec6b9;
+  width: 70px;
 }
 
 #individualpolls td.samplesize {
@@ -1140,6 +1145,7 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
   #individualpolls td.numeric {
     text-align: center;
     white-space: nowrap;
+    width: inherit;
   }
 
   #individualpolls .secondary {
