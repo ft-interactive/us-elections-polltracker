@@ -113,6 +113,8 @@
    we need to fix the ads slots
 */
 .advert--reserve-90,
-.advert--reserve-250 {
+.advert--reserve-250,
+.o-ads--reserve-90,
+.o-ads--reserve-250 {
   box-sizing: content-box;
 }
