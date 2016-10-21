@@ -32,14 +32,14 @@ queue('d3.v4.min.js', function() {
 
 function getData() {
     d3.json('full-result.json',function(data) {
+        console.log(data.overview.timestamp - pageDataTimestamp, (data.overview.timestamp > pageDataTimestamp))
         if(data.overview.timestamp > pageDataTimestamp){
             pageDataTimestamp = data.overview.timestamp;
             rebindMap(data.electoralCollege);
             rebindBars(data.overview);
             rebindTable(data.electoralCollege);
-
             redraw();
-        }
+        }else{ console.log('no redraw ') }
     });
 }
 
@@ -66,6 +66,13 @@ function rebindBars(data) {
         .datum(data.president.clinton);
     d3.select('#president-datalabel-trump')
         .datum(data.president.trump);
+
+    //best guess
+    d3.select('#president-bestguessbar-clinton')
+        .datum(data.president.bestGuessClinton_pct);
+
+    d3.select('#president-bestguessbar-trump')
+        .datum(data.president.bestGuessTrump_pct);
 
     //house
     d3.select('#house-bar-dem')
@@ -145,7 +152,7 @@ function redraw(){
         .style('width', function(d){ 
             console.log(this.id, d); return d+'%'; 
         });
-         
+
     d3.selectAll('.data-label')
         .text(function(d){ return d; })
 

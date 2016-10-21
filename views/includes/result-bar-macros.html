@@ -38,8 +38,8 @@
     {% else %}
     <div class="mini-dashboard__best-guess">
       <div class="mini-dashboard__bar-container">
-        <div style="width: {{bestGuessClinton_pct}}%;" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
-        <div style="width: {{bestGuessTrump_pct}}%;" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+        <div style="width: {{bestGuessClinton_pct}}%;" id="president-bestguessbar-clinton" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+        <div style="width: {{bestGuessTrump_pct}}%;" id="president-bestguessbar-trump" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
       </div>
     </div>
     <span class="mini-dashboard__finish-line">
@@ -89,7 +89,7 @@
   <div class="mini-dashboard__bar-container">
     <div style="width: {{dem}}%;" id="senate-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
 
-    <div style="width: {{dem_contested}}%;" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem-contested"></div>
+    <!-- <div style="width: {{dem_contested}}%;" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem-contested"></div> -->
 
     {% if ind %}
     <div style="width: {{ind}}%;" id="senate-bar-ind" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--ind"></div>
@@ -97,7 +97,7 @@
 
     <div style="width: {{rep}}%;" id="senate-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
 
-    <div style="width: {{rep_contested}}%;" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep-contested"></div>
+    <!-- <div style="width: {{rep_contested}}%;" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep-contested"></div> -->
 
     <div class="mini-dashboard__bar-labels">
       <div class="mini-dashboard__bar-label mini-dashboard__bar-label-dem">
