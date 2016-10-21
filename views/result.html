@@ -31,7 +31,7 @@ var pageDataTimestamp = {{ overview.timestamp }};
       <div data-o-grid-colspan="center 12">
           {% import "includes/result-bar-macros.html" as bars %}
           <div>
-            <div class="o-grid-row result-bars">
+            <div class="o-grid-row result-bars president-bars">
               {{ bars.president(
                   overview.president.isFinal,
                   overview.president.clinton,
@@ -89,8 +89,8 @@ var pageDataTimestamp = {{ overview.timestamp }};
           {% endcall %}
       </div>
       <div data-o-grid-colspan="12 L6">
-          <div id="congressional">
-            {% call PageElements.Figure(title="House", id="Senate") %}
+          <div class="house-bars">
+            {% call PageElements.Figure(title="House", id="House") %}
                   {{ bars.house(
                     overview.house.dem_pct,
                     overview.house.dem,
@@ -98,8 +98,9 @@ var pageDataTimestamp = {{ overview.timestamp }};
                     overview.house.rep,
                     "footnote") }}
             {% endcall %}
-
-            {% call PageElements.Figure(title="Senate", id="House") %}
+          </div>
+          <div class="senate-bars">
+            {% call PageElements.Figure(title="Senate", id="Senate") %}
               {{ bars.senate(
                 overview.senate.dem_pct,
                 overview.senate.dem,
@@ -145,12 +146,12 @@ var pageDataTimestamp = {{ overview.timestamp }};
               </thead>
               <tbody>
                 {% for state in stateResults %}
-                <tr>
-                  <td class="ecresultslist__cell--{{ state.code | winner2012 }}"></td>
-                  <td class="ecresultslist__cell--{% if state.winner == 'r' %}rep{% endif %}{% if state.winner == 'd' %}dem{% endif %}">{% if state.winner == 'r' %} Trump {% endif %} {% if state.winner == 'd' %}Clinton{% endif %}</td>
-                  <td class="ecresultslist__cell">{{ state.code | stateName }}</td>
-                  <td class="ecresultslist__cell">{{ state.ecvotes }}</td>
-                  <td class="ecresultslist__cell"></td>
+                <tr class="ecresultslist__row" id="{{ state.code }}-row">
+                  <td class="ecresultslist__cell--2012 ecresultslist__cell--{{ state.code | winner2012 }}"></td>
+                  <td class="ecresultslist__cell--2016 ecresultslist__cell--{% if state.winner == 'r' %}rep{% endif %}{% if state.winner == 'd' %}dem{% endif %}">{% if state.winner == 'r' %} Trump {% endif %} {% if state.winner == 'd' %}Clinton{% endif %}</td>
+                  <td class="ecresultslist__cell--name ecresultslist__cell">{{ state.code | stateName }}</td>
+                  <td class="ecresultslist__cell--ecvotes">{{ state.ecvotes }}</td>
+                  <td class="ecresultslist__cell--margin"></td>
                 </tr>
                 {% endfor %}
               </tbody>
