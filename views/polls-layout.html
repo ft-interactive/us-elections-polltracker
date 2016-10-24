@@ -16,6 +16,11 @@
   ]
 %}
 
+{% block appendhead %}
+<link rel="preload" href="main.js" as="script">
+{% include "includes/common-preloads.html" %}
+{% endblock -%}
+
 {% block article_body %}
 
   <nav class="nav___mobile-nav{{ ' page__national' if code == 'us' }}">
