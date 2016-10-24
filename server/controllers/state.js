@@ -6,6 +6,7 @@ import cache from '../lib/cache';
 const maxAge = 360; // 6 mins
 const sMaxAge = 60; // 1 min
 const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
+const foreverCC = 'max-age=365000000, immutable';
 
 const slugfixes = {
   // nebraska: 'nebraska1',
@@ -16,9 +17,11 @@ export default async (req, res) => {
   const state = req.params.state;
 
   if (slugfixes[state]) {
+    res.setHeader('Cache-Control', foreverCC);
     res.redirect(301, `${slugfixes[state]}-polls`);
     return;
   } else if (state === 'us') {
+    res.setHeader('Cache-Control', foreverCC);
     res.redirect(301, 'polls');
     return;
   }
@@ -31,6 +34,7 @@ export default async (req, res) => {
     const slug = codeToSlug(state);
 
     if (slug) {
+      res.setHeader('Cache-Control', foreverCC);
       res.redirect(301, `${slug}-polls`);
       return;
     }
@@ -43,7 +47,8 @@ export default async (req, res) => {
 
   const html = await cache(
     `statePage-${state}`,
-    async () => render('state.html', await createStatePage(state))
+    async () => render('state.html', await createStatePage(state)),
+    maxAge * 1000 // 6 mins
   );
 
   res.send(html);

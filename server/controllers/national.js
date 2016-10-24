@@ -11,7 +11,8 @@ export default async (req, res) => {
 
   const html = await cache(
     'nationalpolls',
-    async () => render('national.html', await createNationalPage())
+    async () => render('national.html', await createNationalPage()),
+    maxAge * 1000 // 3 mins
   );
 
   res.send(html);

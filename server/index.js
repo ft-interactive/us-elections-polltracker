@@ -18,14 +18,14 @@ import resultData from './lib/getResultData';
 
 const cache = lru({
   max: 500,
-  maxAge: 60 * 1000, // 60 seconds
+  maxAge: 5 * 60 * 1000, // 5 mins
 });
 
 const template = nunjucks.env;
 
 const app = express();
-const maxAge = 120; // for user agent caching purposes
-const sMaxAge = 10;
+const maxAge = 300; // for user agent caching purposes
+const sMaxAge = 60;
 
 app.disable('x-powered-by');
 app.locals.flags = flags();
@@ -147,7 +147,10 @@ app.get('/polls-:state', (req, res) => {
   res.redirect(301, `${req.params.state}-polls`);
 });
 
+// National poll tracker page
 app.get('/polls', nationalController);
+
+// State poll tracker pages
 app.get('/:state-polls', stateController);
 
 // support the old state poll format (redirect to new routes)
