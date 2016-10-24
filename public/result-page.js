@@ -20,24 +20,28 @@ var color = {
     darkSwing: '#ac8845',
     darkDem: '#50708f',
 };
+var pollingInterval = 3000;
+
+
 
 queue('d3.v4.min.js', function() {
-    var pollingInterval = 3000;
-    window.setTimeout(function(){ //wait for 3 seconds
-        window.setInterval(function(){  //load data every three seconds
-            getData();
-        }, pollingInterval); 
-    }, pollingInterval);
+    window.setTimeout(createInterval(pollingInterval), pollingInterval);
 });
 
+function createInterval(interval){
+    reloader = window.setInterval(function(){  //load data every three seconds
+        getData();
+    }, interval);
+}
+
 function getData() {
-    d3.json('full-result.json',function(data) {
+    d3.json('full-result.json', function(error, data) {
+        console.log('load',error);
+        if(error){ console.log('error'); createInterval(60000); }
         if(data.overview.timestamp > pageDataTimestamp){
             pageDataTimestamp = data.overview.timestamp;
             rebindMap(data);
             colourMap();
-
-
         }
     });
 }
