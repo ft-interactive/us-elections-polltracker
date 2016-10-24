@@ -94,6 +94,15 @@ app.get('/__gtg', (req, res) => {
   res.send('ok');
 });
 
+// access_metadata
+app.get('/__access_metadata', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Cache-Control', `public, max-age=86400`);
+  res.send(`
+    {"access_metadata":[{"path_regex":"\/us-elections*","classification":"unconditional"},
+    {"path_regex":".*","classification":"unconditional"}]}`);
+});
+
 app.get('/favicon.ico', (req, res) => { // explicit override to redirect if favicon is requested
   res.redirect(301, 'https://ig.ft.com/favicon.ico');
 });
