@@ -1,6 +1,7 @@
 {% extends "g-ui/layout/article" %}
 
 {% import "page-elements.html" as PageElements -%}
+{% import "g-ui/ads" as Ads -%}
 
 {% set layout = {name: 'full-body'} %}
 {% set stylesheets = [
@@ -67,18 +68,7 @@ var pageDataTimestamp = {{ overview.timestamp }};
       </div>
 
       <div data-o-grid-colspan="center 12">
-        <div class="o-ads o-ads--center o-ads--reserve-90 o-ads--transition"
-          data-o-ads-name="mid"
-          data-o-ads-center="true"
-          data-o-ads-targeting="pos=mid"
-          data-o-ads-formats-default="MediumRectangle,Responsive"
-          data-o-ads-formats-small="MediumRectangle,Responsive"
-          data-o-ads-formats-medium="Leaderboard"
-          data-o-ads-formats-large="SuperLeaderboard,Leaderboard"
-          data-o-ads-formats-extra="SuperLeaderboard,Leaderboard"
-          data-o-ads-lazy-load="true"
-          aria-hidden="true">
-        </div>
+        {{ Ads.MidpageFullGrid(flags.ads) }}
       </div>
 
       <div data-o-grid-colspan="12 L6">
