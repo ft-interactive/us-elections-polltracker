@@ -2,8 +2,8 @@ import { makePollTimeSeries } from '../lib/polls';
 
 import cache from '../lib/cache';
 
-const maxAge = 120;
-const sMaxAge = 10;
+const maxAge = 300;
+const sMaxAge = 60;
 const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
 
 function qsCacheKey(queryRequest) {
