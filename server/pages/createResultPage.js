@@ -13,7 +13,7 @@ class ResultPage extends Page {
   // TODO: publishedDate
   // TODO: canonicalUrl
   // TODO: mainImage = {
-  //          url: 'https://ig.ft.com/us-elections/images/social.jpg',
+  //          url: 'https://image.webservices.ft.com/v1/images/raw/https:%2F%2Fig.ft.com%2Fstatic%2Fus-election-2016%2Fsocial.jpg?source=ig&format=jpg&quality=high&width=800',
   //       };
 
   id = '5cc27b78-946b-11e6-a1dc-bdf38d484582';
