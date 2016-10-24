@@ -4,9 +4,10 @@ import { render } from '../nunjucks';
 import nationalCount from '../lib/national-count';
 import ecForecastBarsLayout from '../../layouts/ec-forecast-bars-layout';
 
-const maxAge = 120;
-const sMaxAge = 10;
+const maxAge = 180;
+const sMaxAge = 60;
 const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
+const lruAge = maxAge * 1000; // 3 mins
 
 export default async (req, res) => {
   const { ext } = req.params;
@@ -29,13 +30,15 @@ export default async (req, res) => {
       removeComments: true,
       removeEmptyAttributes: true,
       removeRedundantAttributes: true,
-    })
+    }),
+
+    lruAge
   );
 
   const css = await cache(
     `ec-forecast-component-2.css:${layout.ancestorSelector}`,
-
-    async () => render('ec-forecast-component-2.css', layout) // TODO minify CSS
+    async () => render('ec-forecast-component-2.css', layout), // TODO minify CSS
+    lruAge
   );
 
   switch (ext) {
