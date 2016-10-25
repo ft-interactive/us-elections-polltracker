@@ -23,13 +23,11 @@ function splitArray(a, keyFunction = String) {
   return o;
 }
 
-function combineMENE(lookup) {
+function classifyStates(lookup) {
   const newLookup = {};
 
   Object.keys(lookup).forEach(d => {
-    // const code = lookup[d].code.substring(0 ,2);
     const state = Object.assign({}, lookup[d]);
-    state.code = state.code.substring(0, 2);
     const forecast = category(state.margin);
     state.forecast = forecast;
     if (newLookup[`${state.code}-${forecast}`]) {
@@ -47,7 +45,7 @@ function percentOfCA(votes) { // electoral votes as a proportion of california i
 
 export default function (stateLookup) {
     // classify the data and sort by electoral college votes
-  const classified = combineMENE(stateLookup);
+  const classified = classifyStates(stateLookup);
   const states = Object.keys(classified)
         .map(key => {
           const state = classified[key];
