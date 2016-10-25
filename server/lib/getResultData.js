@@ -74,11 +74,33 @@ function fetchData() {
         });
 }
 
+const projectionCodes = {
+  D: 'd',
+  R: 'r',
+  T: 't',
+  LD: 'ld',
+  LR: 'lr',
+};
+
+const winnerCodes = {
+  'D': 'd',
+  'R': 'r',
+  'IND': 'i',
+  'LIB': 'l',
+  'GRN': 'g',
+};
+
+// TODO: independent!!
+
 function sumECVotes(array, accessor) {
   return array.reduce((totals, current) =>  {
-    const winner = accessor(current);
-    if(winner == null) return totals;
-    totals[winner] += current.ecvotes;
+    let winner = accessor(current);
+
+    if (!winner) return totals;
+
+    const code = winnerCodes[winner.toUpperCase()];
+    if(!code) return totals;
+    totals[code] += current.ecvotes;
     return totals;
-  }, { r: 0, d: 0, g: 0, l: 0 });
+  }, { r: 0, d: 0, g: 0, l: 0, i: 0 });
 }
