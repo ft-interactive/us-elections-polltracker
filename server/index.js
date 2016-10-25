@@ -156,6 +156,14 @@ app.get('/polls-:state', (req, res) => {
   res.redirect(301, `${req.params.state}-polls`);
 });
 
+app.use((req, res, next) => {
+  if (!res.headerSent) {
+    res.setHeader('P3P', 'policyref="/w3c/p3p.xml", CP="CAO DSP COR LAW CURa ADMa DEVa TAIa PSAa PSDa CONo OUR DELi BUS IND PHY ONL UNI COM NAV INT DEM PRE OTC"');
+  }
+
+  return next();
+});
+
 // National poll tracker page
 app.get('/polls', nationalController);
 
