@@ -12,6 +12,8 @@ Sequelize.cls = namespace;
 const sequelize = (config.use_env_variable ?
   new Sequelize(process.env[config.use_env_variable], {
     dialectOptions: { ssl: true },
+    native: false,
+    logging: false,
   }) :
   new Sequelize(config.database, config.username, config.password, config)
 );
