@@ -270,7 +270,56 @@
 </g>
 <g class="state-annotations standard-map">
 	<g class="map-labels">
-		<text x="82.449px" y="429.54px">Ak</text><text x="237.979px" y="480.945px">Hi</text><text x="557.582px" y="360.122px">Al</text><text x="457.399px" y="330.85px">Ar</text><text x="168.899px" y="318.071px">Az</text><text x="67px" y="262.685px">Ca</text><text x="269.834px" y="243.966px">Co</text><text x="782.867px" y="299.294px">DC</text><text x="782.869px" y="239.583px">De</text><text x="608.772px" y="362.032px">Ga</text><text x="448.752px" y="192.047px">Ia</text><text x="163.274px" y="138.694px">Id</text><text x="511.716px" y="224.162px">Il</text><text x="552.726px" y="218.919px">In</text><text x="377.498px" y="257.213px">K<tspan x="386.186px " y="257.213px ">s</tspan></text><text x="574.645px" y="264.906px">K<tspan x="582.885px " y="264.906px ">y</tspan></text><text x="461.589px" y="387.375px">La</text><text x="782.869px" y="127.12px">Ma</text><text x="782.869px" y="268.199px">Md</text><text x="562.501px" y="161.888px">Mi</text><text x="427.729px" y="116.512px">Mn</text><text x="460.36px" y="256.549px">Mo</text><text x="511.324px" y="355.87px">Ms</text><text x="242.622px" y="85.094px">Mt</text><text x="663.374px" y="290.315px">NC</text><text x="353.662px" y="89.746px">ND</text><text x="361.274px" y="198.23px">Ne</text><text x="698.11px" y="43.05px">NH</text><text x="782.869px" y="211.968px">NJ</text><text x="253.025px" y="324.61px">NM</text><text x="117.979px" y="209.462px">Nv</text><text x="690.546px" y="142.365px">NY</text><text x="782.454px" y="187.297px">Ct</text><text x="393.748px" y="310.615px">Ok</text><text x="89.46px" y="116.52px">Or</text><text x="662.582px" y="190.468px">P<tspan x="670.886px " y="190.468px ">a</tspan></text><text x="781.869px" y="157.736px">RI</text><text x="645.854px" y="323.362px">SC</text><text x="357.127px" y="145.876px">SD</text><text x="554.203px" y="298.787px">T<tspan x="562.315px " y="298.787px ">n</tspan></text><text x="360.097px" y="383.029px">T<tspan x="368.257px " y="383.029px ">x</tspan></text><text x="184.589px" y="231.47px">Ut</text><text x="675.289px" y="69.787px">V<tspan x="685.149px " y="69.787px ">t</tspan></text><text x="105.056px" y="51.771px">W<tspan x="116.88px " y="51.771px ">a</tspan></text><text x="488.68px" y="143.943px">Wi</text><text x="699.977px" y="261.858px">WV</text><text x="253.835px" y="162.751px">W<tspan x="265.835px " y="162.751px ">y</tspan></text><text x="592.995px" y="211.904px">Oh</text><text x="752.489px" y="79.587px">Me</text><text x="671.441px" y="248.766px">V<tspan x="680.129px " y="248.766px ">a</tspan></text>
+		<text x="82.449px" y="429.54px">Ak</text>
+		<text x="237.979px" y="480.945px">Hi</text>
+		<text x="557.582px" y="360.122px">Al</text>
+		<text x="457.399px" y="330.85px">Ar</text>
+		<text x="168.899px" y="318.071px">Az</text>
+		<text x="67px" y="262.685px">Ca</text>
+		<text x="269.834px" y="243.966px">Co</text>
+		<text x="782.867px" y="299.294px">DC</text>
+		<text x="782.869px" y="239.583px">De</text>
+		<text x="608.772px" y="362.032px">Ga</text>
+		<text x="448.752px" y="192.047px">Ia</text>
+		<text x="163.274px" y="138.694px">Id</text>
+		<text x="511.716px" y="224.162px">Il</text>
+		<text x="552.726px" y="218.919px">In</text>
+		<text x="377.498px" y="257.213px">Ks</text>
+		<text x="574.645px" y="264.906px">Ky</text>
+		<text x="461.589px" y="387.375px">La</text>
+		<text x="782.869px" y="127.12px">Ma</text>
+		<text x="782.869px" y="268.199px">Md</text>
+		<text x="562.501px" y="161.888px">Mi</text>
+		<text x="427.729px" y="116.512px">Mn</text>
+		<text x="460.36px" y="256.549px">Mo</text>
+		<text x="511.324px" y="355.87px">Ms</text>
+		<text x="242.622px" y="85.094px">Mt</text>
+		<text x="663.374px" y="290.315px">NC</text>
+		<text x="353.662px" y="89.746px">ND</text>
+		<text x="361.274px" y="198.23px">Ne</text>
+		<text x="698.11px" y="43.05px">NH</text>
+		<text x="782.869px" y="211.968px">NJ</text>
+		<text x="253.025px" y="324.61px">NM</text>
+		<text x="117.979px" y="209.462px">Nv</text>
+		<text x="690.546px" y="142.365px">NY</text>
+		<text x="782.454px" y="187.297px">Ct</text>
+		<text x="393.748px" y="310.615px">Ok</text>
+		<text x="89.46px" y="116.52px">Or</text>
+		<text x="662.582px" y="190.468px">Pa</text>
+		<text x="781.869px" y="157.736px">RI</text>
+		<text x="645.854px" y="323.362px">SC</text>
+		<text x="357.127px" y="145.876px">SD</text>
+		<text x="554.203px" y="298.787px">Tn</text>
+		<text x="360.097px" y="383.029px">Tx</text>
+		<text x="184.589px" y="231.47px">Ut</text>
+		<text x="675.289px" y="69.787px">Vt</text>
+		<text x="105.056px" y="51.771px">Wa</text>
+		<text x="488.68px" y="143.943px">Wi</text>
+		<text x="699.977px" y="261.858px">WV</text>
+		<text x="253.835px" y="162.751px">Wy</text>
+		<text x="592.995px" y="211.904px">Oh</text>
+		<text x="752.489px" y="79.587px">Me</text>
+		<text x="671.441px" y="248.766px">Va</text>
 	</g>
 	<g class="map-leadlines">
 		<path d="M722.068,42.239l22.628,64.263"/><path d="M691.523,70.186l40.256,37.979"/><path d="M779.832,122.789l-28.232,13.033"/><path d="M778.53,152.149l-22.745,0"/><path d="M737.459,152.8l17.548,27.657l22.343,0"/><path d="M722.017,182.486l31.729,29.569l24.576,0"/><path d="M713.895,215.67l41.148,22.705l23.411,0"/><path d="M699.76,212.277l54.666,55.696l25.323,0"/><path d="M690.383,219.75l63.696,78.448l24.455,0"/>
@@ -281,7 +330,57 @@
 		<path d="M736.682,157.866l38.301,31.519"/><path d="M719.526,195.13l44.765,29.125l25.215,0"/><path d="M691.998,220.824l50.03,46.679"/><path d="M754.716,134.088l34.79,0"/><path d="M716.654,228.723l47.637,33.514l25.215,0"/><path d="M726.947,58.283l16.518,50.829"/><path d="M753.12,151.802l22.661,13.405"/><path d="M697.104,82.94l27.529,31.758"/><path d="M712.425,217.073l57.292,21.545"/>
 	</g>
 	<g class="map-labels">
-		<text x="81.756px" y="409.811px">Alaska</text><text x="224.654px" y="478.349px">Hawaii</text><text x="547.042px" y="337.269px">Al</text><text x="462.433px" y="344.978px">Ar</text><text x="160.541px" y="301.505px">Arizona</text><text x="88.471px" y="292.569px">Ca</text><g><text x="258.443px" y="264.275px">Color</text><text x="284.156px" y="264.275px">ado</text></g><text x="791.407px" y="201.092px">Ct</text><text x="755.127px" y="288.678px">DC</text><text x="685.157px" y="434.35px">Florida</text><text x="620.465px" y="377.926px">Ga</text><text x="425.17px" y="179.627px">Iowa</text><text x="160.559px" y="146.755px">Idaho</text><text x="513.914px" y="252.996px">Il</text><text x="544.044px" y="198.689px">Ind</text><g><text x="359.178px" y="263.018px">K</text><text x="366.072px" y="263.018px">ansas</text></g><g><text x="559.362px" y="273.166px">K</text><text x="565.937px" y="273.166px">y</text></g><text x="457.374px" y="372.943px">La</text><text x="791.485px" y="135.091px">Ma</text><text x="791.374px" y="261.266px">Md</text><text x="564.082px" y="134.529px">Mi</text><g><text x="413.317px" y="97.199px">Minnesot</text><text x="458.462px" y="97.199px">a</text></g><text x="449.551px" y="279.141px">Missouri</text><text x="502.334px" y="343.793px">Ms</text><g><text x="230.597px" y="80.743px">Mont</text><text x="256.106px" y="80.743px">ana</text></g><text x="652.685px" y="290.93px">NC</text><text x="344.024px" y="98.124px">ND</text><g><text x="337.524px" y="188.353px">Nebr</text><text x="361.577px" y="188.353px">aska</text></g><g><text x="647.501px" y="58.96px">New Hampshir</text><text x="719.507px" y="58.96px">e</text></g><text x="791.517px" y="224.302px">NJ</text><g><text x="233.623px" y="340.927px">New Me</text><text x="273.022px" y="340.927px">xico</text></g><g><text x="103.931px" y="225.218px">Ne</text><text x="117.528px" y="225.218px">v<tspan x="123.235px " y="225.218px ">a</tspan>da</text></g><text x="704.459px" y="150.672px">NY</text><text x="376.112px" y="326.226px">Oklahoma</text><g><text x="72.26px" y="129.925px">Or</text><text x="84.222px" y="129.925px">egon</text></g><g><text x="671.939px" y="177.573px">P</text><text x="678.565px" y="177.573px">a</text></g><text x="792.108px" y="169.334px">RI</text><text x="635.773px" y="322.362px">SC</text><text x="350.228px" y="141.523px">SD</text><g><text x="571.401px" y="296.049px">T</text><text x="577.873px" y="296.049px">n</text></g><g><text x="334.273px" y="345.53px">T</text><text x="340.657px" y="345.53px">e<tspan x="346.274px " y="345.53px ">x</tspan>as</text></g><g><text x="183.163px" y="239.998px">Ut</text><text x="194.845px" y="239.998px">ah</text></g><g><text x="652.571px" y="83.093px">V</text><text x="659.529px" y="83.093px">ermont</text></g><g><text x="114.308px" y="68.613px">W</text><text x="123.743px" y="68.613px">a</text></g><text x="468.737px" y="123.837px">Wisconsin</text><text x="634.979px" y="224.165px">WV</text><g><text x="239.713px" y="150.472px">W</text><text x="249.289px" y="150.472px">y<tspan x="254.995px " y="150.472px ">o</tspan>ming</text></g><text x="585.107px" y="231.314px">Oh</text><text x="753.769px" y="80.649px">Maine</text><g><text x="680.004px" y="261.89px">V</text><text x="686.937px" y="261.89px">a</text></g><text x="790.648px" y="243.163px">De</text>
+		<text x="81.756px" y="409.811px">Alaska</text>
+		<text x="224.654px" y="478.349px">Hawaii</text>
+		<text x="547.042px" y="337.269px">Al</text>
+		<text x="462.433px" y="344.978px">Ar</text>
+		<text x="160.541px" y="301.505px">Arizona</text>
+		<text x="88.471px" y="292.569px">Ca</text>
+		<text x="258.443px" y="264.275px">Colorado</text>
+		<text x="791.407px" y="201.092px">Ct</text>
+		<text x="755.127px" y="288.678px">DC</text>
+		<text x="685.157px" y="434.35px">Florida</text>
+		<text x="620.465px" y="377.926px">Ga</text>
+		<text x="425.17px" y="179.627px">Iowa</text>
+		<text x="160.559px" y="146.755px">Idaho</text>
+		<text x="513.914px" y="252.996px">Il</text>
+		<text x="544.044px" y="198.689px">Ind</text>
+		<text x="359.178px" y="263.018px">Kansas</text>
+		<text x="559.362px" y="273.166px">Ky</text>
+		<text x="457.374px" y="372.943px">La</text>
+		<text x="791.485px" y="135.091px">Ma</text>
+		<text x="791.374px" y="261.266px">Md</text>
+		<text x="564.082px" y="134.529px">Mi</text>
+		<text x="413.317px" y="97.199px">Minnesota</text>
+		<text x="449.551px" y="279.141px">Missouri</text>
+		<text x="502.334px" y="343.793px">Ms</text>
+		<text x="230.597px" y="80.743px">Montana</text>
+		<text x="652.685px" y="290.93px">NC</text>
+		<text x="344.024px" y="98.124px">ND</text>
+		<text x="337.524px" y="188.353px">Nebraska</text>
+		<text x="647.501px" y="58.96px">New Hampshire</text>
+		<text x="791.517px" y="224.302px">NJ</text>
+		<text x="233.623px" y="340.927px">New Mexico</text>
+		<text x="103.931px" y="225.218px">Nevada</text>
+		<text x="704.459px" y="150.672px">NY</text>
+		<text x="376.112px" y="326.226px">Oklahoma</text>
+		<text x="72.26px" y="129.925px">Oregon</text>
+		<text x="671.939px" y="177.573px">Pa</text>
+		<text x="792.108px" y="169.334px">RI</text>
+		<text x="635.773px" y="322.362px">SC</text>
+		<text x="350.228px" y="141.523px">SD</text>
+		<text x="571.401px" y="296.049px">Tn</text>
+		<text x="334.273px" y="345.53px">Texas</text>
+		<text x="183.163px" y="239.998px">Utah</text>
+		<text x="652.571px" y="83.093px">Vermont</text>
+		<text x="114.308px" y="68.613px">Wa</text>
+		<text x="468.737px" y="123.837px">Wisconsin</text>
+		<text x="634.979px" y="224.165px">WV</text>
+		<text x="239.713px" y="150.472px">Wyoming</text>
+		<text x="585.107px" y="231.314px">Oh</text>
+		<text x="753.769px" y="80.649px">Maine</text>
+		<text x="680.004px" y="261.89px">Va</text>
+		<text x="790.648px" y="243.163px">De</text>
 	</g>
 </g>
 </svg>
