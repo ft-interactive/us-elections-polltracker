@@ -32,7 +32,6 @@ queue('d3.v4.min.js', function() {
 
 function getData() {
     d3.json('full-result.json',function(data) {
-        console.log(data.overview.timestamp - pageDataTimestamp, (data.overview.timestamp > pageDataTimestamp))
         if(data.overview.timestamp > pageDataTimestamp){
             pageDataTimestamp = data.overview.timestamp;
             rebindMap(data.electoralCollege);
@@ -150,7 +149,7 @@ function redraw(){
 
     d3.selectAll('.data-bar')
         .style('width', function(d){ 
-            console.log(this.id, d); return d+'%'; 
+            return d+'%'; 
         });
 
     d3.selectAll('.data-label')

@@ -45,7 +45,6 @@ class ResultPage extends Page {
       return previous;
     },{});
 
-    console.log(this.keyStates);
     this.onwardJourney = await onwardJourney({
       // Home page US Election headpiece
       suggestedReads: 'list/dbd61736-8af1-11e6-8aa5-f79f5696c731',

@@ -4,9 +4,7 @@ import color from './color';
 
 export default (electoralCollegeData, opts) => {
     const votes = expand(electoralCollegeData);
-    //console.log(votes);
     const selectorGroups = makeSelectorStatements(votes); 
-
     return selectorGroups;
 };
 
