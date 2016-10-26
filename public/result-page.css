@@ -55,11 +55,11 @@
   top: -2px;
 }
 
-.plain-map {
+.standard-map {
   display: none;
 }
 
-.dot-map {
+.ec-map {
   display: block;
 }
 
@@ -97,10 +97,10 @@
 
 
 @media (max-width: 739px) {
-  .plain-map {
+  .standard-map {
     display: block;
   }
-  .dot-map {
+  .ec-map {
     display: none;
   }
 }
