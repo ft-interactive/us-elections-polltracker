@@ -20,38 +20,87 @@ var color = {
     darkSwing: '#ac8845',
     darkDem: '#50708f',
 };
-var pollingInterval = 3000;
-
-
 
 queue('d3.v4.min.js', function() {
-    window.setTimeout(createInterval(pollingInterval), pollingInterval);
+    var pollingInterval = 3000;
+    window.setTimeout(function(){ //wait for 3 seconds
+        window.setInterval(function(){  //load data every three seconds
+            getData();
+        }, pollingInterval); 
+    }, pollingInterval);
 });
 
-function createInterval(interval){
-    reloader = window.setInterval(function(){  //load data every three seconds
-        getData();
-    }, interval);
-}
-
 function getData() {
-    d3.json('full-result.json', function(error, data) {
-        console.log('load',error);
-        if(error){ console.log('error'); createInterval(60000); }
+    d3.json('full-result.json',function(data) {
+        console.log(data.overview.timestamp - pageDataTimestamp, (data.overview.timestamp > pageDataTimestamp))
         if(data.overview.timestamp > pageDataTimestamp){
             pageDataTimestamp = data.overview.timestamp;
-            rebindMap(data);
-            colourMap();
-        }
+            rebindMap(data.electoralCollege);
+            rebindBars(data.overview);
+            rebindTable(data.electoralCollege);
+            redraw();
+        }else{ console.log('no redraw ') }
     });
 }
 
-function rebindBarData(data) {
-    
+function rebindTable(data){
+    var lookupByCollegeID = makeLookup(data, 'code');
+    d3.selectAll('.ecresultslist tr')
+        .each(function(){
+            var selection = d3.select(this); 
+            if( selection.attr('id') ){
+                var collegeID = d3.select(this).attr('id').split('-')[0];
+                selection.select('.ecresultslist__cell--2016').datum( lookupByCollegeID[collegeID.toLowerCase()] );
+            }
+        });
+}
+
+function rebindBars(data) {
+    //president
+    d3.select('#president-bar-clinton')
+        .datum(data.president.clinton_pct);
+    d3.select('#president-bar-trump')
+        .datum(data.president.trump_pct);
+
+    d3.select('#president-datalabel-clinton')
+        .datum(data.president.clinton);
+    d3.select('#president-datalabel-trump')
+        .datum(data.president.trump);
+
+    //best guess
+    d3.select('#president-bestguessbar-clinton')
+        .datum(data.president.bestGuessClinton_pct);
+
+    d3.select('#president-bestguessbar-trump')
+        .datum(data.president.bestGuessTrump_pct);
+
+    //house
+    d3.select('#house-bar-dem')
+        .datum(data.house.dem_pct);
+    d3.select('#house-bar-rep')
+        .datum(data.house.rep_pct);
+
+    d3.select('#house-datalabel-dem')
+        .datum(data.house.dem);
+    d3.select('#house-datalabel-rep')
+        .datum(data.house.rep);
+
+    //senate
+    d3.select('#senate-bar-dem')
+        .datum(data.senate.dem_pct);
+    d3.select('#senate-bar-ind')
+        .datum(data.house.ind_pct);
+    d3.select('#senate-bar-rep')
+        .datum(data.senate.rep_pct);
+
+    d3.select('#senate-datalabel-dem')
+        .datum(data.senate.dem);
+    d3.select('#senate-datalabel-rep')
+        .datum(data.senate.rep);
 }
 
 function rebindMap(data) {
-    var lookupByCollegeID = makeLookup(data.electoralCollege, 'code');
+    var lookupByCollegeID = makeLookup(data, 'code');
     d3.selectAll('path.map-state')
         .each(function(){      
             var collegeID = d3.select(this).attr('id');
@@ -65,7 +114,8 @@ function rebindMap(data) {
         });
 }
 
-function colourMap(){
+function redraw(){
+    //maps
     d3.selectAll('path.map-state').transition()
         .style('fill',function(d){
             if ( d.winner ) return color[d.winner];
@@ -77,6 +127,35 @@ function colourMap(){
             if ( d.winner ) return color[d.winner];
             return color.nomapdata;
         });
+
+    //table
+    d3.selectAll('.ecresultslist__cell--2016')
+        .transition()
+        .attr('class',function(d){
+            if(d.winner == 'r') {
+                return 'ecresultslist__cell--2016 ecresultslist__cell--rep';
+            }else if (d.winner == 'd'){
+                return 'ecresultslist__cell--2016 ecresultslist__cell--dem';
+            }
+        })
+        .text(function(d){
+            if(d.winner == 'r') {
+                return 'Trump';
+            }else if (d.winner == 'd'){
+                return 'Clinton';
+            }
+        });
+    
+    //bars
+
+    d3.selectAll('.data-bar')
+        .style('width', function(d){ 
+            console.log(this.id, d); return d+'%'; 
+        });
+
+    d3.selectAll('.data-label')
+        .text(function(d){ return d; })
+
 }
 
 function makeLookup(arr,key){
@@ -86,5 +165,3 @@ function makeLookup(arr,key){
     })
     return o;
 }
-
-
