@@ -14,7 +14,7 @@ const linkHeader = [
                     '<g-ui/critical.css>; as="style"; rel="preload"; nopush',
                     '<main.css>; as="style"; rel="preload"; nopush',
                     '<g-ui/top.js>; as="script"; rel="preload"; nopush',
-                    '<https://cdn.polyfill.io/v2/polyfill.min.js?callback=clear_queue&features=default-3.6,matchMedia,fetch,IntersectionObserver,HTMLPictureElement,Map|always|gated,Array.from|always|gated,Array.prototype.includes|always|gated&flags=gated&unknown=polyfill&excludes=Symbol,Symbol.iterator,Symbol.species>; as="script"; rel="preload"; nopush'
+                    '<https://cdn.polyfill.io/v2/polyfill.min.js?callback=igPolyfillsLoaded&features=default-3.6,matchMedia,fetch,IntersectionObserver,HTMLPictureElement,Map|always|gated,Array.from|always|gated,Array.prototype.includes|always|gated&flags=gated&unknown=polyfill&excludes=Symbol,Symbol.iterator,Symbol.species>; as="script"; rel="preload"; nopush'
                   ].join(', ');
 
 export default async (req, res) => {
