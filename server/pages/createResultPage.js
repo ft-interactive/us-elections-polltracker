@@ -4,6 +4,7 @@ import dotMapLayout from '../../layouts/results-dot-map';
 import mapLayout from '../../layouts/results-map';
 import color from '../../layouts/color';
 import onwardJourney from '../lib/onwardjourney';
+import statesList from '../../data/states';
 
 class ResultPage extends Page {
 
@@ -39,6 +40,12 @@ class ResultPage extends Page {
     // this.color = color;
     this.dotMapSelectors = dotMapLayout( result.electoralCollege, { width: 800, height: 500 } );
     this.mapSelectors = mapLayout( result.electoralCollege, { width: 800, height: 500 } );
+    this.keyStates = statesList.reduce((previous, current) => { 
+      previous[current.code] = current.swing;
+      return previous;
+    },{});
+
+    console.log(this.keyStates);
     this.onwardJourney = await onwardJourney({
       // Home page US Election headpiece
       suggestedReads: 'list/dbd61736-8af1-11e6-8aa5-f79f5696c731',
