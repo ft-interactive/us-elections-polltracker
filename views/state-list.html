@@ -18,8 +18,8 @@
       <div class="sticky">
         <div id="statelist-winner-container">
           <div id="statelist-winner-container-panel"></div>
-          <div class="statelist-winner" id="statelist-winner--clinton"><img src="images/clinton_wins.svg" /></div>
-          <div class="statelist-winner" id="statelist-winner--trump"><img src="images/trump_wins.svg" /></div>
+          <div class="statelist-winner" id="statelist-winner--clinton"><img src="https://image.webservices.ft.com/v1/images/raw/https:%2F%2Fig.ft.com%2Fstatic%2Fus-election-2016%2Fclinton_wins.svg?source=ig" /></div>
+          <div class="statelist-winner" id="statelist-winner--trump"><img src="https://image.webservices.ft.com/v1/images/raw/https:%2F%2Fig.ft.com%2Fstatic%2Fus-election-2016%2Ftrump_wins.svg?source=ig" /></div>
         </div>
         <div id="calculation-result">
         <div id="calculation-result-label">Electoral college votes</div>
@@ -73,17 +73,20 @@
           <td class="statelist-pollmargin">&nbsp;</td>
           {%- endif -%}
 
-          
+
 
         </tr>
         {% endfor %}
       </tbody>
       </table>
-      <script src="d3.v4.min.js"></script>
-      <script>
-        {% include "includes/ec-calc.js" %}
-      </script>
       <button class="table-toggle-btn o--if-js o-buttons o-buttons--uncolored o-buttons--big">Show more states</button>
+      <script>
+      (function(){
+        queue('d3.v4.min.js', function(){
+          {% include "includes/ec-calc.js" %}
+        }, true);
+      }());
+      </script>
     </div>
   </div>
   {% endcall %}

@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = init;
 function init() {
   return new Promise(function (resolve, reject) {
-    queue('https://origami-build.ft.com/v2/bundles/js?export=oAds&modules=o-ads@^4.3.2', function () {
+    queue('https://ig.ft.com/static/g-ui/o-ads.20161025.js', function () {
 
       if (!window.oAds) {
         reject(new Error('Could not load oAds'));
@@ -27,7 +27,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = analytics;
 function analytics() {
-  queue('https://origami-build.ft.com/v2/bundles/js?modules=o-tracking&export=oTracking&autoinit=0', function () {
+  queue('https://ig.ft.com/static/g-ui/o-tracking.20161025.js', function () {
 
     if (!window.oTracking) {
       throw new Error('Could not load oTracking');

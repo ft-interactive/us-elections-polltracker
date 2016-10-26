@@ -16,10 +16,11 @@ export default class PollsPage extends Page {
 
   socialSummary = 'US election poll tracker: Here\'s who\'s ahead';
 
+
   constructor() {
     super();
     this.mainImage = {
-      url: 'https://ig.ft.com/us-elections/images/social.jpg',
+      url: 'https://image.webservices.ft.com/v1/images/raw/https:%2F%2Fig.ft.com%2Fstatic%2Fus-election-2016%2Fsocial.jpg?source=ig&format=jpg&quality=medium&width=800',
     };
     this.siteNav = siteNav();
   }

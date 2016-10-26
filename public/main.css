@@ -2055,10 +2055,10 @@ a.ec-breakdown-row {
   }
 }
 
-
 /* temp override rail ad */
 @media (min-width: 61.24em) {
-  .advert--reserve-250 {
+  .advert--reserve-250,
+  .o-ads--reserve-250 {
       height: unset;
   }
 }

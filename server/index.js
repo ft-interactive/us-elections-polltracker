@@ -18,14 +18,14 @@ import resultData from './lib/getResultData';
 
 const cache = lru({
   max: 500,
-  maxAge: 60 * 1000, // 60 seconds
+  maxAge: 5 * 60 * 1000, // 5 mins
 });
 
 const template = nunjucks.env;
 
 const app = express();
-const maxAge = 120; // for user agent caching purposes
-const sMaxAge = 10;
+const maxAge = 300; // for user agent caching purposes
+const sMaxAge = 60;
 
 app.disable('x-powered-by');
 app.locals.flags = flags();
@@ -94,6 +94,15 @@ app.get('/__gtg', (req, res) => {
   res.send('ok');
 });
 
+// access_metadata
+app.get('/__access_metadata', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Cache-Control', `public, max-age=86400`);
+  res.send(`
+    {"access_metadata":[{"path_regex":"\/us-elections*","classification":"unconditional"},
+    {"path_regex":".*","classification":"unconditional"}]}`);
+});
+
 app.get('/favicon.ico', (req, res) => { // explicit override to redirect if favicon is requested
   res.redirect(301, 'https://ig.ft.com/favicon.ico');
 });
@@ -147,7 +156,18 @@ app.get('/polls-:state', (req, res) => {
   res.redirect(301, `${req.params.state}-polls`);
 });
 
+app.use((req, res, next) => {
+  if (!res.headerSent) {
+    res.setHeader('P3P', 'policyref="/w3c/p3p.xml", CP="CAO DSP COR LAW CURa ADMa DEVa TAIa PSAa PSDa CONo OUR DELi BUS IND PHY ONL UNI COM NAV INT DEM PRE OTC"');
+  }
+
+  return next();
+});
+
+// National poll tracker page
 app.get('/polls', nationalController);
+
+// State poll tracker pages
 app.get('/:state-polls', stateController);
 
 // support the old state poll format (redirect to new routes)

@@ -4,11 +4,11 @@
 
 .ecresultslist { }
 
-.ecresultslist__cell--dem{ 
+.ecresultslist__cell--dem {
     background-color: #579dd5;
 }
 
-.ecresultslist__cell--rep{ 
+.ecresultslist__cell--rep {
     background-color: #e03d46;
 }
 
@@ -107,4 +107,14 @@
 
 .result-bars {
   margin-bottom: 1.5em;
+}
+
+/* due to our wildcarding box-sizing
+   we need to fix the ads slots
+*/
+.advert--reserve-90,
+.advert--reserve-250,
+.o-ads--reserve-90,
+.o-ads--reserve-250 {
+  box-sizing: content-box;
 }

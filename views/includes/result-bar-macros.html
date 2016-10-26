@@ -1,24 +1,23 @@
 
 {% macro president(isFinal, clinton, clinton_pct, trump, trump_pct, bestGuessClinton_pct, bestGuessTrump_pct, footnote) %}
 
-
 <div data-o-grid-colspan="5 S5 M3">
   <div class="mini-dashboard__bar-label-container mini-dashboard__bar-label-container-dem">
-    <div class="mini-dashboard__head-icons mini-dashboard__head-icons--dem"><img src="images/clinton.png"></div>
+    <div class="mini-dashboard__head-icons mini-dashboard__head-icons--dem"><img src="https://image.webservices.ft.com/v1/images/raw/https:%2F%2Fig.ft.com%2Fstatic%2Fus-election-2016%2Fclinton.png?source=ig&format=png&quality=lowest"></div>
     <div class="mini-dashboard__bar-label-dem">
       <span class="national-bar-container-keys">Clinton</span>
-      <div class="national-bar-container-group-sums national-bar-container-group-sums-dem">{{clinton}}</div>
+      <div id="president-datalabel-clinton" class="data-label national-bar-container-group-sums national-bar-container-group-sums-dem">{{clinton}}</div>
     </div>
   </div>
 </div>
 
-<div data-o-grid-colspan="5 M3 push2 Mpush6">  
+<div data-o-grid-colspan="5 M3 push2 Mpush6">
    <div class="mini-dashboard__bar-label-container mini-dashboard__bar-label-container-rep">
     <div class="mini-dashboard__bar-label-rep">
       <span class="national-bar-container-keys">Trump</span>
-      <div class="national-bar-container-group-sums national-bar-container-group-sums-rep">{{trump}}</div>
+      <div id="president-datalabel-trump" class="data-label national-bar-container-group-sums national-bar-container-group-sums-rep">{{trump}}</div>
     </div>
-    <div class="mini-dashboard__head-icons mini-dashboard__head-icons--rep"><img src="images/trump.png"></div>
+    <div class="mini-dashboard__head-icons mini-dashboard__head-icons--rep"><img src="https://image.webservices.ft.com/v1/images/raw/https:%2F%2Fig.ft.com%2Fstatic%2Fus-election-2016%2Ftrump.png?source=ig&format=png&quality=lowest"></div>
   </div>
 </div>
 
@@ -26,8 +25,8 @@
   <div class="mini-dashboard__chart {% if isFinal %} mini-dashboard__chart--final{% endif %}">
     <div class="mini-dashboard__bars">
       <div class="mini-dashboard__bar-container">
-        <div style="width: {{clinton_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
-        <div style="width: {{trump_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+        <div id="president-bar-clinton" style="width: {{clinton_pct}}%;" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+        <div id="president-bar-trump" style="width: {{trump_pct}}%;" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
       </div>
     </div>
     {% if isFinal %}
@@ -39,8 +38,8 @@
     {% else %}
     <div class="mini-dashboard__best-guess">
       <div class="mini-dashboard__bar-container">
-        <div style="width: {{bestGuessClinton_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
-        <div style="width: {{bestGuessTrump_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+        <div style="width: {{bestGuessClinton_pct}}%;" id="president-bestguessbar-clinton" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+        <div style="width: {{bestGuessTrump_pct}}%;" id="president-bestguessbar-trump" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
       </div>
     </div>
     <span class="mini-dashboard__finish-line">
@@ -59,14 +58,14 @@
 <div class="mini-dashboard__chart">
 <div class="mini-dashboard__bars">
   <div class="mini-dashboard__bar-container">
-    <div style="width: {{dem_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
-    <div style="width: {{rep_pct}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+    <div style="width: {{dem_pct}}%;" id="house-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+    <div style="width: {{rep_pct}}%;" id="house-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
     <div class="mini-dashboard__bar-labels">
-      <div class="mini-dashboard__bar-label">
-        Dem <strong>{{dem}}</strong>
+      <div class="mini-dashboard__bar-label mini-dashboard__bar-label-dem">
+        Dem <strong class="data-label" id="house-datalabel-dem">{{dem}}</strong>
       </div>
-      <div class="mini-dashboard__bar-label">
-        Rep <strong>{{rep}}</strong>
+      <div class="mini-dashboard__bar-label mini-dashboard__bar-label-rep">
+        Rep <strong class="data-label" id="house-datalabel-rep" >{{rep}}</strong>
       </div>
     </div>
   </div>
@@ -86,24 +85,24 @@
 <div class="mini-dashboard__chart">
 <div class="mini-dashboard__bars">
   <div class="mini-dashboard__bar-container">
-    <div style="width: {{dem}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+    <div style="width: {{dem}}%;" id="senate-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
 
-    <div style="width: {{dem_contested}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--dem-contested"></div>
+    <!-- <div style="width: {{dem_contested}}%;" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem-contested"></div> -->
 
     {% if ind %}
-    <div style="width: {{ind}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--ind"></div>
+    <div style="width: {{ind}}%;" id="senate-bar-ind" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--ind"></div>
     {% endif %}
 
-    <div style="width: {{rep}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+    <div style="width: {{rep}}%;" id="senate-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
 
-    <div style="width: {{rep_contested}}%;" class="mini-dashboard__bar-fill mini-dashboard__bar-fill--rep-contested"></div>
+    <!-- <div style="width: {{rep_contested}}%;" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep-contested"></div> -->
 
     <div class="mini-dashboard__bar-labels">
-      <div class="mini-dashboard__bar-label">
-        Dem <strong>{{dem}}</strong>
+      <div class="mini-dashboard__bar-label mini-dashboard__bar-label-dem">
+        Dem <strong class="data-label" id="senate-datalabel-dem">{{dem}}</strong>
       </div>
-      <div class="mini-dashboard__bar-label">
-        Rep <strong>{{rep}}</strong>
+      <div class="data-label mini-dashboard__bar-label mini-dashboard__bar-label-rep">
+        Rep <strong class="data-label" id="senate-datalabel-rep">{{rep}}</strong>
       </div>
     </div>
   </div>
