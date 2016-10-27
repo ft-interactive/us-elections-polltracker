@@ -88,18 +88,26 @@ var pageDataTimestamp = {{ overview.timestamp }};
                     overview.house.rep_pct,
                     overview.house.rep_initial_pct,
                     overview.house.rep,
+                    overview.house.ind_pct, 
+                    overview.house.ind_initial_pct, 
+                    overview.house.ind,
                     "footnote") }}
             {% endcall %}
           </div>
           <div class="senate-bars">
             {% call PageElements.Figure(title="Senate", id="Senate") %}
-              {{ bars.senate(
-                overview.senate.dem_pct,
-                overview.senate.dem_initial_pct,
-                overview.senate.rep,
-                overview.senate.rep_initial_pct,
-                "footnote")
-              }}
+                  {{ bars.senate(
+                    overview.senate.dem_pct,
+                    overview.senate.dem_initial_pct,
+                    overview.senate.dem,
+                    overview.senate.rep_pct,
+                    overview.senate.rep_initial_pct,
+                    overview.senate.rep,
+                    overview.senate.ind_pct, 
+                    overview.senate.ind_initial_pct, 
+                    overview.senate.ind,
+                    "footnote")
+                  }}
             {% endcall %}
           </div>
       </div>

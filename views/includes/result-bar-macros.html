@@ -54,7 +54,7 @@
 </div>
 {% endmacro %}
 
-{% macro house(dem_pct, dem_initial_pct, dem, rep_pct, rep_initial_pct, rep, footnote) %}
+{% macro house(dem_pct, dem_initial_pct, dem, rep_pct, rep_initial_pct, rep, ind_pct, ind_initial_pct, ind, footnote) %}
 <div class="mini-dashboard__chart">
 <div class="mini-dashboard__bars">
   <div class="mini-dashboard__bar-container">
@@ -87,15 +87,15 @@
 </div>
 {% endmacro %}
 
-{% macro senate(dem, dem_initial, rep, rep_initial, ind, ind_initial, footnote) %}
+{% macro senate(dem_pct, dem_initial_pct, dem, rep_pct, rep_initial_pct, rep, ind_pct, ind_initial_pct, ind, footnote) %}
 <div class="mini-dashboard__chart">
   <div class="mini-dashboard__bars">
     <div class="mini-dashboard__bar-container">
-      <div style="width: {{dem}}%;" id="senate-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+      <div style="width: {{dem_pct}}%;" id="senate-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
       {% if ind %}
-      <div style="width: {{ind}}%;" id="senate-bar-ind" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--ind"></div>
+      <div style="width: {{ind_pct}}%;" id="senate-bar-ind" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--ind"></div>
       {% endif %}
-      <div style="width: {{rep}}%;" id="senate-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+      <div style="width: {{rep_pct}}%;" id="senate-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
       <div class="mini-dashboard__bar-labels">
         <div class="mini-dashboard__bar-label mini-dashboard__bar-label-dem">
           Democrat <strong class="data-label" id="senate-datalabel-dem">{{dem}}</strong>
@@ -108,9 +108,9 @@
   </div>
   <div class="mini-dashboard__initial">
     <div class="mini-dashboard__bar-container">
-      <div style="width: {{dem_initial}}%;" id="house-initial-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
-      <div style="width: {{ind_initial}}%;" id="house-initial-bar-ind" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--ind"></div>
-      <div style="width: {{rep_initial}}%;" id="house-initial-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+      <div style="width: {{dem_initial_pct}}%;" id="house-initial-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+      {% if ind %}<div style="width: {{ind_initial_pct}}%;" id="house-initial-bar-ind" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--ind"></div>{% endif %}
+      <div style="width: {{rep_initial_pct}}%;" id="house-initial-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
     </div>
   </div>
   <span class="mini-dashboard__finish-line">
