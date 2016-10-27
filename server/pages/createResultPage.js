@@ -28,6 +28,7 @@ class ResultPage extends Page {
 
   constructor() {
     super();
+    this.ads.zone = 'us.election.results';
   }
 
   async ready() {
