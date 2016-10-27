@@ -3,7 +3,7 @@ import flags from '../../config/flags';
 
 const ads = {
   site: 'world',
-  zone: 'us.and.canada',
+  zone: 'us.election.results',
   aboveHeader: true,
 };
 

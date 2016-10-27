@@ -28,7 +28,6 @@ class ResultPage extends Page {
 
   constructor() {
     super();
-    this.ads.zone = 'us.election.results';
   }
 
   async ready() {
@@ -41,7 +40,7 @@ class ResultPage extends Page {
     // this.color = color;
     this.dotMapSelectors = dotMapLayout( result.electoralCollege, { width: 800, height: 500 } );
     this.mapSelectors = mapLayout( result.electoralCollege, { width: 800, height: 500 } );
-    this.keyStates = statesList.reduce((previous, current) => { 
+    this.keyStates = statesList.reduce((previous, current) => {
       previous[current.code] = current.swing;
       return previous;
     },{});
