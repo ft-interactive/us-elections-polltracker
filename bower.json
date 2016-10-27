@@ -1,0 +1,6 @@
+{
+  "name": "none",
+  "dependencies": {
+    "o-grid": "^4.2.3"
+  }
+}

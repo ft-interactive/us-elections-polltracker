@@ -53,6 +53,7 @@ if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '
 }
 
 app.use('/main.js', babelify('public/main.js'));
+app.use(express.static('dist'));
 app.use(express.static('public'));
 app.use(slashes(false));
 

@@ -5,3 +5,5 @@ log.txt
 .env
 *.log
 .vscode/settings.json
+/dist/
+/bower_components/
