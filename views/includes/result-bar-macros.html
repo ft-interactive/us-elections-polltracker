@@ -86,17 +86,10 @@
 <div class="mini-dashboard__bars">
   <div class="mini-dashboard__bar-container">
     <div style="width: {{dem}}%;" id="senate-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
-
-    <!-- <div style="width: {{dem_contested}}%;" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem-contested"></div> -->
-
     {% if ind %}
     <div style="width: {{ind}}%;" id="senate-bar-ind" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--ind"></div>
     {% endif %}
-
     <div style="width: {{rep}}%;" id="senate-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
-
-    <!-- <div style="width: {{rep_contested}}%;" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep-contested"></div> -->
-
     <div class="mini-dashboard__bar-labels">
       <div class="mini-dashboard__bar-label mini-dashboard__bar-label-dem">
         Dem <strong class="data-label" id="senate-datalabel-dem">{{dem}}</strong>
@@ -112,11 +105,6 @@
   <div class="mini-dashboard__triangle"></div>
   <hr width="1" size="34" noshade />
 </span>
-<div class="mini-dashboard__legend">
-  <div class="mini-dashboard__legend-item mini-dashboard__legend-item--dem-contested"></div>
-  <div class="mini-dashboard__legend-item mini-dashboard__legend-item--rep-contested"></div>
-  Contested seats
-</div>
 <span class="mini-dashboard__footnote">
   {{footnote}}
 </span>
