@@ -1,6 +1,5 @@
 import express from 'express';
 import lru from 'lru-cache';
-import babelify from 'express-babelify-middleware';
 import slashes from 'connect-slashes';
 import flags from '../config/flags';
 import * as nunjucks from './nunjucks';
@@ -52,7 +51,6 @@ if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '
   });
 }
 
-app.use('/main.js', babelify('public/main.js'));
 app.use(express.static('dist'));
 app.use(express.static('public'));
 app.use(slashes(false));
@@ -100,7 +98,7 @@ app.get('/__access_metadata', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Cache-Control', `public, max-age=86400`);
   res.send(`
-    {"access_metadata":[{"path_regex":"\/us-elections*","classification":"unconditional"},
+    {"access_metadata":[{"path_regex":"/us-elections*","classification":"unconditional"},
     {"path_regex":".*","classification":"unconditional"}]}`);
 });
 
@@ -202,7 +200,6 @@ if (app.locals.flags.results) {
 app.get('/:code', stateCodeRedirectController);
 
 const server = app.listen(process.env.PORT || 5000, () => {
-  const host = server.address().address;
   const port = server.address().port;
-  console.log(`running ${host} ${port}`);
+  console.log(`running http://localhost:${port}/`);
 });

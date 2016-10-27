@@ -34,7 +34,6 @@
     "exhibit-plugin-autoprefixer": "^0.10.1",
     "exhibit-plugin-sass": "^0.10.1",
     "express": "^4.14.0",
-    "express-babelify-middleware": "^0.2.1",
     "g-ui": "git+https://github.com/Financial-Times/g-ui.git#adds-templates",
     "html-minifier": "^3.0.3",
     "isomorphic-fetch": "^2.2.1",
@@ -67,6 +66,8 @@
     "eslint-plugin-import": "^1.15.0",
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-react": "^6.3.0",
+    "exhibit-plugin-babel": "^0.10.1",
+    "exhibit-plugin-browserify": "^0.10.1",
     "get-css": "^1.2.1",
     "mocha": "^3.0.2",
     "nodemon": "^1.10.2"

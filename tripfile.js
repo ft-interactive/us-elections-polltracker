@@ -7,6 +7,8 @@ const dist = new Directory('dist', { log: true });
 const transform = compose(
   plugin('sass', { root: 'client', loadPaths: ['bower_components'] }),
   plugin('autoprefixer', 'last 2 versions'),
+  plugin('babel', { root: 'client' }),
+  plugin('browserify', { root: 'client' }),
 );
 
 export const build = async () => {
