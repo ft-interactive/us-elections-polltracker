@@ -1,9 +1,9 @@
 /*!
-  * $script.js JS loader & dependency manager
-  * https://github.com/ded/script.js
-  * (c) Dustin Diaz 2014 | License MIT
+  * LoadJS JS loader & dependency manager
+  * https://github.com/muicss/loadjs
+  * (c) 2015 Andres Morey | License MIT
   */
-(function(e,t){typeof module!="undefined"&&module.exports?module.exports=t():typeof define=="function"&&define.amd?define(t):this[e]=t()})("$script",function(){function p(e,t){for(var n=0,i=e.length;n<i;++n)if(!t(e[n]))return r;return 1}function d(e,t){p(e,function(e){return t(e),1})}function v(e,t,n){function g(e){return e.call?e():u[e]}function y(){if(!--h){u[o]=1,s&&s();for(var e in f)p(e.split("|"),g)&&!d(f[e],g)&&(f[e]=[])}}e=e[i]?e:[e];var r=t&&t.call,s=r?t:n,o=r?e.join(""):t,h=e.length;return setTimeout(function(){d(e,function t(e,n){if(e===null)return y();!n&&!/^https?:\/\//.test(e)&&c&&(e=e.indexOf(".js")===-1?c+e+".js":c+e);if(l[e])return o&&(a[o]=1),l[e]==2?y():setTimeout(function(){t(e,!0)},0);l[e]=1,o&&(a[o]=1),m(e,y)})},0),v}function m(n,r){var i=e.createElement("script"),u;i.onload=i.onerror=i[o]=function(){if(i[s]&&!/^c|loade/.test(i[s])||u)return;i.onload=i[o]=null,u=1,l[n]=2,r()},i.async=1,i.src=h?n+(n.indexOf("?")===-1?"?":"&")+h:n,t.insertBefore(i,t.lastChild)}var e=document,t=e.getElementsByTagName("head")[0],n="string",r=!1,i="push",s="readyState",o="onreadystatechange",u={},a={},f={},l={},c,h;return v.get=m,v.order=function(e,t,n){(function r(i){i=e.shift(),e.length?v(i,r):v(i,t,n)})()},v.path=function(e){c=e},v.urlArgs=function(e){h=e},v.ready=function(e,t,n){e=e[i]?e:[e];var r=[];return!d(e,function(e){u[e]||r[i](e)})&&p(e,function(e){return u[e]})?t():!function(e){f[e]=f[e]||[],f[e][i](t),n&&n(r)}(e.join("|")),v},v.done=function(e){v([null],e)},v});
+loadjs=function(){function n(n,e){n=n.push?n:[n];var t,r,o,c,i=[],s=n.length,h=s;for(t=function(n,t){t.length&&i.push(n),h--,h||e(i)};s--;)r=n[s],o=u[r],o?t(r,o):(c=f[r]=f[r]||[],c.push(t))}function e(n,e){if(n){var t=f[n];if(u[n]=e,t)for(;t.length;)t[0](n,e),t.splice(0,1)}}function t(n,e,t){var r,o,c=document;/\.css$/.test(n)?(r=!0,o=c.createElement("link"),o.rel="stylesheet",o.href=n):(o=c.createElement("script"),o.src=n,o.async=void 0===t||t),o.onload=o.onerror=o.onbeforeload=function(t){var c=t.type[0];if(r&&"hideFocus"in o)try{o.sheet.cssText.length||(c="e")}catch(n){c="e"}e(n,c,t.defaultPrevented)},c.head.appendChild(o)}function r(n,e,r){n=n.push?n:[n];var o,c,i=n.length,u=i,f=[];for(o=function(n,t,r){if("e"==t&&f.push(n),"b"==t){if(!r)return;f.push(n)}i--,i||e(f)},c=0;c<u;c++)t(n[c],o,r)}function o(n,t,o){var u,f;if(t&&t.trim&&(u=t),f=(u?o:t)||{},u){if(u in i)throw new Error("LoadJS");i[u]=!0}r(n,function(n){n.length?(f.error||c)(n):(f.success||c)(),e(u,n)},f.async)}var c=function(){},i={},u={},f={};return o.ready=function(e,t){return n(e,function(n){n.length?(t.error||c)(n):(t.success||c)()}),o},o.done=function(n){e(n,[])},o}();
 
 ;(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
@@ -17,9 +17,36 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 exports.init = init;
 /* eslint-disable */
 
+var logger = window.console;
+var errorEvent = function(){};
+
+if ((window.flags && window.flags.prod) || !window.console) {
+  logger = {log: function(){}, error: function(){}};
+}
+
+if (window.flags && window.flags.errorReporting) {
+  errorEvent = function(error, info) {
+    var detail = { error: error };
+    if (info) {
+      detail.info = info;
+    }
+    var event = new CustomEvent('oErrors.log', {
+      bubbles: true,
+      detail: detail
+    });
+    window.dispatchEvent(event);
+  };
+}
+
+function loadError(depsNotFound) {
+  depsNotFound = depsNotFound || [];
+  errorEvent(new Error('JS load error: ' + depsNotFound.join(', ')));
+  logger.error('JS load error', depsNotFound);
+}
+
 function exec(script, callback) {
   if (typeof script === 'string') {
-    $script(script, (typeof callback === 'function' ? callback : undefined));
+    loadjs(script, {error: loadError, success: (typeof callback === 'function' ? callback : undefined)});
     return;
   }
 
@@ -30,8 +57,8 @@ function exec(script, callback) {
         callback();
       }
     } catch (e) {
-      window.console && console.error && console.error(e);
-      // TODO: proper error handling
+      loadError(e);
+      logger.error(e);
     }
     return
   }
@@ -57,6 +84,7 @@ function queue(src, cb, low_priority) {
 
 function processQueueArray(q, eventName) {
   var bundles = [];
+
   if (q && q.length) {
     for (var i = 0; i < q.length; i++) {
       var callback = (q[i][1] &&
@@ -65,33 +93,33 @@ function processQueueArray(q, eventName) {
       if (q[i][0]) {
         var key = '__' + eventName + bundles.length;
         bundles.push(key);
-        $script(q[i][0], key, callback);
+        loadjs(q[i][0], key, {error: loadError, success: callback});
       } else if (callback) {
         exec(callback, q[i][2]);
       }
     }
-    if (bundles.length) {
-      $script.ready(bundles, function() {
-        $script.done(eventName);
-      });
-    }
+  }
+  if (bundles.length) {
+    loadjs.ready(bundles, {success: function() {
+      loadjs.done(eventName);
+    }});
   }
 }
 
-$script.ready('loader.polyfills', function(){
+loadjs.ready('loader.polyfills', {success: function(){
   processQueueArray(queued_scripts, 'loader.high');
   queued_scripts = null;
-});
+}});
 
-$script.ready('loader.high', function(){
+loadjs.ready('loader.high', {success: function(){
   processQueueArray(low_priority_queue, 'loader.low');
   low_priority_queue = null;
-});
+}});
 
 // Polyfill service callback
 window.igPolyfillsLoaded = function() {
-  setTimeout(function(){
-    $script.done('loader.polyfills');
+  setTimeout(function() {
+    loadjs.done('loader.polyfills');
   }, 0);
 }
 
@@ -127,7 +155,7 @@ function init() {
   }
 
   document.documentElement.className = document.documentElement.className.replace(/\bcore\b/g, 'enhanced');
-  $script(createPolyfillURL(polyfillFeatures));
+  loadjs(createPolyfillURL(polyfillFeatures));
 }
 
 },{}],2:[function(require,module,exports){
