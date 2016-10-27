@@ -1,7 +1,6 @@
 {
   "name": "none",
   "dependencies": {
-    "o-grid": "^4.2.3",
-    "o-typography": "^4.3.1"
+    "o-grid": "^4.2.3"
   }
 }
