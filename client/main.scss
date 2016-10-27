@@ -1,4 +1,7 @@
 @import 'o-grid/main';
+@import 'o-fonts/main';
+
+@include oFontsInclude(MetricWeb, medium);
 
 // TODO get rid of duplicated styles below, and use oGridRespondTo mixin where appropriate
 
