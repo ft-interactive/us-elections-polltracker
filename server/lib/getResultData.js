@@ -2,8 +2,8 @@ import axios from 'axios';
 import cache from '../lib/cache';
 
 // TODO: hit the republish endpoint on a CRON job or something
-const resultURL = 'http://bertha.ig.ft.com/view/publish/gss/17Ea2kjME9yqEUZfQHlPZNc6cqraBUGrxtuHj-ch5Lp4/copy,events,electoralCollege,senate,house,media';
-
+// const resultURL = 'http://bertha.ig.ft.com/view/publish/gss/17Ea2kjME9yqEUZfQHlPZNc6cqraBUGrxtuHj-ch5Lp4/copy,events,electoralCollege,senate,house,media';
+const resultURL = 'http://localhost:8423/test-data.json'; // HACK
 export default function getResult() {
   return cache(
     'results',
@@ -42,17 +42,21 @@ function fetchData() {
           processed.copy = copy;
           processed.overview = {
             timestamp: (new Date()).getTime(),
-            senate:{
+            senate: {
               total: senate.total,
-              dem_pct: (100/senate.total)* senate.current.dem,
-              rep_pct: (100/senate.total)* senate.current.rep,
+              dem_pct: (senate.current.dem / senate.total) * 100,
+              dem_initial_pct: (senate.initial.dem / senate.total) * 100,
+              rep_pct: (senate.current.rep / senate.total) * 100,
+              rep_initial_pct: (senate.initial.rep / senate.total) * 100,
               dem: senate.current.dem,
               rep: senate.current.rep,
             },
             house: {
               total: house.total,
-              dem_pct: (100/house.total)* house.current.dem,
-              rep_pct: (100/house.total)* house.current.rep,
+              dem_pct: (house.current.dem / house.total) * 100,
+              dem_initial_pct: (house.initial.dem / house.total) * 100,
+              rep_pct: (house.current.rep / house.total) * 100,
+              rep_initial_pct: (house.initial.rep / house.total) * 100,
               dem: house.current.dem,
               rep: house.current.rep,
             },
