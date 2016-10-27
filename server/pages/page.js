@@ -37,6 +37,13 @@ export default class Page {
     url: 'https://www.ft.com/us-election-2016',
   };
 
+  subspromo = {
+    header: {
+      href: 'https://sub.ft.com/spa_uselection/?segmentId=b0cc72ef-a788-b64a-8860-bbd7e9713d62&utm_source=election&utm_medium=onsite_link&utm_campaign=2016_Q4_US_Election_poll_page',
+      text: 'Limited time offer: Try the FT for 3 months'
+    }
+  };
+
   ads = ads;
 
   constructor() {
