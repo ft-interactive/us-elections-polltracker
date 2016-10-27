@@ -60,7 +60,7 @@
         stroke:none;
     }
     {{ mapSelectors.n }} {
-        fill:{{ color.nodata }};
+        fill:none;
         stroke:none;
     }
     {{ mapSelectors.g }} {
