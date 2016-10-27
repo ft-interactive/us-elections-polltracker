@@ -2,8 +2,8 @@ import axios from 'axios';
 import cache from '../lib/cache';
 
 // TODO: hit the republish endpoint on a CRON job or something
-// const resultURL = 'http://bertha.ig.ft.com/view/publish/gss/17Ea2kjME9yqEUZfQHlPZNc6cqraBUGrxtuHj-ch5Lp4/copy,events,electoralCollege,senate,house,media';
-const resultURL = 'http://localhost:8423/test-data.json'; // HACK
+const resultURL = 'http://bertha.ig.ft.com/view/publish/gss/17Ea2kjME9yqEUZfQHlPZNc6cqraBUGrxtuHj-ch5Lp4/copy,events,electoralCollege,senate,house,media';
+
 export default function getResult() {
   return cache(
     'results',
