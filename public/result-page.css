@@ -118,3 +118,7 @@
 .o-ads--reserve-250 {
   box-sizing: content-box;
 }
+
+.house-bars .article-figure__heading {
+  color: #333;
+}

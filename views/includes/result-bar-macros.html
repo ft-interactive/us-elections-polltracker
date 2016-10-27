@@ -45,7 +45,7 @@
     <span class="mini-dashboard__finish-line">
       270 electoral college votes
       <div class="mini-dashboard__triangle"></div>
-      <hr width="1" size="46" noshade />
+      <hr width="1" size="48" noshade />
       Best guess
     </span>
     {% endif %}
@@ -54,7 +54,7 @@
 </div>
 {% endmacro %}
 
-{% macro house(dem_pct, dem, rep_pct, rep, footnote) %}
+{% macro house(dem_pct, dem_initial_pct, dem, rep_pct, rep_initial_pct, rep, footnote) %}
 <div class="mini-dashboard__chart">
 <div class="mini-dashboard__bars">
   <div class="mini-dashboard__bar-container">
@@ -62,18 +62,24 @@
     <div style="width: {{rep_pct}}%;" id="house-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
     <div class="mini-dashboard__bar-labels">
       <div class="mini-dashboard__bar-label mini-dashboard__bar-label-dem">
-        Dem <strong class="data-label" id="house-datalabel-dem">{{dem}}</strong>
+        Democrat <strong class="data-label" id="house-datalabel-dem">{{dem}}</strong>
       </div>
       <div class="mini-dashboard__bar-label mini-dashboard__bar-label-rep">
-        Rep <strong class="data-label" id="house-datalabel-rep" >{{rep}}</strong>
+        Republican <strong class="data-label" id="house-datalabel-rep" >{{rep}}</strong>
       </div>
     </div>
+  </div>
+</div>
+<div class="mini-dashboard__initial">
+  <div class="mini-dashboard__bar-container">
+    <div style="width: {{dem_initial_pct}}%;" id="house-initial-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+    <div style="width: {{rep_initial_pct}}%;" id="house-initial-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
   </div>
 </div>
 <span class="mini-dashboard__finish-line">
   218 for majority
   <div class="mini-dashboard__triangle"></div>
-  <hr width="1" size="34" noshade />
+  <hr width="1" size="48" noshade />
 </span>
 <span class="mini-dashboard__footnote">
   {{footnote}}
@@ -81,32 +87,39 @@
 </div>
 {% endmacro %}
 
-{% macro senate(dem, dem_contested, rep, rep_contested, ind, footnote) %}
+{% macro senate(dem, dem_initial, dem_contested, rep, rep_initial, rep_contested, ind, ind_initial, footnote) %}
 <div class="mini-dashboard__chart">
-<div class="mini-dashboard__bars">
-  <div class="mini-dashboard__bar-container">
-    <div style="width: {{dem}}%;" id="senate-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
-    {% if ind %}
-    <div style="width: {{ind}}%;" id="senate-bar-ind" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--ind"></div>
-    {% endif %}
-    <div style="width: {{rep}}%;" id="senate-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
-    <div class="mini-dashboard__bar-labels">
-      <div class="mini-dashboard__bar-label mini-dashboard__bar-label-dem">
-        Dem <strong class="data-label" id="senate-datalabel-dem">{{dem}}</strong>
-      </div>
-      <div class="data-label mini-dashboard__bar-label mini-dashboard__bar-label-rep">
-        Rep <strong class="data-label" id="senate-datalabel-rep">{{rep}}</strong>
+  <div class="mini-dashboard__bars">
+    <div class="mini-dashboard__bar-container">
+      <div style="width: {{dem}}%;" id="senate-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+      {% if ind %}
+      <div style="width: {{ind}}%;" id="senate-bar-ind" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--ind"></div>
+      {% endif %}
+      <div style="width: {{rep}}%;" id="senate-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+      <div class="mini-dashboard__bar-labels">
+        <div class="mini-dashboard__bar-label mini-dashboard__bar-label-dem">
+          Democrat <strong class="data-label" id="senate-datalabel-dem">{{dem}}</strong>
+        </div>
+        <div class="mini-dashboard__bar-label mini-dashboard__bar-label-rep">
+          Republican <strong class="data-label" id="senate-datalabel-rep">{{rep}}</strong>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<span class="mini-dashboard__finish-line">
-  50 for majority
-  <div class="mini-dashboard__triangle"></div>
-  <hr width="1" size="34" noshade />
-</span>
-<span class="mini-dashboard__footnote">
-  {{footnote}}
-</span>
+  <div class="mini-dashboard__initial">
+    <div class="mini-dashboard__bar-container">
+      <div style="width: {{dem_initial}}%;" id="house-initial-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+      <div style="width: {{ind_initial}}%;" id="house-initial-bar-ind" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--ind"></div>
+      <div style="width: {{rep_initial}}%;" id="house-initial-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+    </div>
+  </div>
+  <span class="mini-dashboard__finish-line">
+    50 for majority
+    <div class="mini-dashboard__triangle"></div>
+    <hr width="1" size="48" noshade />
+  </span>
+  <span class="mini-dashboard__footnote">
+    {{footnote}}
+  </span>
 </div>
 {% endmacro %}

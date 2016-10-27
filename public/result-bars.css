@@ -2,7 +2,7 @@
 
 .mini-dashboard__chart {
   position: relative;
-  padding-top: 20px;
+  padding-top: 40px;
 }
 
 .mini-dashboard__panel--president .mini-dashboard__chart:not(.mini-dashboard__chart--final) {
@@ -16,7 +16,8 @@
   background: #e9decf;
 }
 
-.mini-dashboard__best-guess > .mini-dashboard__bar-container {
+.mini-dashboard__best-guess > .mini-dashboard__bar-container,
+.mini-dashboard__initial > .mini-dashboard__bar-container {
   height: 10px;
   margin-top: 0.25em;
 }
@@ -28,9 +29,13 @@
   white-space: nowrap;
 }
 
-.mini-dashboard-best-guess .mini-dashboard__bar-fill {
-  height: 0.5em;
+.mini-dashboard__initial .mini-dashboard__bar-fill {
+  height: 10px;
 }
+
+/*.mini-dashboard-best-guess .mini-dashboard__bar-fill {
+  height: 0.5em;
+}*/
 
 .mini-dashboard__bar-fill--dem {
   background-color: #579dd5;
@@ -63,7 +68,7 @@
 
 .mini-dashboard__head-icons {
   display: inline-block;
-  margin-top: -10px;  
+  margin-top: -10px;
 }
 
 .mini-dashboard__head-icons--dem {
@@ -78,29 +83,94 @@
   width: 80px;
 }
 
-.mini-dashboard__bar-label-rep,
-.mini-dashboard__bar-label-dem {
+.house-bars .mini-dashboard__bar-labels,
+.senate-bars .mini-dashboard__bar-labels {
+  position: absolute;
+  left: 0;
+  top: -10px;
+  width: 100%;
+}
+
+.house-bars .mini-dashboard__bar-label,
+.senate-bars .mini-dashboard__bar-label {
+  text-transform: uppercase;
+  font-size: 1em;
+  color: #535353;
+  font-weight: lighter;
+}
+
+.house-bars .mini-dashboard__bar-labels .data-label,
+.senate-bars .mini-dashboard__bar-labels .data-label {
+  display: block;
+  font-size: 2em;
+}
+
+.house-bars .mini-dashboard__bar-label-dem .data-label,
+.senate-bars .mini-dashboard__bar-label-dem .data-label {
+  color: #579dd5;
+}
+
+.house-bars .mini-dashboard__bar-label-rep .data-label,
+.senate-bars .mini-dashboard__bar-label-rep .data-label {
+  color: #e03d46;
+}
+
+.president-bars .mini-dashboard__bar-label-rep,
+.president-bars .mini-dashboard__bar-label-dem {
   height: 2em;
   line-height: 1.65em;
   margin-top: 12px;
 }
 
-.mini-dashboard__bar-label-dem {
+.house-bars .mini-dashboard__bar-label-rep,
+.house-bars .mini-dashboard__bar-label-dem,
+.senate-bars .mini-dashboard__bar-label-rep,
+.senate-bars .mini-dashboard__bar-label-dem {
+  line-height: 1.3em;
+}
+
+.president-bars .mini-dashboard__bar-label-dem {
   float: right;
 }
 
-.mini-dashboard__bar-label-container-dem {
-  text-align: right;
-}
-
-.mini-dashboard__bar-label-rep {
+.house-bars .mini-dashboard__bar-label-dem,
+.senate-bars .mini-dashboard__bar-label-dem {
   display: inline-block;
   float: left;
 }
 
-.mini-dashboard__bar-label-container-rep {
+.president-bars .mini-dashboard__bar-label-container-dem {
+  text-align: right;
+}
+
+.house-bars .mini-dashboard__bar-label-container-dem,
+.senate-bars .mini-dashboard__bar-label-container-dem {
   text-align: left;
 }
+
+.mini-dashboard__bar-label-rep {
+  display: inline-block;
+}
+
+.president-bars .mini-dashboard__bar-label-rep {
+  float: left;
+}
+
+.house-bars .mini-dashboard__bar-label-rep,
+.senate-bars .mini-dashboard__bar-label-rep {
+  float: right;
+  text-align: right;
+}
+
+.president-bars .mini-dashboard__bar-label-container-rep {
+  text-align: left;
+}
+
+.house-bars .mini-dashboard__bar-label-container-rep,
+.senate-bars .mini-dashboard__bar-label-container-rep {
+  text-align: right;
+}
+
 
 
 @media (max-width: 979px) {
@@ -180,11 +250,13 @@
   height: inherit;
 }
 
-.mini-dashboard__best-guess .mini-dashboard__bar-fill--dem {
+.mini-dashboard__best-guess .mini-dashboard__bar-fill--dem,
+.mini-dashboard__initial .mini-dashboard__bar-fill--dem {
   border: 1px solid #579dd5;
 }
 
-.mini-dashboard__best-guess .mini-dashboard__bar-fill--rep {
+.mini-dashboard__best-guess .mini-dashboard__bar-fill--rep,
+.mini-dashboard__initial .mini-dashboard__bar-fill--rep {
   border: 1px solid #e03d46;
 }
 
@@ -194,7 +266,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: 0;
+  top: 18px;
   margin: 0 auto;
   font-size: 0.85em;
 }
@@ -213,7 +285,7 @@
   width: 0;
   height: 0;
   border-style: solid;
-  border-width: 7px 7px 0;
+  border-width: 7px 5px 0;
   border-color: #555555 transparent transparent;
   margin: 0 auto;
 }
