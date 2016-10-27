@@ -55,15 +55,21 @@
   },
   "devDependencies": {
     "babel-eslint": "^6.1.2",
+    "bower": "^1.7.9",
     "chai": "^3.5.0",
     "eslint": "^3.5.0",
     "eslint-config-airbnb": "^11.1.0",
     "eslint-plugin-import": "^1.15.0",
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-react": "^6.3.0",
+    "exhibit": "^0.10.1",
+    "exhibit-directory": "^0.10.1",
+    "exhibit-plugin-autoprefixer": "^0.10.1",
+    "exhibit-plugin-sass": "^0.10.1",
     "get-css": "^1.2.1",
     "mocha": "^3.0.2",
-    "nodemon": "^1.10.2"
+    "nodemon": "^1.10.2",
+    "trip": "^1.0.3"
   },
   "engines": {
     "node": "6.x.x"
@@ -72,7 +78,8 @@
   "scripts": {
     "start": "sequelize db:migrate && node --require ./setup.js server",
     "scraper": "node --require ./setup.js scraper/run",
-    "dev": "nodemon --ext js,html,svg,css",
+    "postinstall": "trip build",
+    "dev": "trip watch & nodemon --ext js,html,svg,css --ignore dist --ignore public",
     "test": "mocha --compilers js:babel-core/register layouts/*.spec.js"
   }
 }

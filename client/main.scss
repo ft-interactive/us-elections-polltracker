@@ -1,3 +1,10 @@
+$o-typography-is-silent: false;
+
+@import 'o-grid/main';
+@import 'o-typography/main';
+
+// TODO get rid of duplicated styles below, and use oGridRespondTo mixin where appropriate
+
 .layout--left-body .o-typography-footer {
   margin-left: 0 !important;
   margin-right: 0 !important;
@@ -11,6 +18,7 @@
   margin-top: 1em;
   margin-bottom: 0.75em;
 }
+
 /* Responsive typography, copy values until we have Sass and o-typography */
 @media (max-width: 30.615em) {
   .o-typography-heading1 {
