@@ -59,7 +59,7 @@ function onScriptLoadError(depsNotFound) {
   depsNotFound = depsNotFound || [];
   var message = 'JS load error: ' + depsNotFound.join(', ');
   dispatchErrorEvent(new Error(message), {message: message});
-  logError('JS load error', depsNotFound);
+  // logError('JS load error', depsNotFound);
 }
 
 function exec(script, callback) {
@@ -76,7 +76,7 @@ function exec(script, callback) {
       }
     } catch (e) {
       dispatchErrorEvent(e);
-      logError(e);
+      // logError(e);
     }
   }
 }
@@ -135,19 +135,19 @@ function processQueueArray(q, eventName) {
 }
 
 loadjs.ready('loader.polyfills', {success: function(){
-  log('loader.polyfills', 'done');
+  // log('loader.polyfills', 'done');
   processQueueArray(queued_scripts, 'loader.high');
   queued_scripts = null;
 }});
 
 loadjs.ready('loader.high', {success: function(){
-  log('loader.high', 'done');
+  // log('loader.high', 'done');
   processQueueArray(low_priority_queue, 'loader.low');
   low_priority_queue = null;
 }});
 
 loadjs.ready('loader.low', {success: function(){
-  log('loader.low', 'done');
+  // log('loader.low', 'done');
 }});
 
 // Polyfill service callback
