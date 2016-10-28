@@ -112,7 +112,7 @@
   border-bottom: 1px solid #cec6b9;
   padding-bottom: 5px;
   font-family: "MetricWeb", sans-serif;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .rail__state-list {
@@ -121,8 +121,10 @@
 
 .rail__state-list h4 {
   font-family: "MetricWeb", sans-serif;
-  font-weight: 500;
-  color: #333;
+  font-weight: 600;
+  color: #555;
+  margin-top: 9px;
+  margin-bottom: 9px;
 }
 
 .rail__state-list ul {
@@ -338,7 +340,7 @@ p.correction {
 }
 p.off-link{
   font-size: 21px;
-  font-weight: 500;
+  font-weight: 400;
   text-align: right;
   font-family: MetricWeb, sans-serif;
   margin-top: 0.5em;
@@ -479,7 +481,7 @@ a {
 
 
 .national-bar-container-values {
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 1px;
   position: absolute;
   top: 2px;
@@ -520,13 +522,13 @@ a {
 
 .national-bar-container-group-sums {
   font-size: 2.8em;
-  font-weight: 500;
+  font-weight: 200;
 }
 
 @media (max-width: 490px){
   .national-bar-container-group-sums {
-  font-size: 2.5em;
-}
+    font-size: 2.5em;
+  }
 }
 
 .heads-container {
@@ -679,6 +681,7 @@ a {
 
 #statelist-table .statelist-switch{
   font-weight: 600;
+  padding: 0.25em 0;
 }
 
 #statelist th.statelist-state {
@@ -739,14 +742,14 @@ a {
 }
 
 .statelist-switch {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .statelist-switch{
   font-size: 0.9rem;
   text-align:center;
   text-transform: uppercase;
-  min-width: 170px;
+  min-width: 180px;
 }
 
 th.statelist-switch{
@@ -857,9 +860,9 @@ th.statelist-switch{
 
 .switch-button{
   font-size: 0.85em;
-  font-weight: 500;
+  font-weight: 600;
   display: inline-block;
-  width: 50px;
+  width: 54px;
   height: 16px;
   background-size: 100%;
   margin: 0 4px;
@@ -870,9 +873,9 @@ th.statelist-switch{
   white-space: nowrap;
   /*overflow: hidden;*/
   border-bottom: none;
--webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
--moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
+  box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
 }
 
 .statelist-dem .switch-button.rep,
@@ -1421,8 +1424,8 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
   text-transform: uppercase;
   text-align: left;
   border-bottom: 0;
-  font-weight: 500;
-  color: black;
+  font-weight: 600;
+  color: #333;
   padding-left: 0.5em;
 }
 
