@@ -200,6 +200,6 @@ if (app.locals.flags.results) {
 app.get('/:code', stateCodeRedirectController);
 
 const server = app.listen(process.env.PORT || 5000, () => {
-  const port = server.address().port;
-  console.log(`running http://localhost:${port}/`);
+  const { address, port } = server.address();
+  console.log(`running http://${address === '::' ? 'localhost' : address}:${port}/`);
 });
