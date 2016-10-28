@@ -37,6 +37,7 @@ function sumECVotes(array, accessor) {
 function fetchData() {
   return axios.get(resultURL)
         .then(response => {
+          const lastModified = new Date(response.headers['last-modified']);
           const processed = {};
           const ecPct = 100 / 538;
           const copy = response.data.copy.reduce((previous, current) => { previous[current.key] = current.value; return previous; }, {});
@@ -62,7 +63,7 @@ function fetchData() {
           processed.ecTotals = totals;
           processed.copy = copy;
           processed.overview = {
-            timestamp: (new Date()).getTime(),
+            timestamp: lastModified.getTime(),
             senate: {
               total: senate.total,
               dem_pct: (senate.current.dem / senate.total) * 100,
