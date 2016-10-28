@@ -1,0 +1,29 @@
+.body .results-vs-projections { // the `.body` is to fight g-ui for specificity
+  box-sizing: border-box;
+  * { box-sizing: inherit; }
+
+  &__buckets {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__bucket {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    align-content: flex-start;
+  }
+
+  &__state {
+    $box-size: 16px;
+    padding: 0;
+    margin: 0 2px 2px 0;
+    width: $box-size;
+    height: $box-size;
+    overflow: hidden;
+    text-align: center;
+    font: 400 10px/#{$box-size} MetricWeb, sans-serif;
+  }
+}

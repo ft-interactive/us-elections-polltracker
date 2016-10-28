@@ -1,0 +1,19 @@
+<div class="results-vs-projections">
+  <div class="results-vs-projections__buckets">
+    {% macro rvpBucket(bucketId) %}
+    <ul class="results-vs-projections__bucket results-vs-projections__bucket--{{bucketId}}">
+      {% for state in resultsVsProjections.buckets[bucketId] %}<li class="results-vs-projections__state{% if state.winner %} results-vs-projections__state--winner-{{state.winner}}{% endif %}" style="background-color:{{state.bgColor}};color:{{state.textColor}}">{{state.code}}</li>{% endfor %}
+    </ul>
+    {% endmacro %}
+
+    {{ rvpBucket('D') }}
+
+    {{ rvpBucket('LD') }}
+
+    {{ rvpBucket('T') }}
+
+    {{ rvpBucket('LR') }}
+
+    {{ rvpBucket('R') }}
+  </div>
+</div>

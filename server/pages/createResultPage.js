@@ -1,6 +1,7 @@
 import Page from './page';
 import getResult from '../lib/getResultData';
 import dotMapLayout from '../../layouts/results-dot-map';
+import resultsVsProjectionsLayout from '../../layouts/results-vs-projections-layout';
 import mapLayout from '../../layouts/results-map';
 import onwardJourney from '../lib/onwardjourney';
 import statesList from '../../data/states';
@@ -29,7 +30,7 @@ class ResultPage extends Page {
     const result = await getResult();
     this.headline = result.copy.headline;
     this.summary = result.copy.subtitle;
-    this.stateResults = result.electoralCollege;
+    this.resultsVsProjections = resultsVsProjectionsLayout(result.electoralCollege);
     this.overview = result.overview;
     this.mediaOrgs = result.mediaOrgs;
     // this.color = color;
