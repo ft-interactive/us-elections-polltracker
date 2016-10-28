@@ -13,7 +13,6 @@ import stateController from './controllers/state';
 import * as resultController from './controllers/result';
 import * as apiController from './controllers/api';
 import stateCount from './lib/state-counts';
-import resultData from './lib/getResultData';
 
 const cache = lru({
   max: 500,
@@ -96,7 +95,7 @@ app.get('/__gtg', (req, res) => {
 // access_metadata
 app.get('/__access_metadata', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  res.setHeader('Cache-Control', `public, max-age=86400`);
+  res.setHeader('Cache-Control', 'public, max-age=86400');
   res.send(`
     {"access_metadata":[{"path_regex":"/us-elections*","classification":"unconditional"},
     {"path_regex":".*","classification":"unconditional"}]}`);
@@ -182,7 +181,8 @@ app.get('/ec-breakdown.html', ecBreakdownController);
 // flags.results is false
 if (app.locals.flags.results) {
   if (app.locals.flags.resultsFTAuth) {
-    const authS3O = require('s3o-middleware');
+    const authS3O = require('s3o-middleware'); // eslint-disable-line global-require
+
     app.set('trust proxy', true);
     app.get('/results', authS3O, resultController.page);
     // National results page
