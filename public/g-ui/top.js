@@ -27,21 +27,38 @@ try {
   }
 } catch(err) {}
 
-var dispatchErrorEvent = ((typeof CustomEvent !== 'function') ? function(){} : function(error, info) {
+var customEventSupport = (function () {
+  try {
+    return ('CustomEvent' in window &&
+              (typeof window.CustomEvent === 'function' ||
+              (window.CustomEvent.toString().indexOf('CustomEventConstructor')>-1)));
+  } catch (e) {
+    return false;
+  }
+}());
+
+var dispatchErrorEvent = (customEventSupport ? function(){} : function(error, info) {
   var detail = { error: error };
   if (info) {
     detail.info = info;
   }
-  var event = new CustomEvent('oErrors.log', {
-    bubbles: true,
-    detail: detail
-  });
-  window.dispatchEvent(event);
+
+  var rootEl = document.body || document.documentElement;
+	var event = (function () {
+		try {
+			return new CustomEvent(name, {bubbles: bubbles, cancelable: true, detail: detail});
+		} catch (e) {
+			return CustomEvent.initCustomEvent(name, true, true, detail);
+		}
+	}());
+
+	rootEl.dispatchEvent(event);
 });
 
 function onScriptLoadError(depsNotFound) {
   depsNotFound = depsNotFound || [];
-  dispatchErrorEvent(new Error('JS load error: ' + depsNotFound.join(', ')));
+  var message = 'JS load error: ' + depsNotFound.join(', ');
+  dispatchErrorEvent(new Error(message), {message: message});
   logError('JS load error', depsNotFound);
 }
 
@@ -53,9 +70,9 @@ function exec(script, callback) {
 
   if (typeof script === 'function') {
     try {
-      script();
+      script.call(window);
       if (typeof callback === 'function') {
-        callback();
+        callback.call(window);
       }
     } catch (e) {
       dispatchErrorEvent(e);
@@ -87,6 +104,13 @@ function queue(src, cb, low_priority) {
 
 function processQueueArray(q, eventName) {
   var bundles = [];
+  var readyFired = false;
+
+  function done(errs) {
+    if (readyFired) return;
+    readyFired = true;
+    loadjs.done(eventName);
+  }
 
   if (q && q.length) {
     for (var i = 0; i < q.length; i++) {
@@ -102,13 +126,6 @@ function processQueueArray(q, eventName) {
       }
     }
   }
-
-  var readyFired = false;
-  var done = function(errs) {
-    if (readyFired) return;
-    readyFired = true;
-    loadjs.done(eventName);
-  };
 
   if (bundles.length) {
     loadjs.ready(bundles, {success: done, error: done});
@@ -132,6 +149,7 @@ loadjs.ready('loader.high', {success: function(){
 loadjs.ready('loader.low', {success: function(){
   log('loader.low', 'done');
 }});
+
 // Polyfill service callback
 window.igPolyfillsLoaded = function() {
   setTimeout(function() {
