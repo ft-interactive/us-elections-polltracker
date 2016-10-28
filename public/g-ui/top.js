@@ -17,8 +17,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 exports.init = init;
 /* eslint-disable */
 
-var log = window.console ? console.log : function(){};
-var logError = window.console ? console.error : function(){};
+var log = function(){};
+var logError = function(){};
+
+try {
+  if (window.flags && !window.flags.prod && window.console && 'bind' in Function.prototype) {
+    log = window.console.log.bind(window.console);
+    logError = window.console.error.bind(window.console);
+  }
+} catch(err) {}
+
 var dispatchErrorEvent = ((typeof CustomEvent !== 'function') ? function(){} : function(error, info) {
   var detail = { error: error };
   if (info) {
@@ -33,8 +41,8 @@ var dispatchErrorEvent = ((typeof CustomEvent !== 'function') ? function(){} : f
 
 function onScriptLoadError(depsNotFound) {
   depsNotFound = depsNotFound || [];
-  logError('JS load error', depsNotFound);
   dispatchErrorEvent(new Error('JS load error: ' + depsNotFound.join(', ')));
+  logError('JS load error', depsNotFound);
 }
 
 function exec(script, callback) {
@@ -50,8 +58,8 @@ function exec(script, callback) {
         callback();
       }
     } catch (e) {
-      logError(e);
       dispatchErrorEvent(e);
+      logError(e);
     }
   }
 }
