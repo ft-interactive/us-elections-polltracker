@@ -2,7 +2,7 @@ import axios from 'axios';
 import cache from '../lib/cache';
 
 // TODO: hit the republish endpoint on a CRON job or something
-const resultURL = 'http://bertha.ig.ft.com/view/publish/gss/17Ea2kjME9yqEUZfQHlPZNc6cqraBUGrxtuHj-ch5Lp4/copy,events,electoralCollege,senate,house,media';
+const resultURL = 'http://bertha.ig.ft.com/view/publish/gss/17Ea2kjME9yqEUZfQHlPZNc6cqraBUGrxtuHj-ch5Lp4/copy,electoralCollege,senate,house,media';
 
 export default function getResult() {
   return cache(
@@ -12,32 +12,42 @@ export default function getResult() {
   );
 }
 
+const partyCodes = {
+  'R':'r',
+  'r':'r',
+  'D':'d',
+  'd':'d',
+  'I':'i',
+  'i':'i',
+  'G':'g',
+  'L':'l',
+}
+
 function fetchData() {
   return axios.get(resultURL)
         .then(response => {
           const processed = {};
           const ecPct = 100 / 538;
           const copy = response.data.copy.reduce((previous, current) => { previous[current.key] = current.value; return previous; }, {});
-          const totals = sumECVotes(response.data.electoralCollege, (d) => d.winner );
+          const totals = sumECVotes(response.data.electoralCollege, (d) => partyCodes[d.winner] );
           const bestGuess = sumECVotes(response.data.electoralCollege, (d) => {
-            if (d.winner) return d.winner;
-            return d.leaning;
+            if (d.winner) return partyCodes[d.winner];
+            return partyCodes[d.liveestimate];
           });
           const reporting = response.data.electoralCollege.filter( d => (d.winner !== null) ).length;
-
-          const mediaorgs = Object.keys(response.data.media[0].media).map(function(name){
-              return {
-                  name:name,
-                  totals: sumECVotes(response.data.media, (d) => d.media[name] )
-              }
-          });
+          const mediaorgs = response.data.media;
 
           const house = response.data.house[0];
           const senate = response.data.senate[0];
 
           processed.mediaOrgs = mediaorgs;
           processed.pollClosingTimes = response.data.events;
-          processed.electoralCollege = response.data.electoralCollege;
+          processed.electoralCollege = response.data.electoralCollege.map((d)=>{
+            const o = {};
+            Object.assign(o, d);
+            o.winner = partyCodes[o.winner];
+            return o;
+          });
           processed.ecTotals = totals;
           processed.copy = copy;
           processed.overview = {
