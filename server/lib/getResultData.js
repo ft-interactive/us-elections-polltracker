@@ -13,14 +13,23 @@ export default function getResult() {
 }
 
 const partyCodes = {
-  'R':'r',
-  'r':'r',
-  'D':'d',
-  'd':'d',
-  'I':'i',
-  'i':'i',
-  'G':'g',
-  'L':'l',
+  'R': 'r',
+  'r': 'r',
+  'D': 'd',
+  'd': 'd',
+  'I': 'i',
+  'i': 'i',
+  'G': 'g',
+  'L': 'l',
+};
+
+function sumECVotes(array, accessor) {
+  return array.reduce((totals, current) => {
+    const winner = accessor(current);
+    if (winner == null) return totals;
+    totals[winner] += current.ecvotes;
+    return totals;
+  }, { r: 0, d: 0, g: 0, l: 0 });
 }
 
 function fetchData() {
@@ -29,12 +38,12 @@ function fetchData() {
           const processed = {};
           const ecPct = 100 / 538;
           const copy = response.data.copy.reduce((previous, current) => { previous[current.key] = current.value; return previous; }, {});
-          const totals = sumECVotes(response.data.electoralCollege, (d) => partyCodes[d.winner] );
-          const bestGuess = sumECVotes(response.data.electoralCollege, (d) => {
+          const totals = sumECVotes(response.data.electoralCollege, d => partyCodes[d.winner]);
+          const bestGuess = sumECVotes(response.data.electoralCollege, d => {
             if (d.winner) return partyCodes[d.winner];
             return partyCodes[d.liveestimate];
           });
-          const reporting = response.data.electoralCollege.filter( d => (d.winner !== null) ).length;
+          const reporting = response.data.electoralCollege.filter(d => (d.winner !== null)).length;
           const mediaorgs = response.data.media;
 
           const house = response.data.house[0];
@@ -42,7 +51,7 @@ function fetchData() {
 
           processed.mediaOrgs = mediaorgs;
           processed.pollClosingTimes = response.data.events;
-          processed.electoralCollege = response.data.electoralCollege.map((d)=>{
+          processed.electoralCollege = response.data.electoralCollege.map(d => {
             const o = {};
             Object.assign(o, d);
             o.winner = partyCodes[o.winner];
@@ -86,13 +95,4 @@ function fetchData() {
 
           return processed;
         });
-}
-
-function sumECVotes(array, accessor) {
-  return array.reduce((totals, current) =>  {
-    const winner = accessor(current);
-    if(winner == null) return totals;
-    totals[winner] += current.ecvotes;
-    return totals;
-  }, { r: 0, d: 0, g: 0, l: 0 });
 }
