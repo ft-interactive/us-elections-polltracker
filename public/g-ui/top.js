@@ -33,8 +33,8 @@ var dispatchErrorEvent = ((typeof CustomEvent !== 'function') ? function(){} : f
 
 function onScriptLoadError(depsNotFound) {
   depsNotFound = depsNotFound || [];
-  dispatchErrorEvent(new Error('JS load error: ' + depsNotFound.join(', ')));
   logError('JS load error', depsNotFound);
+  dispatchErrorEvent(new Error('JS load error: ' + depsNotFound.join(', ')));
 }
 
 function exec(script, callback) {
@@ -50,8 +50,8 @@ function exec(script, callback) {
         callback();
       }
     } catch (e) {
-      dispatchErrorEvent(e);
       logError(e);
+      dispatchErrorEvent(e);
     }
   }
 }
@@ -95,15 +95,17 @@ function processQueueArray(q, eventName) {
     }
   }
 
-  if (bundles.length) {
-    var readyFired = false;
-    var done = function(errs) {
-      if (readyFired) return;
-      readyFired = true;
-      loadjs.done(eventName);
-    };
+  var readyFired = false;
+  var done = function(errs) {
+    if (readyFired) return;
+    readyFired = true;
+    loadjs.done(eventName);
+  };
 
+  if (bundles.length) {
     loadjs.ready(bundles, {success: done, error: done});
+  } else {
+    done()
   }
 }
 
