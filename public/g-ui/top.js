@@ -20,9 +20,9 @@ exports.init = init;
 var logger = window.console;
 var errorEvent = function(){};
 
-if ((window.flags && window.flags.prod) || !window.console) {
-  logger = {log: function(){}, error: function(){}};
-}
+// if ((window.flags && window.flags.prod) || !window.console) {
+//   logger = {log: function(){}, error: function(){}};
+// }
 
 if (window.flags && window.flags.errorReporting) {
   errorEvent = function(error, info) {
