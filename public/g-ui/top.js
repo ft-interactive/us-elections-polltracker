@@ -17,36 +17,29 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 exports.init = init;
 /* eslint-disable */
 
-var logger = window.console;
-var errorEvent = function(){};
+var log = window.console ? console.log : function(){};
+var logError = window.console ? console.error : function(){};
+var dispatchErrorEvent = ((typeof CustomEvent !== 'function') ? function(){} : function(error, info) {
+  var detail = { error: error };
+  if (info) {
+    detail.info = info;
+  }
+  var event = new CustomEvent('oErrors.log', {
+    bubbles: true,
+    detail: detail
+  });
+  window.dispatchEvent(event);
+});
 
-// if ((window.flags && window.flags.prod) || !window.console) {
-//   logger = {log: function(){}, error: function(){}};
-// }
-
-if (window.flags && window.flags.errorReporting) {
-  errorEvent = function(error, info) {
-    var detail = { error: error };
-    if (info) {
-      detail.info = info;
-    }
-    var event = new CustomEvent('oErrors.log', {
-      bubbles: true,
-      detail: detail
-    });
-    window.dispatchEvent(event);
-  };
-}
-
-function loadError(depsNotFound) {
+function onScriptLoadError(depsNotFound) {
   depsNotFound = depsNotFound || [];
-  errorEvent(new Error('JS load error: ' + depsNotFound.join(', ')));
-  logger.error('JS load error', depsNotFound);
+  dispatchErrorEvent(new Error('JS load error: ' + depsNotFound.join(', ')));
+  logError('JS load error', depsNotFound);
 }
 
 function exec(script, callback) {
   if (typeof script === 'string' || Array.isArray(script)) {
-    loadjs(script, {error: loadError, success: (typeof callback === 'function' ? callback : undefined)});
+    loadjs(script, {error: onScriptLoadError, success: (typeof callback === 'function' ? callback : undefined)});
     return;
   }
 
@@ -57,8 +50,8 @@ function exec(script, callback) {
         callback();
       }
     } catch (e) {
-      loadError(e);
-      logger.error(e);
+      dispatchErrorEvent(e);
+      logError(e);
     }
   }
 }
@@ -95,7 +88,7 @@ function processQueueArray(q, eventName) {
       if (q[i][0]) {
         var key = '__' + eventName + bundles.length;
         bundles.push(key);
-        loadjs(q[i][0], key, {error: loadError, success: callback});
+        loadjs(q[i][0], key, {error: onScriptLoadError, success: callback});
       } else if (callback) {
         exec(callback, q[i][2]);
       }
@@ -115,19 +108,19 @@ function processQueueArray(q, eventName) {
 }
 
 loadjs.ready('loader.polyfills', {success: function(){
-  logger.log('loader.polyfills', 'done');
+  log('loader.polyfills', 'done');
   processQueueArray(queued_scripts, 'loader.high');
   queued_scripts = null;
 }});
 
 loadjs.ready('loader.high', {success: function(){
-  logger.log('loader.high', 'done');
+  log('loader.high', 'done');
   processQueueArray(low_priority_queue, 'loader.low');
   low_priority_queue = null;
 }});
 
 loadjs.ready('loader.low', {success: function(){
-  logger.log('loader.low', 'done');
+  log('loader.low', 'done');
 }});
 // Polyfill service callback
 window.igPolyfillsLoaded = function() {
