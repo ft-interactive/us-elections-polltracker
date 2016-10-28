@@ -15,8 +15,10 @@ export default function getResult() {
 const partyCodes = {
   'R': 'r',
   'r': 'r',
+  'LR':'r',
   'D': 'd',
   'd': 'd',
+  'LD': 'd',
   'I': 'i',
   'i': 'i',
   'G': 'g',
