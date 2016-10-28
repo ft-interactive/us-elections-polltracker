@@ -45,7 +45,7 @@ function loadError(depsNotFound) {
 }
 
 function exec(script, callback) {
-  if (typeof script === 'string') {
+  if (typeof script === 'string' || Array.isArray(script)) {
     loadjs(script, {error: loadError, success: (typeof callback === 'function' ? callback : undefined)});
     return;
   }
@@ -60,7 +60,6 @@ function exec(script, callback) {
       loadError(e);
       logger.error(e);
     }
-    return
   }
 }
 
@@ -68,9 +67,12 @@ var queued_scripts = [];
 var low_priority_queue = [];
 
 function queue(src, cb, low_priority) {
-  if (!queued_scripts) {
+
+  if (!queued_scripts && !low_priority_queue) {
     exec(src, cb);
     return;
+  } else if (!queued_scripts) {
+    low_priority = true;
   }
 
   var args = typeof src !== 'function' ? [src, cb] : [null, src, cb];
@@ -99,23 +101,34 @@ function processQueueArray(q, eventName) {
       }
     }
   }
+
   if (bundles.length) {
-    loadjs.ready(bundles, {success: function() {
+    var readyFired = false;
+    var done = function(errs) {
+      if (readyFired) return;
+      readyFired = true;
       loadjs.done(eventName);
-    }});
+    };
+
+    loadjs.ready(bundles, {success: done, error: done});
   }
 }
 
 loadjs.ready('loader.polyfills', {success: function(){
+  logger.log('loader.polyfills', 'done');
   processQueueArray(queued_scripts, 'loader.high');
   queued_scripts = null;
 }});
 
 loadjs.ready('loader.high', {success: function(){
+  logger.log('loader.high', 'done');
   processQueueArray(low_priority_queue, 'loader.low');
   low_priority_queue = null;
 }});
 
+loadjs.ready('loader.low', {success: function(){
+  logger.log('loader.low', 'done');
+}});
 // Polyfill service callback
 window.igPolyfillsLoaded = function() {
   setTimeout(function() {
