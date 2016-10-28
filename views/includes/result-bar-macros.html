@@ -54,67 +54,36 @@
 </div>
 {% endmacro %}
 
-{% macro house(dem_pct, dem_initial_pct, dem, rep_pct, rep_initial_pct, rep, footnote) %}
-<div class="mini-dashboard__chart">
-<div class="mini-dashboard__bars">
-  <div class="mini-dashboard__bar-container">
-    <div style="width: {{dem_pct}}%;" id="house-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
-    <div style="width: {{rep_pct}}%;" id="house-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
-    <div class="mini-dashboard__bar-labels">
-      <div class="mini-dashboard__bar-label mini-dashboard__bar-label-dem">
-        Democrat <strong class="data-label" id="house-datalabel-dem">{{dem}}</strong>
-      </div>
-      <div class="mini-dashboard__bar-label mini-dashboard__bar-label-rep">
-        Republican <strong class="data-label" id="house-datalabel-rep" >{{rep}}</strong>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="mini-dashboard__initial">
-  <div class="mini-dashboard__bar-container">
-    <div style="width: {{dem_initial_pct}}%;" id="house-initial-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
-    <div style="width: {{rep_initial_pct}}%;" id="house-initial-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
-  </div>
-</div>
-<span class="mini-dashboard__finish-line">
-  218 for majority
-  <div class="mini-dashboard__triangle"></div>
-  <hr width="1" size="48" noshade />
-</span>
-<span class="mini-dashboard__footnote">
-  {{footnote}}
-</span>
-</div>
-{% endmacro %}
-
-{% macro senate(dem, dem_initial, dem_contested, rep, rep_initial, rep_contested, ind, ind_initial, footnote) %}
+{% macro resultBar(data, majority, footnote, selectorKey) %}
 <div class="mini-dashboard__chart">
   <div class="mini-dashboard__bars">
     <div class="mini-dashboard__bar-container">
-      <div style="width: {{dem}}%;" id="senate-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
-      {% if ind %}
-      <div style="width: {{ind}}%;" id="senate-bar-ind" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--ind"></div>
+      <div style="width: {{data.dem_pct}}%;" id="{{selectorKey}}-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+      {% if data.ind %}
+      <div style="width: {{data.ind_pct}}%;" id="{{selectorKey}}-bar-ind" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--ind"></div>
       {% endif %}
-      <div style="width: {{rep}}%;" id="senate-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+      <div style="width: {{data.rep_pct}}%;" id="{{selectorKey}}-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
       <div class="mini-dashboard__bar-labels">
         <div class="mini-dashboard__bar-label mini-dashboard__bar-label-dem">
-          Democrat <strong class="data-label" id="senate-datalabel-dem">{{dem}}</strong>
+          Democrat <strong class="data-label" id="{{selectorKey}}-datalabel-dem">{{data.dem}}</strong>
         </div>
         <div class="mini-dashboard__bar-label mini-dashboard__bar-label-rep">
-          Republican <strong class="data-label" id="senate-datalabel-rep">{{rep}}</strong>
+          Republican <strong class="data-label" id="{{selectorKey}}-datalabel-rep">{{data.rep}}</strong>
         </div>
       </div>
     </div>
   </div>
+  {% if data.dem_initial_pct %}
   <div class="mini-dashboard__initial">
     <div class="mini-dashboard__bar-container">
-      <div style="width: {{dem_initial}}%;" id="house-initial-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
-      <div style="width: {{ind_initial}}%;" id="house-initial-bar-ind" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--ind"></div>
-      <div style="width: {{rep_initial}}%;" id="house-initial-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
+      <div style="width: {{data.dem_initial_pct}}%;" id="{{selectorKey}}-initial-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
+      {% if data.ind_initial_pct %}<div style="width: {{data.ind_initial_pct}}%;" id="{{selectorKey}}-initial-bar-ind" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--ind"></div>{% endif %}
+      <div style="width: {{data.rep_initial_pct}}%;" id="{{selectorKey}}-initial-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
     </div>
   </div>
+  {% endif %}
   <span class="mini-dashboard__finish-line">
-    50 for majority
+    {{ majority }} for majority
     <div class="mini-dashboard__triangle"></div>
     <hr width="1" size="48" noshade />
   </span>

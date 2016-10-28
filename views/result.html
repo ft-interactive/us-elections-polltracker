@@ -61,7 +61,7 @@ var pageDataTimestamp = {{ overview.timestamp }};
                     <div class="toss-up-label">Key states</div>
                   </div>
                     {% include "includes/results-dot-map.svg" %}
-                    <span class="map__footnote">Tom footnote to go here showing number of states</span>
+                    <span class="map__footnote">{{ mapnote | safe }}</span>
                 </div>
               </div>
           </div>
@@ -81,27 +81,21 @@ var pageDataTimestamp = {{ overview.timestamp }};
       <div data-o-grid-colspan="12 L6">
           <div class="house-bars">
             {% call PageElements.Figure(title="House", id="House") %}
-                  {{ bars.house(
-                    overview.house.dem_pct,
-                    overview.house.dem_initial_pct,
-                    overview.house.dem,
-                    overview.house.rep_pct,
-                    overview.house.rep_initial_pct,
-                    overview.house.rep,
-                    "footnote") }}
+                  {{ bars.resultBar(
+                    data=overview.house,
+                    majority=218,
+                    footnote="footnote",
+                    selectorKey="house") }}
             {% endcall %}
           </div>
           <div class="senate-bars">
             {% call PageElements.Figure(title="Senate", id="Senate") %}
-              {{ bars.senate(
-                overview.senate.dem_pct,
-                overview.senate.dem_initial_pct,
-                overview.senate.dem,
-                overview.senate.rep_pct,
-                overview.senate.rep_initial_pct,
-                overview.senate.rep,
-                "footnote")
-              }}
+                  {{ bars.resultBar(
+                    data=overview.senate,
+                    majority=50,
+                    footnote="footnote",
+                    selectorKey="senate")
+                  }}
             {% endcall %}
           </div>
       </div>

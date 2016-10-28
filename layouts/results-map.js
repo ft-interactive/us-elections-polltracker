@@ -27,6 +27,6 @@ function makeSelectorStatements(arr){
     Object.keys(groups).forEach(function(key){
         groups[key] = groups[key].join(', ');
     })
-    console.log(groups);
+
     return groups;
 }
