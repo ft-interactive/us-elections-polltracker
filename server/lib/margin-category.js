@@ -6,12 +6,12 @@ export const keyOrder = [
   'leaningDem',
   'swing',
   'leaningRep',
-  'rep'
+  'rep',
 ];
 
 export const scale = scaleThreshold()
                             .range(keyOrder.concat().reverse())
-                            .domain([-10.01, -5.01, 5.01, 10.01]);
+                            .domain([-10.01, -4.99, 4.99, 10.01]);
 
 export function category(margin) {
   return Number.isFinite(margin) ? scale(margin) : 'nodata';
