@@ -16,8 +16,8 @@ import stateCount from './lib/state-counts';
 import resultData from './lib/getResultData';
 
 const cache = lru({
-  max: 500,
-  maxAge: 5 * 60 * 1000, // 5 mins
+  max: 20000,
+  maxAge: 10 * 60 * 1000, // 10 mins
 });
 
 const template = nunjucks.env;
@@ -69,7 +69,7 @@ app.use(slashes(false));
 const setSVGHeaders = res => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Content-Type', 'image/svg+xml');
-  res.setHeader('Cache-Control', `public, max-age=${maxAge}, s-maxage=${sMaxAge}`);
+  res.setHeader('Cache-Control', `public, max-age=600, s-maxage=60`);
   return res;
 };
 
