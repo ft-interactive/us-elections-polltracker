@@ -51,8 +51,18 @@ if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '
   });
 }
 
-app.use(express.static('dist'));
-app.use(express.static('public'));
+const staticOptions = {
+  cacheControl: true,
+  etag: false,
+  lastModified: true,
+  maxAge: '1m',
+  setHeaders: function(res, path, stat) {
+    res.setHeader('Expires', new Date(Date.now() + 60000).toUTCString());
+  }
+};
+
+app.use(express.static('dist', staticOptions));
+app.use(express.static('public', staticOptions));
 app.use(slashes(false));
 
 // utility functions
