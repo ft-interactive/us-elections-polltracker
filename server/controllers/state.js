@@ -3,8 +3,8 @@ import { codeToSlug, isState } from '../lib/states';
 import { render } from '../nunjucks';
 import cache from '../lib/cache';
 
-const maxAge = 360; // 6 mins
-const sMaxAge = 60; // 1 min
+const maxAge = 600; // 10 mins
+const sMaxAge = 180; // 3 min
 const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
 const foreverCC = 'max-age=365000000, immutable';
 
@@ -48,7 +48,7 @@ export default async (req, res) => {
   const html = await cache(
     `statePage-${state}`,
     async () => render('state.html', await createStatePage(state)),
-    maxAge * 1000 // 6 mins
+    maxAge * 1000 // 10 mins
   );
 
   res.send(html);
