@@ -1,0 +1,36 @@
+<div class="state-results">
+  {% macro rvpBucket(bucketId, bucketTitle) %}
+  <div class="state-results__bucket state-results__bucket--{{bucketId}}">
+    <div class="state-results__bucket__header">{% if bucketTitle %}<h5>{{bucketTitle}}</h5>{% endif %}</div>
+
+    <ul>
+      {% for state in stateResults.buckets[bucketId] %}<li class="state-results__state{% if state.winner %} state-results__state--winner-{{state.winner}}{% endif %}"><span><span style="background-color:{{state.bgColor}};color:{{state.textColor}}"><span>{{state.code}}{% if state.districtNumber %}<small>{{state.districtNumber}}</small>{% endif %}</span></span></span></li>{% endfor %}
+    </ul>
+  </div>
+  {% endmacro %}
+
+  <div class="state-results__section state-results__section--middle">
+    <h4><span>Key&nbsp;states</span></h4>
+
+    {{ rvpBucket('T') }}
+  </div>
+
+  <div class="state-results__section state-results__section--left">
+    <h4><span>Expected&nbsp;Clinton</span></h4>
+
+    <div class="state-results__bucket-pair">
+      {{ rvpBucket('LD', 'Leaning') }}
+      {{ rvpBucket('D', 'Solid') }}
+    </div>
+  </div>
+
+
+  <div class="state-results__section state-results__section--right">
+    <h4><span>Expected&nbsp;Trump</span></h4>
+
+    <div class="state-results__bucket-pair">
+      {{ rvpBucket('LR', 'Leaning') }}
+      {{ rvpBucket('R', 'Solid') }}
+    </div>
+  </div>
+</div>
