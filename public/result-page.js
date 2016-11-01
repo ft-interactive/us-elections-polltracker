@@ -100,13 +100,13 @@ function rebindBars(data) {
 
 function rebindMap(data) {
     var lookupByCollegeID = makeLookup(data, 'code');
-    d3.selectAll('path.map-state')
+    d3.selectAll('.standard-map path')
         .each(function(){
             var collegeID = d3.select(this).attr('id');
             d3.select(this).datum( lookupByCollegeID[collegeID.toLowerCase()] );
         });
 
-    d3.selectAll('circle.college-vote')
+    d3.selectAll('.ec-map circle')
         .each(function(){
             var collegeID = d3.select(this).attr('id').split('_')[0];
             d3.select(this).datum( lookupByCollegeID[collegeID.toLowerCase()] );
