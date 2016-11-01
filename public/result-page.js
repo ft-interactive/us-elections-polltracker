@@ -165,9 +165,8 @@ function redraw(){
         .text(function(d){ return d; })
 
     //text 
-    d3.select('h1.o-typography-heading1').text(function(d){return d;});
-    d3.select('p.o-typography-lead').text(function(d){return d;})
-
+    d3.select('h1.o-typography-heading1').text(function(d){ return d; });
+    d3.select('p.o-typography-lead').text(function(d){ return d; })
 }
 
 function makeLookup(arr,key){
