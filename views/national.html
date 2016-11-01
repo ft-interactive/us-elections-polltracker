@@ -13,14 +13,20 @@
 {% block content %}
 
 {% markdown %}
-Democratic candidate Hillary Clinton and Republican candidate Donald Trump need 270 electoral college votes to win the presidency. With only {{ daysToElection }} day{% if daysToElection != 1 %}s{% endif %} left until election day,&nbsp;
+
+{% if daysToElection < 0 %}This page shows how the polls stood on the day of the [2016 US presidential election](https://www.ft.com/us-election-2016), before the [full results](https://ig.ft.com/us-elections/results) were known.{%- else -%}<!-- election period -->{% if daysToElection = 0 %}It is election day in the United States. {%- endif -%}Democratic candidate Hillary Clinton and Republican candidate Donald Trump need 270 electoral college votes to win the presidency. 
+
+{% if daysToElection > 0 %}With only {{ daysToElection }} day{% if daysToElection != 1 %}s{% endif %} left until election day,&nbsp;{%- endif -%}
 {%- if nationalBarCounts.dem + nationalBarCounts.leaningDem > 270 -%}
 Mrs Clinton is leading the race
 {%- elif nationalBarCounts.rep + nationalBarCounts.leaningRep > 270 -%}
 Mr Trump is leading the race
 {%- else -%}
 the race remains close
-{%- endif -%}. Both candidates will be paying attention to toss-up states such as <a href="{{ tossups[0] | statePollPageURL }}">{{ tossups[0].fullname }}</a>, <a href="{{ tossups[1] | statePollPageURL }}">{{ tossups[1].fullname }}</a> and <a href="{{ tossups[2] | statePollPageURL }}">{{ tossups[2].fullname }}</a>.
+{%- endif -%}. {% if daysToElection = 0 %}The first results are expected at around 7pm eastern time; all eyes will be on results from {%- else -%}Both candidates will be paying attention to {%- endif -%}toss-up states such as <a href="{{ tossups[0] | statePollPageURL }}">{{ tossups[0].fullname }}</a>, <a href="{{ tossups[1] | statePollPageURL }}">{{ tossups[1].fullname }}</a> and <a href="{{ tossups[2] | statePollPageURL }}">{{ tossups[2].fullname }}</a>.
+
+<!-- election period -->{%- endif -%}
+
 {% endmarkdown %}
 
 {% call PageElements.Figure(title="Latest prediction", subtitle="Electoral college votes") %}
