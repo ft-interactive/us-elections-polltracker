@@ -2,8 +2,8 @@ import { makePollTimeSeries } from '../lib/polls';
 
 import cache from '../lib/cache';
 
-const maxAge = 300;
-const sMaxAge = 60;
+const maxAge = 600; // 10 mins
+const sMaxAge = 180; // 3 min
 const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
 
 function qsCacheKey(queryRequest) {
@@ -24,7 +24,8 @@ export default async (req, res) => {
 
   const html = await cache(
     `polls-svg-${qsCacheKey(req.query)}`,
-    async () => await makePollTimeSeries(req.query)
+    async () => await makePollTimeSeries(req.query),
+    maxAge * 1000 // 10 mins
   );
 
   res.send(html);
