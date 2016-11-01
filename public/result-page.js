@@ -21,12 +21,12 @@ var color = {
     darkDem: '#50708f',
 };
 
-queue('d3.v4.min.js', function() {
+queue('https://ig.ft.com/static/g-ui/libs/d3.v4.min.js', function() {
     var pollingInterval = 3000;
     window.setTimeout(function(){ //wait for 3 seconds
         window.setInterval(function(){  //load data every three seconds
             getData();
-        }, pollingInterval); 
+        }, pollingInterval);
     }, pollingInterval);
 });
 
@@ -46,7 +46,7 @@ function rebindTable(data){
     var lookupByCollegeID = makeLookup(data, 'code');
     d3.selectAll('.ecresultslist tr')
         .each(function(){
-            var selection = d3.select(this); 
+            var selection = d3.select(this);
             if( selection.attr('id') ){
                 var collegeID = d3.select(this).attr('id').split('-')[0];
                 selection.select('.ecresultslist__cell--2016').datum( lookupByCollegeID[collegeID.toLowerCase()] );
@@ -101,13 +101,13 @@ function rebindBars(data) {
 function rebindMap(data) {
     var lookupByCollegeID = makeLookup(data, 'code');
     d3.selectAll('path.map-state')
-        .each(function(){      
+        .each(function(){
             var collegeID = d3.select(this).attr('id');
             d3.select(this).datum( lookupByCollegeID[collegeID.toLowerCase()] );
         });
 
     d3.selectAll('circle.college-vote')
-        .each(function(){      
+        .each(function(){
             var collegeID = d3.select(this).attr('id').split('_')[0];
             d3.select(this).datum( lookupByCollegeID[collegeID.toLowerCase()] );
         });
@@ -144,12 +144,12 @@ function redraw(){
                 return 'Clinton';
             }
         });
-    
+
     //bars
 
     d3.selectAll('.data-bar')
-        .style('width', function(d){ 
-            return d+'%'; 
+        .style('width', function(d){
+            return d+'%';
         });
 
     d3.selectAll('.data-label')
