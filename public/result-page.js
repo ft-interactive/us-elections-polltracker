@@ -125,15 +125,23 @@ function rebindMap(data) {
 
 function redraw(){
     //maps
-    d3.selectAll('path.map-state').transition()
+    d3.selectAll('.standard-map path')
         .style('fill',function(d){
-            if ( d.winner ) return color[d.winner];
+            if ( d && d.winner ) return color[d.winner];
+            return 'none';
+        })
+        .style('stroke',function(d){
+            if ( d && d.winner ) return 'none';
             return color.nomapdata;
         });
 
-    d3.selectAll('circle.college-vote').transition()
+    d3.selectAll('.ec-map circle')
         .style('fill',function(d){
-            if ( d.winner ) return color[d.winner];
+            if ( d && d.winner ) return color[d.winner];
+            return 'none';
+        })
+        .style('stroke',function(d){
+            if ( d && d.winner ) return 'none';
             return color.nomapdata;
         });
 
