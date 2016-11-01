@@ -10,11 +10,11 @@ const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
 // url we're using. If we change that by altering its feature of flags
 // then we also need to update this.
 const linkHeader = [
-                    '<g-ui/main.css>; as="style"; rel="preload"; nopush',
                     '<g-ui/critical.css>; as="style"; rel="preload"; nopush',
+                    '<g-ui/main.css>; as="style"; rel="preload"; nopush',
                     '<main.css>; as="style"; rel="preload"; nopush',
-                  //  '<g-ui/top.js>; as="script"; rel="preload"; nopush',
-                  //  '<https://cdn.polyfill.io/v2/polyfill.min.js?callback=igPolyfillsLoaded&features=default-3.6,matchMedia,fetch,IntersectionObserver,HTMLPictureElement,Map|always|gated,Array.from|always|gated,Array.prototype.includes|always|gated&flags=gated&unknown=polyfill&excludes=Symbol,Symbol.iterator,Symbol.species>; as="script"; rel="preload"; nopush'
+                    '<g-ui/top.js>; as="script"; rel="preload"; nopush',
+                    //'<https://cdn.polyfill.io/v2/polyfill.min.js?callback=igPolyfillsLoaded&features=default-3.6,matchMedia,fetch,IntersectionObserver,HTMLPictureElement,Map|always|gated,Array.from|always|gated,Array.prototype.includes|always|gated&flags=gated&unknown=polyfill&excludes=Symbol,Symbol.iterator,Symbol.species>; as="script"; rel="preload"; nopush'
                   ].join(', ');
 
 export default async (req, res) => {
