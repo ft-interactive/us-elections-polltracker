@@ -39,7 +39,7 @@ function getData() {
             rebindTable(data.electoralCollege);
             rebindCopy(data.copy);
             redraw();
-        }else{ // console.log('no redraw ') }
+        }
     });
 }
 
