@@ -12,13 +12,12 @@
 		font-family:'Metric-Regular', 'Metric', sans-serif;
 		font-size:16px;
 		fill:#74736c;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
 	}
 
 	.annotation-backing .map-labels{
-		stroke-linejoin:round;
-		stroke:#FFF;
-		stroke-opacity:0.5;
-		stroke-width:3px;
+		fill: none;
 	}
 
 	.standard-map.annotation-backing .map-labels{
