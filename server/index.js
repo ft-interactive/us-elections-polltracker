@@ -1,7 +1,8 @@
 import express from 'express';
 import lru from 'lru-cache';
 import slashes from 'connect-slashes';
-import flags from '../config/flags';
+import chalk from 'chalk';
+import getFlags from '../config/flags';
 import * as nunjucks from './nunjucks';
 import ecForecastComponentController2 from './controllers/ec-forecast-component-2';
 import layoutForecastMap from '../layouts/forecast-map-layout';
@@ -22,13 +23,19 @@ const cache = lru({
 const template = nunjucks.env;
 
 const app = express();
+app.disable('x-powered-by');
+
 const maxAge = 300; // for user agent caching purposes
 const sMaxAge = 60;
 
-app.disable('x-powered-by');
-app.locals.flags = flags();
+const flags = getFlags();
+app.locals.flags = flags;
 
-console.log('Flags', app.locals.flags);
+console.log(chalk.magenta('\n\nFlags:'));
+for (const name of Object.keys(flags).sort()) {
+  console.log(`  ${name} ${chalk.cyan(JSON.stringify(flags[name]))}`);
+}
+console.log('\n');
 
 // run scraper up front if this is a review app
 if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '"1"') {
@@ -202,7 +209,7 @@ app.get('/:code', stateCodeRedirectController);
 const server = app.listen(process.env.PORT || 5000, () => {
   const { port } = server.address();
 
-  console.log(
-    app.locals.flags.prod ? `Running on port ${port}` : `Running at http://localhost:${port}/`
-  );
+  console.log(chalk.magenta(
+    app.locals.flags.prod ? `Running on port ${port}` : `Running at http://localhost:${port}/\n`
+  ));
 });
