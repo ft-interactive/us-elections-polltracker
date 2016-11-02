@@ -38,7 +38,7 @@ class ResultPage extends Page {
     this.overview = result.overview;
     this.mediaOrgs = result.mediaOrgs;
     // this.color = color;
-    this.mapnote = '<b>' + result.overview.president.states_reporting + '</b> states reporting. <b>' + (result.overview.president.clinton + result.overview.president.trump) + '</b> of <b>538</b> votes accounted for'
+    this.mapnote = '<b>' + (result.overview.president.clinton + result.overview.president.trump) + '</b> of <b>538</b> votes accounted for'
     this.dotMapSelectors = dotMapLayout( result.electoralCollege, { width: 800, height: 500 } );
     this.mapSelectors = mapLayout( result.electoralCollege, { width: 800, height: 500 } );
     this.keyStates = statesList.reduce((previous, current) => {

@@ -305,3 +305,7 @@
 .mini-dashboard__chart--final .mini-dashboard__footnote {
   line-height: 2.5em;
 }
+
+.data-bar{
+  transition-property: width;
+}

@@ -74,12 +74,18 @@ var pageDataTimestamp = {{ overview.timestamp }};
       <div data-o-grid-colspan="12 L6">
           {% call PageElements.Figure(title="What the US media is saying") %}
             {% for org in mediaOrgs %}
-            <div>{{ org.name }} Clinton:{{org.totals.d}} Trump:{{org.totals.r}} ({{ org.totals.r + org.totals.d }}/ 538)</div>
+            <div><a href="{{ org.link }}">{{ org.name }}</a></div>
+            <div>{{ bars.resultBar(
+                    data=org,
+                    majority=270,
+                    footnote="footnote",
+                    selectorKey="mediaorg") }}</div>
             {% endfor %}
           {% endcall %}
       </div>
       <div data-o-grid-colspan="12 L6">
           <div class="house-bars">
+
             {% call PageElements.Figure(title="House", id="House") %}
                   {{ bars.resultBar(
                     data=overview.house,
