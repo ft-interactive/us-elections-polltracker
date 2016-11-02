@@ -90,13 +90,6 @@ export function orderStatesByImportance(states) {
 
   // sort items with poll averages by value
   statesWithPollDate.sort((a, b) => {
-    // always treat tiny delegations (eg maine districts) as unimportant
-    if (a.ecVotes < 3) {
-      if (b.ecVotes < 3) return 0;
-      return 1;
-    }
-    if (b.ecVotes < 3) return -1;
-
     const aMargin = Math.abs(0 - a.margin);
     const bMargin = Math.abs(0 - b.margin);
     if (aMargin !== bMargin) {
@@ -115,4 +108,7 @@ export function orderStatesByImportance(states) {
 
   return statesWithPollDate.concat(statesWithout);
 }
-0
+
+export function filterByEcVote(states, breakpoint) {
+  return states.filter(state => state.ecVotes > breakpoint);
+}
