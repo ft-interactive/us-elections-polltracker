@@ -27,7 +27,6 @@ queue('https://ig.ft.com/static/g-ui/libs/d3.v4.min.js', resultsMain);
 function resultsMain(){
     var timer, defaultPollingInterval = 3000;
     function gotData(data) {
-        console.log('tick');
         if(data.overview.timestamp > pageDataTimestamp){
             pageDataTimestamp = data.overview.timestamp;
             rebindMap(data.electoralCollege);
