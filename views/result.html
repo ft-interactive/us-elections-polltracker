@@ -121,7 +121,7 @@ var pageDataTimestamp = {{ overview.timestamp }};
       {% endif %}
 
       <div data-o-grid-colspan="center 12 M9 L6">
-          {% call PageElements.Figure(title="Where were the biggest upsets?", subtitle="Presidential winner by state") %}
+          {% call PageElements.Figure(title="Where were the biggest upsets?", subtitle="Presidential winner by state", id="state-results") %}
             {% include "includes/state-results.html" %}
           {% endcall %}
       </div>
