@@ -21,27 +21,31 @@ var color = {
     darkDem: '#50708f',
 };
 
-queue('https://ig.ft.com/static/g-ui/libs/d3.v4.min.js', function() {
-    var pollingInterval = 3000;
-    window.setTimeout(function(){ //wait for 3 seconds
-        window.setInterval(function(){  //load data every three seconds
-            getData();
-        }, pollingInterval);
-    }, pollingInterval);
-});
+queue('https://ig.ft.com/static/g-ui/libs/d3.v4.min.js', resultsMain);
 
-function getData() {
-    d3.json('full-result.json',function(data) {
-        if(data.overview.timestamp > pageDataTimestamp){
+
+function resultsMain(){
+    var timer, defaultPollingInterval = 3000;
+    function gotData(data) {
+        
+       if(data.overview.timestamp > pageDataTimestamp){
             pageDataTimestamp = data.overview.timestamp;
             rebindMap(data.electoralCollege);
             rebindBars(data.overview);
+            rebindMediaOrgs(data.mediaOrgs);
             rebindTable(data.electoralCollege);
             rebindCopy(data.copy);
             redraw();
         }
-    });
+        var nextInterval = data.overview.pollingInterval ? data.overview.pollingInterval : defaultPollingInterval;
+        timer = window.setTimeout(function(){  //load data every three seconds
+            d3.json('full-result.json', gotData);
+        }, nextInterval);
+    }
+
+    d3.json('full-result.json', gotData);
 }
+
 
 function rebindCopy(data){
     d3.select('h1.o-typography-heading1').datum(data.headline);
@@ -59,6 +63,7 @@ function rebindTable(data){
             }
         });
 }
+
 
 function rebindBars(data) {
     //president
@@ -104,6 +109,16 @@ function rebindBars(data) {
         .datum(data.senate.rep);
 }
 
+function rebindMediaOrgs(data){
+    data.forEach(function(d, i){
+        var templateindex = i+1;
+        d3.select('#mediaorg-' + templateindex + '-bar-dem').datum(d.dem_pct);
+        d3.select('#mediaorg-' + templateindex + '-bar-rep').datum(d.rep_pct);
+        d3.select('#mediaorg-' + templateindex + '-datalabel-dem').datum(d.dem);
+        d3.select('#mediaorg-' + templateindex + '-datalabel-rep').datum(d.rep);
+    })
+}
+
 function rebindMap(data) {
     var lookupByCollegeID = makeLookup(data, 'code');
     d3.selectAll('.standard-map path')
@@ -125,15 +140,23 @@ function rebindMap(data) {
 
 function redraw(){
     //maps
-    d3.selectAll('path.map-state').transition()
+    d3.selectAll('.standard-map path')
         .style('fill',function(d){
-            if ( d.winner ) return color[d.winner];
+            if ( d && d.winner ) return color[d.winner];
+            return 'none';
+        })
+        .style('stroke',function(d){
+            if ( d && d.winner ) return 'none';
             return color.nomapdata;
         });
 
-    d3.selectAll('circle.college-vote').transition()
+    d3.selectAll('.ec-map circle')
         .style('fill',function(d){
-            if ( d.winner ) return color[d.winner];
+            if ( d && d.winner ) return color[d.winner];
+            return 'none';
+        })
+        .style('stroke',function(d){
+            if ( d && d.winner ) return 'none';
             return color.nomapdata;
         });
 

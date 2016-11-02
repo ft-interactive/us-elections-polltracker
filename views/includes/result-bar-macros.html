@@ -46,7 +46,7 @@
       270 electoral college votes
       <div class="mini-dashboard__triangle"></div>
       <hr width="1" size="48" noshade />
-      Best guess
+      FT estimate
     </span>
     {% endif %}
     </div>
@@ -85,7 +85,8 @@
   <span class="mini-dashboard__finish-line">
     {{ majority }} for majority
     <div class="mini-dashboard__triangle"></div>
-    <hr width="1" size="48" noshade />
+    {% if data.dem_initial_pct %}<hr width="1" size="48" noshade />
+    {% else %}<hr width="1" size="34" noshade />{% endif %}
   </span>
   <span class="mini-dashboard__footnote">
     {{footnote}}

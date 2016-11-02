@@ -47,12 +47,33 @@ function fetchData() {
             return partyCodes[d.liveestimate];
           });
           const reporting = response.data.electoralCollege.filter(d => (d.winner !== null)).length;
-          const mediaorgs = response.data.media;
 
           const house = response.data.house[0];
           const senate = response.data.senate[0];
 
-          processed.mediaOrgs = mediaorgs;
+          processed.mediaOrgs = response.data.media.map( function(d){
+            let dem_pct = (d.result.clinton / 538) * 100;
+            let rep_pct = (d.result.trump / 538) * 100;
+
+            if (rep_pct + dem_pct > 100) {
+              const dif = rep_pct+dem_pct - 100;
+              dem_pct -= dif/2;
+              rep_pct -= dif/2;
+            };
+
+            return {
+              name: d.name,
+              link: d.link,
+              dem_pct: dem_pct,
+              dem_initial_pct: 0,
+              rep_pct: rep_pct,
+              rep_initial_pct: 0,
+              dem: d.result.clinton,
+              rep: d.result.trump,
+            };
+          });
+
+
           processed.pollClosingTimes = response.data.events;
           processed.electoralCollege = response.data.electoralCollege.map(d => {
             const o = {};
