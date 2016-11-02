@@ -27,10 +27,12 @@ queue('https://ig.ft.com/static/g-ui/libs/d3.v4.min.js', resultsMain);
 function resultsMain(){
     var timer, defaultPollingInterval = 3000;
     function gotData(data) {
-        if(data.overview.timestamp > pageDataTimestamp){
+        
+       if(data.overview.timestamp > pageDataTimestamp){
             pageDataTimestamp = data.overview.timestamp;
             rebindMap(data.electoralCollege);
             rebindBars(data.overview);
+            rebindMediaOrgs(data.mediaOrgs);
             rebindTable(data.electoralCollege);
             rebindCopy(data.copy);
             redraw();
@@ -61,6 +63,7 @@ function rebindTable(data){
             }
         });
 }
+
 
 function rebindBars(data) {
     //president
@@ -104,6 +107,16 @@ function rebindBars(data) {
         .datum(data.senate.dem);
     d3.select('#senate-datalabel-rep')
         .datum(data.senate.rep);
+}
+
+function rebindMediaOrgs(data){
+    data.forEach(function(d, i){
+        var templateindex = i+1;
+        d3.select('#mediaorg-' + templateindex + '-bar-dem').datum(d.dem_pct);
+        d3.select('#mediaorg-' + templateindex + '-bar-rep').datum(d.rep_pct);
+        d3.select('#mediaorg-' + templateindex + '-datalabel-dem').datum(d.dem);
+        d3.select('#mediaorg-' + templateindex + '-datalabel-rep').datum(d.rep);
+    })
 }
 
 function rebindMap(data) {
