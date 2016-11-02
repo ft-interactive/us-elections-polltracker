@@ -3,8 +3,8 @@
 		"use_env_variable": "DATABASE_URL"
 	},
 	"development": {
-		"username": "us",
-		"password": null,
+		"username": "dev",
+		"password": "test",
 		"native": false,
 		"logging": false,
 		"database": "us2016",
