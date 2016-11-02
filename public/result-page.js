@@ -23,10 +23,9 @@ var color = {
 
 queue('https://ig.ft.com/static/g-ui/libs/d3.v4.min.js', function() {
     var pollingInterval = 3000;
-    window.setTimeout(function(){ //wait for 3 seconds
-        window.setInterval(function(){  //load data every three seconds
-            getData();
-        }, pollingInterval);
+    window.setInterval(function(){  //load data every three seconds
+        console.log('tick');
+        getData();
     }, pollingInterval);
 });
 
