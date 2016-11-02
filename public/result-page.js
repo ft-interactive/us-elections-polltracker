@@ -21,16 +21,13 @@ var color = {
     darkDem: '#50708f',
 };
 
-queue('https://ig.ft.com/static/g-ui/libs/d3.v4.min.js', function() {
-    var pollingInterval = 3000;
-    window.setInterval(function(){  //load data every three seconds
-        console.log('tick');
-        getData();
-    }, pollingInterval);
-});
+queue('https://ig.ft.com/static/g-ui/libs/d3.v4.min.js', resultsMain);
 
-function getData() {
-    d3.json('full-result.json',function(data) {
+
+function resultsMain(){
+    var timer, defaultPollingInterval = 3000;
+    function gotData(data) {
+        console.log('tick');
         if(data.overview.timestamp > pageDataTimestamp){
             pageDataTimestamp = data.overview.timestamp;
             rebindMap(data.electoralCollege);
@@ -39,8 +36,15 @@ function getData() {
             rebindCopy(data.copy);
             redraw();
         }
-    });
+        var nextInterval = data.overview.pollingInterval ? data.overview.pollingInterval : defaultPollingInterval;
+        timer = window.setTimeout(function(){  //load data every three seconds
+            d3.json('full-result.json', gotData);
+        }, nextInterval);
+    }
+
+    d3.json('full-result.json', gotData);
 }
+
 
 function rebindCopy(data){
     d3.select('h1.o-typography-heading1').datum(data.headline);
