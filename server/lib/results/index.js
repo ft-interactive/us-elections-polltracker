@@ -111,7 +111,7 @@ function fetchSpreadsheetData() {
 
             // TODO: allow us to serve this after results service gets turned off
             markets: {
-              default: 'https://ig.ft.com/data/us-election/night2-homepage-default.svg',
+              default: 'https://ig.ft.com/data/us-election/night1-homepage-default.svg',
               S: 'https://ig.ft.com/data/us-election/night2-homepage-small.svg',
               M: 'https://ig.ft.com/data/us-election/night3-homepage-medium.svg',
               L: 'https://ig.ft.com/data/us-election/night2-homepage-large.svg',
