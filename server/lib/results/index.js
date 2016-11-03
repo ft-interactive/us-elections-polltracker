@@ -104,9 +104,9 @@ function fetchSpreadsheetData() {
             },
             house: {
               dem: house.dem,
-              dem_pct: percent(house.dem_pct),
+              dem_pct: house.dem_pct,
               rep: house.rep,
-              rep_pct: percent(house.rep_pct)
+              rep_pct: house.rep_pct
             },
 
             // TODO: allow us to serve this after results service gets turned off
