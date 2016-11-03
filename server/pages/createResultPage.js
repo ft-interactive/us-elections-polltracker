@@ -1,5 +1,5 @@
 import Page from './page';
-import getResult from '../lib/getResultData';
+import { getResultData } from '../lib/results';
 import dotMapLayout from '../../layouts/results-dot-map';
 import stateResultsLayout from '../../layouts/state-results-layout';
 import mapLayout from '../../layouts/results-map';
@@ -27,7 +27,7 @@ class ResultPage extends Page {
   code = 'us';
 
   async ready() {
-    const result = await getResult();
+    const result = (await getResultData()).resultsPage;
     this.headline = result.copy.headline;
     this.summary = result.copy.subtitle;
     this.stateResults = stateResultsLayout(result.electoralCollege);
