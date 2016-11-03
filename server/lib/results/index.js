@@ -70,7 +70,7 @@ function fetchSpreadsheetData() {
         }
       },
       homepage: {
-        refreshAfter: 3000, // TODO: spreadsheet config. ensure integer gt a min otherwise set default
+        refreshAfter: 1000, // TODO: spreadsheet config. ensure integer gt a min otherwise set default
         updated: timestamp,
         switchTabEvery: 5000,
         miniDashboard: {
