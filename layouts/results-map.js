@@ -22,6 +22,7 @@ function makeSelectorStatements(arr){
         g: [],
         l: [],
         n: [],
+        i: [],
     });
 
     Object.keys(groups).forEach(function(key){

@@ -20,9 +20,12 @@ const partyCodes = {
   'd': 'd',
   'LD': 'd',
   'I': 'i',
+  'Ind': 'i',
   'i': 'i',
-  'G': 'g',
-  'L': 'l',
+  'G': 'i',
+  'Grn': 'i',
+  'L': 'i',
+  'Lib': 'i',
 };
 
 function sumECVotes(array, accessor) {
@@ -31,7 +34,7 @@ function sumECVotes(array, accessor) {
     if (winner == null) return totals;
     totals[winner] += current.ecvotes;
     return totals;
-  }, { r: 0, d: 0, g: 0, l: 0 });
+  }, { r: 0, d: 0, g: 0, l: 0, i:0 });
 }
 
 function fetchData() {
