@@ -49,7 +49,7 @@ function fetchSpreadsheetData() {
 
     const copy = processConfigSheet(response.data.copy);
     const electoralCollege = processElectoralCollegeSheet(response.data.electoralCollege);
-    const house = senateResults(houseData.rep, houseData.dem, houseData.ind);
+    const house = houseResults(houseData.rep, houseData.dem, houseData.ind);
     const senate = senateResults(senateData.rep, senateData.dem, senateData.ind);
     const president = presidentialElectionResult(electoralCollege);
 
