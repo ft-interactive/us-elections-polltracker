@@ -4,8 +4,11 @@ const partyCodes = {
   'D': 'd',
   'LD': 'd',
   'I': 'i',
-  'G': 'g',
-  'L': 'l',
+  'IND': 'i',
+  'G': 'i',
+  'GRN': 'i',
+  'L': 'i',
+  'LIB': 'i',
 };
 
 export function cleanWinnerCode(value) {
@@ -20,9 +23,12 @@ const projectionCodes = {
   'LR':'LR',
   'D': 'D',
   'LD': 'LD',
-  'I': 'I',
-  'G': 'G',
-  'L': 'L',
+  'I': 'T',
+  'IND': 'T',
+  'G': 'T',
+  'GRN': 'T',
+  'L': 'T',
+  'LIB': 'T',
   'T': 'T',
 };
 
