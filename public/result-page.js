@@ -11,6 +11,7 @@ var color = {
     g: '#55c72c',
     r: '#e03d46',
     d: '#579dd5',
+    i: '#6e4794',
     leaningRep: '#f4a098',
     leaningDem: '#a2c1e1',
     swing: '#fcc83c',

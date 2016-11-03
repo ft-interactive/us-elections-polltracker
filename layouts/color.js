@@ -11,6 +11,7 @@ export default {
   grn: '#55c72c',
   rep: '#e03d46',
   dem: '#579dd5',
+  ind: '#6e4794',
   leaningRep: '#f4a098',
   leaningDem: '#a2c1e1',
   swing: '#fcc83c',

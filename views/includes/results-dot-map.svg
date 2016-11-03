@@ -57,6 +57,10 @@
 		fill:none;
 		stroke:{{ color.nodata }};
 	}
+	{{ dotMapSelectors.i }} {
+        fill:{{ color.ind }};
+        stroke:none;
+    }
     {{ mapSelectors.r }} {
         fill:{{ color.rep }};
         stroke:none;
@@ -75,6 +79,10 @@
     }
     {{ mapSelectors.l }} {
         fill:{{ color.lib }};
+        stroke:none;
+    }
+	{{ mapSelectors.i }} {
+        fill:{{ color.ind }};
         stroke:none;
     }
 ]]></style>
