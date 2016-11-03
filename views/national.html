@@ -8,7 +8,7 @@
 {% import 'polling-history.html' as PollingHistory %}
 {% import "g-ui/ads" as Ads -%}
 
-{% set tossups = stateCounts | orderStatesByImportance %}
+{% set tossups = stateCounts | orderStatesByImportance | filterByEcVote(3) %}
 
 {% block content %}
 

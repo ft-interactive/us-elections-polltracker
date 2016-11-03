@@ -108,4 +108,10 @@ export function orderStatesByImportance(states) {
 
   return statesWithPollDate.concat(statesWithout);
 }
-0
+
+export function filterByEcVote(states, breakpoint) {
+  if (states) {
+    return states.filter(state => state.ecVotes > breakpoint);
+  }
+  return [];
+}
