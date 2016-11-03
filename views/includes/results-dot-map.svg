@@ -1,8 +1,7 @@
 <svg viewBox="20 0 820 500" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><style type="text/css"><![CDATA[
 	
 	.map-borders { stroke-linejoin:round; fill: none; stroke: #e9decf; stroke-width: 1px;}
-	.map-coastline { stroke-linejoin:round; stroke: #a7a59b; }
-	.college-vote { fill:none; stroke:#000; }
+	.map-coastline { stroke-linejoin:round; stroke: #cec6b9; stroke-width: 1px;}
 	.map-leadlines{
 		fill:none;
 		stroke:#74736c;
@@ -33,34 +32,34 @@
 		stroke-opacity:1;
 		stroke-width:5px;
 	}
-
 	.key-states-map{
 		fill:#fff;
 	}
+	{{ dotMapSelectors.n }} {
+		fill:#e9decf;
+		stroke:#e9decf;
+	}
 	{{ dotMapSelectors.r }} {
 		fill:{{ color.rep }};
-		stroke:none;
+		stroke:{{ color.rep }};
 	}
 	{{ dotMapSelectors.d }} {
 		fill:{{ color.dem }};
-		stroke:none;
+		stroke:{{ color.dem }};
 	}
 	{{ dotMapSelectors.l }} {
 		fill:{{ color.lib }};
-		stroke:none;
+		stroke:{{ color.lib }};
 	}
 	{{ dotMapSelectors.g }} {
 		fill:{{ color.grn }};
-		stroke:none;
-	}
-	{{ dotMapSelectors.n }} {
-		fill:none;
-		stroke:{{ color.nodata }};
+		stroke:{{ color.grn }};
 	}
 	{{ dotMapSelectors.i }} {
         fill:{{ color.ind }};
-        stroke:none;
+        stroke:{{ color.ind }};
     }
+
     {{ mapSelectors.r }} {
         fill:{{ color.rep }};
         stroke:none;
