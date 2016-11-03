@@ -110,5 +110,8 @@ export function orderStatesByImportance(states) {
 }
 
 export function filterByEcVote(states, breakpoint) {
-  return states.filter(state => state.ecVotes > breakpoint);
+  if (states) {
+    return states.filter(state => state.ecVotes > breakpoint);
+  }
+  return [];
 }
