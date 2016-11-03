@@ -21,6 +21,7 @@ function makeSelectorStatements(arr){
         r: [],
         d: [],
         g: [],
+        i: [],
         l: [],
         n: [],
     });
