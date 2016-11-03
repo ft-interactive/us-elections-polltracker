@@ -78,7 +78,8 @@ function fetchSpreadsheetData() {
           enabledPanels: [  // TODO: spreadsheet config. lowercase and remove unknown values and duplicates
             'president',
             'house',
-            'senate'
+            'senate',
+            'markets',
           ],
           switchTabEvery: 10000,  // TODO: spreadsheet config. ensure integer gt a min otherwise set to default
           panelContents: {
