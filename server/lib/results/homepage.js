@@ -62,7 +62,7 @@ land: '#fff',
 const winnerColors = {
   R: color.Trump,
   D: color.Clinton,
-  IND: color.McMullin,
+  IND: color.ind,
   LIB: color.lib,
   GRN: color.grn,
 }
