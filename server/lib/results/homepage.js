@@ -60,8 +60,8 @@ border: '#dadada',
 land: '#fff',
 */
 const winnerColors = {
-  R: color.Trump,
-  D: color.Clinton,
+  R: '#f12c49',
+  D: '#0094cb',
   IND: color.McMullin,
   I: color.McMullin,
   L: color.McMullin,
