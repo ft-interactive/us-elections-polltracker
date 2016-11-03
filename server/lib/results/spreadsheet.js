@@ -13,12 +13,12 @@ const allSheets = [
   'media'
 ];
 
-const berthUrl = (id, sheets, endpoint) =>
+const berthaUrl = (id, sheets, endpoint) =>
           `http://bertha.ig.ft.com/${endpoint}/publish/gss/${sheetId}/${sheets.join(',')}?exp=0`;
 
-const viewUrl = berthUrl(sheetId, allSheets, 'view');
+const viewUrl = berthaUrl(sheetId, allSheets, 'view');
 
-const republishUrl = berthUrl(sheetId, allSheets, 'republish');
+const republishUrl = berthaUrl(sheetId, allSheets, 'republish');
 
 export function fetchAllSheets() {
   log(viewUrl);
