@@ -1,5 +1,10 @@
 import {percent, sanitiseInteger} from './util';
 
+// total amount of congressman
+export const HOUSE_SEATS = 435;
+
+// total amount of senators
+export const SENATE_SEATS = 100;
 
 function createResult({
               total = 0,
@@ -7,7 +12,10 @@ function createResult({
               demLast = 0, repLast = 0, indLast = 0,
               rep = 0, dem = 0, ind = 0} = {}) {
 
-  // TODO: ensure results dont exceed the possible total ie Sentate results add up to 100
+  if ((rep + dem + ind) > total) {
+    throw new Error(`Sum of the Rep+Dem+Other seats is more expedcted total of ${HOUSE_SEATS}`);
+  }
+
   return {
     total,
     dem,
@@ -24,8 +32,8 @@ function createResult({
 
 export function senateResults(rep = 0, dem = 0, ind = 0) {
   return createResult({
-    // total amount of senators
-    total: 100,
+
+    total: SENATE_SEATS,
 
     // Not all seats are up for reelection. This is what
     // we definately know about the new composition of the Senate
@@ -42,8 +50,8 @@ export function senateResults(rep = 0, dem = 0, ind = 0) {
 
 export function houseResults(rep = 0, dem = 0, ind = 0) {
   return createResult({
-    // total amount of congressman
-    total: 435,
+
+    total: HOUSE_SEATS,
 
     // All the house is up for re-election. Everything starts at zero
     repInitial: 0, demInitial: 0, indInitial: 0,
