@@ -81,7 +81,7 @@ function fetchSpreadsheetData() {
             'senate',
             'markets',
           ],
-          switchTabEvery: 10000,  // TODO: spreadsheet config. ensure integer gt a min otherwise set to default
+          switchTabEvery: 7000,  // TODO: spreadsheet config. ensure integer gt a min otherwise set to default
           panelContents: {
             president: {
               clinton: president.clinton,
