@@ -5,10 +5,9 @@ import { getResultData } from '../lib/results';
 
 const maxAge = 10;
 const sMaxAge = 5;
-const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
 
 export async function page(req, res) {
-  res.setHeader('Cache-Control', cacheControl);
+  res.setHeader('Cache-Control', `public, max-age=30, s-maxage=10`);
   try {
     const html = await cache(
       'result-html',
@@ -23,7 +22,7 @@ export async function page(req, res) {
 
 export async function fullResults(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', `public, max-age=${maxAge}`);
+  res.setHeader('Cache-Control', `public, max-age=10, s-maxage=5`);
   try {
     const data = await getResultData();
     // TODO: etag is update timestamp
@@ -36,7 +35,7 @@ export async function fullResults(req, res) {
 
 export async function homepageResults(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', `public, max-age=${maxAge}`);
+  res.setHeader('Cache-Control', `public, max-age=10, s-maxage=5`);
   try {
     const data = await getResultData();
     // TODO: etag is update timestamp
