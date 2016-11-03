@@ -16,7 +16,7 @@ var color = {
     leaningDem: '#a2c1e1',
     swing: '#fcc83c',
     nodata: '#b0b0b0',
-    nomapdata: '#b0b0b0',
+    nomapdata: '#e9decf',
     darkRep: '#934247',
     darkSwing: '#ac8845',
     darkDem: '#50708f',
@@ -160,7 +160,7 @@ function redraw(){
     d3.selectAll('.ec-map circle')
         .style('fill',function(d){
             if ( d && d.winner ) return color[d.winner];
-            return 'none';
+            return color.nomapdata;
         })
         .style('stroke',function(d){
             if ( d && d.winner ) return 'none';
