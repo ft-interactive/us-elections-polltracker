@@ -4,6 +4,7 @@ import { senateResults, houseResults } from './congress';
 import { presidentialElectionResult, totalECPolities } from './president';
 import processMediaSheet from './media';
 import processConfigSheet from './config';
+import { percent } from './util';
 import {processElectoralCollegeSheet} from './electoral-college';
 import { mapStateFills } from './homepage';
 import cache from '../cache';
@@ -102,9 +103,9 @@ function fetchSpreadsheetData() {
             },
             house: {
               dem: house.dem,
-              dem_pct: house.dem_pct,
+              dem_pct: percent(house.dem_pct),
               rep: house.rep,
-              rep_pct: house.rep_pct
+              rep_pct: percent(house.rep_pct)
             },
 
             // TODO: allow us to serve this after results service gets turned off
