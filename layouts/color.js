@@ -1,5 +1,6 @@
 export default {
   ftpink: '#fff1e0',
+  pinkTint2: '#e9decf',
   border: '#dadada',
   land: '#fff',
   Trump: '#e03d46',

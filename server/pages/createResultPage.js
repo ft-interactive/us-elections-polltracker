@@ -1,8 +1,8 @@
 import Page from './page';
-import getResult from '../lib/getResultData';
+import { getResultData } from '../lib/results';
 import dotMapLayout from '../../layouts/results-dot-map';
+import stateResultsLayout from '../../layouts/state-results-layout';
 import mapLayout from '../../layouts/results-map';
-import color from '../../layouts/color';
 import onwardJourney from '../lib/onwardjourney';
 import statesList from '../../data/states';
 
@@ -26,15 +26,11 @@ class ResultPage extends Page {
   // TODO: what's this for?
   code = 'us';
 
-  constructor() {
-    super();
-  }
-
   async ready() {
-    const result = await getResult();
+    const result = (await getResultData()).resultsPage;
     this.headline = result.copy.headline;
     this.summary = result.copy.subtitle;
-    this.stateResults = result.electoralCollege;
+    this.stateResults = stateResultsLayout(result.electoralCollege);
     this.overview = result.overview;
     this.mediaOrgs = result.mediaOrgs;
     // this.color = color;
@@ -42,9 +38,9 @@ class ResultPage extends Page {
     this.dotMapSelectors = dotMapLayout( result.electoralCollege, { width: 800, height: 500 } );
     this.mapSelectors = mapLayout( result.electoralCollege, { width: 800, height: 500 } );
     this.keyStates = statesList.reduce((previous, current) => {
-      previous[current.code] = current.swing;
+      previous[current.code] = current.swing; // eslint-disable-line no-param-reassign
       return previous;
-    },{});
+    }, {});
 
     this.onwardJourney = await onwardJourney({
       // Home page US Election headpiece
@@ -53,8 +49,8 @@ class ResultPage extends Page {
         // "US Election 2016" stream
         'thing/N2UxNTM3MzItNWNlZC00MDc5LWI3ODUtYWNmZDA2YjE0MWE2-U2VjdGlvbnM=',
         // Home page Highlights section
-        'list/highlights'
-      ]
+        'list/highlights',
+      ],
     });
   }
 }

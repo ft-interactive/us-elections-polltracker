@@ -1,6 +1,7 @@
 {
   "name": "none",
   "dependencies": {
-    "o-grid": "^4.2.3"
+    "o-grid": "^4.2.3",
+    "o-colors": "^3.5.2"
   }
 }

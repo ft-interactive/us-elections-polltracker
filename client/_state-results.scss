@@ -1,0 +1,214 @@
+.state-results {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+
+  &:before,
+  &:after {
+    content: '';
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  &__section {
+    flex: 2;
+    overflow: hidden;
+    position: relative;
+    margin: 0 3px;
+
+    > h4 {
+      text-transform: uppercase;
+      color: oColorsGetPaletteColor('grey-tint4');
+      font: 100 11px/1.4 MetricWeb, sans-serif;
+      margin: 0 0 5px 0;
+      border-bottom: 1px solid oColorsGetPaletteColor('grey-tint2');
+
+      > span {
+        display: inline-block;
+        padding-bottom: 5px;
+      }
+    }
+
+    &--left {
+      order: 1;
+    }
+
+    &--middle {
+      flex: 1;
+      background: white;
+      order: 2;
+      border: 4px solid white;
+
+      > h4 {
+        text-align: center;
+        border-bottom: 0;
+        color: oColorsGetPaletteColor('grey-tint5');
+        font-weight: 600;
+
+        > span {
+          border-bottom: 1px solid #333;
+        }
+      }
+    }
+
+    &--right {
+      order: 3;
+
+      > h4 {
+        text-align: right;
+      }
+    }
+  }
+
+  &__bucket-pair {
+    display: flex;
+
+    .state-results__section--left & {
+      flex-direction: row-reverse;
+    }
+  }
+
+  &__bucket {
+    position: relative;
+    flex: 1;
+
+    .state-results__section--right &:first-child,
+    .state-results__section--left &:last-child, {
+      margin-right: 2px;
+    }
+
+    &__header {
+      height: 18px;
+      overflow: hidden;
+      overflow: 0;
+
+      > h5 {
+        margin: 0;
+        text-align: center;
+        text-transform: uppercase;
+        font: 100 11px MetricWeb, sans-serif;
+        color: oColorsGetPaletteColor('grey-tint3');
+      }
+    }
+
+    > ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+
+      .state-results__section--right & {
+        flex-direction: row-reverse;
+      }
+    }
+  }
+
+  &__state {
+    $per-line: 3;
+
+    width: 100% / $per-line;
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+
+    .body & {
+      margin: 0;
+      padding: #{100% / $per-line} 0 0 0;
+    }
+
+    // these nested spans are ugly, but achieve a perfect fluid layout
+    > span {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 0 1px 1px 0;
+
+      > span {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+
+        > span {
+          font: 600 10px MetricWeb, sans-serif;
+          font-size: 2.6vw;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+
+          > small {
+            font-size: 0.7em;
+            position: relative;
+            top: 5%;
+            margin-left: 0.05em;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 369px) {
+    width: calc(100% + 16px);
+  }
+
+  @media (min-width: 370px) {
+    &__section--middle {
+      border: 6px solid white;
+      margin: 0 5px;
+    }
+  }
+
+  @media (min-width: 400px) {
+    &__section--middle {
+      border: 10px solid white;
+      margin: 0 8px;
+    }
+  }
+
+  @include oGridRespondTo(S) {
+    &__section {
+      > h4 {
+        font-size: 14px;
+        line-height: 2;
+
+        > span {
+          padding: 0 4px;
+        }
+      }
+    }
+
+    &__bucket {
+      .state-results__section--right &:first-child,
+      .state-results__section--left &:last-child, {
+        margin-right: 6px;
+      }
+
+      &__header {
+        height: 24px;
+
+        > h5 {
+          font-size: 14px;
+        }
+      }
+    }
+
+    &__state > span {
+      padding: 0 2px 2px 0;
+
+      > span > span {
+        font-size: 14px;
+      }
+    }
+  }
+}
