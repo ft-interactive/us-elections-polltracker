@@ -63,8 +63,11 @@ const winnerColors = {
   R: color.Trump,
   D: color.Clinton,
   IND: color.McMullin,
-  LIB: color.lib,
-  GRN: color.grn,
+  I: color.McMullin,
+  L: color.McMullin,
+  LIB: color.McMullin,
+  GRN: color.McMullin,
+  G: color.McMullin,
 }
 
 export function mapStateFills(states) {
