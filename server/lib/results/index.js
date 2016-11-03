@@ -86,7 +86,7 @@ function fetchSpreadsheetData() {
               clinton: president.clinton,
               trump: president.trump,
               clinton_pct: president.clinton_pct,
-              trump_pct: president.trump.pct,
+              trump_pct: president.trump_pct,
               bestGuessClinton: president.bestGuessClinton,
               bestGuessTrump: president.bestGuessTrump,
               bestGuessClinton_pct: president.bestGuessClinton_pct,
