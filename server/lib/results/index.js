@@ -98,8 +98,8 @@ function fetchSpreadsheetData() {
               dem: senate.dem,
               rep: senate.rep,
               ind: senate.ind,
-              dem_contested: 9, // TODO: what's this?
-              rep_contested: 20 // TODO: what's this?
+              dem_contested: 0, // TODO: what's this?
+              rep_contested: 0 // TODO: what's this?
             },
             house: {
               dem: house.dem,
