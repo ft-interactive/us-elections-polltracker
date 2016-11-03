@@ -36,6 +36,7 @@ function resultsMain(){
             rebindMediaOrgs(data.mediaOrgs);
             rebindTable(data.electoralCollege);
             rebindCopy(data.copy);
+            rebindLabels(data.electoralCollege);
             redraw();
         }
         var nextInterval = data.overview.pollingInterval ? data.overview.pollingInterval : defaultPollingInterval;
@@ -47,6 +48,11 @@ function resultsMain(){
     d3.json('full-result.json', gotData);
 }
 
+function rebindLabels(data){
+    data.forEach(function(d){
+        d3.select('#map-label-'+d.code).datum(d.winner);
+    });
+}
 
 function rebindCopy(data){
     d3.select('h1.o-typography-heading1').datum(data.headline);
@@ -160,6 +166,9 @@ function redraw(){
             if ( d && d.winner ) return 'none';
             return color.nomapdata;
         });
+    //labels
+    d3.selectAll('.state-annotations.standard-map text')
+        .classed('result-label',function(d){ console.log(d); return d; })
 
     //table
     d3.selectAll('.ecresultslist__cell--2016')
