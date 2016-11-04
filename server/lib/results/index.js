@@ -9,7 +9,7 @@ import {processElectoralCollegeSheet} from './electoral-college';
 import { mapStateFills } from './homepage';
 import cache from '../cache';
 
-const log = debug('results');
+const log = debug('results:main');
 
 export function getResultData() {
   return cache(
@@ -26,12 +26,9 @@ export function dynamicFootnote(template, data, time) {
 }
 
 function fetchSpreadsheetData() {
-
-  // TODO: handle uncaughtPromise errors and log them
-
-  log('Fetch results data')
+  log('Fetching results data spreadsheet')
   return spreadsheet.fetchAllSheets().then(response => {
-    log('Process spreadsheet from Bertha');
+    log('Got spreadsheet from Bertha, now process it');
     const lastModified = new Date(response.headers['last-modified']);
     const timestamp = lastModified.getTime();
 
@@ -59,6 +56,7 @@ function fetchSpreadsheetData() {
     const stateFills = mapStateFills(electoralCollege);
 
     return {
+      lastModified,
       resultsPage: {
         copy, // TODO: change the name of this property as it's going to contain  more than copy
         mediaOrgs,

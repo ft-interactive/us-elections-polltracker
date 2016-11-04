@@ -36,7 +36,7 @@ export async function fullResults(req, res) {
   res.setHeader('Cache-Control', `public, max-age=10, s-maxage=5`);
   try {
     const data = await getResultData();
-    // TODO: etag is update timestamp
+    res.setHeader('Last-Modified', data.lastModified.toUTCString());
     res.json(data.resultsPage);
   } catch(err) {
     console.error(err);
@@ -49,7 +49,7 @@ export async function homepageResults(req, res) {
   res.setHeader('Cache-Control', `public, max-age=10, s-maxage=5`);
   try {
     const data = await getResultData();
-    // TODO: etag is update timestamp
+    res.setHeader('Last-Modified', data.lastModified.toUTCString());
     res.json(data.homepage);
   } catch(err) {
     console.error(err);
