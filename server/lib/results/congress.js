@@ -13,7 +13,7 @@ function createResult({
               rep = 0, dem = 0, ind = 0} = {}) {
 
   if ((rep + dem + ind) > total) {
-    throw new Error(`Sum of the Rep+Dem+Other seats is more expedcted total of ${HOUSE_SEATS}`);
+    throw new Error(`Sum of the Rep+Dem+Other seats is more expedcted total of ${total}`);
   }
 
   return {
@@ -32,7 +32,6 @@ function createResult({
 
 export function senateResults(rep = 0, dem = 0, ind = 0) {
   return createResult({
-
     total: SENATE_SEATS,
 
     // Not all seats are up for reelection. This is what
@@ -42,15 +41,14 @@ export function senateResults(rep = 0, dem = 0, ind = 0) {
     // The composition of the Senate before the 2016 election
     repLast: 54, demLast: 44, indLast: 2,
 
-    rep: sanitiseInteger(rep, 'Senate Rep field error'),
-    dem: sanitiseInteger(dem, 'Senate Dem field error'),
-    ind: sanitiseInteger(ind, 'Senate Ind field error')
+    rep: sanitiseInteger(rep, 'Senate Rep field error', true),
+    dem: sanitiseInteger(dem, 'Senate Dem field error', true),
+    ind: sanitiseInteger(ind, 'Senate Ind field error', true),
   });
 }
 
 export function houseResults(rep = 0, dem = 0, ind = 0) {
   return createResult({
-
     total: HOUSE_SEATS,
 
     // All the house is up for re-election. Everything starts at zero
@@ -59,8 +57,8 @@ export function houseResults(rep = 0, dem = 0, ind = 0) {
     // The composition of the House of reps before the 2016 election
     repLast: 247, demLast: 186, indLast: 0,
 
-    rep: sanitiseInteger(rep, 'House Rep field error'),
-    dem: sanitiseInteger(dem, 'House Dem field error'),
-    ind: sanitiseInteger(ind, 'House Ind field error')
+    rep: sanitiseInteger(rep, 'House Rep field error', true),
+    dem: sanitiseInteger(dem, 'House Dem field error', true),
+    ind: sanitiseInteger(ind, 'House Ind field error', true),
   });
 }

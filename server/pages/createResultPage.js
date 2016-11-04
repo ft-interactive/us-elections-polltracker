@@ -26,14 +26,15 @@ class ResultPage extends Page {
   // TODO: what's this for?
   code = 'us';
 
+  headline = 'US presidential election results';
+
   async ready() {
     const result = (await getResultData()).resultsPage;
-    this.headline = result.copy.headline;
-    this.summary = result.copy.subtitle;
+    this.headline = result.copy.headline || this.headline;
+    this.summary = result.copy.subtitle || this.summary;
     this.stateResults = stateResultsLayout(result.electoralCollege);
     this.overview = result.overview;
     this.mediaOrgs = result.mediaOrgs;
-    // this.color = color;
     this.mapnote = '<b>' + (result.overview.president.clinton + result.overview.president.trump) + '</b> of <b>538</b> votes accounted for'
     this.dotMapSelectors = dotMapLayout( result.electoralCollege, { width: 800, height: 500 } );
     this.mapSelectors = mapLayout( result.electoralCollege, { width: 800, height: 500 } );
