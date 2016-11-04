@@ -19,13 +19,34 @@ The format for URLs looks like `/polls.svg?size=300x400&type=both&background=fff
 |fontless|`true`, `false`|`true`|
 |state|two-letter state abbreviation, `us`|`us`|
 
-## Running locally
+## Local development
 
-- Requirements: node, git
-- Clone repository
+### First-time setup
+
+- Clone this repo and run `npm install` in it
+- Make a `.env` file in the root of the project with these contents:
+
+```
+DATABASE_URL=postgres://us@127.0.0.1/us2016
+PGUSER=us
+PGDATABASE=us2016
+```
+
+- Make a database
+    - Ensure you have postgres installed (try `psql --version`).
+    - Make a database: `createdb us2016`
+    - Make a user who can access it: `createuser --superuser us`
+    - Run the migrations to create/update your database's structure: `npm run migrate`
+
+- Run the scraper to populate the database: `npm run scraper` (takes a few minutes)
+
+### Running locally for development
+
+- Make sure postgres is running
 - `npm install`, `npm run dev`
 
 ## Licence
+
 This software is published by the Financial Times under the [MIT licence](http://opensource.org/licenses/MIT).
 
 Please note the MIT licence includes only the software, and does not cover any FT content made available using the software, which is copyright &copy; The Financial Times Limited, all rights reserved. For more information about re-publishing FT content, please contact our [syndication department](http://syndication.ft.com/).

@@ -81,8 +81,9 @@
     "dev": "trip watch & nodemon --ext js,html,svg,css --ignore dist --ignore public",
     "postinstall": "bower install && trip build",
     "scraper": "node --require ./setup.js scraper/run",
+    "migrate": "sequelize db:migrate",
     "republisher": "node --require ./setup.js server/lib/results/republisher",
-    "start": "sequelize db:migrate && node --require ./setup.js server",
+    "start": "npm run migrate && node --require ./setup.js server",
     "test": "mocha --compilers js:babel-core/register layouts/*.spec.js"
   }
 }

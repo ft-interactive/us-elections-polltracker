@@ -68,7 +68,7 @@ export const makePollTimeSeries = async chartOpts => {
 
 const getPollSVG = async (state, size = '600x300', pollnumcandidates) => {
   let yAxisDomain = '30-60';
-  if (state === 'ut' || state === 'md' || state === 'ma' || state === 'or') {
+  if (state === 'ut' || state === 'md' || state === 'ma' || state === 'or' || state === 'vt') {
     yAxisDomain = null;
   }
 
