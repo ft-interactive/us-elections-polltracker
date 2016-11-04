@@ -157,6 +157,14 @@ function redraw(){
         });
 
     d3.selectAll('.ec-map circle')
+        .attr('fill',function(d){
+            if ( d && d.winner ) return color[d.winner];
+            return color.nomapdata;
+        })
+        .attr('stroke',function(d){
+            if ( d && d.winner ) return 'none';
+            return color.nomapdata;
+        })
         .style('fill',function(d){
             if ( d && d.winner ) return color[d.winner];
             return color.nomapdata;
@@ -191,8 +199,8 @@ function redraw(){
         .text(function(d){ return d; })
 
     //text 
-    d3.select('h1.o-typography-heading1').text(function(d){ return d; });
-    d3.select('p.o-typography-lead').text(function(d){ return d; })
+    d3.select('h1.o-typography-heading1').html(function(d){ return d; });
+    d3.select('p.o-typography-lead').html(function(d){ return d; });
 }
 
 function makeLookup(arr,key){

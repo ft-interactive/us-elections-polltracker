@@ -72,6 +72,10 @@ function fetchSpreadsheetData() {
           headline: config.headline,
           subtitle: config.subtitle,
           interstitialtext: config.interstitialtext,
+          senatefootnote: config.senatefootnote,
+          housefootnote: config.housefootnote,
+          statebreakdowntitle: config.statebreakdowntitle,
+          statebreakdownsubtitle: config.statebreakdownsubtitle,
         },
 
         mediaOrgs,
