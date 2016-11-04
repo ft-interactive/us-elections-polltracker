@@ -76,6 +76,8 @@ function fetchSpreadsheetData() {
           housefootnote: config.housefootnote,
           statebreakdowntitle: config.statebreakdowntitle,
           statebreakdownsubtitle: config.statebreakdownsubtitle,
+          congresstext: config.congresstext,
+          statetabletext: config.statetabletext,
         },
 
         mediaOrgs,
