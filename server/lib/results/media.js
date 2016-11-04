@@ -3,6 +3,7 @@ import { sanitiseInteger, percentOfVotes } from './util';
 export default function processMediaSheet(rows) {
   return (rows || []).map((row, index) => {
     if (!row.name || !row.link) return null;
+
     const dem = sanitiseInteger(row.clinton, `Error in media org sheet, ${row.name} row, Clinton column`, true);
     const rep = sanitiseInteger(row.trump, `Error in media org sheet, ${row.name} row, Trump column`, true);
     const other = sanitiseInteger(row.other, `Error in media org sheet, ${row.name} row, Other column`, true);
@@ -16,9 +17,13 @@ export default function processMediaSheet(rows) {
      rep_pct -= dif/2;
     }
 
+    if ((rep + dem + other) > 538) {
+      throw new Error(`Media projection "${row.name}" adds up to more than 538`);
+    }
+
     return {
-      name: row.name,
-      link: row.link,
+      name: row.name.trim(),
+      link: row.link.trim(),
       dem,
       rep,
       other,
