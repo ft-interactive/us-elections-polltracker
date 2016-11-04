@@ -76,10 +76,10 @@ var pageDataTimestamp = {{ overview.timestamp }};
           {% call PageElements.Figure(title="Presidential results across the US media") %}
             {% for org in mediaOrgs %}
             <div><a href="{{ org.link }}" id="mediaorg-link-{{loop.index}}">{{ org.name }}</a></div>
-            <div>{{ bars.ResultBar(
+            <div id="mediaorg-resultbar-{{loop.index}}">{{ bars.ResultBar(
                     data=org,
                     majority=270,
-                    footnote="timestamp",
+                    footnote="",
                     selectorKey="mediaorg-" + loop.index ) }}</div>
             {% endfor %}
           {% endcall %}

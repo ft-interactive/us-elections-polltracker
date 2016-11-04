@@ -87,6 +87,11 @@
   box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.15);
   background: #F6E9D8;
   padding: 10px;
+  margin-bottom: 1em;
+}
+
+.media-bars .article-figure {
+  padding-bottom: 1em;
 }
 
 .media-bars .mini-dashboard__chart {
@@ -96,6 +101,16 @@
 
 .media-bars .mini-dashboard__finish-line {
   top: -17px;
+}
+
+.media-bars .mini-dashboard__finish-line .mini-dashboard__majoritylabel,
+.media-bars .mini-dashboard__finish-line .mini-dashboard__triangle {
+  visibility: hidden;
+}
+
+.media-bars #mediaorg-resultbar-1 .mini-dashboard__finish-line .mini-dashboard__majoritylabel, 
+.media-bars #mediaorg-resultbar-1 .mini-dashboard__finish-line .mini-dashboard__triangle {
+  visibility: visible;
 }
 
 .media-bars .mini-dashboard__bar-labels {
@@ -110,6 +125,10 @@
   font-size: 1.3em;
   color: white;
   font-weight: 400;
+}
+
+.media-bars .mini-dashboard__bar-labels .data-label--shortbar {
+  color: black;
 }
 
 .media-bars .mini-dashboard__bar-label__party {
