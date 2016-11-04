@@ -7,7 +7,7 @@ const maxAge = 60 * 1000; // 60 secs
 
 const lru = lruCache({
   maxAge,
-  max: 800000, // 400K (ish)
+  max: 1600000,
   stale: true,
   length: (value, key) =>
       (!value ? 0 : JSON.stringify(value).length) + JSON.stringify(key).length

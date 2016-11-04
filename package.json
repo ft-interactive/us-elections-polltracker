@@ -82,6 +82,7 @@
     "postinstall": "bower install && trip build",
     "scraper": "node --require ./setup.js scraper/run",
     "migrate": "sequelize db:migrate",
+    "republisher": "node --require ./setup.js server/lib/results/republisher",
     "start": "npm run migrate && node --require ./setup.js server",
     "test": "mocha --compilers js:babel-core/register layouts/*.spec.js"
   }

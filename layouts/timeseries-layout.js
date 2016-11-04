@@ -404,12 +404,12 @@ function timeseriesLayout(data, _opts) {
 
   layout.candidateEndPoints = pollsByCandidate.map(d => {
     const lastPoll = d.polls[d.polls.length - 1];
-    let labelOffset = 10;
+    let labelOffset = 14;
     if (d.name === currentLeader || d.name === 'Johnson') labelOffset = 0;
 
     if (opts.state === 'ut') {
       labelOffset = 0;
-      if (d.name === lowestPoller) labelOffset = 10;
+      if (d.name === lowestPoller) labelOffset = 14;
     }
 
     return {

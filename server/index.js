@@ -210,7 +210,11 @@ if (app.locals.flags.results) {
 
   // JSON endpoints for Results page client side
   app.get('/full-result.json', resultController.fullResults);
-  app.get('/overview-result.json', resultController.resultOverview);
+  app.get('/homepage-results.json', resultController.homepageResults);
+
+  // Simple Status message endpoint to see if there is a problem
+  // processing the spreadsheet
+  app.get('/result-status.txt', resultController.serviceStatus);
 }
 
 // This needs to be last as it captures lot of paths and only does redirects

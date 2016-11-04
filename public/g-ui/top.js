@@ -165,7 +165,7 @@ var defaultPolyfillFeatures = ['default-3.6', 'matchMedia', 'fetch',
                                   'Array.prototype.includes|always|gated'];
 
 var createPolyfillURL = function createPolyfillURL(features) {
-  return 'https://cdn.polyfill.io/v2/polyfill.min.js?callback=igPolyfillsLoaded&features=' + features.join(',') + '&flags=gated&unknown=polyfill&excludes=Symbol,Symbol.iterator,Symbol.species';
+  return 'https://cdn.polyfill.io/v2/polyfill.min.js?callback=igPolyfillsLoaded&features=' + features.join(',') + '&flags=gated&unknown=polyfill';
 };
 
 function init() {
