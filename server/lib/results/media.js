@@ -3,10 +3,9 @@ import { sanitiseInteger, percentOfVotes } from './util';
 export default function processMediaSheet(rows) {
   return (rows || []).map((row, index) => {
     if (!row.name || !row.link) return null;
-
-    const dem = sanitiseInteger(row.result.clinton, `Error in media org sheet, ${row.name} row, Clinton column`, true);
-    const rep = sanitiseInteger(row.result.trump, `Error in media org sheet, ${row.name} row, Trump column`, true);
-    const other = sanitiseInteger(row.result.other, `Error in media org sheet, ${row.name} row, Other column`, true);
+    const dem = sanitiseInteger(row.clinton, `Error in media org sheet, ${row.name} row, Clinton column`, true);
+    const rep = sanitiseInteger(row.trump, `Error in media org sheet, ${row.name} row, Trump column`, true);
+    const other = sanitiseInteger(row.other, `Error in media org sheet, ${row.name} row, Other column`, true);
     let dem_pct = percentOfVotes(dem);
     let rep_pct = percentOfVotes(rep);
     let other_pct = percentOfVotes(other);
