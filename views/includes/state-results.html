@@ -4,7 +4,7 @@
     <div class="state-results__bucket__header">{% if bucketTitle %}<h5>{{bucketTitle}}</h5>{% endif %}</div>
 
     <ul>
-      {% for state in stateResults.buckets[bucketId] %}<li class="state-results__state{% if state.winner %} state-results__state--winner-{{state.winner}}{% endif %}"><span><span style="background-color:{{state.bgColor}};color:{{state.textColor}}"><span>{{state.code}}{% if state.districtNumber %}<small>{{state.districtNumber}}</small>{% endif %}</span></span></span></li>{% endfor %}
+      {% for state in stateResults.buckets[bucketId] %}<li class="state-results__state{% if state.winner %} state-results__state--winner-{{state.winner}}{% endif %}"><span><span class="state-block" data-statecode="{{state.code}}{{state.districtNumber}}" style="background-color:{{state.bgColor}};color:{{state.textColor}}"><span>{{state.code}}{% if state.districtNumber %}<small>{{state.districtNumber}}</small>{% endif %}</span></span></span></li>{% endfor %}
     </ul>
   </div>
   {% endmacro %}

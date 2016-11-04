@@ -9,15 +9,8 @@ const getColors = (winner) => {
       return [color.Clinton, '#fff'];
     case 'r':
       return [color.Trump, '#fff'];
-    case 'ind':
-      return [color.McMullin, '#fff'];
-    case 'grn':
-      return [color.Stein, '#fff'];
-    case 'lib':
-      return [color.Johnson, '#000'];
     default:
-      console.warn(`Unexpected winner code: ${winner}`);
-      return [color.pinkTint2, '#000'];
+      return [color.McMullin, '#000'];
   }
 };
 
