@@ -11,6 +11,14 @@ import cache from '../cache';
 
 const log = debug('results:main');
 
+const marketChartBaseUrl = 'https://ig.ft.com/data/us-election';
+
+let lastErrorStatus;
+
+export function getErrorStatus() {
+  return lastErrorStatus;
+}
+
 export function getResultData() {
   return cache(
     'results:data',
@@ -44,7 +52,7 @@ function fetchSpreadsheetData() {
     if (!houseData) throw new Error('No Senate data available');
     if (response.data.electoralCollege.length < totalECPolities) throw new Error(`Missing ${totalECPolities - response.data.electoralCollege.length} Electoral college rows`);
 
-    const copy = processConfigSheet(response.data.copy);
+    const config = processConfigSheet(response.data.copy);
     const electoralCollege = processElectoralCollegeSheet(response.data.electoralCollege);
     const house = houseResults(houseData.rep, houseData.dem, houseData.ind);
     const senate = senateResults(senateData.rep, senateData.dem, senateData.ind);
@@ -55,10 +63,17 @@ function fetchSpreadsheetData() {
 
     const stateFills = mapStateFills(electoralCollege);
 
-    return {
+    const data = {
       lastModified,
       resultsPage: {
-        copy, // TODO: change the name of this property as it's going to contain  more than copy
+
+        // TODO: change the name of this property as it's going to contain  more than copy
+        copy: {
+          headline: config.headline,
+          subtitle: config.subtitle,
+          interstitialtext: config.interstitialtext,
+        },
+
         mediaOrgs,
         electoralCollege,
         overview: {
@@ -69,17 +84,11 @@ function fetchSpreadsheetData() {
         }
       },
       homepage: {
-        refreshAfter: 10000, // TODO: spreadsheet config. ensure integer gt a min otherwise set default
+        refreshAfter: config.refreshAfter, // TODO: spreadsheet config. ensure integer gt a min otherwise set default
         updated: timestamp,
-        switchTabEvery: 5000,
+        switchTabEvery: config.switchTabEvery, // TODO: spreadsheet config. ensure integer gt a min otherwise set to default
         miniDashboard: {
-          enabledPanels: [  // TODO: spreadsheet config. lowercase and remove unknown values and duplicates
-            'president',
-            'house',
-            'senate',
-            'markets',
-          ],
-          switchTabEvery: 7000,  // TODO: spreadsheet config. ensure integer gt a min otherwise set to default
+          enabledPanels: config.enabledPanels,
           panelContents: {
             president: {
               clinton: president.clinton,
@@ -109,21 +118,29 @@ function fetchSpreadsheetData() {
 
             // TODO: allow us to serve this after results service gets turned off
             markets: {
-              default: 'https://ig.ft.com/data/us-election/night1-homepage-default.svg',
-              S: 'https://ig.ft.com/data/us-election/night2-homepage-small.svg',
-              M: 'https://ig.ft.com/data/us-election/night3-homepage-medium.svg',
-              L: 'https://ig.ft.com/data/us-election/night2-homepage-large.svg',
-              XL: 'https://ig.ft.com/data/us-election/night3-homepage-xlarge.svg'
+              default: '/night1-homepage-default.svg',
+              S: `${marketChartBaseUrl}/night2-homepage-small.svg`,
+              M: `${marketChartBaseUrl}/night3-homepage-medium.svg`,
+              L: `${marketChartBaseUrl}/night2-homepage-large.svg`,
+              XL: `${marketChartBaseUrl}/night3-homepage-xlarge.svg`,
             }
           }
         },
         resultsPromo: {
           // TODO: simplify the map SVG
           // TODO: can this go through the build service?
+          // TODO: does this even get used?
           svgUrl: 'https://ig.ft.com/static/us-election-2016/us-state-map-blank.svg',
           stateFills,
         }
       },
     };
+    lastErrorStatus = null;
+    log(`Done processing spreadsheet`);
+    return data;
+  }).catch(err => {
+    lastErrorStatus = err.message;
+    log('Error processing spreadsheet');
+    throw err;
   });
 }

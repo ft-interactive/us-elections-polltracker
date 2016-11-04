@@ -1,7 +1,7 @@
 import createResultPage from '../pages/createResultPage';
 import { render } from '../nunjucks';
 import cache from '../lib/cache';
-import { getResultData } from '../lib/results';
+import { getResultData, getErrorStatus } from '../lib/results';
 
 const maxAge = 10;
 const sMaxAge = 5;
@@ -55,4 +55,12 @@ export async function homepageResults(req, res) {
     console.error(err);
     res.status(500).send({message:'Error fetching election data'});
   }
+}
+
+export async function serviceStatus(req, res) {
+  res.set('Content-Type', 'text/plain');
+  res.setHeader('Cache-Control', 'private, no-cache, max-age=0');
+  const message = getErrorStatus();
+  res.status(!!message ? 500 : 200);
+  res.send(message || 'Ok!');
 }
