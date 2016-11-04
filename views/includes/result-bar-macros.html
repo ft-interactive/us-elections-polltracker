@@ -73,20 +73,10 @@
       </div>
     </div>
   </div>
-  {% if data.dem_initial_pct %}
-  <div class="mini-dashboard__initial">
-    <div class="mini-dashboard__bar-container">
-      <div style="width: {{data.dem_initial_pct}}%;" id="{{selectorKey}}-initial-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
-      {% if data.ind_initial_pct %}<div style="width: {{data.ind_initial_pct}}%;" id="{{selectorKey}}-initial-bar-ind" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--ind"></div>{% endif %}
-      <div style="width: {{data.rep_initial_pct}}%;" id="{{selectorKey}}-initial-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
-    </div>
-  </div>
-  {% endif %}
   <span class="mini-dashboard__finish-line">
     {{ majority }} for majority
     <div class="mini-dashboard__triangle"></div>
-    {% if data.dem_initial_pct %}<hr width="1" size="48" noshade />
-    {% else %}<hr width="1" size="34" noshade />{% endif %}
+    <hr width="1" size="34" noshade />
   </span>
   <span class="mini-dashboard__footnote">
     {{footnote}}
