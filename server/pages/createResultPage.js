@@ -36,7 +36,7 @@ class ResultPage extends Page {
     this.senatefootnote = result.copy.senatefootnote || '';
     this.housefootnote = result.copy.housefootnote || '';
     this.statebreakdowntitle = result.copy.statebreakdowntitle || 'Where were the biggest upsets?';
-    this.statebreakdownsubtitle = result.copy.statebreakdowntitle || 'Presidential winner by state';
+    this.statebreakdownsubtitle = result.copy.statebreakdownsubtitle || 'Presidential winner by state';
     this.stateResults = stateResultsLayout(result.electoralCollege);
     this.overview = result.overview;
     this.mediaOrgs = result.mediaOrgs;
