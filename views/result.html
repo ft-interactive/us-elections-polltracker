@@ -72,22 +72,24 @@ var pageDataTimestamp = {{ overview.timestamp }};
       </div>
 
       <div data-o-grid-colspan="12 M6">
+        <div class="media-bars">
           {% call PageElements.Figure(title="Presidential results across the US media") %}
             {% for org in mediaOrgs %}
             <div><a href="{{ org.link }}" id="mediaorg-link-{{loop.index}}">{{ org.name }}</a></div>
-            <div>{{ bars.MediaBar(
+            <div>{{ bars.ResultBar(
                     data=org,
                     majority=270,
                     footnote="timestamp",
                     selectorKey="mediaorg-" + loop.index ) }}</div>
             {% endfor %}
           {% endcall %}
+          </div>
       </div>
       <div data-o-grid-colspan="12 M6">
           <div class="house-bars">
 
             {% call PageElements.Figure(title="House", id="House") %}
-                  {{ bars.resultBar(
+                  {{ bars.ResultBar(
                     data=overview.house,
                     majority=218,
                     footnote="footnote",
@@ -96,7 +98,7 @@ var pageDataTimestamp = {{ overview.timestamp }};
           </div>
           <div class="senate-bars">
             {% call PageElements.Figure(title="Senate", id="Senate") %}
-                  {{ bars.resultBar(
+                  {{ bars.ResultBar(
                     data=overview.senate,
                     majority=50,
                     footnote="footnote",
