@@ -1,7 +1,3 @@
-import dotenv from 'dotenv';
-
-dotenv.load({ silent: true });
-
 export default Object.freeze({
   development: Object.freeze({
     username: process.env.PGUSER,
