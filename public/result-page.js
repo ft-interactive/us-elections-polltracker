@@ -55,7 +55,9 @@ function rebindLabels(data){
 }
 
 function rebindCopy(data){
-    d3.select('h1.o-typography-heading1').datum(data.headline);
+    if (data.headline) {
+      d3.select('h1.o-typography-heading1').datum(data.headline);
+    }
     d3.select('p.o-typography-lead').datum(data.subtitle);
 }
 
