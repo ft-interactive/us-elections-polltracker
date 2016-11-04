@@ -72,13 +72,13 @@ var pageDataTimestamp = {{ overview.timestamp }};
       </div>
 
       <div data-o-grid-colspan="12 M6">
-          {% call PageElements.Figure(title="What the US media is saying") %}
+          {% call PageElements.Figure(title="Presidential results across the US media") %}
             {% for org in mediaOrgs %}
             <div><a href="{{ org.link }}" id="mediaorg-link-{{loop.index}}">{{ org.name }}</a></div>
-            <div>{{ bars.resultBar(
+            <div>{{ bars.MediaBar(
                     data=org,
                     majority=270,
-                    footnote="footnote",
+                    footnote="timestamp",
                     selectorKey="mediaorg-" + loop.index ) }}</div>
             {% endfor %}
           {% endcall %}
