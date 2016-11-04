@@ -6,7 +6,8 @@ const defaults = {
     'house',
     'senate',
     'markets',
-  ]
+  ],
+  resultsPromoEnabled: true,
 };
 
 export default function processConfigSheet(rows) {

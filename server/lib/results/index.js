@@ -127,6 +127,7 @@ function fetchSpreadsheetData() {
           }
         },
         resultsPromo: {
+          enabled: config.resultsPromoEnabled,
           // TODO: simplify the map SVG
           // TODO: can this go through the build service?
           // TODO: does this even get used?
