@@ -71,7 +71,7 @@ var pageDataTimestamp = {{ overview.timestamp }};
         {{ Ads.MidpageFullGrid(flags.ads) }}
       </div>
 
-      <div data-o-grid-colspan="12 L6">
+      <div data-o-grid-colspan="12 M6">
           {% call PageElements.Figure(title="What the US media is saying") %}
             {% for org in mediaOrgs %}
             <div><a href="{{ org.link }}" id="mediaorg-link-{{loop.index}}">{{ org.name }}</a></div>
@@ -83,7 +83,7 @@ var pageDataTimestamp = {{ overview.timestamp }};
             {% endfor %}
           {% endcall %}
       </div>
-      <div data-o-grid-colspan="12 L6">
+      <div data-o-grid-colspan="12 M6">
           <div class="house-bars">
 
             {% call PageElements.Figure(title="House", id="House") %}
