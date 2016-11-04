@@ -167,7 +167,7 @@ function redraw(){
         });
     //labels
     d3.selectAll('.state-annotations.standard-map text')
-        .classed('result-label',function(d){ console.log(d); return d; })
+        .classed('result-label',function(d){ return d; })
 
     //table
     d3.selectAll('.state-block')
