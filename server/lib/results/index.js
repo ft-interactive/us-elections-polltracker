@@ -118,7 +118,7 @@ function fetchSpreadsheetData() {
 
             // TODO: allow us to serve this after results service gets turned off
             markets: {
-              default: '/night1-homepage-default.svg',
+              default: `${marketChartBaseUrl}/night1-homepage-default.svg`,
               S: `${marketChartBaseUrl}/night2-homepage-small.svg`,
               M: `${marketChartBaseUrl}/night3-homepage-medium.svg`,
               L: `${marketChartBaseUrl}/night2-homepage-large.svg`,
