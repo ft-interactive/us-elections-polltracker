@@ -362,9 +362,9 @@
 .mini-dashboard__footnote {
   font-size: 0.75em;
   padding-top: 3px;
-  text-align: right;
+  text-align: left;
   color: #505050;
-  float: right;
+  float: left;
 }
 
 .mini-dashboard__panel--senate .mini-dashboard__footnote {
