@@ -51,27 +51,34 @@ const getColors = (winner) => {
     case 'r':
       return [color.Trump, '#fff'];
     default:
-      return [color.McMullin, '#000'];
+      return [color.McMullin, '#fff'];
   }
 };
 
 const bucketIds = ['D', 'LD', 'T', 'LR', 'R'];
 
 export default (electoralCollege) => {
-  const rvp = {
+  const stateResults = {
     buckets: {},
+    legend: {
+      Clinton: color.Clinton,
+      Trump: color.Trump,
+    },
   };
 
   for (const bucketId of bucketIds) {
-    rvp.buckets[bucketId] = electoralCollege
+    stateResults.buckets[bucketId] = electoralCollege
       .filter(state => state.pollingprojection.toUpperCase() === bucketId)
       .map(state => {
-        console.log('\n\nstate\n', state);
-
         const { ecvotes: ecVotes } = state;
         const [bgColor, textColor] = getColors(state.winner);
         const [, code, districtNumber] = /([A-Za-z]+)([0-9]*)/.exec(state.code.toUpperCase());
         const winner = state.winner ? state.winner.toLowerCase() : null;
+
+        // add mcmullin to legend if necessary
+        if (winner !== 'd' && winner !== 'r') {
+          stateResults.legend.Other = color.McMullin;
+        }
 
         const shortName = getShortName(code);
 
@@ -92,5 +99,5 @@ export default (electoralCollege) => {
     ;
   }
 
-  return rvp;
+  return stateResults;
 };

@@ -1,19 +1,59 @@
 .state-results {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-
-  &:before,
-  &:after {
-    content: '';
-    display: table;
-  }
-  &:after {
-    clear: both;
-  }
-
   * {
     box-sizing: border-box;
+  }
+
+  &__legend {
+    display: inline-block;
+    background: oColorsGetPaletteColor('pink-tint2');
+    border-radius: 3px;
+
+    .body & {
+      margin: 0 0 20px;
+      padding: 2px 15px 7px;
+      list-style: none;
+    }
+
+    > li {
+      display: inline-block;
+
+      .body & {
+        margin: 0;
+        padding: 0;
+        font: 200 14px/1.4 MetricWeb, sans-serif;
+
+        &:not(:last-child) {
+          margin-right: 25px;
+        }
+      }
+
+      > span {
+        content: '';
+        width: 14px;
+        height: 14px;
+        display: inline-block;
+        margin-right: 5px;
+        position: relative;
+        top: 3px;
+      }
+    }
+  }
+
+  &__sections {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    clear: both;
+
+    &:before,
+    &:after {
+      content: '';
+      display: table;
+    }
+    &:after {
+      clear: both;
+    }
   }
 
   &__section {
@@ -52,7 +92,7 @@
         font-weight: 600;
 
         > span {
-          border-bottom: 1px solid #333;
+          border-bottom: 1px solid oColorsGetPaletteColor('grey-tint5');
         }
       }
     }
@@ -252,6 +292,11 @@
     &__state {
       font: 200 13px MetricWeb, sans-serif;
 
+      .state-results__section--middle & {
+        font-weight: bold;
+        color: oColorsGetPaletteColor('grey-tint5');
+      }
+
       .body & {
         margin: 0;
         padding: 0;
@@ -283,8 +328,10 @@
         white-space: nowrap;
 
         > small {
-          font-size: 70%;
+          font-size: 80%;
           margin-left: 1px;
+          position: relative;
+          top: 0.15em;
         }
       }
 
