@@ -28,6 +28,7 @@
       font: 200 11px/1.4 MetricWeb, sans-serif;
       margin: 0 0 5px 0;
       border-bottom: 1px solid oColorsGetPaletteColor('grey-tint2');
+      text-align: center;
 
       > span {
         display: inline-block;
@@ -46,7 +47,6 @@
       border: 4px solid white;
 
       > h4 {
-        text-align: center;
         border-bottom: 0;
         color: oColorsGetPaletteColor('grey-tint5');
         font-weight: 600;
@@ -59,10 +59,6 @@
 
     &--right {
       order: 3;
-
-      > h4 {
-        text-align: right;
-      }
     }
   }
 
@@ -103,7 +99,6 @@
         color: oColorsGetPaletteColor('grey-tint3');
       }
     }
-
   }
 
 
@@ -198,6 +193,7 @@
     }
   }
 
+  // minor tweaks for bigger mobiles
   @include oGridRespondTo(S) {
     &__section {
       > h4 {
@@ -231,20 +227,34 @@
     }
   }
 
+  // switch up to detailed result style (i.e. show EC voting power per state)
   @include oGridRespondTo(M) {
+    &__section--middle {
+      border-width: 8px 8px 16px;
+    }
+
     &__bucket__header {
-      border-bottom: 1px solid #999;
+      border-bottom: 1px solid #bbb;
       margin-bottom: 15px;
 
       .state-results__bucket--T & {
         border-bottom-color: white;
       }
     }
+
+    &__bucket {
+      .state-results__section--right &:first-child,
+      .state-results__section--left &:last-child, {
+        margin-right: 12px;
+      }
+    }
+
     &__state {
-      font: 200 14px MetricWeb, sans-serif;
+      font: 200 13px MetricWeb, sans-serif;
 
       .body & {
         margin: 0;
+        padding: 0;
       }
     }
 
@@ -253,7 +263,7 @@
     }
 
     &__detailed-result {
-      $label-width: 27px;
+      $label-width: 40px;
       $bar-height: 16px;
 
       position: relative;
@@ -269,7 +279,13 @@
         left: 0;
         top: 0;
         text-align: right;
-        padding-right: 3px;
+        padding-right: 5px;
+        white-space: nowrap;
+
+        > small {
+          font-size: 70%;
+          margin-left: 1px;
+        }
       }
 
       &__bar-wrap {
@@ -277,6 +293,12 @@
         margin-left: $label-width;
         height: $bar-height;
         display: block;
+        width: 48px;
+
+        .state-results & {
+          width: 7vw;
+          max-width: 110px;
+        }
       }
 
       &__bar {
@@ -284,6 +306,7 @@
         position: absolute;
         left: 0;
         height: $bar-height;
+        min-width: 1px;
       }
 
       &__votes {
@@ -291,10 +314,34 @@
         right: 2px;
         top: 0;
 
-        // special case: the "55" for Calif. should turn white when its bar turns blue
+        // special snowflake: the "55" for Calif. should turn white when its bar turns blue
         .state-results__state--CA[data-called] & {
           color: white;
         }
+      }
+    }
+  }
+
+  @include oGridRespondTo(L) {
+    &__section--middle {
+      border-width: 8px 24px 16px;
+    }
+
+    &__state {
+      font-size: 14px;
+    }
+
+    &__detailed-result {
+      &__bar-wrap {
+        width: 75px
+      }
+    }
+  }
+
+  @include oGridRespondTo(XL) {
+    &__detailed-result {
+      &__bar-wrap {
+        width: 110px;
       }
     }
   }
