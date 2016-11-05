@@ -45,14 +45,6 @@ var pageDataTimestamp = {{ overview.timestamp }};
             </div>
             <div class="o-grid-row article-figure">
               <div data-o-grid-colspan="center 12 L10">
-                {# <div class="plain-map">
-                    {% include "includes/results-plain-map.svg" %}
-                    <div class="toss-up">
-                      <div class="toss-up-legend"></div>
-                      <div class="toss-up-label">Toss-up state</div>
-                    </div>
-                    <span class="map__footnote">Tom footnote to go here showing number of states</span>
-                </div> #}
                 <div class="dot-map">
                   <h2 class="article-figure__heading">Electoral college votes by state</h2>
                   <p class="article-figure__subheading">Each candidate needs 270 electoral college votes to win the presidency</p>
@@ -70,7 +62,11 @@ var pageDataTimestamp = {{ overview.timestamp }};
       <div data-o-grid-colspan="center 12">
         {{ Ads.MidpageFullGrid(flags.ads) }}
       </div>
-
+      {%if congresstext %}
+      <div data-o-grid-colspan="center 8">
+      <p>{{congresstext | safe}}</p>
+      </div>
+      {% endif %}
       <div data-o-grid-colspan="12 M6">
         <div class="media-bars">
           {% call PageElements.Figure(title="Presidential results across the US media") %}
@@ -86,11 +82,11 @@ var pageDataTimestamp = {{ overview.timestamp }};
       </div>
       <div data-o-grid-colspan="12 M6">
           <div class="house-bars">
-
             {% call PageElements.Figure(title="House", id="House") %}
                   {{ bars.ResultBar(
                     data=overview.house,
                     majority=218,
+                    footnote=housefootnote,
                     selectorKey="house") }}
             {% endcall %}
           </div>
@@ -99,6 +95,7 @@ var pageDataTimestamp = {{ overview.timestamp }};
                   {{ bars.ResultBar(
                     data=overview.senate,
                     majority=50,
+                    footnote=senatefootnote,
                     selectorKey="senate")
                   }}
             {% endcall %}
@@ -124,9 +121,13 @@ var pageDataTimestamp = {{ overview.timestamp }};
       <div class="o-grid-container">
         <div class="o-grid-row">
       {% endif %}
-
+      {% if statetabletext %}
+      <div data-o-grid-colspan="center 8">
+      <p>{{statetabletext | safe}}</p>
+      </div>
+      {% endif %}
       <div data-o-grid-colspan="center 12 M9 L6">
-          {% call PageElements.Figure(title="Where were the biggest upsets?", subtitle="Presidential winner by state", id="state-results") %}
+          {% call PageElements.Figure(title=statebreakdowntitle, subtitle=statebreakdownsubtitle, id="state-results") %}
             {% include "includes/state-results.html" %}
           {% endcall %}
       </div>
