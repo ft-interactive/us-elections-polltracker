@@ -20,7 +20,7 @@
       .body & {
         margin: 0;
         padding: 0;
-        font: 200 14px/1.4 MetricWeb, sans-serif;
+        font: 400 14px/1.4 MetricWeb, sans-serif;
 
         &:not(:last-child) {
           margin-right: 25px;
@@ -65,7 +65,7 @@
     > h4 {
       text-transform: uppercase;
       color: oColorsGetPaletteColor('grey-tint4');
-      font: 200 11px/1.4 MetricWeb, sans-serif;
+      font: 400 11px/1.4 MetricWeb, sans-serif;
       margin: 0 0 5px 0;
       border-bottom: 1px solid oColorsGetPaletteColor('grey-tint2');
       text-align: center;
@@ -135,7 +135,7 @@
         margin: 0;
         text-align: center;
         text-transform: uppercase;
-        font: 200 11px MetricWeb, sans-serif;
+        font: 400 11px MetricWeb, sans-serif;
         color: oColorsGetPaletteColor('grey-tint3');
       }
     }
@@ -290,7 +290,7 @@
     }
 
     &__state {
-      font: 200 13px MetricWeb, sans-serif;
+      font: 400 13px MetricWeb, sans-serif;
 
       .state-results__section--middle & {
         font-weight: bold;
@@ -308,7 +308,7 @@
     }
 
     &__detailed-result {
-      $label-width: 40px;
+      $label-width: 50px;
       $bar-height: 16px;
 
       position: relative;
@@ -340,8 +340,8 @@
         margin-left: $label-width;
         height: $bar-height;
         display: block;
-        width: 80px;
-        width: 11vw;
+        width: 70px;
+        width: 10vw;
       }
 
       &__bar {
@@ -377,8 +377,8 @@
 
     &__detailed-result {
       &__bar-wrap {
-        width: 75px;
-        width: 7vw;
+        width: 65px;
+        width: 6.5vw;
       }
     }
   }
@@ -386,9 +386,9 @@
   @include oGridRespondTo(XL) {
     &__detailed-result {
       &__bar-wrap {
-        width: 110px;
+        width: 100px;
         width: 7vw;
-        max-width: 110px;
+        max-width: 100px;
       }
     }
   }
