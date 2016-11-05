@@ -91,7 +91,12 @@
 }
 
 .media-bars .article-figure {
-  padding-bottom: 1em;
+  padding-bottom: 0;
+  margin-bottom: 1em;
+}
+
+.media-bars .article-figure__heading {
+  margin-top: 0.5em;
 }
 
 .media-bars .mini-dashboard__chart {

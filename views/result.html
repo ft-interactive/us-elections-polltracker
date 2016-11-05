@@ -79,7 +79,6 @@ var pageDataTimestamp = {{ overview.timestamp }};
             <div id="mediaorg-resultbar-{{loop.index}}">{{ bars.ResultBar(
                     data=org,
                     majority=270,
-                    footnote="",
                     selectorKey="mediaorg-" + loop.index ) }}</div>
             {% endfor %}
           {% endcall %}
@@ -92,7 +91,6 @@ var pageDataTimestamp = {{ overview.timestamp }};
                   {{ bars.ResultBar(
                     data=overview.house,
                     majority=218,
-                    footnote="footnote",
                     selectorKey="house") }}
             {% endcall %}
           </div>
@@ -101,7 +99,6 @@ var pageDataTimestamp = {{ overview.timestamp }};
                   {{ bars.ResultBar(
                     data=overview.senate,
                     majority=50,
-                    footnote="footnote",
                     selectorKey="senate")
                   }}
             {% endcall %}

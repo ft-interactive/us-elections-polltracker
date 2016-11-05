@@ -54,7 +54,7 @@
 </div>
 {% endmacro %}
 
-{% macro ResultBar(data, majority, footnote, selectorKey) %}
+{% macro ResultBar(data, majority, selectorKey) %}
 <div class="mini-dashboard__chart">
   <div class="mini-dashboard__bars">
     <div class="mini-dashboard__bar-container">
@@ -81,7 +81,9 @@
     <hr width="1" size="34" noshade />
   </span>
   <span class="mini-dashboard__footnote">
-    {{footnote}}
+    {% if data.ind %}
+      Independents hold {{ data.ind }} seats
+    {% endif %}
   </span>
 </div>
 {% endmacro %}
