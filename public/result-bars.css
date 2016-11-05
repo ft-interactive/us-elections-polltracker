@@ -95,6 +95,15 @@
   margin-bottom: 1em;
 }
 
+.media-bars .article-figure__content a {
+  color: #333;
+  border-bottom: none;
+}
+
+.media-bars .article-figure__content a:hover {
+  border-bottom: 1px solid #333;
+}
+
 .media-bars .article-figure__heading {
   margin-top: 0.5em;
 }
@@ -338,6 +347,7 @@
   top: 18px;
   margin: 0 auto;
   font-size: 0.85em;
+  pointer-events: none;
 }
 
 .mini-dashboard__panel--president .mini-dashboard__finish-line {
