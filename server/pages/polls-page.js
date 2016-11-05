@@ -8,7 +8,7 @@ const lastUpdated = () =>
 
 export default class PollsPage extends Page {
 
-  title = 'US election polls 2016';
+  title = 'Election polls: Trump vs Clinton, who is in the lead?';
 
   description = 'Polling data for the 2016 US presidential election';
 

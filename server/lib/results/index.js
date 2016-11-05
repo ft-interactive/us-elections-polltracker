@@ -72,6 +72,12 @@ function fetchSpreadsheetData() {
           headline: config.headline,
           subtitle: config.subtitle,
           interstitialtext: config.interstitialtext,
+          senatefootnote: config.senatefootnote,
+          housefootnote: config.housefootnote,
+          statebreakdowntitle: config.statebreakdowntitle,
+          statebreakdownsubtitle: config.statebreakdownsubtitle,
+          congresstext: config.congresstext,
+          statetabletext: config.statetabletext,
         },
 
         mediaOrgs,
@@ -103,11 +109,15 @@ function fetchSpreadsheetData() {
               isFinal: president.isFinal
             },
             senate: {
-              dem: senate.dem,
-              rep: senate.rep,
-              ind: senate.ind,
-              dem_contested: 0, // TODO: what's this?
-              rep_contested: 0 // TODO: what's this?
+              dem: senate.dem_initial,
+              rep: senate.rep_initial,
+              ind: senate.ind_initial,
+              dem_total: senate.dem,
+              rep_total: senate.rep,
+              ind_total: senate.ind,
+              dem_contested: Math.max(0, senate.dem - senate.dem_initial),
+              rep_contested: Math.max(0, senate.rep - senate.rep_initial),
+              ind_contested: Math.max(0, senate.ind - senate.ind_initial)
             },
             house: {
               dem: house.dem,
