@@ -1,36 +1,64 @@
 <div class="state-results">
-  {% macro rvpBucket(bucketId, bucketTitle) %}
-  <div class="state-results__bucket state-results__bucket--{{bucketId}}">
-    <div class="state-results__bucket__header">{% if bucketTitle %}<h5>{{bucketTitle}}</h5>{% endif %}</div>
+  <ul class="state-results__legend">
+    {% for name, color in stateResults.legend %}
+    <li><span style="background-color:{{color}}"></span>{{name}}</li>
+    {% endfor %}
+  </ul>
 
-    <ul>
-      {% for state in stateResults.buckets[bucketId] %}<li class="state-results__state{% if state.winner %} state-results__state--winner-{{state.winner}}{% endif %}"><span><span class="state-block" data-statecode="{{state.code}}{{state.districtNumber}}" style="background-color:{{state.bgColor}};color:{{state.textColor}}"><span>{{state.code}}{% if state.districtNumber %}<small>{{state.districtNumber}}</small>{% endif %}</span></span></span></li>{% endfor %}
-    </ul>
-  </div>
-  {% endmacro %}
+  <div class="state-results__sections">
+    {% macro stateResultsBucket(bucketId, bucketTitle) %}
+    <div class="state-results__bucket state-results__bucket--{{bucketId}}">
+      <div class="state-results__bucket__header">{% if bucketTitle %}<h5>{{bucketTitle}}</h5>{% endif %}</div>
 
-  <div class="state-results__section state-results__section--middle">
-    <h4><span>Key&nbsp;states</span></h4>
+      <ul>
+        {% for state in stateResults.buckets[bucketId] %}
+        <li class="state-results__state state-results__state--{{state.code}}{% if state.winner %} state-results__state--winner-{{state.winner}}{% endif %}"{% if state.winner %} data-called{% endif %}>
+          <div class="state-results__mini-result">
+            <span class="state-results__mini-result__wrap-1">
+              <span  class="state-results__mini-result__wrap-2" data-statecode="{{state.code}}{{state.districtNumber}}" style="background-color:{{state.bgColor}}">
+                <span class="state-results__mini-result__label" style="color:{{state.textColor}}">
+                  {{state.code}}{% if state.districtNumber %}<small>{{state.districtNumber}}</small>{% endif %}
+                </span>
+              </span>
+            </span>
+          </div>
 
-    {{ rvpBucket('T') }}
-  </div>
-
-  <div class="state-results__section state-results__section--left">
-    <h4><span>Expected&nbsp;Clinton</span></h4>
-
-    <div class="state-results__bucket-pair">
-      {{ rvpBucket('LD', 'Leaning') }}
-      {{ rvpBucket('D', 'Solid') }}
+          <div class="state-results__detailed-result">
+            <span class="state-results__detailed-result__label">{{state.shortName}}{% if state.districtNumber %}<small>{{state.districtNumber}}</small>{% endif %}</span>
+            <span class="state-results__detailed-result__bar-wrap">
+              <span class="state-results__detailed-result__bar" style="width:{{state.ecVotesWidth}}%;background-color:{{state.bgColor}}"></span>
+              <span class="state-results__detailed-result__votes">{{state.ecVotes}}</span>
+            </span>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
     </div>
-  </div>
+    {% endmacro %}
+
+    <div class="state-results__section state-results__section--middle">
+      <h4><span>Key&nbsp;states</span></h4>
+
+      {{ stateResultsBucket('T') }}
+    </div>
+
+    <div class="state-results__section state-results__section--left">
+      <h4><span>Expected&nbsp;Clinton</span></h4>
+
+      <div class="state-results__bucket-pair">
+        {{ stateResultsBucket('LD', 'Leaning') }}
+        {{ stateResultsBucket('D', 'Solid') }}
+      </div>
+    </div>
 
 
-  <div class="state-results__section state-results__section--right">
-    <h4><span>Expected&nbsp;Trump</span></h4>
+    <div class="state-results__section state-results__section--right">
+      <h4><span>Expected&nbsp;Trump</span></h4>
 
-    <div class="state-results__bucket-pair">
-      {{ rvpBucket('LR', 'Leaning') }}
-      {{ rvpBucket('R', 'Solid') }}
+      <div class="state-results__bucket-pair">
+        {{ stateResultsBucket('LR', 'Leaning') }}
+        {{ stateResultsBucket('R', 'Solid') }}
+      </div>
     </div>
   </div>
 </div>

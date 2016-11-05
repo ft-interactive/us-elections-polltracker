@@ -30,7 +30,7 @@ class ResultPage extends Page {
 
   async ready() {
     const result = (await getResultData()).resultsPage;
-    console.log(result.copy);
+    // console.log(result.copy);
     this.headline = result.copy.headline || this.headline;
     this.summary = result.copy.subtitle || this.summary;
     this.senatefootnote = result.copy.senatefootnote || '';

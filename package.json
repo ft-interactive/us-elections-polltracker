@@ -78,7 +78,7 @@
   },
   "private": true,
   "scripts": {
-    "dev": "trip watch & nodemon --ext js,html,svg,css --ignore dist --ignore public",
+    "dev": "trip watch & nodemon --ext js,html,svg,css,json --ignore dist --ignore public",
     "postinstall": "bower install && trip build",
     "scraper": "node --require ./setup.js scraper/run",
     "migrate": "sequelize db:migrate",

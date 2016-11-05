@@ -1,19 +1,59 @@
 .state-results {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-
-  &:before,
-  &:after {
-    content: '';
-    display: table;
-  }
-  &:after {
-    clear: both;
-  }
-
   * {
     box-sizing: border-box;
+  }
+
+  &__legend {
+    display: inline-block;
+    background: oColorsGetPaletteColor('pink-tint2');
+    border-radius: 3px;
+
+    .body & {
+      margin: 0 0 20px;
+      padding: 2px 15px 7px;
+      list-style: none;
+    }
+
+    > li {
+      display: inline-block;
+
+      .body & {
+        margin: 0;
+        padding: 0;
+        font: 200 14px/1.4 MetricWeb, sans-serif;
+
+        &:not(:last-child) {
+          margin-right: 25px;
+        }
+      }
+
+      > span {
+        content: '';
+        width: 14px;
+        height: 14px;
+        display: inline-block;
+        margin-right: 5px;
+        position: relative;
+        top: 3px;
+      }
+    }
+  }
+
+  &__sections {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    clear: both;
+
+    &:before,
+    &:after {
+      content: '';
+      display: table;
+    }
+    &:after {
+      clear: both;
+    }
   }
 
   &__section {
@@ -25,9 +65,10 @@
     > h4 {
       text-transform: uppercase;
       color: oColorsGetPaletteColor('grey-tint4');
-      font: 100 11px/1.4 MetricWeb, sans-serif;
+      font: 200 11px/1.4 MetricWeb, sans-serif;
       margin: 0 0 5px 0;
       border-bottom: 1px solid oColorsGetPaletteColor('grey-tint2');
+      text-align: center;
 
       > span {
         display: inline-block;
@@ -46,23 +87,18 @@
       border: 4px solid white;
 
       > h4 {
-        text-align: center;
         border-bottom: 0;
         color: oColorsGetPaletteColor('grey-tint5');
         font-weight: 600;
 
         > span {
-          border-bottom: 1px solid #333;
+          border-bottom: 1px solid oColorsGetPaletteColor('grey-tint5');
         }
       }
     }
 
     &--right {
       order: 3;
-
-      > h4 {
-        text-align: right;
-      }
     }
   }
 
@@ -78,10 +114,17 @@
     position: relative;
     flex: 1;
 
+    > ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
     .state-results__section--right &:first-child,
     .state-results__section--left &:last-child, {
-      margin-right: 2px;
+      margin-right: 6px;
     }
+
 
     &__header {
       height: 18px;
@@ -92,71 +135,12 @@
         margin: 0;
         text-align: center;
         text-transform: uppercase;
-        font: 100 11px MetricWeb, sans-serif;
+        font: 200 11px MetricWeb, sans-serif;
         color: oColorsGetPaletteColor('grey-tint3');
       }
     }
-
-    > ul {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      align-content: flex-start;
-
-      .state-results__section--right & {
-        flex-direction: row-reverse;
-      }
-    }
   }
 
-  &__state {
-    $per-line: 3;
-
-    width: 100% / $per-line;
-    overflow: hidden;
-    text-align: center;
-    position: relative;
-
-    .body & {
-      margin: 0;
-      padding: #{100% / $per-line} 0 0 0;
-    }
-
-    // these nested spans are ugly, but achieve a perfect fluid layout
-    > span {
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      padding: 0 1px 1px 0;
-
-      > span {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        align-items: center;
-        justify-content: center;
-
-        > span {
-          font: 600 10px MetricWeb, sans-serif;
-          font-size: 2.6vw;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-
-          > small {
-            font-size: 0.7em;
-            position: relative;
-            top: 5%;
-            margin-left: 0.05em;
-          }
-        }
-      }
-    }
-  }
 
   @media (max-width: 369px) {
     width: calc(100% + 16px);
@@ -176,6 +160,80 @@
     }
   }
 
+  // only for mobile
+  @include oGridRespondTo($until: M) {
+    &__bucket {
+      .state-results__section--right &:first-child,
+      .state-results__section--left &:last-child, {
+        margin-right: 2px;
+      }
+
+      > ul {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-start;
+
+        .state-results__section--right & {
+          flex-direction: row-reverse;
+        }
+      }
+    }
+
+    &__state {
+      $per-line: 3;
+
+      width: 100% / $per-line;
+      overflow: hidden;
+      text-align: center;
+      position: relative;
+
+      .body & {
+        margin: 0;
+        padding: #{100% / $per-line} 0 0 0;
+      }
+    }
+
+    &__mini-result {
+      &__wrap-1 {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+
+        height: 100%;
+        padding: 0 1px 1px 0;
+      }
+
+      &__wrap-2 {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &__label {
+        font: 600 10px MetricWeb, sans-serif;
+        font-size: 2.6vw;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+
+        > small {
+          font-size: 0.7em;
+          position: relative;
+          top: 5%;
+          margin-left: 0.05em;
+        }
+      }
+    }
+
+    &__detailed-result {
+      display: none;
+    }
+  }
+
+  // minor tweaks for bigger mobiles
   @include oGridRespondTo(S) {
     &__section {
       > h4 {
@@ -188,26 +246,149 @@
       }
     }
 
-    &__bucket {
-      .state-results__section--right &:first-child,
-      .state-results__section--left &:last-child, {
-        margin-right: 6px;
-      }
 
-      &__header {
-        height: 24px;
+    &__bucket__header {
+      height: 24px;
 
-        > h5 {
-          font-size: 14px;
-        }
+      > h5 {
+        font-size: 14px;
       }
     }
 
-    &__state > span {
-      padding: 0 2px 2px 0;
 
-      > span > span {
+    &__mini-result {
+      &__wrap-1 {
+        padding: 0 2px 2px 0;
+      }
+
+      &__label {
         font-size: 14px;
+      }
+    }
+  }
+
+  // switch up to detailed result style (i.e. show EC voting power per state)
+  @include oGridRespondTo(M) {
+    &__section--middle {
+      border-width: 8px 8px 16px;
+    }
+
+    &__bucket__header {
+      border-bottom: 1px solid #bbb;
+      margin-bottom: 15px;
+
+      .state-results__bucket--T & {
+        border-bottom-color: white;
+      }
+    }
+
+    &__bucket {
+      .state-results__section--right &:first-child,
+      .state-results__section--left &:last-child, {
+        margin-right: 12px;
+      }
+    }
+
+    &__state {
+      font: 200 13px MetricWeb, sans-serif;
+
+      .state-results__section--middle & {
+        font-weight: bold;
+        color: oColorsGetPaletteColor('grey-tint5');
+      }
+
+      .body & {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    &__mini-result {
+      display: none;
+    }
+
+    &__detailed-result {
+      $label-width: 40px;
+      $bar-height: 16px;
+
+      position: relative;
+      display: block;
+      height: $bar-height;
+      margin: 2px 0;
+      // outline: 1px solid yellow;
+
+      &__label {
+        width: $label-width;
+        overflow: hidden;
+        position: absolute;
+        left: 0;
+        top: 0;
+        text-align: right;
+        padding-right: 5px;
+        white-space: nowrap;
+
+        > small {
+          font-size: 80%;
+          margin-left: 1px;
+          position: relative;
+          top: 0.15em;
+        }
+      }
+
+      &__bar-wrap {
+        position: relative;
+        margin-left: $label-width;
+        height: $bar-height;
+        display: block;
+        width: 80px;
+        width: 11vw;
+      }
+
+      &__bar {
+        display: block;
+        position: absolute;
+        left: 0;
+        height: $bar-height;
+        min-width: 1px;
+      }
+
+      &__votes {
+        position: absolute;
+        right: 2px;
+        top: 0;
+
+        // special snowflake: the "55" for Calif. should turn white when called,
+        // because it overlaps the bar
+        .state-results__state--CA[data-called] & {
+          color: white;
+        }
+      }
+    }
+  }
+
+  @include oGridRespondTo(L) {
+    &__section--middle {
+      border-width: 8px 24px 16px;
+    }
+
+    &__state {
+      font-size: 14px;
+    }
+
+    &__detailed-result {
+      &__bar-wrap {
+        width: 75px;
+        width: 7vw;
+      }
+    }
+  }
+
+  @include oGridRespondTo(XL) {
+    &__detailed-result {
+      &__bar-wrap {
+        width: 110px;
+        width: 7vw;
+        max-width: 110px;
       }
     }
   }
