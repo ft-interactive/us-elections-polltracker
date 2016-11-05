@@ -310,7 +310,8 @@
         right: 2px;
         top: 0;
 
-        // special snowflake: the "55" for Calif. should turn white when its bar turns blue
+        // special snowflake: the "55" for Calif. should turn white when called,
+        // because it overlaps the bar
         .state-results__state--CA[data-called] & {
           color: white;
         }
