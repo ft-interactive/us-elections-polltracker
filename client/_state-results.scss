@@ -293,12 +293,8 @@
         margin-left: $label-width;
         height: $bar-height;
         display: block;
-        width: 48px;
-
-        .state-results & {
-          width: 7vw;
-          max-width: 110px;
-        }
+        width: 80px;
+        width: 11vws;
       }
 
       &__bar {
@@ -333,7 +329,8 @@
 
     &__detailed-result {
       &__bar-wrap {
-        width: 75px
+        width: 75px;
+        width: 7vw;
       }
     }
   }
@@ -342,6 +339,8 @@
     &__detailed-result {
       &__bar-wrap {
         width: 110px;
+        width: 7vw;
+        max-width: 110px;
       }
     }
   }
