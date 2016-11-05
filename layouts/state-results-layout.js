@@ -76,7 +76,7 @@ export default (electoralCollege) => {
         const winner = state.winner ? state.winner.toLowerCase() : null;
 
         // add mcmullin to legend if necessary
-        if (winner !== 'd' && winner !== 'r') {
+        if (winner && winner !== 'd' && winner !== 'r') {
           stateResults.legend.Other = color.McMullin;
         }
 
