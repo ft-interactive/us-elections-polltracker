@@ -83,6 +83,84 @@
   width: 80px;
 }
 
+.media-bars {
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.15);
+  background: #F6E9D8;
+  padding: 10px;
+  margin-bottom: 1em;
+}
+
+.media-bars .article-figure {
+  padding-bottom: 0;
+  margin-bottom: 1em;
+}
+
+.media-bars .article-figure__content a {
+  color: #333;
+  border-bottom: none;
+}
+
+.media-bars .article-figure__content a:hover {
+  border-bottom: 1px solid #333;
+}
+
+.media-bars .article-figure__heading {
+  margin-top: 0.5em;
+}
+
+.media-bars .mini-dashboard__chart {
+  padding-top: 5px;
+  margin-bottom: 1em;
+}
+
+.media-bars .mini-dashboard__finish-line {
+  top: -17px;
+}
+
+.media-bars .mini-dashboard__finish-line .mini-dashboard__majoritylabel,
+.media-bars .mini-dashboard__finish-line .mini-dashboard__triangle {
+  visibility: hidden;
+}
+
+.media-bars #mediaorg-resultbar-1 .mini-dashboard__finish-line .mini-dashboard__majoritylabel, 
+.media-bars #mediaorg-resultbar-1 .mini-dashboard__finish-line .mini-dashboard__triangle {
+  visibility: visible;
+}
+
+.media-bars .mini-dashboard__bar-labels {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 100%;
+}
+
+.media-bars .mini-dashboard__bar-labels .data-label {
+  display: block;
+  font-size: 1.3em;
+  color: white;
+  font-weight: 400;
+}
+
+.media-bars .mini-dashboard__bar-labels .data-label--shortbar {
+  color: black;
+}
+
+.media-bars .mini-dashboard__bar-label__party {
+  display: none;
+}
+
+.media-bars .mini-dashboard__bar-label-dem {
+  position: absolute;
+  top: 0px;
+  left: 5px;
+}
+
+.media-bars .mini-dashboard__bar-label-rep {
+  position: absolute;
+  top: 0px;
+  right: 5px;
+}
+
 .house-bars .mini-dashboard__bar-labels,
 .senate-bars .mini-dashboard__bar-labels {
   position: absolute;
@@ -269,6 +347,7 @@
   top: 18px;
   margin: 0 auto;
   font-size: 0.85em;
+  pointer-events: none;
 }
 
 .mini-dashboard__panel--president .mini-dashboard__finish-line {
@@ -293,9 +372,9 @@
 .mini-dashboard__footnote {
   font-size: 0.75em;
   padding-top: 3px;
-  text-align: right;
-  color: #dddddd;
-  float: right;
+  text-align: left;
+  color: #505050;
+  float: left;
 }
 
 .mini-dashboard__panel--senate .mini-dashboard__footnote {

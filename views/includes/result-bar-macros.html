@@ -54,32 +54,35 @@
 </div>
 {% endmacro %}
 
-{% macro resultBar(data, majority, footnote, selectorKey) %}
+{% macro ResultBar(data, majority, footnote, selectorKey) %}
 <div class="mini-dashboard__chart">
   <div class="mini-dashboard__bars">
     <div class="mini-dashboard__bar-container">
       <div style="width: {{data.dem_pct}}%;" id="{{selectorKey}}-bar-dem" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--dem"></div>
-      {% if data.ind %}
-      <div style="width: {{data.ind_pct}}%;" id="{{selectorKey}}-bar-ind" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--ind"></div>
-      {% endif %}
       <div style="width: {{data.rep_pct}}%;" id="{{selectorKey}}-bar-rep" class="data-bar mini-dashboard__bar-fill mini-dashboard__bar-fill--rep"></div>
       <div class="mini-dashboard__bar-labels">
         <div class="mini-dashboard__bar-label mini-dashboard__bar-label-dem">
-          Democrat <strong class="data-label" id="{{selectorKey}}-datalabel-dem">{{data.dem}}</strong>
+          <span class="mini-dashboard__bar-label__party">Democrat</span>
+          <strong class="data-label {% if data.dem < 55 %} data-label--shortbar{% endif %}" id="{{selectorKey}}-datalabel-dem">{{data.dem}}</strong>
         </div>
         <div class="mini-dashboard__bar-label mini-dashboard__bar-label-rep">
-          Republican <strong class="data-label" id="{{selectorKey}}-datalabel-rep">{{data.rep}}</strong>
+          <span class="mini-dashboard__bar-label__party">Republican</span>
+          <strong class="data-label {% if data.rep < 55 %} data-label--shortbar{% endif %}" id="{{selectorKey}}-datalabel-rep">{{data.rep}}</strong>
         </div>
       </div>
     </div>
   </div>
   <span class="mini-dashboard__finish-line">
-    {{ majority }} for majority
+    <span class="mini-dashboard__majoritylabel">{{ majority }} for majority</span>
     <div class="mini-dashboard__triangle"></div>
     <hr width="1" size="34" noshade />
   </span>
   <span class="mini-dashboard__footnote">
-    {{footnote}}
+    {% if data.ind %}
+      Independents hold {{ data.ind }} seats
+      {%- if footnote -%}. {%- endif -%}
+    {% endif %}
+    {{ footnote }}
   </span>
 </div>
 {% endmacro %}
