@@ -27,7 +27,7 @@
   The first results are expected around 7pm eastern time. All eyes will be on toss-up states such as <a href="{{ tossups[0] | statePollPageURL }}">{{ tossups[0].fullname }}</a>, <a href="{{ tossups[1] | statePollPageURL }}">{{ tossups[1].fullname }}</a> and <a href="{{ tossups[2] | statePollPageURL }}">{{ tossups[2].fullname }}</a>.</p>
 
 {% elif daysToElection > 0 %}
-  <p>Democratic candidate Hillary Clinton and Republican candidate Donald Trump need 270 electoral college votes to win the presidency. With less than one week left until the election on November 8,
+  <p>Democratic candidate Hillary Clinton and Republican candidate Donald Trump need 270 electoral college votes to win the presidency. With {% if daysToElection == 1 %}one day{% else %}days{% endif %} to go until the election on November 8,
   {% if nationalBarCounts.dem + nationalBarCounts.leaningDem > 270 %}
     Mrs Clinton is leading the race.
   {% elif nationalBarCounts.rep + nationalBarCounts.leaningRep > 270 %}
