@@ -1,18 +1,8 @@
 import * as spreadsheet from './spreadsheet';
 import DataRefresher from '../data-refresh';
 
-
-const CONFIG_URL = (process.env.CONFIG_URL ||
-                                'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/options');
-
 function fetchData() {
-  return spreadsheet.republishAllSheets().then(response => {
-    // if (!Array.isArray(response.data) || !response.data.length) {
-    //   throw new Error('Cannot get content');
-    // }
-    //
-    // return response.data.reduce((map, row) =>
-    //             map.set(row.name, row.value), new Map());
+  return spreadsheet.republishAllSheets().then(() => {
     return 'ok';
   });
 }
