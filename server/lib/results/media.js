@@ -2,7 +2,7 @@ import { sanitiseInteger, percentOfVotes } from './util';
 
 export default function processMediaSheet(rows) {
   return (rows || []).map((row, index) => {
-    if (!row.name || !row.link) return null;
+    if (!row.name) return null;
 
     const dem = sanitiseInteger(row.clinton, `Error in media org sheet, ${row.name} row, Clinton column`, true);
     const rep = sanitiseInteger(row.trump, `Error in media org sheet, ${row.name} row, Trump column`, true);
@@ -23,17 +23,13 @@ export default function processMediaSheet(rows) {
 
     return {
       name: row.name.trim(),
-      link: row.link.trim(),
+      link: (row.link || '').trim(),
       dem,
       rep,
       other,
       dem_pct,
       rep_pct,
       other_pct,
-
-      // TODO: remove?
-      dem_initial_pct: 0,
-      rep_initial_pct: 0,
     };
 
   }).filter(Boolean);
