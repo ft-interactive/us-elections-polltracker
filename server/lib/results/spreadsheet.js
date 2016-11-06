@@ -14,7 +14,7 @@ const allSheets = [
 ];
 
 const berthaUrl = (id, sheets, endpoint) =>
-          `http://bertha.ig.ft.com/${endpoint}/publish/gss/${sheetId}/${sheets.join(',')}?exp=0`;
+          `https://bertha.ig.ft.com/${endpoint}/publish/gss/${sheetId}/${sheets.join(',')}?exp=0`;
 
 const viewUrl = berthaUrl(sheetId, allSheets, 'view');
 
