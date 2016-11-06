@@ -6,8 +6,9 @@ import processMediaSheet from './media';
 import processConfigSheet from './config';
 import { percent } from './util';
 import {processElectoralCollegeSheet} from './electoral-college';
-import { mapStateFills } from './homepage';
+import { mapStateFills, createHomepageConfig } from './homepage';
 import cache from '../cache';
+import dynamicFootnote from './dynamic-footnote';
 
 const log = debug('results:main');
 
@@ -25,12 +26,6 @@ export function getResultData() {
     fetchSpreadsheetData,
     1000 // TODO: review for production
   );
-}
-
-export function dynamicFootnote(template, data, time) {
-  // TODO: implement
-  const formattedDate = 'TIME'
-  return `${data.numComplete} of X states reporting as of ${formattedDate}`;
 }
 
 function fetchSpreadsheetData() {
@@ -53,6 +48,7 @@ function fetchSpreadsheetData() {
     if (response.data.electoralCollege.length < totalECPolities) throw new Error(`Missing ${totalECPolities - response.data.electoralCollege.length} Electoral college rows`);
 
     const config = processConfigSheet(response.data.copy);
+    const homepageConfig = createHomepageConfig(config);
     const electoralCollege = processElectoralCollegeSheet(response.data.electoralCollege);
     const house = houseResults(houseData.rep, houseData.dem, houseData.ind);
     const senate = senateResults(senateData.rep, senateData.dem, senateData.ind);
@@ -96,11 +92,11 @@ function fetchSpreadsheetData() {
         }
       },
       homepage: {
-        refreshAfter: config.refreshAfter, // TODO: spreadsheet config. ensure integer gt a min otherwise set default
+        refreshAfter: homepageConfig.refreshAfter,
         updated: timestamp,
-        switchTabEvery: config.switchTabEvery, // TODO: spreadsheet config. ensure integer gt a min otherwise set to default
+        switchTabEvery: homepageConfig.switchTabEvery,
         miniDashboard: {
-          enabledPanels: config.enabledPanels,
+          enabledPanels: homepageConfig.enabledPanels,
           panelContents: {
             president: {
               clinton: president.clinton,
@@ -111,7 +107,7 @@ function fetchSpreadsheetData() {
               bestGuessTrump: president.bestGuessTrump,
               bestGuessClinton_pct: president.bestGuessClinton_pct,
               bestGuessTrump_pct: president.bestGuessTrump_pct,
-              footnote: dynamicFootnote('FOO'/* TODO: pass template from spreadsheet*/, president, lastModified),
+              footnote: dynamicFootnote(homepageConfig.footnote, lastModified, president, electoralCollege),
               isFinal: president.isFinal
             },
             senate: {
@@ -131,19 +127,18 @@ function fetchSpreadsheetData() {
               rep: house.rep,
               rep_pct: house.rep_pct
             },
-
             // TODO: allow us to serve this after results service gets turned off
             markets: {
-              default: `${marketChartBaseUrl}/night1-homepage-default.svg`,
-              S: `${marketChartBaseUrl}/night2-homepage-small.svg`,
-              M: `${marketChartBaseUrl}/night3-homepage-medium.svg`,
-              L: `${marketChartBaseUrl}/night2-homepage-large.svg`,
-              XL: `${marketChartBaseUrl}/night3-homepage-xlarge.svg`,
+              default: `${marketChartBaseUrl}/${homepageConfig.marketcharts}1-homepage-default.svg`,
+              S: `${marketChartBaseUrl}/${homepageConfig.marketcharts}2-homepage-small.svg`,
+              M: `${marketChartBaseUrl}/${homepageConfig.marketcharts}3-homepage-medium.svg`,
+              L: `${marketChartBaseUrl}/${homepageConfig.marketcharts}2-homepage-large.svg`,
+              XL: `${marketChartBaseUrl}/${homepageConfig.marketcharts}3-homepage-xlarge.svg`,
             }
           }
         },
         resultsPromo: {
-          enabled: config.resultsPromoEnabled,
+          enabled: homepageConfig.resultsPromoEnabled,
           // TODO: simplify the map SVG
           // TODO: can this go through the build service?
           // TODO: does this even get used?
