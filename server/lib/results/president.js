@@ -17,6 +17,7 @@ export function presidentialElectionResult(states) {
   const {r: bestGuessTrump, d: bestGuessClinton} = sumECVotes(states, d => d.winner || cleanWinnerCode(d.liveestimate));
   const other = libertarian + green + independent;
   const numVotes = trump + clinton + other;
+
   // TODO: is this correct? Nebraska and Maine appear twice in spreadsheet?
   const numComplete = states.filter(d => d.winner).length;
   const numIncomplete = (maxPolities - numComplete);
@@ -27,11 +28,11 @@ export function presidentialElectionResult(states) {
 
   if (trump >= 270) {
     hasMajority = true;
-    winningCandidate = 'trump';
+    winningCandidate = 'Trump';
     winningParty = 'R';
   } else if (clinton >= 270) {
     hasMajority = true;
-    winningCandidate = 'clinton';
+    winningCandidate = 'Clinton';
     winningParty = 'D';
   }
 
