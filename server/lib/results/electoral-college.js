@@ -64,6 +64,8 @@ function createStateRow(row) {
 export function processElectoralCollegeSheet(rows) {
   // filter out bad rows
   const polities = (rows || []).map(createStateRow).filter(Boolean);
-  // TODO: check there's the correct number of rows and if so find which are missing
-  return polities;
+  if (polities.length !== 56) {
+    throw new Error(`Incorrect number of valid rows in the electoralCollege sheet. ${56-polities.length} rows missing`);
+  }
+  return Object.freeze(polities);
 }
