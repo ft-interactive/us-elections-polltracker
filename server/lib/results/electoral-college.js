@@ -42,9 +42,6 @@ export function cleanProjectionCode(value) {
 function createStateRow(row) {
   // Handle bad spreadsheet rows
   if (!row || !row.code) return null;
-  // TODO: ensure it's a real state
-  // TODO: ensure we have ec votes
-  // TODO: decorate the object with extra data?
   const winner = cleanWinnerCode(row.winner);
   const liveestimate = cleanProjectionCode(row.liveestimate);
   return {
@@ -52,7 +49,7 @@ function createStateRow(row) {
     winner: cleanWinnerCode(row.winner),
     pollingprojection: cleanProjectionCode(row.pollingprojection),
     liveestimate: cleanProjectionCode(row.liveestimate),
-  };
+  });
 }
 
 export function processElectoralCollegeSheet(rows) {
