@@ -49,7 +49,7 @@ export default class Page {
   constructor() {
     this.flags = flags();
     const todayDay = moment();
-    this.daysToElection = this.electionDay.diff(todayDay, 'days') + 1;
+    this.daysToElection = this.electionDay.diff(todayDay, 'days');
   }
 }
 
