@@ -58,8 +58,14 @@ function fetchSpreadsheetData() {
     const senate = senateResults(senateData.rep, senateData.dem, senateData.ind);
     const president = presidentialElectionResult(electoralCollege);
 
-    // TODO: add AP row to the beginning is first no matter what
-    const mediaOrgs = processMediaSheet(response.data.media);
+    // Add AP row to the beginning of the Media list for comparison
+    const ap = {name: 'Associated Press (FT\'s data source)',
+      clinton: president.clinton,
+      trump: president.trump,
+      other: president.other,
+      link: null,
+    };
+    const mediaOrgs = processMediaSheet([ap, ...response.data.media]);
 
     const stateFills = mapStateFills(electoralCollege);
 
