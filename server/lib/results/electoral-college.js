@@ -1,3 +1,5 @@
+import { getByCode } from '../states';
+
 const partyCodes = {
   'R': 'r',
   'LR':'r',
@@ -42,10 +44,17 @@ export function cleanProjectionCode(value) {
 function createStateRow(row) {
   // Handle bad spreadsheet rows
   if (!row || !row.code) return null;
+
+  // const state = getByCode(row.code);
+  // if (!state) return null;
+
   const winner = cleanWinnerCode(row.winner);
   const liveestimate = cleanProjectionCode(row.liveestimate);
-  return {
-    ...row,
+  return Object.freeze({
+    // FIXME: The results page unexplictly uses lowercase codes :scream:!
+    code: row.code.toLowerCase(),
+    ecvotes: row.ecvotes,
+    // name: state.name,
     winner: cleanWinnerCode(row.winner),
     pollingprojection: cleanProjectionCode(row.pollingprojection),
     liveestimate: cleanProjectionCode(row.liveestimate),

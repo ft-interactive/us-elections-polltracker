@@ -1,21 +1,48 @@
+import { env } from '../../nunjucks';
+
+const markdown = env.filters.md;
+
 const defaults = {
-  refreshAfter: 10000,
-  switchTabEvery: 5000,
-  enabledPanels: [
-    'president',
-    'house',
-    'senate',
-    'markets',
-  ],
-  resultsPromoEnabled: true,
+  headline: null,
+  subtitle: null,
+  interstitialtext: null,
+  housefootnote: null,
+  senatefootnote: null,
+  statebreakdowntitle: null,
+  statebreakdownsubtitle: null,
+  congresstext: null,
+  statetabletext: null,
 };
 
 export default function processConfigSheet(rows) {
-  // TODO: process data types?
-  // TODO: convert markdown here so client doesn't have to
   return (rows || []).reduce((map, row) => {
-    if (!row.key) return map;
-    map[row.key] = row.value;
+    const key = (row.key || '').toString().trim();
+    const type = (row.type || '').toString().trim().toLowerCase().replace(/\s/g, '');
+    let value = (row.value || '').toString().trim();
+
+    if (!key) return map;
+
+    if (type) {
+      if (type === 'note') {
+        return map;
+      } else if (type === 'number') {
+        value = Number.parseFloat(value);
+      } else if (type === 'integer') {
+        value = Number.parseInt(value, 10);
+      } else if (type === 'markdown') {
+        value = markdown(value, true).val;
+      } else if (type === 'blockmarkdown' || type === 'markdownblock') {
+        value = markdown(value, false).val;
+      } else if (type === 'boolean') {
+        value = value.toLowerCase();
+        value = value === 'true' ? true : value === 'false' ? false : NaN;
+      }
+    }
+
+    if (Number.isNaN(value))
+      return map;
+
+    map[key] = value;
     return map;
   }, {
     ...defaults

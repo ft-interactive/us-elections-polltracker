@@ -1,35 +1,83 @@
 import fs from 'fs';
 import color from '../../../layouts/color';
 
-// TODO: stop doing any results stuff if
-// TODO: what to do with "isFinal"? how does it affect the front end
-// TODO: Automatically write the footnote or substitute variables
-// TODO: how to print the time in the footnote for all locales. safe HTML with o-date
-// TODO: decide sensible defaults for everything
-// TODO: validate all values coming from Bertha config
-
-
 // If a tab doesn't appear in this list then it's an unknown tab name
 // If a tab does appear in this list but it's value is false
 // then it should never display regardless of whatever the spreadsheet says
-const knownTabs = {
+const knownTabs = Object.freeze({
   president: true,
   house: true,
   senate: true,
   markets: true,
-};
+});
 
-const defaultTabConfig = ['president', 'house', 'senate'];
+const defaultTabConfig = Object.freeze(['president', 'house', 'senate', 'markets']);
 
-/* TODO:
-what about states without a winner yet?
-swing: '#fcc83c',
-nodata: '#b0b0b0',
-nomapdata: '#b0b0b0',
-ftpink: '#fff1e0',
-border: '#dadada',
-land: '#fff',
-*/
+const defaults =  Object.freeze({
+  refreshAfter: 10000,
+  switchTabEvery: 5000,
+  enabledPanels: defaultTabConfig,
+  resultsPromoEnabled: false,
+  marketcharts: 'night',
+});
+
+const marketdataChartGroups = {
+  night: true,
+}
+
+export function createHomepageConfig(spreadsheetConfig) {
+
+  // make a copy of the defaults object
+  const config = {
+    ...defaults,
+    footnote: spreadsheetConfig.footnote,
+  };
+
+  if (typeof spreadsheetConfig.resultsPromoEnabled === 'boolean') {
+    config.resultsPromoEnabled = spreadsheetConfig.resultsPromoEnabled;
+  }
+
+  if (spreadsheetConfig.marketcharts &&
+      marketdataChartGroups[spreadsheetConfig.marketcharts.toLowerCase()]) {
+    config.marketcharts = spreadsheetConfig.marketcharts.toLowerCase();
+  }
+
+  if (spreadsheetConfig.homepagePanels) {
+    const input = spreadsheetConfig.homepagePanels.toString().toLowerCase();
+
+    // An empty cell in the spreadsheet should not mean "no panels"
+    // We must be explicit about wanting that, so weprefer special code: "[none]"
+    if (input === '[none]') {
+      config.enabledPanels = [];
+
+    // To show the panels to be whatever the default is then use "[auto]"
+    } else if (input === '[auto]') {
+      config.enabledPanels = defaultTabConfig;
+    }
+
+    const arr = input.split(/[\s,]+/g).map(val => {
+      let _val = val.trim();
+      return _val && knownTabs[_val] ? _val : null;
+    }).filter(Boolean);
+
+    if (arr.length) {
+      config.enabledPanels = arr;
+    }
+  }
+
+  // Dont let the poll rate go under 1 sec
+  if (spreadsheetConfig.refreshAfter >= 1000) {
+    config.refreshAfter = spreadsheetConfig.refreshAfter;
+  }
+
+  // Dont let the HP tab switching go under 3 secs
+  if (spreadsheetConfig.switchTabEvery >= 3000) {
+    config.switchTabEvery = spreadsheetConfig.switchTabEvery;
+  }
+
+  return config;
+}
+
 const winnerColors = {
   R: '#f12c49',
   D: '#0094cb',
