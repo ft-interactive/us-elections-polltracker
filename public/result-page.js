@@ -31,7 +31,8 @@ function resultsMain() {
   function gotData(data) {
     var pollInterval;
     // data will be null if the request fails/timesout
-    if (data) {
+    try {
+      if (!data) throw new Error('Could not get data');
       if(data.overview.timestamp > window.pageDataTimestamp) {
         window.pageDataTimestamp = data.overview.timestamp;
         rebindMap(data.electoralCollege);
@@ -46,12 +47,14 @@ function resultsMain() {
         pollInterval = data.overview.pollingInterval;
       }
       retryCount = 0;
-    } else {
+    } catch (err) {
       retryCount++;
       // If it failed something might be wrong so back off for a while
+      // Perhaps the service is overloaded or there's a problem with the data
       if (retryCount <= maxRetries) {
         pollInterval = 30 * 1000; // 30 secs
       }
+      window.console && console.error && console.error(err);
     }
 
     // We must have a pollInterval over 1 sec to allow polling
