@@ -19,6 +19,7 @@ const defaults =  Object.freeze({
   enabledPanels: defaultTabConfig,
   resultsPromoEnabled: false,
   marketcharts: 'night',
+  showPolltracker: false,
 });
 
 const marketdataChartGroups = {
@@ -35,6 +36,10 @@ export function createHomepageConfig(spreadsheetConfig) {
 
   if (typeof spreadsheetConfig.resultsPromoEnabled === 'boolean') {
     config.resultsPromoEnabled = spreadsheetConfig.resultsPromoEnabled;
+  }
+
+  if (typeof spreadsheetConfig.showPolltracker === 'boolean') {
+    config.showPolltracker = spreadsheetConfig.showPolltracker;
   }
 
   if (spreadsheetConfig.marketcharts &&
