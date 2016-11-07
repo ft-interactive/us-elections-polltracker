@@ -43,9 +43,9 @@ class ResultPage extends Page {
     this.stateResults = stateResultsLayout(result.electoralCollege);
     this.overview = result.overview;
     this.mediaOrgs = result.mediaOrgs;
-    this.mapnote = '<b>' + (result.overview.president.clinton + result.overview.president.trump) + '</b> of <b>538</b> votes accounted for'
-    this.dotMapSelectors = dotMapLayout( result.electoralCollege, { width: 800, height: 500 } );
-    this.mapSelectors = mapLayout( result.electoralCollege, { width: 800, height: 500 } );
+    this.mapfootnote = result.copy.mapfootnote;
+    this.dotMapSelectors = dotMapLayout(result.electoralCollege, { width: 800, height: 500 });
+    this.mapSelectors = mapLayout(result.electoralCollege, { width: 800, height: 500 });
     this.keyStates = statesList.reduce((previous, current) => {
       previous[current.code] = current.swing; // eslint-disable-line no-param-reassign
       return previous;

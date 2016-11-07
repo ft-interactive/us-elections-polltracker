@@ -74,6 +74,7 @@ function fetchSpreadsheetData() {
           headline: config.headline,
           subtitle: config.subtitle,
           interstitialtext: config.interstitialtext,
+          mapfootnote: dynamicFootnote('**{EC_COMPLETE}** of **538** votes accounted for', lastModified, president, electoralCollege),
           senatefootnote: config.senatefootnote,
           housefootnote: config.housefootnote,
           statebreakdowntitle: config.statebreakdowntitle,
