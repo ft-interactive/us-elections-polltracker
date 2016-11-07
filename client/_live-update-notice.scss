@@ -1,0 +1,39 @@
+.live-update-notice {
+  text-align: center;
+  margin-bottom: 40px;
+
+  display: none;
+
+  &--js {
+    display: block;
+  }
+
+  > div {
+    color: #333;
+    background-color: oColorsGetPaletteColor('pink-tint1');
+    padding: 20px 20px 18px;
+    text-align: center;
+    border-radius: 3px;
+    max-width: 800px;
+    display: inline-block;
+    line-height: 20px;
+    padding-left: 55px;
+    position: relative;
+  }
+
+  &__lightning {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    left: 15px;
+    top: 15px;
+
+    > path {
+      fill: oColorsGetPaletteColor('pink-tint3');
+    }
+  }
+
+  &__dismiss {
+    margin-left: 15px;
+  }
+}

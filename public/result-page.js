@@ -232,3 +232,25 @@ function makeLookup(arr,key){
   })
   return o;
 }
+
+// show the live update notice
+(function () {
+  var liveUpdateNotice = document.querySelector('.live-update-notice');
+  var button = liveUpdateNotice.querySelector('.live-update-notice__dismiss');
+
+  var key = 'ig-results-live-update-notice-dismissed';
+
+  if (localStorage && localStorage[key]) {
+    liveUpdateNotice.remove();
+  } else {
+    button.addEventListener('click', () => {
+      liveUpdateNotice.remove();
+
+      if (localStorage) {
+        localStorage[key] = true;
+      }
+    });
+
+    liveUpdateNotice.classList.add('live-update-notice--js');
+  }
+})();

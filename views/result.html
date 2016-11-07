@@ -30,6 +30,17 @@ var pageDataTimestamp = {{ overview.timestamp }};
   <div class="o-grid-container">
     <div class="o-grid-row">
       <div data-o-grid-colspan="center 12">
+        <aside class="live-update-notice">
+          <div>
+            <svg class="live-update-notice__lightning" xmlns="http://www.w3.org/2000/svg" width="483.7" height="483.7" viewBox="0 0 483.7 483.7">
+              <path d="M119.6 282.4h72.8L166 483.7l198-294h-67.4L325.6 0"/>
+            </svg>
+
+            This page updates every minute – no need to refresh
+            <button class="live-update-notice__dismiss o-buttons o-buttons--small o-buttons--uncolored">OK</button>
+          </div>
+        </aside>
+
           {% import "includes/result-bar-macros.html" as bars %}
           <div>
             <div class="o-grid-row result-bars president-bars">
