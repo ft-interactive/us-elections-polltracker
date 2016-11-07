@@ -18,6 +18,10 @@
     "ELECTION_COUNTDOWN": {
       "description": "Show the election day countdown",
       "value": "FALSE"
+    },
+    "RESULTS_SHEET": {
+      "description": "Spreadsheet ID for the results and config spreadsheet",
+      "value": "17Ea2kjME9yqEUZfQHlPZNc6cqraBUGrxtuHj-ch5Lp4"
     }
   },
   "formation": {

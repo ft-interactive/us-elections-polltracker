@@ -4,7 +4,7 @@ import { sanitiseInteger, percentOfVotes } from './util';
 
 const log = debug('results:spreadsheet');
 
-const sheetId = process.env.RESULTS_SHEET || '17Ea2kjME9yqEUZfQHlPZNc6cqraBUGrxtuHj-ch5Lp4';
+const sheetId = process.env.RESULTS_SHEET || '1gJT-zp6KNLZzx7qmdqBkcCmFJHngwa1lBELufORFFik';
 
 const allSheets = [
   'copy',
