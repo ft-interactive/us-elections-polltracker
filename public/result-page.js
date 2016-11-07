@@ -76,10 +76,22 @@ function rebindLabels(data) {
 function rebindCopy(data) {
   if (data.headline) {
     d3.select('h1.o-typography-heading1').datum(data.headline);
+  }else{
+    var existingHeadline = d3.select('h1.o-typography-heading1').html();
+    d3.select('h1.o-typography-heading1').datum(existingHeadline);
   }
-  d3.select('p.o-typography-lead').datum(data.subtitle);
+  if (data.subtitle) {
+    d3.select('p.o-typography-lead').datum(data.subtitle);
+  }else{
+    var existingSub = d3.select('p.o-typography-lead').html();
+    d3.select('p.o-typography-lead').datum(existingSub);
+  }
+
   if (data.mapfootnote) {
     d3.select('.map__footnote').datum(data.mapfootnote);
+  }else{
+    var existingFootnote = d3.select('.map__footnote').html();
+    d3.select('.map__footnote').datum(existingFootnote);
   }
 }
 
