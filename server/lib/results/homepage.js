@@ -46,12 +46,12 @@ export function createHomepageConfig(spreadsheetConfig) {
     const input = spreadsheetConfig.homepagePanels.toString().toLowerCase();
 
     // An empty cell in the spreadsheet should not mean "no panels"
-    // We must be explicit about wanting that, so weprefer special code: "[none]"
-    if (input === '[none]') {
+    // We must be explicit about wanting that, so weprefer special code: "none"
+    if (input === 'none') {
       config.enabledPanels = [];
 
-    // To show the panels to be whatever the default is then use "[auto]"
-    } else if (input === '[auto]') {
+    // To show the panels to be whatever the default is then use "auto"
+    } else if (input === 'auto') {
       config.enabledPanels = defaultTabConfig;
     }
 
