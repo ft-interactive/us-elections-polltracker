@@ -103,6 +103,9 @@
   .ec-map {
     display: none;
   }
+  .article__main .suggested-reads__list-item__headline {
+    font-size: 1.25em;
+  }
 }
 
 .result-bars {
