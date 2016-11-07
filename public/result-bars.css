@@ -331,11 +331,13 @@
 .mini-dashboard__best-guess .mini-dashboard__bar-fill--dem,
 .mini-dashboard__initial .mini-dashboard__bar-fill--dem {
   border: 1px solid #579dd5;
+  box-sizing: border-box;
 }
 
 .mini-dashboard__best-guess .mini-dashboard__bar-fill--rep,
 .mini-dashboard__initial .mini-dashboard__bar-fill--rep {
   border: 1px solid #e03d46;
+  box-sizing: border-box;
 }
 
 .mini-dashboard__finish-line {
