@@ -240,14 +240,26 @@ function makeLookup(arr,key){
 
   var key = 'ig-results-live-update-notice-dismissed';
 
-  if (localStorage && localStorage[key]) {
+  var hasLocalStorage = (function() {
+    // feature detect taken from modernizr
+    var mod = 'x';
+    try {
+      localStorage.setItem(mod, mod);
+      localStorage.removeItem(mod);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  })();
+
+  if (hasLocalStorage && localStorage.getItem(key)) {
     liveUpdateNotice.remove();
   } else {
     button.addEventListener('click', () => {
       liveUpdateNotice.remove();
 
       if (localStorage) {
-        localStorage[key] = true;
+        localStorage.setItem(key, true);
       }
     });
 
