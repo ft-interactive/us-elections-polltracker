@@ -86,6 +86,7 @@ function fetchSpreadsheetData() {
         mediaOrgs,
         electoralCollege,
         overview: {
+          pollingInterval: homepageConfig.refreshAfter,
           timestamp,
           senate,
           house,
