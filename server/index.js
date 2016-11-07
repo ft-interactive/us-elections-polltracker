@@ -38,24 +38,24 @@ for (const name of Object.keys(flags).sort()) {
 console.log('\n');
 
 // run scraper up front if this is a review app
-if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '"1"') {
-  const scraper = require('../scraper').default; // eslint-disable-line global-require
-
-  let stillInitialising = true;
-
-  scraper(true).then(() => {
-    stillInitialising = false;
-  });
-
-  // politely 500 all requests while scraper is still running
-  app.use((req, res, next) => {
-    if (stillInitialising) {
-      res.status(500).send('still initialising database - please wait then try again');
-      return;
-    }
-    next();
-  });
-}
+// if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '"1"') {
+//   const scraper = require('../scraper').default; // eslint-disable-line global-require
+//
+//   let stillInitialising = true;
+//
+//   scraper(true).then(() => {
+//     stillInitialising = false;
+//   });
+//
+//   // politely 500 all requests while scraper is still running
+//   app.use((req, res, next) => {
+//     if (stillInitialising) {
+//       res.status(500).send('still initialising database - please wait then try again');
+//       return;
+//     }
+//     next();
+//   });
+// }
 
 const staticOptions = {
   cacheControl: true,
