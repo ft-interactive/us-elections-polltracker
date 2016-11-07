@@ -8,25 +8,20 @@ import statesList from '../../data/states';
 
 class ResultPage extends Page {
 
-  // TODO: description = 'Polling data for the 2016 US presidential election';
-  // TODO: socialHeadline = 'US presidential election: here\'s where the polls stand';
-  // TODO: socialSummary = 'US election poll tracker: Here\'s who\'s ahead';
-  // TODO: publishedDate
-  // TODO: canonicalUrl
-  // TODO: mainImage = {
-  //          url: 'https://image.webservices.ft.com/v1/images/raw/https:%2F%2Fig.ft.com%2Fstatic%2Fus-election-2016%2Fsocial.jpg?source=ig&format=jpg&quality=high&width=800',
-  //       };
+  description = 'US election 2016: Presidential and congressional results';
+  socialHeadline = 'US election 2016: Presidential and congressional results';
+  socialSummary = 'US election 2016: Presidential and congressional results';
+  
+  canonicalUrl = 'https://ig.ft.com/us-elections/results';
+  mainImage = {
+      url: 'https://image.webservices.ft.com/v1/images/raw/https:%2F%2Fig.ft.com%2Fstatic%2Fus-election-2016%2Fsocial.jpg?source=ig&format=jpg&quality=high&width=800',
+  };
 
   id = '5cc27b78-946b-11e6-a1dc-bdf38d484582';
-
-  title = 'Presidential election result';
-
+  title = 'Presidential election results 2016';
   url = 'https://ig.ft.com/us-elections/results';
-
-  // TODO: what's this for?
-  code = 'us';
-
   headline = 'US presidential election results';
+  summary = 'Electoral college map';
 
   async ready() {
     const result = (await getResultData()).resultsPage;

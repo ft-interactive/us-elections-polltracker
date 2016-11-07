@@ -68,7 +68,7 @@
 
 .mini-dashboard__head-icons {
   display: inline-block;
-  margin-top: -10px;
+  margin-top: 10px;
 }
 
 .mini-dashboard__head-icons--dem {
@@ -197,7 +197,7 @@
 .president-bars .mini-dashboard__bar-label-dem {
   height: 2em;
   line-height: 1.65em;
-  margin-top: 12px;
+  margin-top: 32px;
 }
 
 .house-bars .mini-dashboard__bar-label-rep,
@@ -279,11 +279,22 @@
   .mini-dashboard__head-icons--rep {
     margin-left: 5px;
   }
+  .president-bars .mini-dashboard__bar-label-rep,
+  .president-bars .mini-dashboard__bar-label-dem {
+    margin-top: 12px;
+  }
+  .mini-dashboard__head-icons {
+    margin-top: -10px;
+  }
 }
 
 @media (max-width: 489px) {
   .mini-dashboard__head-icons {
     display: none;
+  }
+  .president-bars .mini-dashboard__bar-label-rep,
+  .president-bars .mini-dashboard__bar-label-dem {
+    height: 3em;
   }
 }
 

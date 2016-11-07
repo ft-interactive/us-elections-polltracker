@@ -38,24 +38,24 @@ for (const name of Object.keys(flags).sort()) {
 console.log('\n');
 
 // run scraper up front if this is a review app
-if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '"1"') {
-  const scraper = require('../scraper').default; // eslint-disable-line global-require
-
-  let stillInitialising = true;
-
-  scraper(true).then(() => {
-    stillInitialising = false;
-  });
-
-  // politely 500 all requests while scraper is still running
-  app.use((req, res, next) => {
-    if (stillInitialising) {
-      res.status(500).send('still initialising database - please wait then try again');
-      return;
-    }
-    next();
-  });
-}
+// if (process.env.SCRAPE_ON_STARTUP === '1' || process.env.SCRAPE_ON_STARTUP === '"1"') {
+//   const scraper = require('../scraper').default; // eslint-disable-line global-require
+//
+//   let stillInitialising = true;
+//
+//   scraper(true).then(() => {
+//     stillInitialising = false;
+//   });
+//
+//   // politely 500 all requests while scraper is still running
+//   app.use((req, res, next) => {
+//     if (stillInitialising) {
+//       res.status(500).send('still initialising database - please wait then try again');
+//       return;
+//     }
+//     next();
+//   });
+// }
 
 const staticOptions = {
   cacheControl: true,
@@ -205,16 +205,7 @@ app.get('/ec-breakdown.html', ecBreakdownController);
 // Don't allow access to the page when
 // flags.results is false
 if (app.locals.flags.results) {
-  if (app.locals.flags.resultsFTAuth) {
-    const authS3O = require('s3o-middleware'); // eslint-disable-line global-require
-
-    app.set('trust proxy', true);
-    app.get('/results', authS3O, resultController.page);
-    // National results page
-    app.post('/results', authS3O);
-  } else {
-    app.get('/results', resultController.page);
-  }
+  app.get('/results', resultController.page);
 }
 
 // This needs to be last as it captures lot of paths and only does redirects

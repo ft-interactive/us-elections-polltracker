@@ -1,5 +1,15 @@
-*{
-    box-sizing: border-box;
+@import 'o-grid/main';
+@import 'o-colors/main';
+
+@import './result-bars';
+@import './state-results';
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
 }
 
 .ecresultslist { }
