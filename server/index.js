@@ -158,6 +158,14 @@ app.get('/forecast-map.svg', async (req, res) => {
   }
 });
 
+// JSON endpoints for Results page client side
+app.get('/full-result.json', resultController.fullResults);
+app.get('/homepage-results.json', resultController.homepageResults);
+
+// Simple Status message endpoint to see if there is a problem
+// processing the spreadsheet
+app.get('/result-status.txt', resultController.serviceStatus);
+
 app.get('/', (req, res) => {
   if (app.locals.flags.results) {
     res.redirect('results');
@@ -207,14 +215,6 @@ if (app.locals.flags.results) {
   } else {
     app.get('/results', resultController.page);
   }
-
-  // JSON endpoints for Results page client side
-  app.get('/full-result.json', resultController.fullResults);
-  app.get('/homepage-results.json', resultController.homepageResults);
-
-  // Simple Status message endpoint to see if there is a problem
-  // processing the spreadsheet
-  app.get('/result-status.txt', resultController.serviceStatus);
 }
 
 // This needs to be last as it captures lot of paths and only does redirects
