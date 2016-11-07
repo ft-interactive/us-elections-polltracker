@@ -96,6 +96,7 @@ function fetchSpreadsheetData() {
         refreshAfter: homepageConfig.refreshAfter,
         updated: timestamp,
         switchTabEvery: homepageConfig.switchTabEvery,
+        showPolltracker: homepageConfig.showPolltracker,
         miniDashboard: {
           enabledPanels: homepageConfig.enabledPanels,
           panelContents: {
