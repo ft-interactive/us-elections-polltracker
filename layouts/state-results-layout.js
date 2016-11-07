@@ -68,7 +68,10 @@ export default (electoralCollege) => {
 
   for (const bucketId of bucketIds) {
     stateResults.buckets[bucketId] = electoralCollege
-      .filter(state => state.pollingprojection.toUpperCase() === bucketId)
+      .filter((state) => {
+        if(!state.pollingprojection) return false; //protect against unset polling projection
+        return state.pollingprojection.toUpperCase() === bucketId
+      })
       .map(state => {
         const { ecvotes: ecVotes } = state;
         const [bgColor, textColor] = getColors(state.winner);

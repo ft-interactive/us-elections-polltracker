@@ -222,7 +222,7 @@ function redraw(){
   //text
   d3.select('h1.o-typography-heading1').html(function(d){ return d; });
   d3.select('p.o-typography-lead').html(function(d){ return d; });
-  d3.select('.map__footnote').datum(function(d){ return d; });
+  d3.select('.map__footnote').html(function(d){ return d; });
 }
 
 function makeLookup(arr,key){
