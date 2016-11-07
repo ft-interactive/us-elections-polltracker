@@ -141,11 +141,6 @@
     }
   }
 
-
-  @media (max-width: 369px) {
-    width: calc(100% + 16px);
-  }
-
   @media (min-width: 370px) {
     &__section--middle {
       border: 6px solid white;
