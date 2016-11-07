@@ -1,4 +1,7 @@
 import { getByCode } from '../states';
+import { env } from '../../nunjucks';
+
+const markdown = env.filters.md;
 
 // TODO: more testing!!!
 // TODO: count states. with DC, maine etc
@@ -27,13 +30,18 @@ function listThings(arr) {
 }
 
 export default function dynamicFootnote(template, time, president, electoralCollege) {
-  if (template === '[none]') {
+  const text = calculateText(template, time, president, electoralCollege);
+  return !text ? '' : markdown(text, true).val;
+}
+
+function calculateText(template, time, president, electoralCollege) {
+  if (template === '{none}' || template === 'none') {
     return '';
   }
 
   const hasTokens = !!template && template.indexOf('{') !== -1;
 
-  if (!template || template === '[auto]') {
+  if (!template || template === '{auto}' || template === 'auto') {
     if (president.isFinal) {
       return 'Final result';
     } else if (!president.hasMajority && president.numIncomplete < 4) {
