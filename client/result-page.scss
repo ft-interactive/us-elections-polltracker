@@ -73,10 +73,6 @@ html {
   display: block;
 }
 
-.dot-map svg {
-  position: relative;
-  top: -20px;
-}
 
 .dot-map .article-figure__heading {
   margin-top: 0;
@@ -95,6 +91,26 @@ html {
   display: block;
 }
 
+.dot-map svg {
+  position: relative;
+  top: -20px;
+}
+
+
+
+@media (max-width: 739px) {
+  .dot-map svg {
+    position: relative;
+    top: -10px;
+  }
+  .standard-map {
+    display: block;
+  }
+  .ec-map {
+    display: none;
+  }
+}
+
 @media (max-width: 489px) {
   .article__main {
     margin-top: 0;
@@ -103,15 +119,9 @@ html {
   .o-typography-lead {
     font: 18px/1.4 Georgia, serif;
   }
-}
-
-
-@media (max-width: 739px) {
-  .standard-map {
-    display: block;
-  }
-  .ec-map {
-    display: none;
+  .dot-map svg {
+    position: relative;
+    top: 0px;
   }
 }
 
