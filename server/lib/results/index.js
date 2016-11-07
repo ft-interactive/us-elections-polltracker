@@ -54,7 +54,7 @@ function fetchSpreadsheetData() {
     const president = presidentialElectionResult(electoralCollege);
 
     // Add AP row to the beginning of the Media list for comparison
-    const ap = {name: 'Associated Press (FT\'s data source)',
+    const ap = {name: 'Associated Press',
       clinton: president.clinton,
       trump: president.trump,
       other: president.other,
