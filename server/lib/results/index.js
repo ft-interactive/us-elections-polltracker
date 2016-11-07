@@ -46,7 +46,6 @@ function fetchSpreadsheetData() {
     if (!senateData) throw new Error('No House data available');
     if (!houseData) throw new Error('No Senate data available');
     if (response.data.electoralCollege.length < totalECPolities) throw new Error(`Missing ${totalECPolities - response.data.electoralCollege.length} Electoral college rows`);
-
     const config = processConfigSheet(response.data.copy);
     const homepageConfig = createHomepageConfig(config);
     const electoralCollege = processElectoralCollegeSheet(response.data.electoralCollege);

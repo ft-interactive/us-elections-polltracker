@@ -30,16 +30,14 @@ class ResultPage extends Page {
 
   async ready() {
     const result = (await getResultData()).resultsPage;
-    // console.log(result.copy);
     this.headline = result.copy.headline || this.headline;
     this.summary = result.copy.subtitle || this.summary;
     this.senatefootnote = result.copy.senatefootnote || '';
     this.housefootnote = result.copy.housefootnote || '';
-    this.statebreakdowntitle = result.copy.statebreakdowntitle || 'Where were the biggest upsets?';
-    this.statebreakdownsubtitle = result.copy.statebreakdownsubtitle || 'Presidential winner by state';
+    this.statebreakdowntitle = result.copy.statebreakdowntitle || 'Did the candidates win as expected?';
+    this.statebreakdownsubtitle = result.copy.statebreakdownsubtitle || 'Presidential winner and electoral college votes by state. Expected winners based on latest polls';
     this.congresstext = result.copy.congresstext || false;
     this.statetabletext = result.copy.statetabletext || false;
-
     this.stateResults = stateResultsLayout(result.electoralCollege);
     this.overview = result.overview;
     this.mediaOrgs = result.mediaOrgs;
