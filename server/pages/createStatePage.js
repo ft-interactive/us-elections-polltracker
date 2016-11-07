@@ -40,8 +40,8 @@ class StatePage extends PollsPage {
     }
 
     this.onwardJourney = await onwardJourney({
-      // Home page US Election midriff
-      suggestedReads: 'list/721e37c6-7442-11e6-bf48-b372cdb1043a',
+      // Home page US Election headpiece
+      suggestedReads: 'list/dbd61736-8af1-11e6-8aa5-f79f5696c731',
       relatedContent
     });
   }
