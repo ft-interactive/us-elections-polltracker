@@ -53,7 +53,6 @@
     "pg-hstore": "^2.3.2",
     "pretty-ms": "^2.1.0",
     "promise": "^7.1.1",
-    "s3o-middleware": "financial-times/S3O-middleware",
     "sequelize": "^3.24.6",
     "sequelize-cli": "^2.4.0",
     "svg-intersections": "^0.2.5",
