@@ -205,16 +205,7 @@ app.get('/ec-breakdown.html', ecBreakdownController);
 // Don't allow access to the page when
 // flags.results is false
 if (app.locals.flags.results) {
-  if (app.locals.flags.resultsFTAuth) {
-    const authS3O = require('s3o-middleware'); // eslint-disable-line global-require
-
-    app.set('trust proxy', true);
-    app.get('/results', authS3O, resultController.page);
-    // National results page
-    app.post('/results', authS3O);
-  } else {
-    app.get('/results', resultController.page);
-  }
+  app.get('/results', resultController.page);
 }
 
 // This needs to be last as it captures lot of paths and only does redirects
