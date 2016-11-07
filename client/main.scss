@@ -9,7 +9,7 @@
   padding-left: 0 !important;
 }
 .o-typography-body-wrapper p {
-  max-width: 666px;
+  margin-bottom: 2em;
 }
 .o-typography-body-wrapper h2 {
   font-weight: 400;
@@ -25,6 +25,7 @@
   }
   .o-typography-body-wrapper p {
     font-size: 16px;
+    margin: 0 0 1.5em 0;
   }
   .o-typography-body-wrapper h2 {
     font-size: 20px;
@@ -53,7 +54,7 @@
 
 .article-figure {
   font-family: MetricWeb, sans-serif;
-  margin-bottom: 3em;
+  margin-bottom: 2em;
 }
 .article-figure p {
   line-height: 1.52em
@@ -61,14 +62,14 @@
 
 
 .article-figure .article-figure__heading {
-  margin-top: 2em;
+  margin-top: 0.4em;
   margin-bottom: 0.5em;
   font-family: inherit;
 }
 
 @media (max-width: 61.24em) {
   .article-figure .article-figure__heading {
-  margin-top: 1em;}
+  margin-top: 0.4em;}
 }
 
 
@@ -1925,6 +1926,7 @@ a.ec-breakdown-row {
   background-color: #e9decf;
   padding: 20px 0;
   box-sizing: border-box;
+  margin: 1.5em 0;
 }
 
 .suggested-reads .suggested-reads__title {
@@ -2036,7 +2038,9 @@ a.ec-breakdown-row {
   .article__main .suggested-reads {
     padding: 15px 10px 3px 10px;
   }
-
+  .suggested-reads .suggested-reads__list-item__headline-text {
+    font-size: 20px;
+  }
   .article__main .suggested-reads__title {
     margin-left: 10px;
   }
@@ -2061,6 +2065,12 @@ a.ec-breakdown-row {
   .article__main .suggested-reads__list-item__subheading {
     font-size: 12px;
     line-height: 1.25;
+  }
+}
+
+@media (max-width: 490px) {
+  .suggested-reads .suggested-reads__list-item__headline-text {
+    font-size: 18px;
   }
 }
 
