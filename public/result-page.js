@@ -232,3 +232,37 @@ function makeLookup(arr,key){
   })
   return o;
 }
+
+// show the live update notice
+(function () {
+  var liveUpdateNotice = document.querySelector('.live-update-notice');
+  var button = liveUpdateNotice.querySelector('.live-update-notice__dismiss');
+
+  var key = 'ig-results-live-update-notice-dismissed';
+
+  var hasLocalStorage = (function() {
+    // feature detect taken from modernizr
+    var mod = 'x';
+    try {
+      localStorage.setItem(mod, mod);
+      localStorage.removeItem(mod);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  })();
+
+  if (hasLocalStorage && localStorage.getItem(key)) {
+    liveUpdateNotice.remove();
+  } else {
+    button.addEventListener('click', () => {
+      liveUpdateNotice.remove();
+
+      if (localStorage) {
+        localStorage.setItem(key, true);
+      }
+    });
+
+    liveUpdateNotice.classList.add('live-update-notice--js');
+  }
+})();
