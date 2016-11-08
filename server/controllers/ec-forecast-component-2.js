@@ -5,10 +5,10 @@ import nationalCount from '../lib/national-count';
 import ecForecastBarsLayout from '../../layouts/ec-forecast-bars-layout';
 import cssnano from 'cssnano';
 
-const maxAge = 180;
+const maxAge = 360;
 const sMaxAge = 60;
 const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
-const lruAge = maxAge * 1000; // 3 mins
+const lruAge = maxAge * 1000; // 6 mins
 const cssNanoOptions = {safe: true, sourcemap: false};
 
 export default async (req, res) => {
