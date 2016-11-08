@@ -25,6 +25,12 @@ html {
   box-sizing: inherit;
 }
 
+
+
+.o-share ul{
+      box-sizing: initial;
+}
+
 .ecresultslist { }
 
 .ecresultslist__cell--dem {
@@ -93,6 +99,11 @@ html {
   display: block;
 }
 
+
+.dot-map h2.article-figure__sectionheading {
+  margin-top: 0;
+  margin-bottom: 0.3em;
+}
 
 .dot-map .article-figure__heading {
   margin-top: 0;
