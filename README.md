@@ -1,4 +1,4 @@
-# US Elections Poll Tracker
+# FT 2016 US Elections [Poll Tracker](https://ig.ft.com/us-elections/polls) & [Results Map](https://ig.ft.com/us-elections/results)
 
 Partially based on the [FT Brexit polling app](https://github.com/ft-interactive/brexit-polling).
 
