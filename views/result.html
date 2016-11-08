@@ -62,31 +62,34 @@ var pageDataTimestamp = {{ overview.timestamp }};
         {{ Ads.MidpageFullGrid(flags.ads) }}
       </div>
       {%if congresstext %}
-      <div data-o-grid-colspan="center 12 M8">
+      <div data-o-grid-colspan="center 12 M10 L8 XL7">
       <p>{{congresstext | safe}}</p>
       </div>
       {% endif %}
-      {#
-      <div data-o-grid-colspan="12 M6">
+      
+      {% if flags.otherMediaResults %}
+      <div data-o-grid-colspan="{% if flags.congressBarResults %}12 M6{% else %}12 M8 L7 XL6 center{% endif %}">
         <div class="media-bars">
           {% call PageElements.Figure(title="What the US media are saying") %}
             {% for org in mediaOrgs %}
             <div><a href="{{ org.link }}" id="mediaorg-link-{{loop.index}}">{{ org.name }}</a></div>
             <div id="mediaorg-resultbar-{{loop.index}}">{{ bars.ResultBar(
                     data=org,
-                    majority=270,
+                    majority="270 to win",
                     selectorKey="mediaorg-" + loop.index ) }}</div>
             {% endfor %}
           {% endcall %}
           </div>
       </div>
-      #}
-      <div data-o-grid-colspan="12 M6 center">
+      {% endif %}
+      
+      {% if flags.congressBarResults %}
+      <div data-o-grid-colspan="{% if flags.otherMediaResults %}12 M6{% else %}12 M8 L7 XL6 center{% endif %}">
           <div class="house-bars">
             {% call PageElements.Figure(title="House of Representatives", id="House") %}
                   {{ bars.ResultBar(
                     data=overview.house,
-                    majority=218,
+                    majority="218 districts",
                     footnote=housefootnote,
                     selectorKey="house") }}
             {% endcall %}
@@ -95,13 +98,14 @@ var pageDataTimestamp = {{ overview.timestamp }};
             {% call PageElements.Figure(title="Senate", id="Senate") %}
                   {{ bars.ResultBar(
                     data=overview.senate,
-                    majority=50,
+                    majority="50 seats",
                     footnote=senatefootnote,
                     selectorKey="senate")
                   }}
             {% endcall %}
           </div>
       </div>
+      {% endif %}
 
       {% set showSuggestedReads = flags.onwardJourney and
                                   flags.resultSuggestedReads and
@@ -123,7 +127,7 @@ var pageDataTimestamp = {{ overview.timestamp }};
         <div class="o-grid-row">
       {% endif %}
       {% if statetabletext %}
-      <div data-o-grid-colspan="center 12 M8">
+      <div data-o-grid-colspan="center 12 M10 L8 XL7">
       <p>{{statetabletext | safe}}</p>
       </div>
       {% endif %}

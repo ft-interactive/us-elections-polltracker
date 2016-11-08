@@ -332,7 +332,8 @@
 	"conceptId": "TnN0ZWluX0dMX1VTX01pY2hpZ2Fu-R0w=",
 	"url": null,
 	"id": "a9ebb3e0-5b01-11e6-9f70-badea1b336d4",
-	"slug": "michigan"
+	"slug": "michigan",
+	"swing": true
 }, {
 	"code": "MN",
 	"shortName": "Minn",
@@ -470,7 +471,8 @@
 	"conceptId": "TnN0ZWluX0dMX1VTX05ld0hhbXBzaGlyZQ==-R0w=",
 	"url": null,
 	"id": "9b7f4978-5afe-11e6-9f70-badea1b336d4",
-	"slug": "new-hampshire"
+	"slug": "new-hampshire",
+	"swing": true
 }, {
 	"code": "NJ",
 	"shortName": "NJ",
@@ -669,7 +671,8 @@
 	"conceptId": "TnN0ZWluX0dMX1VTX1V0YWg=-R0w=",
 	"url": null,
 	"id": "84f28ea6-5b01-11e6-9f70-badea1b336d4",
-	"slug": "utah"
+	"slug": "utah",
+	"swing": true
 }, {
 	"code": "VT",
 	"shortName": "Vt",

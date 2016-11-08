@@ -141,11 +141,6 @@
     }
   }
 
-
-  @media (max-width: 369px) {
-    width: calc(100% + 16px);
-  }
-
   @media (min-width: 370px) {
     &__section--middle {
       border: 6px solid white;
@@ -215,7 +210,7 @@
 
       &__label {
         font: 600 10px MetricWeb, sans-serif;
-        font-size: 2.6vw;
+        font-size: 3vw;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
 

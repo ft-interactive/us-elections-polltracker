@@ -87,7 +87,7 @@
   box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.15);
   background: #F6E9D8;
   padding: 10px;
-  margin-bottom: 1em;
+  margin: 1em 0;
 }
 
 .media-bars .article-figure {
@@ -105,7 +105,7 @@
 }
 
 .media-bars .article-figure__heading {
-  margin-top: 0.5em;
+  margin-top: 0;
 }
 
 .media-bars .mini-dashboard__chart {
@@ -159,6 +159,10 @@
   position: absolute;
   top: 0px;
   right: 5px;
+}
+
+.house-bars {
+  margin-top: 1.6em;
 }
 
 .house-bars .mini-dashboard__bar-labels,
@@ -258,38 +262,38 @@
 }
 
 @media (max-width: 739px) {
-  .mini-dashboard__bar-label-dem,
-  .mini-dashboard__bar-label-rep {
+  .president-bars .mini-dashboard__bar-label-dem,
+  .president-bars .mini-dashboard__bar-label-rep {
     float: none;
     display: inline-block;
   }
-  .mini-dashboard__bar-label-container {
+  .president-bars .mini-dashboard__bar-label-container {
     margin-bottom: -12px;
   }
-  .mini-dashboard__bar-label-container-dem {
+  .president-bars .mini-dashboard__bar-label-container-dem {
     text-align: left;
   }
-  .mini-dashboard__bar-label-container-rep {
+  .president-bars .mini-dashboard__bar-label-container-rep {
     text-align: right;
   }
-  .mini-dashboard__head-icons--dem {
+  .president-bars .mini-dashboard__head-icons--dem {
     margin-right: 8px;
   }
 
-  .mini-dashboard__head-icons--rep {
+  .president-bars .mini-dashboard__head-icons--rep {
     margin-left: 5px;
   }
   .president-bars .mini-dashboard__bar-label-rep,
   .president-bars .mini-dashboard__bar-label-dem {
     margin-top: 12px;
   }
-  .mini-dashboard__head-icons {
+  .president-bars .mini-dashboard__head-icons {
     margin-top: -10px;
   }
 }
 
 @media (max-width: 489px) {
-  .mini-dashboard__head-icons {
+  .president-bars .mini-dashboard__head-icons {
     display: none;
   }
   .president-bars .mini-dashboard__bar-label-rep,

@@ -15,14 +15,28 @@
 	}
 	.standard-map .map-labels{
 		font-weight:200;
-		font-size:19px;
+		font-size:24px;
 	}
+
 	.annotation-backing .map-labels{
 		stroke-linejoin:round;
 		stroke:#fff1e0;
 		stroke-opacity:0.5;
 		stroke-width:3px;
 	}
+  
+  @media (max-width: 739px) {
+    .standard-map .map-labels{
+      font-size: 20px;
+    }
+  }
+  
+  @media (max-width: 490px) {
+    .standard-map .map-labels{
+      font-size: 24px;
+    }
+  }
+  
 
 	.standard-map.annotation-backing .map-labels{
 		stroke-linejoin:round;

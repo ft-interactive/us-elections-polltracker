@@ -81,10 +81,10 @@ function rebindCopy(data) {
     d3.select('h1.o-typography-heading1').datum(existingHeadline);
   }
   if (data.subtitle) {
-    d3.select('p.o-typography-lead').datum(data.subtitle);
+    d3.select('.o-typography-lead').datum(data.subtitle);
   }else{
     var existingSub = d3.select('p.o-typography-lead').html();
-    d3.select('p.o-typography-lead').datum(existingSub);
+    d3.select('.o-typography-lead').datum(existingSub);
   }
 
   if (data.mapfootnote) {
@@ -233,7 +233,7 @@ function redraw(){
 
   //text
   d3.select('h1.o-typography-heading1').html(function(d){ return d; });
-  d3.select('p.o-typography-lead').html(function(d){ return d; });
+  d3.select('.o-typography-lead').html(function(d){ return d; });
   d3.select('.map__footnote').html(function(d){ return d; });
 }
 

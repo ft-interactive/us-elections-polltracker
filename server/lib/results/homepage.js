@@ -19,6 +19,7 @@ const defaults =  Object.freeze({
   enabledPanels: defaultTabConfig,
   resultsPromoEnabled: false,
   marketcharts: 'night',
+  showPolltracker: false,
 });
 
 const marketdataChartGroups = {
@@ -35,6 +36,10 @@ export function createHomepageConfig(spreadsheetConfig) {
 
   if (typeof spreadsheetConfig.resultsPromoEnabled === 'boolean') {
     config.resultsPromoEnabled = spreadsheetConfig.resultsPromoEnabled;
+  }
+
+  if (typeof spreadsheetConfig.showPolltracker === 'boolean') {
+    config.showPolltracker = spreadsheetConfig.showPolltracker;
   }
 
   if (spreadsheetConfig.marketcharts &&
@@ -65,9 +70,13 @@ export function createHomepageConfig(spreadsheetConfig) {
     }
   }
 
-  // Dont let the poll rate go under 1 sec
-  if (spreadsheetConfig.refreshAfter >= 1000) {
-    config.refreshAfter = spreadsheetConfig.refreshAfter;
+  if (spreadsheetConfig.refreshAfter) {
+    // Dont let the poll rate go under 1 sec
+    if (spreadsheetConfig.refreshAfter >= 1000) {
+      config.refreshAfter = spreadsheetConfig.refreshAfter;
+    } else {
+      config.refreshAfter = null;
+    }
   }
 
   // Dont let the HP tab switching go under 3 secs
