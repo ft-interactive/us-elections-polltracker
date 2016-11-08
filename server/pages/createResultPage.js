@@ -46,11 +46,6 @@ class ResultPage extends Page {
       this.keyStates[d.code] = true;
     }
 
-    // this.keyStates = statesList.reduce((previous, current) => {
-    //   previous[current.code] = current.swing; // eslint-disable-line no-param-reassign
-    //   return previous;
-    // }, {});
-
     this.onwardJourney = await onwardJourney({
       // Home page US Election headpiece
       suggestedReads: 'list/dbd61736-8af1-11e6-8aa5-f79f5696c731',
