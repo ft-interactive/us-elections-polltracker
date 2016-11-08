@@ -1,4 +1,4 @@
-var color = {
+const color = {
   Trump: '#e03d46',
   Clinton: '#579dd5',
   Johnson: '#6e4794',
@@ -24,16 +24,16 @@ var color = {
 
 queue('https://ig.ft.com/static/g-ui/libs/d3.v4.min.js', resultsMain);
 
-var maxRetries = 3;
-var retryCount = 0;
+const maxRetries = 3;
+let retryCount = 0;
 
 function resultsMain() {
   function gotData(data) {
-    var pollInterval;
+    let pollInterval;
     // data will be null if the request fails/timesout
     try {
       if (!data) throw new Error('Could not get data');
-      if(data.overview.timestamp > window.pageDataTimestamp) {
+      if (data.overview.timestamp > window.pageDataTimestamp) {
         window.pageDataTimestamp = data.overview.timestamp;
         rebindMap(data.electoralCollege);
         rebindBars(data.overview);
@@ -68,45 +68,45 @@ function resultsMain() {
 }
 
 function rebindLabels(data) {
-  data.forEach(function(d) {
-    d3.select('#map-label-'+d.code.toLowerCase()).datum(d.winner);
+  data.forEach((d) => {
+    d3.select(`#map-label-${d.code.toLowerCase()}`).datum(d.winner);
   });
 }
 
 function rebindCopy(data) {
   if (data.headline) {
     d3.select('h1.o-typography-heading1').datum(data.headline);
-  }else{
-    var existingHeadline = d3.select('h1.o-typography-heading1').html();
+  }else {
+    const existingHeadline = d3.select('h1.o-typography-heading1').html();
     d3.select('h1.o-typography-heading1').datum(existingHeadline);
   }
   if (data.subtitle) {
     d3.select('.o-typography-lead').datum(data.subtitle);
-  }else{
-    var existingSub = d3.select('p.o-typography-lead').html();
+  }else {
+    const existingSub = d3.select('p.o-typography-lead').html();
     d3.select('.o-typography-lead').datum(existingSub);
   }
 
   if (data.mapfootnote) {
     d3.select('.map__footnote').datum(data.mapfootnote);
-  }else{
-    var existingFootnote = d3.select('.map__footnote').html();
+  } else{
+    const existingFootnote = d3.select('.map__footnote').html();
     d3.select('.map__footnote').datum(existingFootnote);
   }
 }
 
 function rebindTable(data) {
-  var lookupByCollegeID = makeLookup(data, 'code');
+  const lookupByCollegeID = makeLookup(data, 'code');
   d3.selectAll('.state-block')
-      .each(function(){
-        var code = this.dataset.statecode;
+      .each(function bindTableData() {
+        const code = this.dataset.statecode;
         d3.select(this).datum(lookupByCollegeID[code.toLowerCase()].winner);
       });
 }
 
 
 function rebindBars(data) {
-  //president
+  // president
   d3.select('#president-bar-clinton')
       .datum(data.president.clinton_pct);
   d3.select('#president-bar-trump')
@@ -117,14 +117,14 @@ function rebindBars(data) {
   d3.select('#president-datalabel-trump')
       .datum(data.president.trump);
 
-  //best guess
+  // best guess
   d3.select('#president-bestguessbar-clinton')
       .datum(data.president.bestGuessClinton_pct);
 
   d3.select('#president-bestguessbar-trump')
       .datum(data.president.bestGuessTrump_pct);
 
-  //house
+  // house
   d3.select('#house-bar-dem')
       .datum(data.house.dem_pct);
   d3.select('#house-bar-rep')
@@ -135,7 +135,7 @@ function rebindBars(data) {
   d3.select('#house-datalabel-rep')
       .datum(data.house.rep);
 
-  //senate
+  // senate
   d3.select('#senate-bar-dem')
       .datum(data.senate.dem_pct);
   d3.select('#senate-bar-ind')
@@ -149,98 +149,94 @@ function rebindBars(data) {
       .datum(data.senate.rep);
 }
 
-function rebindMediaOrgs(data){
-    data.forEach(function(d, i){
-      var templateindex = i+1;
-      d3.select('#mediaorg-' + templateindex + '-bar-dem').datum(d.dem_pct);
-      d3.select('#mediaorg-' + templateindex + '-bar-rep').datum(d.rep_pct);
-      d3.select('#mediaorg-' + templateindex + '-datalabel-dem').datum(d.dem);
-      d3.select('#mediaorg-' + templateindex + '-datalabel-rep').datum(d.rep);
-    })
+function rebindMediaOrgs(data) {
+  data.forEach((d, i) => {
+      const templateindex = i + 1;
+      d3.select(`#mediaorg-${ templateindex }-bar-dem`).datum(d.dem_pct);
+      d3.select(`#mediaorg-${ templateindex }-bar-rep`).datum(d.rep_pct);
+      d3.select(`#mediaorg-${ templateindex }-datalabel-dem`).datum(d.dem);
+      d3.select(`#mediaorg-${ templateindex }-datalabel-rep`).datum(d.rep);
+  });
 }
 
 function rebindMap(data) {
-  var lookupByCollegeID = makeLookup(data, 'code');
+  const lookupByCollegeID = makeLookup(data, 'code');
   d3.selectAll('.standard-map path')
-      .each(function() {
-        var collegeID = d3.select(this).attr('id');
-        if(collegeID) {
+      .each(function assignMapValue() {
+        const collegeID = d3.select(this).attr('id');
+        if (collegeID) {
           d3.select(this).datum(lookupByCollegeID[collegeID.toLowerCase()]);
         }
       });
 
   d3.selectAll('.ec-map circle')
-      .each(function() {
-        var collegeID = d3.select(this).attr('id').split('_')[0];
-        if(collegeID) {
+      .each(function assignECValue() {
+        const collegeID = d3.select(this).attr('id').split('_')[0];
+        if (collegeID) {
           d3.select(this).datum(lookupByCollegeID[collegeID.toLowerCase()]);
         }
       });
 }
 
-function redraw(){
-  //maps
+function redraw() {
+  // maps
   d3.selectAll('.standard-map path')
-      .style('fill',function(d) {
+      .style('fill', (d) => {
         if (d && d.winner) return color[d.winner];
         return 'none';
       })
-      .style('stroke',function(d) {
+      .style('stroke', (d) => {
         if (d && d.winner) return 'none';
         return color.nomapdata;
       });
 
   d3.selectAll('.ec-map circle')
-      .attr('fill',function(d) {
+      .attr('fill', (d) => {
         if (d && d.winner) return color[d.winner];
         return color.nomapdata;
       })
-      .attr('stroke',function(d) {
+      .attr('stroke', (d) => {
         if (d && d.winner) return 'none';
         return color.nomapdata;
       })
-      .style('fill',function(d) {
+      .style('fill', (d) => {
         if (d && d.winner) return color[d.winner];
         return color.nomapdata;
       })
-      .style('stroke',function(d) {
+      .style('stroke', (d) => {
         if (d && d.winner) return 'none';
         return color.nomapdata;
       });
-  //labels
+  // labels
   d3.selectAll('.state-annotations.standard-map text')
-      .classed('result-label', function(d) { return d; })
+      .classed('result-label', d => d);
 
-  //table
+  // table
   d3.selectAll('.state-block')
-      .style('color', function(d) {
-        if(d) return '#FFF';
+      .style('color', (d) => {
+        if (d) return '#FFF';
         return null;
       })
-      .style('background-color', function(d) {
+      .style('background-color', (d) => {
         if (color[d]) return color[d];
         return color.nomapdata;
-      })
-
-  //bars
-  d3.selectAll('.data-bar')
-      .style('width', function(d) {
-        return d+'%';
       });
 
-  d3.selectAll('.data-label')
-      .text(function(d) { return d; })
+  // bars
+  d3.selectAll('.data-bar')
+      .style('width', d => `${d}%`);
 
-  //text
-  d3.select('h1.o-typography-heading1').html(function(d){ return d; });
-  d3.select('.o-typography-lead').html(function(d){ return d; });
-  d3.select('.map__footnote').html(function(d){ return d; });
+  d3.selectAll('.data-label')
+      .text(d => d);
+
+  // text
+  d3.select('h1.o-typography-heading1').html(d => d);
+  d3.select('.o-typography-lead').html(d => d);
+  d3.select('.map__footnote').html(d => d);
 }
 
-function makeLookup(arr,key){
-  var o = {};
-  arr.forEach(function(d){
-    o[d[key]] = d;
-  })
+function makeLookup(arr, key) {
+  const o = {};
+  arr.forEach((d) => { o[d[key]] = d; });
   return o;
 }
