@@ -1,3 +1,15 @@
+{% if statetabletext %}
+<div class="o-grid-row">
+<div data-o-grid-colspan="12 M10">
+<p>{{statetabletext | safe}}</p>
+</div>
+</div>
+{% endif %}
+
+{% if statebreakdownsubtitle %}
+  <p class="article-figure__subheading">{{ statebreakdownsubtitle | md(true) }}</p>
+{% endif %}
+
 <div class="state-results">
   <ul class="state-results__legend">
     {% for name, color in stateResults.legend %}
