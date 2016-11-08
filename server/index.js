@@ -16,8 +16,8 @@ import * as apiController from './controllers/api';
 import stateCount from './lib/state-counts';
 
 const cache = lru({
-  max: 20000,
-  maxAge: 10 * 60 * 1000, // 10 mins
+  max: 30000,
+  maxAge: 30 * 60 * 1000, // 30 mins
 });
 
 const template = nunjucks.env;
@@ -25,7 +25,7 @@ const template = nunjucks.env;
 const app = express();
 app.disable('x-powered-by');
 
-const maxAge = 300; // for user agent caching purposes
+const maxAge = 1800; // for user agent caching purposes
 const sMaxAge = 60;
 
 const flags = getFlags();

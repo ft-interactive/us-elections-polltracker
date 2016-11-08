@@ -2,8 +2,8 @@ import createNationalPage from '../pages/createNationalPage';
 import { render } from '../nunjucks';
 import cache from '../lib/cache';
 
-const maxAge = 600; // 10 mins
-const sMaxAge = 180; // 3 min
+const maxAge = 1800; // 30 mins
+const sMaxAge = 600; // 10 min
 const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
 
 // IMPORTANT: this experiment hardcodes the polyfill service URL.
@@ -23,7 +23,7 @@ export default async (req, res) => {
   const html = await cache(
     'nationalpolls',
     async () => render('national.html', await createNationalPage()),
-    maxAge * 1000 // 10 mins
+    maxAge * 1000 // 30 mins
   );
 
   res.send(html);

@@ -11,8 +11,9 @@
 		font-family:MetricWeb, sans-serif;
 		font-weight:200;
 		font-size:14px;
-		fill:#74736c;
-	}
+		
+}
+
 	.standard-map .map-labels{
 		font-weight:200;
 		font-size:24px;
@@ -29,11 +30,16 @@
     .standard-map .map-labels{
       font-size: 20px;
     }
+
+    .map-labels{
+		fill:#74736c;
+}
   }
   
   @media (max-width: 490px) {
     .standard-map .map-labels{
       font-size: 24px;
+      fill:#505050;
     }
   }
   

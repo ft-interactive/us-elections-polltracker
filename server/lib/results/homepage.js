@@ -24,6 +24,8 @@ const defaults =  Object.freeze({
 
 const marketdataChartGroups = {
   night: true,
+  mxn: true,
+  jpy: true,
 }
 
 export function createHomepageConfig(spreadsheetConfig) {
