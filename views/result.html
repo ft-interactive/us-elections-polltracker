@@ -29,11 +29,6 @@ var pageDataTimestamp = {{ overview.timestamp }};
   <div class="o-grid-container">
     <div class="o-grid-row">
       <div data-o-grid-colspan="center 12">
-          <div class="o-grid-row article-figure">
-            <div data-o-grid-colspan="center 12 L10">
-              <h2 class="article-figure__sectionheading">Presidential results</h2>
-            </div>
-          </div>
           {% import "includes/result-bar-macros.html" as bars %}
           <div>
             <div class="o-grid-row result-bars president-bars">
@@ -138,7 +133,6 @@ var pageDataTimestamp = {{ overview.timestamp }};
       </div>
       {% endif %}
       <div data-o-grid-colspan="center 12 M12 L9">
-        <h2 class="article-figure__sectionheading">Closest races</h2>
           {% call PageElements.Figure(title=statebreakdowntitle, subtitle=statebreakdownsubtitle, id="state-results") %}
             {% include "includes/state-results.html" %}
           {% endcall %}
