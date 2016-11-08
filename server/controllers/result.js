@@ -64,3 +64,20 @@ export async function serviceStatus(req, res) {
   res.status(!!message ? 500 : 200);
   res.send(message || 'Ok!');
 }
+
+export async function serviceStatusPage(req, res) {
+  res.setHeader('Cache-Control', 'private, no-cache, max-age=0');
+  const message = getErrorStatus();
+  res.status(!!message ? 500 : 200);
+  const m = message || 'OK!';
+  const title = !!message ? '😡 ERROR' : '💚 OK';
+  const style = !!message ? 'background-color:red;font-size:54px;'
+                          : 'background-color:green;text-align:center;font-size:222px;';
+  res.send(`<!doctype html><meta charset=utf-8><title>${title}</title>
+    <meta http-equiv="refresh" content="10">
+    <body style="font-family:sans-serif;;color:white;${style}">
+    <p style="font-size:33px;font-family:monospace;margin:0 auto;max-width:800px;">SPREADSHEET STATUS</p>
+    <p style="margin:0 auto;max-width:800px;">
+    ${m}</p>
+  `);
+}
