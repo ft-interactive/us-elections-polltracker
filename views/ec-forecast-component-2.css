@@ -189,15 +189,15 @@
 	position: relative;
 	top: 3px;
 
-	background-image: url('//image.webservices.ft.com/v1/images/raw/fticon:arrow-right?width=100&format=png&source=ig&tint=%2327757b,%2327757b');
+	background-image: url('https://www.ft.com/__origami/service/image/v2/images/raw/fticon:arrow-right?width=100&format=png&source=ig&tint=%2327757b');
 
-	background-image: url('//image.webservices.ft.com/v1/images/raw/fticon:arrow-right?format=svg&source=ig&tint=%2327757b,%2327757b'), none;
+	background-image: url('https://www.ft.com/__origami/service/image/v2/images/raw/fticon:arrow-right?format=svg&source=ig&tint=%2327757b'), none;
 	background-size: cover;
 }
 
 {{ ancestorSelector }} .ec-forecast-component__link:hover .ec-forecast-component__faux-link:after {
-	background-image: url('//image.webservices.ft.com/v1/images/raw/fticon:arrow-right?width=100&format=png&source=ig&tint=%23333333,%23333333');
-	background-image: url('//image.webservices.ft.com/v1/images/raw/fticon:arrow-right?format=svg&source=ig&tint=%23333333,%23333333'), none;
+	background-image: url('https://www.ft.com/__origami/service/image/v2/images/raw/fticon:arrow-right?width=100&format=png&source=ig&tint=%23333333');
+	background-image: url('https://www.ft.com/__origami/service/image/v2/images/raw/fticon:arrow-right?format=svg&source=ig&tint=%23333333'), none;
 }
 
 {{ ancestorSelector }} .ec-forecast-component__tweet-button {

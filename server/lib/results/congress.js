@@ -13,7 +13,7 @@ function createResult({
               rep = 0, dem = 0, ind = 0} = {}) {
 
   if ((rep + dem + ind) > total) {
-    throw new Error(`Sum of the Rep+Dem+Other seats is more expedcted total of ${total}`);
+    throw new Error(`Congress sheet: sum of Rep+Dem+Other seats is more than expected total of "${total}"`);
   }
 
   return {

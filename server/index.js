@@ -165,6 +165,7 @@ app.get('/homepage-results.json', resultController.homepageResults);
 // Simple Status message endpoint to see if there is a problem
 // processing the spreadsheet
 app.get('/result-status.txt', resultController.serviceStatus);
+app.get('/result-status.html', resultController.serviceStatusPage);
 
 app.get('/', (req, res) => {
   if (app.locals.flags.results) {

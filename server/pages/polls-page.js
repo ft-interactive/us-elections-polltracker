@@ -20,7 +20,7 @@ export default class PollsPage extends Page {
   constructor() {
     super();
     this.mainImage = {
-      url: 'https://image.webservices.ft.com/v1/images/raw/https:%2F%2Fig.ft.com%2Fstatic%2Fus-election-2016%2Fsocial.jpg?source=ig&format=jpg&quality=medium&width=800',
+      url: 'https://www.ft.com/__origami/service/image/v2/images/raw/https:%2F%2Fig.ft.com%2Fstatic%2Fus-election-2016%2Fsocial.jpg?source=ig&format=auto&quality=medium&width=800',
     };
     this.siteNav = siteNav();
   }

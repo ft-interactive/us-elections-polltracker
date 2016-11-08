@@ -70,9 +70,13 @@ export function createHomepageConfig(spreadsheetConfig) {
     }
   }
 
-  // Dont let the poll rate go under 1 sec
-  if (spreadsheetConfig.refreshAfter >= 1000) {
-    config.refreshAfter = spreadsheetConfig.refreshAfter;
+  if (spreadsheetConfig.refreshAfter) {
+    // Dont let the poll rate go under 1 sec
+    if (spreadsheetConfig.refreshAfter >= 1000) {
+      config.refreshAfter = spreadsheetConfig.refreshAfter;
+    } else {
+      config.refreshAfter = null;
+    }
   }
 
   // Dont let the HP tab switching go under 3 secs

@@ -10,7 +10,7 @@ class NationalPage extends PollsPage {
 
   id = 'e01abff0-5292-11e6-9664-e0bdc13c3bef';
 
-  headline = 'Trump vs Clinton: who is leading in the US election polls?';
+  headline = 'Trump vs Clinton: who is leading in the US election polls?';
 
   url = 'https://ig.ft.com/us-elections/polls';
 
