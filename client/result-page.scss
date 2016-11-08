@@ -129,6 +129,7 @@ html {
 
 
 
+
 @media (max-width: 739px) {
   .dot-map svg {
     position: relative;
@@ -143,6 +144,11 @@ html {
 }
 
 @media (max-width: 489px) {
+ .mini-dashboard__bar-label-dem span{
+  font-size: 0.85em;
+}
+
+
   .article__main {
     margin-top: 0;
    &.suggested-reads{
@@ -182,7 +188,10 @@ margin-bottom: 38px;
  .article-figure__heading{
   color: #333;
  }
+
 }
+
+
 
 
 .mini-dashboard__centernote{
