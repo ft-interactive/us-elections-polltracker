@@ -17,7 +17,7 @@ export default {
   leaningDem: '#a2c1e1',
   swing: '#fcc83c',
   nodata: '#b0b0b0',
-  nomapdata: '#b0b0b0',
+  nomapdata: '#cec6b9',
   darkRep: '#934247',
   darkSwing: '#ac8845',
   darkDem: '#50708f',

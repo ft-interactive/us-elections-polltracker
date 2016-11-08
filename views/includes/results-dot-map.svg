@@ -53,8 +53,8 @@
 		fill:#fff;
 	}
 	{{ dotMapSelectors.n }} {
-		fill:#e9decf;
-		stroke:#e9decf;
+		fill:{{ color.nomapdata }};
+		stroke:{{ color.nomapdata }};
 	}
 	{{ dotMapSelectors.r }} {
 		fill:{{ color.rep }};
