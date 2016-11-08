@@ -3,8 +3,8 @@ import { codeToSlug, isState } from '../lib/states';
 import { render } from '../nunjucks';
 import cache from '../lib/cache';
 
-const maxAge = 600; // 10 mins
-const sMaxAge = 180; // 3 min
+const maxAge = 1800; // 30 mins
+const sMaxAge = 600; // 10 min
 const cacheControl = `public, max-age=${maxAge}, s-maxage=${sMaxAge}`;
 const foreverCC = 'max-age=365000000, immutable';
 

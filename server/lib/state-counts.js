@@ -50,7 +50,7 @@ function fetchError(error) {
   }
 }
 
-const overrideData = new DataRefresher('*/50 * * * * *', fetchData, { fallbackData: new Map(), logErrors: false });
+const overrideData = new DataRefresher('* */5 * * * *', fetchData, { fallbackData: new Map(), logErrors: false });
 
 overrideData.on('error', fetchError);
 
@@ -73,7 +73,7 @@ export default async () => {
   for (let i = 0; i < not4WayStates.length; i += 1) {
     const code = not4WayStates[i].code.toLowerCase();
     const pollWay = not4WayStates[i].displayRace;
-    
+
     let newStateAverage = latestAverages3Way;
     if (pollWay === 5) {
       newStateAverage = latestAverages5Way;

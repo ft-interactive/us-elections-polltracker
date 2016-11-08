@@ -22,7 +22,8 @@ export async function page(req, res) {
   try {
     const html = await cache(
       'result-html',
-      async () => render('result.html', await createResultPage())
+      async () => render('result.html', await createResultPage()),
+      15000 // 15 secs
     );
     res.send(html);
   } catch(err) {
@@ -33,7 +34,7 @@ export async function page(req, res) {
 
 export async function fullResults(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', `public, max-age=10, s-maxage=5`);
+  res.setHeader('Cache-Control', `public, max-age=10, s-maxage=3`);
   try {
     const data = await getResultData();
     res.setHeader('Last-Modified', data.lastModified.toUTCString());

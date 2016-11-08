@@ -3,7 +3,7 @@ import { getByCode } from '../lib/states';
 
 const setHeaders = res => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', `public, max-age=120`);
+  res.setHeader('Cache-Control', `public, max-age=600`);
 };
 
 const startOfPolls = '2015-07-01T00:00:00Z';
