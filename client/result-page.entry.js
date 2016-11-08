@@ -29,7 +29,7 @@ let retryCount = 0;
 
 function resultsMain() {
   function gotData(data) {
-    let pollInterval;
+    let pollInterval = 6000;
     // data will be null if the request fails/timesout
     try {
       if (!data) throw new Error('Could not get data');
