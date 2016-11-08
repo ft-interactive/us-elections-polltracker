@@ -29,8 +29,9 @@ let retryCount = 0;
 
 function resultsMain() {
   function gotData(data) {
-    let pollInterval = 6000;
     // data will be null if the request fails/timesout
+    // start with the pollInterval off (null/undefined is off)
+    let pollInterval;
     try {
       if (!data) throw new Error('Could not get data');
       if (data.overview.timestamp > window.pageDataTimestamp) {
