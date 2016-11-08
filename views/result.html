@@ -126,13 +126,8 @@ var pageDataTimestamp = {{ overview.timestamp }};
       <div class="o-grid-container">
         <div class="o-grid-row">
       {% endif %}
-      {% if statetabletext %}
-      <div data-o-grid-colspan="center 12 M10 L8 XL7">
-      <p>{{statetabletext | safe}}</p>
-      </div>
-      {% endif %}
       <div data-o-grid-colspan="center 12 M12 L9">
-          {% call PageElements.Figure(title=statebreakdowntitle, subtitle=statebreakdownsubtitle, id="state-results") %}
+          {% call PageElements.Figure(title=statebreakdowntitle, id="state-results") %}
             {% include "includes/state-results.html" %}
           {% endcall %}
       </div>
