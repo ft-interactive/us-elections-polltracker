@@ -14,7 +14,7 @@ class ResultPage extends Page {
 
   canonicalUrl = 'https://ig.ft.com/us-elections/results';
   mainImage = {
-      url: 'https://www.ft.com/__origami/service/image/v2/images/raw/https:%2F%2Fig.ft.com%2Fstatic%2Fus-election-2016%2Fsocial.jpg?source=ig&format=auto&quality=high&width=800',
+      url: 'https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fim.ft-static.com%2Fcontent%2Fimages%2F5eea749a-a510-11e6-8b69-02899e8bd9d1.img?url=http%253A%252F%252Fim.ft-static.com%252Fcontent%252Fimages%252F5eea749a-a510-11e6-8b69-02899e8bd9d1.img&source=ig&width=600&height=338&fit=cover&format=auto&quality=high',
   };
 
   id = '5cc27b78-946b-11e6-a1dc-bdf38d484582';
@@ -39,10 +39,12 @@ class ResultPage extends Page {
     this.mapfootnote = result.copy.mapfootnote;
     this.dotMapSelectors = dotMapLayout(result.electoralCollege, { width: 800, height: 500 });
     this.mapSelectors = mapLayout(result.electoralCollege, { width: 800, height: 500 });
-    this.keyStates = statesList.reduce((previous, current) => {
-      previous[current.code] = current.swing; // eslint-disable-line no-param-reassign
-      return previous;
-    }, {});
+
+    this.keyStates = {};
+    for (let i = 0; i < this.stateResults.buckets.T.length; i += 1) {
+      const d = this.stateResults.buckets.T[i];
+      this.keyStates[d.code] = true;
+    }
 
     this.onwardJourney = await onwardJourney({
       // Home page US Election headpiece

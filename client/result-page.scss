@@ -43,6 +43,11 @@ html {
 }
 .article__main {
   margin-top: 1.6em;
+  & .suggested-reads{
+    margin: 3em 0 3em 0;
+    padding: 23px 0 33px 0;
+  }
+
 }
 
 .toss-up {
@@ -129,6 +134,9 @@ html {
 @media (max-width: 489px) {
   .article__main {
     margin-top: 0;
+   &.suggested-reads{
+    margin: 3.5em 0 1.5em 0;
+   }
   }
 
   .o-typography-lead {
@@ -141,7 +149,7 @@ html {
 }
 
 .result-bars {
-  margin-bottom: 1.5em;
+  margin-bottom: 3em;
 }
 
 /* due to our wildcarding box-sizing
@@ -154,6 +162,19 @@ html {
   box-sizing: content-box;
 }
 
-.house-bars .article-figure__heading {
+.o-ads--reserve-90{
+margin-bottom: 38px;
+}
+
+.house-bars{
+ margin-top: 1.2em;
+ .article-figure__heading{
   color: #333;
+ }
+}
+
+
+.mini-dashboard__centernote{
+  text-align: center;
+  font-size: 14px;
 }
