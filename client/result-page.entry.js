@@ -25,7 +25,7 @@ const color = {
 queue('https://ig.ft.com/static/g-ui/libs/d3.v4.min.js', resultsMain);
 
 const maxRetries = 3;
-const retryCount = 0;
+let retryCount = 0;
 
 function resultsMain() {
   function gotData(data) {
