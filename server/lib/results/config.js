@@ -35,7 +35,7 @@ export default function processConfigSheet(rows) {
         value = markdown(value, false).val;
       } else if (type === 'boolean') {
         value = value.toLowerCase();
-        value = value === 'true' ? true : value === 'false' ? false : NaN;
+        value = value === 'true' ? true : (value === 'false' || value === '' ? false : NaN);
       }
     }
 
