@@ -11,10 +11,10 @@ class ResultPage extends Page {
   description = 'US election 2016: Presidential and congressional results';
   socialHeadline = 'US election 2016: Presidential and congressional results';
   socialSummary = 'US election 2016: Presidential and congressional results';
-  
+
   canonicalUrl = 'https://ig.ft.com/us-elections/results';
   mainImage = {
-      url: 'https://image.webservices.ft.com/v1/images/raw/https:%2F%2Fig.ft.com%2Fstatic%2Fus-election-2016%2Fsocial.jpg?source=ig&format=jpg&quality=high&width=800',
+      url: 'https://www.ft.com/__origami/service/image/v2/images/raw/https:%2F%2Fig.ft.com%2Fstatic%2Fus-election-2016%2Fsocial.jpg?source=ig&format=auto&quality=high&width=800',
   };
 
   id = '5cc27b78-946b-11e6-a1dc-bdf38d484582';
