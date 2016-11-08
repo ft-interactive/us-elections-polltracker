@@ -1,0 +1,69 @@
+{% extends "g-ui/layout/article" %}
+
+{% import "page-elements.html" as PageElements -%}
+
+{% set layout = {name: 'full-body'} %}
+{% set stylesheets = [
+  'https://origami-build.ft.com/v2/bundles/css?modules=o-expander@^4.0.2,o-buttons@^4.0.2,o-grid@^4.2.1,o-cookie-message@^2.2.0',
+  'g-ui/main.css',
+  'main.css',
+  'result-page.css'
+  ]
+%}
+{% set scripts = [
+  'result-page.entry.js',
+  'g-ui/index.js',
+  'https://origami-build.ft.com/v2/bundles/js?export=bundle&modules=o-expander@^4.0.2,o-buttons@^4.0.2,o-date@^2.6.0,o-cookie-message@^2.2.0'
+  ]
+%}
+
+
+<style>
+.o-ads {
+  display: none;
+}
+</style>
+
+{% block appendhead %}
+<script>
+var pageDataTimestamp = {{ overview.timestamp }};
+</script>
+{% endblock -%}
+
+{% block article_body %}
+<div class="article__main">
+  <div class="o-grid-container">
+    <div class="o-grid-row">
+      <div data-o-grid-colspan="center 12">
+          {% import "includes/result-bar-macros.html" as bars %}
+          <div>
+            <div class="o-grid-row result-bars president-bars">
+              {{ bars.president(
+                  overview.president.isFinal,
+                  overview.president.clinton,
+                  overview.president.clinton_pct,
+                  overview.president.trump,
+                  overview.president.trump_pct,
+                  overview.president.bestGuessClinton_pct,
+                  overview.president.bestGuessTrump_pct,
+                  "footnote") }}
+            </div>
+            <div class="o-grid-row article-figure">
+              <div data-o-grid-colspan="center 12 L10">
+                <div class="dot-map">
+                  <h2 class="article-figure__heading">Electoral college votes by state</h2>
+                  <p class="article-figure__subheading">Each candidate needs 270 electoral college votes to win the presidency</p>
+                  <div class="toss-up">
+                    <div class="toss-up-legend"></div>
+                    <div class="toss-up-label">Key states</div>
+                  </div>
+                    {% include "includes/results-dot-map.svg" %}
+                    <span class="map__footnote">{{ mapfootnote | safe }}</span>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

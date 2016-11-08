@@ -209,6 +209,10 @@ if (app.locals.flags.results) {
   app.get('/results', resultController.page);
 }
 
+if (app.locals.flags.results) {
+  app.get('/social-results-map', resultController.socialResultsMap);
+}
+
 // This needs to be last as it captures lot of paths and only does redirects
 app.get('/:code', stateCodeRedirectController);
 
