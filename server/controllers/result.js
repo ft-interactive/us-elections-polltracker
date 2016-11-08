@@ -47,7 +47,7 @@ export async function fullResults(req, res) {
 
 export async function homepageResults(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', `public, max-age=10, s-maxage=5`);
+  res.setHeader('Cache-Control', `public, max-age=20, s-maxage=10`);
   try {
     const data = await getResultData();
     res.setHeader('Last-Modified', data.lastModified.toUTCString());
