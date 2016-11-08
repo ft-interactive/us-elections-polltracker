@@ -39,10 +39,12 @@ class ResultPage extends Page {
     this.mapfootnote = result.copy.mapfootnote;
     this.dotMapSelectors = dotMapLayout(result.electoralCollege, { width: 800, height: 500 });
     this.mapSelectors = mapLayout(result.electoralCollege, { width: 800, height: 500 });
-    this.keyStates = statesList.reduce((previous, current) => {
-      previous[current.code] = current.swing; // eslint-disable-line no-param-reassign
-      return previous;
-    }, {});
+
+    this.keyStates = {};
+    for (let i = 0; i < this.stateResults.buckets.T.length; i += 1) {
+      const d = this.stateResults.buckets.T[i];
+      this.keyStates[d.code] = true;
+    }
 
     this.onwardJourney = await onwardJourney({
       // Home page US Election headpiece
