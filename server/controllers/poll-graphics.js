@@ -22,7 +22,7 @@ export default async (req, res) => {
   res.setHeader('Content-Type', 'image/svg+xml');
   res.setHeader('Cache-Control', cacheControl);
 
-  res.status(400).send('');
+  res.status(200).send('');
   return;
 
   if (!req.query.startDate) {
