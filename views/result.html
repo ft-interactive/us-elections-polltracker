@@ -29,6 +29,18 @@ var pageDataTimestamp = {{ overview.timestamp }};
   <div class="o-grid-container">
     <div class="o-grid-row">
       <div data-o-grid-colspan="center 12">
+        <aside class="live-update-notice">
+          <div>
+            <svg class="live-update-notice__lightning" xmlns="http://www.w3.org/2000/svg" width="483.7" height="483.7" viewBox="0 0 483.7 483.7">
+              <path d="M119.6 282.4h72.8L166 483.7l198-294h-67.4L325.6 0"/>
+            </svg>
+
+            <span class="live-update-notice__message">This page updates every minute –&nbsp;no&nbsp;need&nbsp;to&nbsp;refresh</span>
+
+            <button class="live-update-notice__dismiss o-buttons o-buttons--uncolored">OK</button>
+          </div>
+        </aside>
+
           {% import "includes/result-bar-macros.html" as bars %}
           <div>
             <div class="o-grid-row result-bars president-bars">
@@ -66,7 +78,7 @@ var pageDataTimestamp = {{ overview.timestamp }};
       <p>{{congresstext | safe}}</p>
       </div>
       {% endif %}
-      
+
       {% if flags.otherMediaResults %}
       <div data-o-grid-colspan="{% if flags.congressBarResults %}12 M6{% else %}12 M8 L7 XL6 center{% endif %}">
         <div class="media-bars">
@@ -82,7 +94,7 @@ var pageDataTimestamp = {{ overview.timestamp }};
           </div>
       </div>
       {% endif %}
-      
+
       {% if flags.congressBarResults %}
       <div data-o-grid-colspan="{% if flags.otherMediaResults %}12 M6{% else %}12 M8 L7 XL6 center{% endif %}">
           <div class="house-bars">
