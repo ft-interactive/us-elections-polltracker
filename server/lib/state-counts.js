@@ -50,7 +50,7 @@ function fetchError(error) {
   }
 }
 
-const overrideData = new DataRefresher('* */5 * * * *', fetchData, { fallbackData: new Map(), logErrors: false });
+const overrideData = new DataRefresher('0 0 * * * *', fetchData, { fallbackData: new Map(), logErrors: false });
 
 overrideData.on('error', fetchError);
 

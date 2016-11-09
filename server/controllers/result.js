@@ -23,7 +23,7 @@ export async function page(req, res) {
     const html = await cache(
       'result-html',
       async () => render('result.html', await createResultPage()),
-      15000 // 15 secs
+      5000 // 5 secs
     );
     res.send(html);
   } catch(err) {

@@ -12,8 +12,8 @@
 
 <div class="state-results">
   <ul class="state-results__legend">
-    {% for name, color in stateResults.legend %}
-    <li><span style="background-color:{{color}}"></span>{{name}}</li>
+    {% for name, details in stateResults.legend %}
+    <li><span style="background-color:{{details.color}}"></span>{{name}}&nbsp;&nbsp;<b class="state-results__total state-results__total--{{name}}">{{details.total}}</b></li>
     {% endfor %}
   </ul>
 
