@@ -8,7 +8,6 @@
 
   > div {
     color: #333;
-    background-color: oColorsGetPaletteColor('pink-tint1');
     border-radius: 3px;
     max-width: 800px;
     line-height: 20px;
@@ -25,13 +24,13 @@
     margin-right: 10px;
 
     > path {
-      fill: oColorsGetPaletteColor('pink-tint3');
+      fill: #FED631;
     }
   }
 
   &__message {
     display: block;
-    // flex: 1;
+    font-weight: bold;
   }
 
   &__dismiss {
