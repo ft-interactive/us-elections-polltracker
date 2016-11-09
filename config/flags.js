@@ -26,6 +26,6 @@ export default () => ({
   cookieMessage: true,
   resultSuggestedReads: true,
   resultMediaSurvey: true,
-  otherMediaResults: true,
+  otherMediaResults: false,
   congressBarResults: true,
 });
