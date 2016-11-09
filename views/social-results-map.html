@@ -29,6 +29,11 @@ var pageDataTimestamp = {{ overview.timestamp }};
   <div class="o-grid-container">
     <div class="o-grid-row">
       <div data-o-grid-colspan="center 12">
+        <div class="o-grid-row" id="topthing">
+          <div data-o-grid-colspan="center 12 L10">
+            <p class="timestamp">Updated as of {{ overview.timestamp | formatTime }} ET</p>
+          </div>
+        </div>
           {% import "includes/result-bar-macros.html" as bars %}
           <div>
             <div class="o-grid-row result-bars president-bars">
