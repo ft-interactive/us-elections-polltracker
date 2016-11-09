@@ -1,1 +1,2 @@
-social-results-map.html
+User-agent: *
+Disallow: /social-results-map.html
