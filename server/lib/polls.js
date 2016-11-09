@@ -21,7 +21,7 @@ export const pollAverages = async (_start, _end, _state, pollnumcandidates = 4) 
   // to capture data from anytime during the day (and timezone offsets), set endDate
   // to the start of the next day
 
-  if (!_state) throw new Error('No start date');
+  if (!_start) throw new Error('No start date');
   if (!_end) throw new Error('No end date');
 
   const start = moment(_start).startOf('day').format();
