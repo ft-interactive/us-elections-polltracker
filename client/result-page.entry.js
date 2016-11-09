@@ -43,6 +43,8 @@ function resultsMain() {
         rebindCopy(data.copy);
         rebindLabels(data.electoralCollege);
         redraw();
+
+        updateStateResults(data.electoralCollege);
       }
       if (data.overview.pollingInterval) {
         pollInterval = data.overview.pollingInterval;
@@ -177,6 +179,14 @@ function rebindMap(data) {
           d3.select(this).datum(lookupByCollegeID[collegeID.toLowerCase()]);
         }
       });
+}
+
+function updateStateResults(electoralCollege) {
+  electoralCollege.forEach(state => {
+    [...document.querySelectorAll(`[data-statecode=${state.code.toUpperCase()}]`)].forEach(el => {
+      el.style.backgroundColor = color[state.winner ? state.winner.toLowerCase() : color.nodata];
+    });
+  });
 }
 
 function redraw() {
