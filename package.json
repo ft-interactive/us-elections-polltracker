@@ -85,7 +85,7 @@
     "scraper": "node --require ./setup.js scraper/run",
     "migrate": "sequelize db:migrate",
     "republisher": "node --require ./setup.js server/lib/results/republisher",
-    "start": "npm run migrate && node --optimize_for_size --max_old_space_size=460 --gc_interval=100 --require ./setup.js server",
+    "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 --require ./setup.js server",
     "test": "mocha --compilers js:babel-core/register layouts/*.spec.js"
   }
 }

@@ -24,7 +24,7 @@ export function getResultData() {
   return cache(
     'results:data',
     fetchSpreadsheetData,
-    1000 // TODO: review for production
+    10000 // TODO: review for production
   );
 }
 

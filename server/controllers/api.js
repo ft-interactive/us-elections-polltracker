@@ -7,7 +7,7 @@ const setHeaders = res => {
 };
 
 const startOfPolls = '2015-07-01T00:00:00Z';
-const aDateAfterTheElection = '2016-11-09T00:00:00Z';
+const aDateAfterTheElection = '2016-11-08T00:00:00Z';
 const defaultNumCandidates = 4;
 
 export const state = async(req, res) => {

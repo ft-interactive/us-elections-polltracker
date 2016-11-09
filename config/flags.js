@@ -22,10 +22,10 @@ export default () => ({
   header: true,
   footer: true,
   stateList: true,
-  headerMarketingPromo: true,
+  headerMarketingPromo: false,
   cookieMessage: true,
   resultSuggestedReads: true,
   resultMediaSurvey: true,
-  otherMediaResults: true,
+  otherMediaResults: false,
   congressBarResults: true,
 });

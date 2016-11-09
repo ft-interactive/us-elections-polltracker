@@ -18,7 +18,7 @@ class ResultPage extends Page {
   };
 
   id = '5cc27b78-946b-11e6-a1dc-bdf38d484582';
-  title = 'US election results map: live updating';
+  title = 'US election results map in full';
   url = 'https://ig.ft.com/us-elections/results';
   headline = 'US presidential election results';
   summary = 'Electoral college map';
@@ -40,7 +40,7 @@ class ResultPage extends Page {
     this.dotMapSelectors = dotMapLayout(result.electoralCollege, { width: 800, height: 500 });
     this.mapSelectors = mapLayout(result.electoralCollege, { width: 800, height: 500 });
 
-    this.publishedDate = "Updated every minute";
+    this.publishedDate = new Date(result.overview.timestamp);
 
     this.keyStates = {};
     for (let i = 0; i < this.stateResults.buckets.T.length; i += 1) {
