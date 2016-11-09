@@ -20,6 +20,10 @@ const getAllPolls = (state, pollnumcandidates) => db.Polldata.findAll({
 export const pollAverages = async (_start, _end, _state, pollnumcandidates = 4) => {
   // to capture data from anytime during the day (and timezone offsets), set endDate
   // to the start of the next day
+
+  if (!_state) throw new Error('No start date');
+  if (!_end) throw new Error('No end date');
+
   const start = moment(_start).startOf('day').format();
   const end = moment(_end).endOf('day').format();
   const state = _state.toLowerCase();
@@ -150,8 +154,8 @@ export async function pollHistory(code) {
 
   const pollnumcandidates = numcandidates || defaultPollNumCandidates;
 
-  const startDate = '2016-07-01 00:00:00';
-  const endDate = d3.isoFormat(new Date());
+  const startDate = '2016-07-01T00:00:00Z';
+  const endDate = '2016-11-08T00:00:00Z';
   const pollData = await pollAverages(startDate, endDate, code, pollnumcandidates);
   const latestAveragesData = pollData.concat().reverse().slice(0, pollnumcandidates);
   let latestAverages = {};
