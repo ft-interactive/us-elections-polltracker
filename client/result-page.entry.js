@@ -1,3 +1,5 @@
+import liveUpdateNotice from './live-update-notice';
+
 const color = {
   Trump: '#e03d46',
   Clinton: '#579dd5',
@@ -255,3 +257,5 @@ function makeLookup(arr, key) {
   arr.forEach((d) => { o[d[key]] = d; });
   return o;
 }
+
+liveUpdateNotice();
