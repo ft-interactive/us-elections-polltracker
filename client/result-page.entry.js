@@ -185,6 +185,7 @@ function updateStateResults(electoralCollege) {
   electoralCollege.forEach(state => {
     [...document.querySelectorAll(`[data-statecode=${state.code.toUpperCase()}]`)].forEach(el => {
       el.style.backgroundColor = color[state.winner ? state.winner.toLowerCase() : color.nodata];
+      el.style.color = state.winner ? '#fff' : '#000';
     });
   });
 }
