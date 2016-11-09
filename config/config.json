@@ -3,11 +3,11 @@
 		"use_env_variable": "DATABASE_URL"
 	},
 	"development": {
-		"username": "us",
+		"username": "joanna.kao",
 		"password": null,
 		"native": false,
 		"logging": false,
-		"database": "us2016",
+		"database": "us-elections-polltracker",
 		"host": "127.0.0.1",
 		"dialect": "postgres"
 	}
