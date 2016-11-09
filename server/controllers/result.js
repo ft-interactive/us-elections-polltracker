@@ -50,7 +50,7 @@ export async function homepageResults(req, res) {
   res.setHeader('Cache-Control', `public, max-age=20, s-maxage=10`);
   try {
     const data = await getResultData();
-    // res.setHeader('Last-Modified', data.lastModified.toUTCString());
+    res.setHeader('Last-Modified', data.lastModified.toUTCString());
     res.json(data.homepage);
   } catch(err) {
     console.error(err);
