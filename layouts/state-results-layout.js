@@ -61,16 +61,21 @@ export default (electoralCollege) => {
   const stateResults = {
     buckets: {},
     legend: {
-      Clinton: color.Clinton,
-      Trump: color.Trump,
+      Clinton: {
+        color: color.Clinton,
+        total: 0,
+      },
+      Trump: {
+        color: color.Trump,
+        total: 0,
+      },
     },
   };
 
   for (const bucketId of bucketIds) {
     stateResults.buckets[bucketId] = electoralCollege
       .filter((state) => {
-        if(!state.pollingprojection) return false; //protect against unset polling projection
-        return state.pollingprojection.toUpperCase() === bucketId
+        return (state.pollingprojection && state.pollingprojection.toUpperCase() === bucketId);
       })
       .map(state => {
         const { ecvotes: ecVotes } = state;
@@ -86,6 +91,17 @@ export default (electoralCollege) => {
         const shortName = getShortName(code);
 
         const ecVotesWidth = (ecVotes / 55) * 100; // top number of EC votes is 55 (Calif.)
+
+        // increment the win in the key
+        switch (winner && winner.toLowerCase()) {
+          case 'd':
+            stateResults.legend.Clinton.total += ecVotes;
+            break;
+          case 'r':
+            stateResults.legend.Trump.total += ecVotes;
+            break;
+          default:
+        }
 
         return {
           ecVotes,

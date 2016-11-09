@@ -44,7 +44,7 @@ function resultsMain() {
         rebindLabels(data.electoralCollege);
         redraw();
 
-        updateStateResults(data.electoralCollege);
+        updateStateResults(data);
       }
       if (data.overview.pollingInterval) {
         pollInterval = data.overview.pollingInterval;
@@ -181,7 +181,10 @@ function rebindMap(data) {
       });
 }
 
-function updateStateResults(electoralCollege) {
+function updateStateResults({ electoralCollege }) {
+  let clintonTotal = 0
+  let trumpTotal = 0;
+
   electoralCollege.forEach(state => {
     [...document.querySelectorAll(`[data-statecode=${state.code.toUpperCase()}]`)].forEach(el => {
       el.style.backgroundColor = color[state.winner ? state.winner.toLowerCase() : color.nodata]; // eslint-disable-line no-param-reassign
@@ -190,7 +193,23 @@ function updateStateResults(electoralCollege) {
       const child = el.firstElementChild;
       if (child) child.style.color = state.winner ? '#fff' : '#000';
     });
+
+    switch (state.winner && state.winner.toLowerCase()) {
+      case 'd':
+        clintonTotal += state.ecvotes;
+        break;
+      case 'r':
+        trumpTotal += state.ecvotes;
+        break;
+      default:
+    }
   });
+
+  const clintonTotalEl = document.querySelector('.state-results__total--Clinton');
+  if (clintonTotalEl) clintonTotalEl.textContent = clintonTotal;
+
+  const trumpTotalEl = document.querySelector('.state-results__total--Trump');
+  if (trumpTotalEl) trumpTotalEl.textContent = trumpTotal;
 }
 
 function redraw() {
