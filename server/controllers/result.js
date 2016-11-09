@@ -32,12 +32,28 @@ export async function page(req, res) {
   }
 }
 
+export async function socialResultsMap(req, res) {
+  res.setHeader('Cache-Control', `public, max-age=30, s-maxage=10`);
+  res.setHeader('Link', linkHeader);
+  try {
+    const html = await cache(
+      'social-results-map-html',
+      async () => render('social-results-map.html', await createResultPage()),
+      60000 // 60 secs
+    );
+    res.send(html);
+  } catch(err) {
+    console.error(err);
+    res.status(500).send('Error');
+  }
+}
+
 export async function fullResults(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', `public, max-age=10, s-maxage=3`);
   try {
     const data = await getResultData();
-    res.setHeader('Last-Modified', data.lastModified.toUTCString());
+    // res.setHeader('Last-Modified', data.lastModified.toUTCString());
     res.json(data.resultsPage);
   } catch(err) {
     console.error(err);
@@ -50,7 +66,7 @@ export async function homepageResults(req, res) {
   res.setHeader('Cache-Control', `public, max-age=20, s-maxage=10`);
   try {
     const data = await getResultData();
-    res.setHeader('Last-Modified', data.lastModified.toUTCString());
+    // res.setHeader('Last-Modified', data.lastModified.toUTCString());
     res.json(data.homepage);
   } catch(err) {
     console.error(err);

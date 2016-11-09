@@ -58,7 +58,7 @@ function fetchSpreadsheetData() {
       clinton: president.clinton,
       trump: president.trump,
       other: president.other,
-      link: null,
+      link: "http://interactives.ap.org/2016/general-election/?SITE=NEWSHOURELN",
     };
     const mediaOrgs = processMediaSheet([ap, ...response.data.media]);
 

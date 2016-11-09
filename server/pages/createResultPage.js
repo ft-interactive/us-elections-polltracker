@@ -8,7 +8,7 @@ import statesList from '../../data/states';
 
 class ResultPage extends Page {
 
-  description = 'US election 2016: Presidential and congressional results';
+  description = 'Who is the new US President? Track election results with our live election map';
   socialHeadline = 'US election 2016: Presidential and congressional results';
   socialSummary = 'US election 2016: Presidential and congressional results';
 
