@@ -16,7 +16,7 @@ function fetchError(error) {
   }
 }
 
-const refresher = new DataRefresher('* * * * * *', fetchData, { fallbackData: new Map(), logErrors: false });
+const refresher = new DataRefresher('0 */2 * * * *', fetchData, { fallbackData: new Map(), logErrors: false });
 
 refresher.on('error', fetchError);
 

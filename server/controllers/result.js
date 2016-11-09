@@ -17,13 +17,13 @@ const linkHeader = [
                   ].join(', ');
 
 export async function page(req, res) {
-  res.setHeader('Cache-Control', `public, max-age=30, s-maxage=10`);
+  res.setHeader('Cache-Control', `public, max-age=120, s-maxage=20`);
   res.setHeader('Link', linkHeader);
   try {
     const html = await cache(
       'result-html',
       async () => render('result.html', await createResultPage()),
-      5000 // 5 secs
+      30000 // 30 secs
     );
     res.send(html);
   } catch(err) {
@@ -50,7 +50,7 @@ export async function socialResultsMap(req, res) {
 
 export async function fullResults(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', `public, max-age=10, s-maxage=3`);
+  res.setHeader('Cache-Control', `public, max-age=120, s-maxage=30`);
   try {
     const data = await getResultData();
     // res.setHeader('Last-Modified', data.lastModified.toUTCString());
@@ -63,7 +63,7 @@ export async function fullResults(req, res) {
 
 export async function homepageResults(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', `public, max-age=20, s-maxage=10`);
+  res.setHeader('Cache-Control', `public, max-age=120, s-maxage=30`);
   try {
     const data = await getResultData();
     // res.setHeader('Last-Modified', data.lastModified.toUTCString());
