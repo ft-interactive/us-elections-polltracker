@@ -68,7 +68,12 @@ var pageDataTimestamp = {{ overview.timestamp }};
       <p>{{congresstext | safe}}</p>
       </div>
       {% endif %}
-      
+
+
+      <div data-o-grid-colspan="12 M8 L7 XL6 center">
+          <p class="timestamp">Updated as of {{ overview.timestamp | formatTime }} ET</p>
+        </div>
+
       {% if flags.otherMediaResults %}
       <div data-o-grid-colspan="{% if flags.congressBarResults %}12 M6{% else %}12 M8 L7 XL6 center{% endif %}">
         <div class="media-bars">
@@ -117,7 +122,7 @@ var pageDataTimestamp = {{ overview.timestamp }};
       {% if showSuggestedReads %}
         </div>
       </div>
-      <div class="o-grid-container o-grid-container--bleed">
+      <div class="o-grid-container o-grid-container--bleed" style="margin-top: 800px;">
         <div class="o-grid-row">
           <aside data-o-grid-colspan="center 12">
           {% set firstThreeSelectedReads = onwardJourney.suggestedReads.data.items.slice(0, 3) %}
