@@ -1,0 +1,147 @@
+{% extends "g-ui/layout/article" %}
+
+{% import "page-elements.html" as PageElements -%}
+
+{% set layout = {name: 'full-body'} %}
+{% set stylesheets = [
+  'https://origami-build.ft.com/v2/bundles/css?modules=o-expander@^4.0.2,o-buttons@^4.0.2,o-grid@^4.2.1,o-cookie-message@^2.2.0',
+  'g-ui/main.css',
+  'main.css',
+  'result-page.css',
+  'social-screenshots.css'
+  ]
+%}
+{% set scripts = [
+  'result-page.entry.js',
+  'g-ui/index.js',
+  'https://origami-build.ft.com/v2/bundles/js?export=bundle&modules=o-expander@^4.0.2,o-buttons@^4.0.2,o-date@^2.6.0,o-cookie-message@^2.2.0'
+  ]
+%}
+
+{% block appendhead %}
+<script>
+var pageDataTimestamp = {{ overview.timestamp }};
+</script>
+{% endblock -%}
+
+{% block article_body %}
+<div class="article__main">
+  <div class="o-grid-container">
+    <div class="o-grid-row">
+      <div data-o-grid-colspan="center 12">
+        <div class="o-grid-row" id="topthing">
+          <div data-o-grid-colspan="center 12 L10">
+            <p class="timestamp">Updated as of {{ overview.timestamp | formatTime }} ET</p>
+          </div>
+        </div>
+          {% import "includes/result-bar-macros.html" as bars %}
+          <div>
+            <div class="o-grid-row result-bars president-bars">
+              {{ bars.president(
+                  overview.president.isFinal,
+                  overview.president.clinton,
+                  overview.president.clinton_pct,
+                  overview.president.trump,
+                  overview.president.trump_pct,
+                  overview.president.bestGuessClinton_pct,
+                  overview.president.bestGuessTrump_pct,
+                  "footnote") }}
+            </div>
+            <div class="o-grid-row article-figure">
+              <div data-o-grid-colspan="center 12 L10">
+                <div class="dot-map">
+                  <h2 class="article-figure__heading">Electoral college votes by state</h2>
+                  <p class="article-figure__subheading">Each candidate needs 270 electoral college votes to win the presidency</p>
+                  <div class="toss-up">
+                    <div class="toss-up-legend"></div>
+                    <div class="toss-up-label">Key states</div>
+                  </div>
+                    {% include "includes/results-dot-map.svg" %}
+                    <span class="map__footnote">{{ mapfootnote | safe }}</span>
+                </div>
+              </div>
+          </div>
+      </div>
+
+      {%if congresstext %}
+      <div data-o-grid-colspan="center 12 M10 L8 XL7">
+      <p>{{congresstext | safe}}</p>
+      </div>
+      {% endif %}
+
+
+      <div data-o-grid-colspan="12 M8 L7 XL6 center">
+          <p class="timestamp">Updated as of {{ overview.timestamp | formatTime }} ET</p>
+        </div>
+
+      {% if flags.otherMediaResults %}
+      <div data-o-grid-colspan="{% if flags.congressBarResults %}12 M6{% else %}12 M8 L7 XL6 center{% endif %}">
+        <div class="media-bars">
+          {% call PageElements.Figure(title="What the US media are saying") %}
+            {% for org in mediaOrgs %}
+            <div><a href="{{ org.link }}" id="mediaorg-link-{{loop.index}}">{{ org.name }}</a></div>
+            <div id="mediaorg-resultbar-{{loop.index}}">{{ bars.ResultBar(
+                    data=org,
+                    majority="270 to win",
+                    selectorKey="mediaorg-" + loop.index ) }}</div>
+            {% endfor %}
+          {% endcall %}
+          </div>
+      </div>
+      {% endif %}
+      
+      {% if flags.congressBarResults %}
+      <div data-o-grid-colspan="{% if flags.otherMediaResults %}12 M6{% else %}12 M8 L7 XL6 center{% endif %}">
+          <div class="house-bars">
+            {% call PageElements.Figure(title="House of Representatives", id="House") %}
+                  {{ bars.ResultBar(
+                    data=overview.house,
+                    majority="218 districts",
+                    footnote=housefootnote,
+                    selectorKey="house") }}
+            {% endcall %}
+          </div>
+          <div class="senate-bars">
+            {% call PageElements.Figure(title="Senate", id="Senate") %}
+                  {{ bars.ResultBar(
+                    data=overview.senate,
+                    majority="50 seats",
+                    footnote=senatefootnote,
+                    selectorKey="senate")
+                  }}
+            {% endcall %}
+          </div>
+      </div>
+      {% endif %}
+
+      {% set showSuggestedReads = flags.onwardJourney and
+                                  flags.resultSuggestedReads and
+                                  onwardJourney.suggestedReads.data and
+                                  onwardJourney.suggestedReads.data.items and
+                                  onwardJourney.suggestedReads.data.items.length > 2 %}
+      {% if showSuggestedReads %}
+        </div>
+      </div>
+      <div class="o-grid-container o-grid-container--bleed" style="margin-top: 800px;">
+        <div class="o-grid-row">
+          <aside data-o-grid-colspan="center 12">
+          {% set firstThreeSelectedReads = onwardJourney.suggestedReads.data.items.slice(0, 3) %}
+          {{ PageElements.SuggestedReads(title="Top stories", items=firstThreeSelectedReads) }}
+          </aside>
+        </div>
+      </div>
+      <div class="o-grid-container">
+        <div class="o-grid-row">
+      {% endif %}
+      <div data-o-grid-colspan="center 12 L10">
+            <p class="timestamp">Updated as of {{ overview.timestamp | formatTime }} ET</p>
+          </div>
+      <div data-o-grid-colspan="center 12 M12 L9">
+          {% call PageElements.Figure(title=statebreakdowntitle, id="state-results") %}
+            {% include "includes/state-results.html" %}
+          {% endcall %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

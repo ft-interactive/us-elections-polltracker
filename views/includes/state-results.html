@@ -38,7 +38,7 @@
           <div class="state-results__detailed-result">
             <span class="state-results__detailed-result__label">{{state.shortName}}{% if state.districtNumber %}<small>{{state.districtNumber}}</small>{% endif %}</span>
             <span class="state-results__detailed-result__bar-wrap">
-              <span class="state-results__detailed-result__bar" style="width:{{state.ecVotesWidth}}%;background-color:{{state.bgColor}}"></span>
+              <span class="state-results__detailed-result__bar" data-statecode="{{state.code}}{{state.districtNumber}}" style="width:{{state.ecVotesWidth}}%;background-color:{{state.bgColor}}"></span>
               <span class="state-results__detailed-result__votes">{{state.ecVotes}}</span>
             </span>
           </div>
