@@ -1,4 +1,6 @@
 export default () => {
+  if (location.href.indexOf('hide-notice') !== -1) return;
+
   const liveUpdateNotice = document.querySelector('.live-update-notice');
   const button = liveUpdateNotice.querySelector('.live-update-notice__dismiss');
 
