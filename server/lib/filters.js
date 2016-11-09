@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { category } from './margin-category';
 import { codeToSlug, getByCode, getBySlug, getResultsByCode } from './states';
 
@@ -114,4 +115,8 @@ export function filterByEcVote(states, breakpoint) {
     return states.filter(state => state.ecVotes > breakpoint);
   }
   return [];
+}
+
+export function formatTime(unixtime) {
+  return moment(unixtime).format("MMM D, YYYY H:mm");
 }
