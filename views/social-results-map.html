@@ -128,6 +128,9 @@ var pageDataTimestamp = {{ overview.timestamp }};
       <div class="o-grid-container">
         <div class="o-grid-row">
       {% endif %}
+      <div data-o-grid-colspan="center 12 L10">
+            <p class="timestamp">Updated as of {{ overview.timestamp | formatTime }} ET</p>
+          </div>
       <div data-o-grid-colspan="center 12 M12 L9">
           {% call PageElements.Figure(title=statebreakdowntitle, id="state-results") %}
             {% include "includes/state-results.html" %}
