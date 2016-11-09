@@ -40,6 +40,8 @@ class ResultPage extends Page {
     this.dotMapSelectors = dotMapLayout(result.electoralCollege, { width: 800, height: 500 });
     this.mapSelectors = mapLayout(result.electoralCollege, { width: 800, height: 500 });
 
+    this.publishedDate = "Updated every minute";
+
     this.keyStates = {};
     for (let i = 0; i < this.stateResults.buckets.T.length; i += 1) {
       const d = this.stateResults.buckets.T[i];
