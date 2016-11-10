@@ -21,11 +21,17 @@ import db from '../../models';
 
 // runs a psql query to get the latest polling averages
 // for all states (choose 3 or 4-way based on displayRace)
-const latestAveragesByState = pollnumcandidates =>
-  db.sequelize.query(
+const latestAveragesByState = (pollnumcandidates) => {
+  if (pollnumcandidates > 5) {
+    throw new Error('Invalid pollnumcandidates');
+    return {};
+  }
+
+  return db.sequelize.query(
     `SELECT * FROM (SELECT ROW_NUMBER() OVER (PARTITION BY state ORDER BY date DESC) AS r, t.* FROM (SELECT * FROM "Pollaverages" WHERE pollnumcandidates = ${pollnumcandidates}) t) x WHERE x.r <= ${pollnumcandidates};`,
     { type: db.sequelize.QueryTypes.SELECT }
   ).then(data => _.groupBy(data, 'state'));
+};
 
 const STATE_OVERRIDES_URL = process.env.STATE_OVERRIDES_URL ||
   'http://bertha.ig.ft.com/view/publish/gss/18N6Mk2-pyAsOjQl1BTMfdjt7zrcOy0Bbajg55wCXAX8/overrideCategories'
