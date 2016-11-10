@@ -66,6 +66,7 @@ function fetchSpreadsheetData() {
 
     const data = {
       lastModified,
+      timestamp,
       resultsPage: {
 
         // TODO: change the name of this property as it's going to contain  more than copy
