@@ -14,7 +14,7 @@ class ResultPage extends Page {
 
   canonicalUrl = 'https://ig.ft.com/us-elections/results';
   mainImage = {
-      url: 'https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fig.ft.com%2Fus-elections%2Fimages%2Fsocial-postresult.jpg?url=https%253A%252F%252Fig.ft.com%252Fus-elections%252Fimages%252Fsocial-postresult.jpg&source=ig&width=600&height=338&fit=cover&format=auto&quality=high',
+      url: 'https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fig.ft.com%2Fstatic%2Fus-election-2016%2Fsocial2.jpg?url=http%253A%252F%252Fig.ft.com%252Fstatic%252Fus-election-2016%252Fsocial2.jpg&source=ig&width=600&height=338&fit=cover&format=auto&quality=high',
   };
 
   id = '5cc27b78-946b-11e6-a1dc-bdf38d484582';
