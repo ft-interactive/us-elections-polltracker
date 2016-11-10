@@ -22,18 +22,18 @@ export default async (req, res) => {
   res.setHeader('Content-Type', 'image/svg+xml');
   res.setHeader('Cache-Control', cacheControl);
 
-  res.status(400).send('');
-  return;
+  // res.status(400).send('');
+  // return;
 
-  if (!req.query.startDate) {
-    res.status(400).send('Missing start date');
-    return;
-  }
+  // if (!req.query.startDate) {
+  //   res.status(400).send('Missing start date');
+  //   return;
+  // }
 
-  if (!req.query.endDate) {
-    res.status(400).send('Missing end date');
-    return;
-  }
+  // if (!req.query.endDate) {
+  //   res.status(400).send('Missing end date');
+  //   return;
+  // }
 
   const html = await cache(
     `polls-svg-${qsCacheKey(req.query)}`,
