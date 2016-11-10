@@ -24,8 +24,12 @@ export const pollAverages = async (_start, _end, _state, pollnumcandidates = 4) 
   if (!_start) throw new Error('No start date');
   if (!_end) throw new Error('No end date');
 
-  if (!moment(_start).isValid()) throw new Error('Invalid start date format');
-  if (!moment(_end).isValid()) throw new Error('Invalid end date format');
+  if (!moment(_start).isValid() || !moment(_end).isValid()) {
+    if (!moment(_start).isValid()) throw new Error('Invalid start date format');
+    if (!moment(_end).isValid()) throw new Error('Invalid end date format');
+
+    return null;
+  }
 
   const start = moment(_start).startOf('day').format();
   const end = moment(_end).endOf('day').format();
