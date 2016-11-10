@@ -9,12 +9,12 @@ import statesList from '../../data/states';
 class ResultPage extends Page {
 
   description = 'Who is the new US President? Track election results with our live election map';
-  socialHeadline = 'US election 2016: Presidential and congressional results';
+  socialHeadline = 'How Trump won: the full results';
   socialSummary = 'US election 2016: Presidential and congressional results';
 
   canonicalUrl = 'https://ig.ft.com/us-elections/results';
   mainImage = {
-      url: 'https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fim.ft-static.com%2Fcontent%2Fimages%2F5eea749a-a510-11e6-8b69-02899e8bd9d1.img?url=http%253A%252F%252Fim.ft-static.com%252Fcontent%252Fimages%252F5eea749a-a510-11e6-8b69-02899e8bd9d1.img&source=ig&width=600&height=338&fit=cover&format=auto&quality=high',
+      url: 'https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fig.ft.com%2Fus-elections%2Fimages%2Fsocial-postresult.jpg?url=https%253A%252F%252Fig.ft.com%252Fus-elections%252Fimages%252Fsocial-postresult.jpg&source=ig&width=600&height=338&fit=cover&format=auto&quality=high',
   };
 
   id = '5cc27b78-946b-11e6-a1dc-bdf38d484582';
