@@ -50,10 +50,12 @@ export async function socialResultsMap(req, res) {
 
 export async function fullResults(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', `public, max-age=120, s-maxage=30`);
+  res.setHeader('Cache-Control', `public, max-age=180, s-maxage=30`);
   try {
     const data = await getResultData();
     // res.setHeader('Last-Modified', data.lastModified.toUTCString());
+    res.setHeader('Expires', new Date(Date.now() + 1800).toUTCString());
+    res.setHeader('ETag', `W/"${data.timestamp}"`);
     res.json(data.resultsPage);
   } catch(err) {
     console.error(err);
@@ -63,10 +65,12 @@ export async function fullResults(req, res) {
 
 export async function homepageResults(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', `public, max-age=120, s-maxage=30`);
+  res.setHeader('Cache-Control', `public, max-age=180, s-maxage=30`);
   try {
     const data = await getResultData();
     // res.setHeader('Last-Modified', data.lastModified.toUTCString());
+    res.setHeader('Expires', new Date(Date.now() + 1800).toUTCString());
+    res.setHeader('ETag', `W/"${data.timestamp}"`);
     res.json(data.homepage);
   } catch(err) {
     console.error(err);
