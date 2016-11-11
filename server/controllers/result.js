@@ -17,13 +17,13 @@ const linkHeader = [
                   ].join(', ');
 
 export async function page(req, res) {
-  res.setHeader('Cache-Control', `public, max-age=120, s-maxage=20`);
+  res.setHeader('Cache-Control', `public, max-age=300, s-maxage=60`);
   res.setHeader('Link', linkHeader);
   try {
     const html = await cache(
       'result-html',
       async () => render('result.html', await createResultPage()),
-      30000 // 30 secs
+      120000 // 2 mins
     );
     res.send(html);
   } catch(err) {
@@ -50,11 +50,11 @@ export async function socialResultsMap(req, res) {
 
 export async function fullResults(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', `public, max-age=180, s-maxage=30`);
+  res.setHeader('Cache-Control', `public, max-age=300, s-maxage=60`);
   try {
     const data = await getResultData();
     // res.setHeader('Last-Modified', data.lastModified.toUTCString());
-    res.setHeader('Expires', new Date(Date.now() + 1800).toUTCString());
+    res.setHeader('Expires', new Date(Date.now() + 3000).toUTCString());
     res.setHeader('ETag', `W/"${data.timestamp}"`);
     res.json(data.resultsPage);
   } catch(err) {
@@ -65,11 +65,11 @@ export async function fullResults(req, res) {
 
 export async function homepageResults(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', `public, max-age=180, s-maxage=30`);
+  res.setHeader('Cache-Control', `public, max-age=300, s-maxage=60`);
   try {
     const data = await getResultData();
     // res.setHeader('Last-Modified', data.lastModified.toUTCString());
-    res.setHeader('Expires', new Date(Date.now() + 1800).toUTCString());
+    res.setHeader('Expires', new Date(Date.now() + 3000).toUTCString());
     res.setHeader('ETag', `W/"${data.timestamp}"`);
     res.json(data.homepage);
   } catch(err) {
