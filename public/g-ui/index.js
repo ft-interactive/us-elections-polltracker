@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = init;
 function init() {
   return new Promise(function (resolve, reject) {
-    queue('https://ig.ft.com/static/g-ui/o-ads.20161025.js', function () {
+    queue('https://ig.ft.com/static/g-ui/o-ads.20161111.js', function () {
 
       if (!window.oAds) {
         reject(new Error('Could not load oAds'));
