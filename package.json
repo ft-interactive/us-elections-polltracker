@@ -61,7 +61,8 @@
     "svg-intersections": "^0.2.5",
     "trip": "^1.0.3",
     "winston": "^2.2.0",
-    "xmldom": "^0.1.22"
+    "xmldom": "^0.1.22",
+    "snyk": "^1.83.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.0",
@@ -86,6 +87,9 @@
     "migrate": "sequelize db:migrate",
     "republisher": "node --require ./setup.js server/lib/results/republisher",
     "start": "npm run migrate && node --optimize_for_size --max_old_space_size=460 --gc_interval=100 --require ./setup.js server",
-    "test": "mocha --compilers js:babel-core/register layouts/*.spec.js"
-  }
+    "test": "mocha --compilers js:babel-core/register layouts/*.spec.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "snyk": true
 }
