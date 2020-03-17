@@ -18,6 +18,8 @@
 %}
 
 {% block appendhead %}
+<link rel="preload" href="result-page.js" as="script">
+{% include "includes/common-preloads.html" %}
 <script>
 var pageDataTimestamp = {{ overview.timestamp }};
 </script>
