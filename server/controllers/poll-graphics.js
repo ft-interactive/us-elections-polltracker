@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { makePollTimeSeries } from '../lib/polls';
 
 import cache from '../lib/cache';
@@ -22,17 +23,14 @@ export default async (req, res) => {
   res.setHeader('Content-Type', 'image/svg+xml');
   res.setHeader('Cache-Control', cacheControl);
 
-  res.status(200).send('');
-  return;
+  if (!moment(req.query.startDate).isValid() || !moment(req.query.endDate).isValid()) {
+    if (!moment(req.query.startDate).isValid()) {
+      req.query.startDate = null;
+    }
 
-  if (!req.query.startDate) {
-    res.status(400).send('Missing start date');
-    return;
-  }
-
-  if (!req.query.endDate) {
-    res.status(400).send('Missing end date');
-    return;
+    if (!moment(req.query.endDate).isValid()) {
+      req.query.endDate = null;
+    }
   }
 
   const html = await cache(
